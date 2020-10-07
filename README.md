@@ -1,10 +1,10 @@
-# AimGUI :anger:
+# AimGui :anger:
 
-AimGUI is a library that extends and wraps Dear ImGUI for use with python
+AimGui is a library that extends and wraps [Dear ImGui](https://github.com/ocornut/imgui) for use with Python Game Libraries
 
 :package: [Package](https://pypi.org/project/aimgui/)
 
-## Renderers
+## Game Libraries Supported
 
 [The Python Arcade Library](https://arcade.academy/)
 
