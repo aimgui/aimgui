@@ -1,0 +1,7 @@
+[submodule "extern/imgui"]
+	path = extern/imgui
+	url = https://github.com/ocornut/imgui
+	branch = docking
+[submodule "extern/binder"]
+	path = extern/binder
+	url = https://github.com/RosettaCommons/binder
