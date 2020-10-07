@@ -1,0 +1,15 @@
+include README.md
+include LICENSE
+include extern/imgui/imconfig.h
+include extern/imgui/imgui.cpp
+include extern/imgui/imgui.h
+include extern/imgui/imgui_demo.cpp
+include extern/imgui/imgui_draw.cpp
+include extern/imgui/imgui_internal.h
+include extern/imgui/imgui_widgets.cpp
+include extern/imgui/imstb_rectpack.h
+include extern/imgui/imstb_textedit.h
+include extern/imgui/imstb_truetype.h
+include extern/imgui/LICENSE.txt
+
+recursive-include build *.so

@@ -1,0 +1,16 @@
+.idea
+.vscode
+__pycache__
+.pyc
+.env
+env
+.eggs
+*.egg-info
+dist/
+build/
+_build
+_skbuild
+tmp
+
+
+imgui.ini

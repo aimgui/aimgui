@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.11.0)
+project(aimgui)
+find_package(PythonExtensions REQUIRED)
+
+add_library(_aimgui MODULE src/aimgui/_aimgui.cpp)
+python_extension_module(_aimgui)
+install(TARGETS _aimgui LIBRARY DESTINATION aimgui)
