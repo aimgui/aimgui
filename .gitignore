@@ -7,7 +7,7 @@ env
 .eggs
 *.egg-info
 dist/
-build/
+build
 _build
 _skbuild
 tmp

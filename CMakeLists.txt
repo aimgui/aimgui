@@ -7,6 +7,8 @@ SET(CMAKE_CXX_FLAGS  "-Wno-format-security")
 
 add_compile_definitions(IMGUI_DISABLE_OBSOLETE_FUNCTIONS)
 add_compile_definitions(IMGUI_INCLUDE_IMCONFIG_H)
+add_compile_definitions(IMGUI_HAS_DOCK)
+add_compile_definitions(IMGUI_HAS_VIEWPORT)
 add_compile_definitions(ImTextureID=int)
 add_compile_definitions(ImDrawIdx=int)
 
@@ -36,6 +38,7 @@ set(IMGUI_HEADERS
 )
 
 set(IMGUI_SRC
+    #src/aimgui/generated.cpp
     extern/imgui/imgui_demo.cpp
     extern/imgui/imgui_draw.cpp
     extern/imgui/imgui_widgets.cpp

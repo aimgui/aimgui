@@ -1,10 +1,7 @@
 [submodule "extern/imgui"]
 	path = extern/imgui
-	url = https://github.com/ocornut/imgui
+	url = https://github.com/aimgui/imgui
 	branch = docking
-[submodule "extern/binder"]
-	path = extern/binder
-	url = https://github.com/RosettaCommons/binder
 [submodule "extern/pybind11"]
 	path = extern/pybind11
-	url = https://github.com/RosettaCommons/pybind11
+	url = https://github.com/pybind/pybind11
