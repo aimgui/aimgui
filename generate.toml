@@ -17,6 +17,7 @@ excludes = [
     'ImGuiIO::NavInputs',
     'ImFontAtlas::GetTexDataAsAlpha8',
     'ImFontAtlas::GetTexDataAsRGBA32',
+    #'ImGuiStyle::Colors',
 
     # Internal / Ignored
     'ImGuiTextFilter::Filters',

@@ -1,25 +1,23 @@
-import arcade
-import imgui
-import imgui.core
+import aimgui as gui
 
 from imdemo.page import Page
 
 
 class SeparatorPage(Page):
     def draw(self):
-        imgui.begin(self.title)
+        gui.begin(self.title)
 
-        imgui.text("Some text with bullets")
-        imgui.bullet_text("Bullet A")
-        imgui.bullet_text("Bullet A")
+        gui.text("Some text with bullets")
+        gui.bullet_text("Bullet A")
+        gui.bullet_text("Bullet A")
 
-        imgui.separator()
+        gui.separator()
 
-        imgui.text("Another text with bullets")
-        imgui.bullet_text("Bullet A")
-        imgui.bullet_text("Bullet A")
+        gui.text("Another text with bullets")
+        gui.bullet_text("Bullet A")
+        gui.bullet_text("Bullet A")
 
-        imgui.end()
+        gui.end()
 
 def install(app):
     app.add_page(SeparatorPage, "separator", "Separator")

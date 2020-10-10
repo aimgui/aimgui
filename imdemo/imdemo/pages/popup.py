@@ -1,64 +1,62 @@
-import arcade
-import imgui
-import imgui.core
+import aimgui as gui
 
 from imdemo.page import Page
 
 
 class Popup(Page):
     def draw(self):
-        imgui.begin("Example: simple popup")
+        gui.begin("Example: simple popup")
 
-        if imgui.button("select"):
-            imgui.open_popup("select-popup")
+        if gui.button("select"):
+            gui.open_popup("select-popup")
 
-        imgui.same_line()
+        gui.same_line()
 
-        if imgui.begin_popup("select-popup"):
-            imgui.text("Select one")
-            imgui.separator()
-            imgui.selectable("One")
-            imgui.selectable("Two")
-            imgui.selectable("Three")
-            imgui.end_popup()
+        if gui.begin_popup("select-popup"):
+            gui.text("Select one")
+            gui.separator()
+            gui.selectable("One")
+            gui.selectable("Two")
+            gui.selectable("Three")
+            gui.end_popup()
 
-        imgui.end()
+        gui.end()
 
 class PopupContextView(Page):
     def draw(self):
-        imgui.begin("Example: popup context view")
-        imgui.text("Right-click to set value.")
-        if imgui.begin_popup_context_item("Item Context Menu", mouse_button=0):
-            imgui.selectable("Set to Zero")
-            imgui.end_popup()
-        imgui.end()
+        gui.begin("Example: popup context view")
+        gui.text("Right-click to set value.")
+        if gui.begin_popup_context_item("Item Context Menu", mouse_button=0):
+            gui.selectable("Set to Zero")
+            gui.end_popup()
+        gui.end()
 
 class PopupContextWindow(Page):
     def draw(self):
-        imgui.begin("Example: popup context window")
-        if imgui.begin_popup_context_window(mouse_button=0):
-            imgui.selectable("Clear")
-            imgui.end_popup()
-        imgui.end()
+        gui.begin("Example: popup context window")
+        if gui.begin_popup_context_window(mouse_button=0):
+            gui.selectable("Clear")
+            gui.end_popup()
+        gui.end()
 
 class PopupModal(Page):
     def draw(self):
-        imgui.begin("Example: simple popup modal")
+        gui.begin("Example: simple popup modal")
 
-        if imgui.button("Open Modal popup"):
-            imgui.open_popup("select-popup")
+        if gui.button("Open Modal popup"):
+            gui.open_popup("select-popup")
 
-        imgui.same_line()
+        gui.same_line()
 
-        if imgui.begin_popup_modal("select-popup")[0]:
-            imgui.text("Select an option:")
-            imgui.separator()
-            imgui.selectable("One")
-            imgui.selectable("Two")
-            imgui.selectable("Three")
-            imgui.end_popup()
+        if gui.begin_popup_modal("select-popup")[0]:
+            gui.text("Select an option:")
+            gui.separator()
+            gui.selectable("One")
+            gui.selectable("Two")
+            gui.selectable("Three")
+            gui.end_popup()
 
-        imgui.end()
+        gui.end()
 
 def install(app):
     app.add_page(Popup, "popup", "Popup")

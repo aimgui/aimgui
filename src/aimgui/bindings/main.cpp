@@ -64,6 +64,20 @@ void init_main(py::module &libaimgui, Registry &registry) {
 
 
     PYEXTEND_BEGIN(ImGuiStyle, Style)
+    /*Style.def_property_readonly("colors", [](const ImGuiIO &io) {
+        auto result = PyList_New(ImGuiCol_COUNT);
+        auto colors = ImGui::GetStyle().Colors;
+        for(int i = 0; i < ImGuiCol_COUNT; ++i ) {
+            auto result = PyTuple_New(4);
+            PyTuple_SetItem(result, 0, PyFloat_FromDouble(src.x));
+            PyTuple_SetItem(result, 1, PyFloat_FromDouble(src.y));
+            PyTuple_SetItem(result, 2, PyFloat_FromDouble(src.z));
+            PyTuple_SetItem(result, 3, PyFloat_FromDouble(src.w));
+            PyList_SetItem(result, i, py::tuple(colors[i]));
+        }
+        //return list;
+        return py::reinterpret_steal<py::object>(result);
+    });*/
     Style.def("set_color", [](ImGuiStyle& self, int item, ImVec4 color)
     {
         if (item < 0) throw py::index_error();
@@ -79,12 +93,14 @@ void init_main(py::module &libaimgui, Registry &registry) {
         if (button >= IM_ARRAYSIZE(self.MouseDown)) throw py::index_error();
         self.MouseDown[button] = down;
     }, py::arg("button"), py::arg("down"));
+
     IO.def("set_key_down", [](ImGuiIO& self, int key, bool down)
     {
         if (key < 0) throw py::index_error();
         if (key >= IM_ARRAYSIZE(self.KeysDown)) throw py::index_error();
         self.KeysDown[key] = down;
     }, py::arg("key"), py::arg("down"));
+
     IO.def_property_readonly("key_map", [](const ImGuiIO &io) {
         auto result = PyList_New(ImGuiKey_COUNT);
         //auto keymap = ImGui::GetIO().KeyMap;
@@ -95,6 +111,7 @@ void init_main(py::module &libaimgui, Registry &registry) {
         //return list;
         return py::reinterpret_steal<py::object>(result);
     });
+
     IO.def("set_key_map", [](ImGuiIO& self, int key, int value)
     {
         if (key < 0) throw py::index_error();

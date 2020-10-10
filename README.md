@@ -30,8 +30,7 @@ Clone the repository and change directory
 
 ### Individual Examples
 
-        python examples/bullet.py
-        python examples/colors.py
+        python examples/basic.py
         etc ...
 
 ## Run the ImFlo Demo

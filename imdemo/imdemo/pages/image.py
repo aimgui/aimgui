@@ -1,8 +1,4 @@
-import os
-
-import arcade
-import imgui
-import imgui.core
+import aimgui as gui
 
 from imdemo.page import Page
 
@@ -14,9 +10,9 @@ class ImagePage(Page):
         self.texture = window.ctx.load_texture(image_path, flip=False)
 
     def draw(self):
-        imgui.begin(self.title)
-        imgui.image(self.texture.glo, *self.texture.size)
-        imgui.end()
+        gui.begin(self.title)
+        gui.image(self.texture.glo.value, self.texture.size)
+        gui.end()
 
 def install(app):
     app.add_page(ImagePage, "image", "Image")

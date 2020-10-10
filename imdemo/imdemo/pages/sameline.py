@@ -1,27 +1,25 @@
-import arcade
-import imgui
-import imgui.core
+import aimgui as gui
 
 from imdemo.page import Page
 
 
 class SameLinePage(Page):
     def draw(self):
-        imgui.begin("Example: same line widgets")
+        gui.begin("Example: same line widgets")
 
-        imgui.text("same_line() with defaults:")
-        imgui.button("yes"); imgui.same_line()
-        imgui.button("no")
+        gui.text("same_line() with defaults:")
+        gui.button("yes"); gui.same_line()
+        gui.button("no")
 
-        imgui.text("same_line() with fixed position:")
-        imgui.button("yes"); imgui.same_line(position=50)
-        imgui.button("no")
+        gui.text("same_line() with fixed position:")
+        gui.button("yes"); gui.same_line(50)
+        gui.button("no")
 
-        imgui.text("same_line() with spacing:")
-        imgui.button("yes"); imgui.same_line(spacing=50)
-        imgui.button("no")
+        gui.text("same_line() with spacing:")
+        gui.button("yes"); gui.same_line(50)
+        gui.button("no")
 
-        imgui.end()
+        gui.end()
 
 def install(app):
     app.add_page(SameLinePage, "sameline", "Same Line")

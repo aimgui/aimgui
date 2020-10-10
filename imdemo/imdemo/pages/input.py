@@ -1,10 +1,5 @@
 import arcade
-import imgui
-import imgui.core
-
-import arcade
-import imgui
-import imgui.core
+import aimgui as gui
 
 from imdemo.page import Page
 
@@ -14,12 +9,12 @@ class Input(Page):
         self.test_input = 0
 
     def draw(self):
-        imgui.begin("Test Window")
+        gui.begin("Test Window")
 
-        imgui.text("This is the test window.")
-        changed, self.test_input = imgui.input_int("Integer Input Test", self.test_input)
+        gui.text("This is the test window.")
+        changed, self.test_input = gui.input_int("Integer Input Test", self.test_input)
 
-        imgui.end()
+        gui.end()
 
         arcade.draw_text(str(self.test_input), 512, 128, arcade.color.WHITE_SMOKE, 64)
 
@@ -28,13 +23,13 @@ class InputDouble(Page):
         self.double_val = 3.14159265358979323846
 
     def draw(self):
-        imgui.begin("Test Window")
+        gui.begin("Test Window")
 
-        imgui.text("This is the test window.")
-        changed, self.double_val = imgui.input_double('Type multiplier:', self.double_val)
-        imgui.text('You wrote: %d' % self.double_val)
+        gui.text("This is the test window.")
+        changed, self.double_val = gui.input_double('Type multiplier:', self.double_val)
+        gui.text('You wrote: %d' % self.double_val)
 
-        imgui.end()
+        gui.end()
 
         arcade.draw_text(str(self.double_val), 512, 128, arcade.color.WHITE_SMOKE, 64)
 
@@ -43,12 +38,12 @@ class InputFloat(Page):
         self.float_val = 0.4
 
     def draw(self):
-        imgui.begin("Test Window")
+        gui.begin("Test Window")
 
-        imgui.text("This is the test window.")
-        changed, self.float_val = imgui.input_float('Type coefficient:', self.float_val)
-        imgui.text('You wrote: %f' % self.float_val)
-        imgui.end()
+        gui.text("This is the test window.")
+        changed, self.float_val = gui.input_float('Type coefficient:', self.float_val)
+        gui.text('You wrote: %f' % self.float_val)
+        gui.end()
 
         arcade.draw_text(str(self.float_val), 512, 128, arcade.color.WHITE_SMOKE, 64)
 

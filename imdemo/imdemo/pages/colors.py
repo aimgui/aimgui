@@ -1,22 +1,20 @@
-import arcade
-import imgui
-import imgui.core
+import aimgui as gui
 
 from imdemo.page import Page
 
 
 class ColorsPage(Page):
     def draw(self):
-        style = imgui.get_style()
+        style = gui.get_style()
         
-        imgui.begin("Colors")
-        imgui.columns(4)
-        for color in range(0, imgui.COLOR_COUNT):
-            imgui.text("Color: {}".format(color))
-            imgui.color_button("color#{}".format(color), *style.colors[color])
-            imgui.next_column()
+        gui.begin("Colors")
+        gui.columns(4)
+        for color in range(0, gui.COLOR_COUNT):
+            gui.text(f"Color: {color}")
+            gui.color_button(f"color#{color}", style.colors[color])
+            gui.next_column()
 
-        imgui.end()
+        gui.end()
 
 def install(app):
     app.add_page(ColorsPage, "colors", "Colors")

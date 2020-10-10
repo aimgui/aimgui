@@ -1,29 +1,27 @@
-import arcade
-import imgui
-import imgui.core
+import aimgui as gui
 
 from imdemo.page import Page
 
 
 class Group(Page):
     def draw(self):
-        imgui.begin("Example: item groups")
+        gui.begin("Example: item groups")
 
-        imgui.begin_group()
-        imgui.text("First group (buttons):")
-        imgui.button("Button A")
-        imgui.button("Button B")
-        imgui.end_group()
+        gui.begin_group()
+        gui.text("First group (buttons):")
+        gui.button("Button A")
+        gui.button("Button B")
+        gui.end_group()
 
-        imgui.same_line(spacing=50)
+        gui.same_line(spacing=50)
 
-        imgui.begin_group()
-        imgui.text("Second group (text and bullet texts):")
-        imgui.bullet_text("Bullet A")
-        imgui.bullet_text("Bullet B")
-        imgui.end_group()
+        gui.begin_group()
+        gui.text("Second group (text and bullet texts):")
+        gui.bullet_text("Bullet A")
+        gui.bullet_text("Bullet B")
+        gui.end_group()
 
-        imgui.end()
+        gui.end()
 
 def install(app):
     app.add_page(Group, "group", "Group")

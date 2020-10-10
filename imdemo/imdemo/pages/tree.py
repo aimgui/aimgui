@@ -1,18 +1,16 @@
-import arcade
-import imgui
-import imgui.core
+import aimgui as gui
 
 from imdemo.page import Page
 
 
 class TreePage(Page):
     def draw(self):
-        imgui.begin(self.title)
-        #if imgui.tree_node("Expand me!", imgui.TREE_NODE_DEFAULT_OPEN):
-        if imgui.tree_node("Expand me!"):
-            imgui.text("Lorem Ipsum")
-            imgui.tree_pop()
-        imgui.end()
+        gui.begin(self.title)
+        #if gui.tree_node("Expand me!", gui.TREE_NODE_DEFAULT_OPEN):
+        if gui.tree_node("Expand me!"):
+            gui.text("Lorem Ipsum")
+            gui.tree_pop()
+        gui.end()
 
 def install(app):
     app.add_page(TreePage, "tree", "Tree")

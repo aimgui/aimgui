@@ -1,24 +1,22 @@
-import arcade
-import imgui
-import imgui.core
+import aimgui as gui
 
 from imdemo.page import Page
 
 
 class WindowMenu(Page):
     def draw(self):
-        flags = imgui.WINDOW_MENU_BAR
+        flags = gui.WINDOW_MENU_BAR
 
-        imgui.begin("Child Window - File Browser", flags=flags)
+        gui.begin("Child Window - File Browser", flags=flags)
 
-        if imgui.begin_menu_bar():
-            if imgui.begin_menu('File'):
-                imgui.menu_item('Close')
-                imgui.end_menu()
+        if gui.begin_menu_bar():
+            if gui.begin_menu('File'):
+                gui.menu_item("Quit", 'Cmd+Q', False, True)
+                gui.end_menu()
 
-            imgui.end_menu_bar()
+            gui.end_menu_bar()
 
-        imgui.end()
+        gui.end()
 
 def install(app):
     app.add_page(WindowMenu, "windowmenu", "Window Menu")

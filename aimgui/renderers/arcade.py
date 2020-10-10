@@ -216,12 +216,14 @@ class PygletMixin:
 
     def on_key_press(self, key_pressed, mods):
         if key_pressed in self.REVERSE_KEY_MAP:
-            self.io.keys_down[self.REVERSE_KEY_MAP[key_pressed]] = True
+            #self.io.keys_down[self.REVERSE_KEY_MAP[key_pressed]] = True
+            self.io.set_key_down(self.REVERSE_KEY_MAP[key_pressed], True)
         self._on_mods_change(mods)
 
     def on_key_release(self, key_released, mods):
         if key_released in self.REVERSE_KEY_MAP:
-            self.io.keys_down[self.REVERSE_KEY_MAP[key_released]] = False
+            #self.io.keys_down[self.REVERSE_KEY_MAP[key_released]] = False
+            self.io.set_key_down(self.REVERSE_KEY_MAP[key_released], False)
         self._on_mods_change(mods)
 
     def on_text(self, text):

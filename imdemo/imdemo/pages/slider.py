@@ -1,6 +1,4 @@
-import arcade
-import imgui
-import imgui.core
+import aimgui as gui
 
 from imdemo.page import Page
 
@@ -13,15 +11,15 @@ class FloatSliderPage(Page):
         width = 20
         height = 100
 
-        imgui.begin(self.title)
-        changed, self.value = imgui.v_slider_float(
+        gui.begin(self.title)
+        changed, self.value = gui.v_slider_float(
             "vertical slider float",
-            width, height, self.value,
-            min_value=0, max_value=100,
-            format="%0.3f", power = 1.0
+            (width, height), self.value,
+            v_min=0, v_max=100,
+            format="%0.3f"
         )
-        imgui.text("Changed: %s, Values: %s" % (changed, self.value))
-        imgui.end()
+        gui.text("Changed: %s, Values: %s" % (changed, self.value))
+        gui.end()
 
 class IntSliderPage(Page):
     def reset(self):
@@ -31,15 +29,15 @@ class IntSliderPage(Page):
         width = 20
         height = 100
 
-        imgui.begin(self.title)
-        changed, self.value = imgui.v_slider_int(
+        gui.begin(self.title)
+        changed, self.value = gui.v_slider_int(
             "vertical slider int",
-            width, height, self.value,
-            min_value=0, max_value=100,
+            (width, height), self.value,
+            v_min=0, v_max=100,
             format="%d"
         )
-        imgui.text("Changed: %s, Values: %s" % (changed, self.value))
-        imgui.end()
+        gui.text("Changed: %s, Values: %s" % (changed, self.value))
+        gui.end()
 
 def install(app):
     app.add_page(FloatSliderPage, "floatslider", "Slider - Float")

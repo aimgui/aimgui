@@ -1,6 +1,4 @@
-import arcade
-import imgui
-import imgui.core
+import aimgui as gui
 
 from imdemo.page import Page
 
@@ -12,36 +10,36 @@ class ListboxPage(Page):
         self.current = 2
 
     def draw(self):    
-        imgui.begin(self.title)
+        gui.begin(self.title)
 
-        clicked, self.current = imgui.listbox(
+        clicked, self.current = gui.list_box(
             "List", self.current, self.options
         )
-        imgui.text("selection: ")
-        imgui.same_line()
-        imgui.text(self.options[self.current])
-        imgui.end()
+        gui.text("selection: ")
+        gui.same_line()
+        gui.text(self.options[self.current])
+        gui.end()
 
 class CustomListboxPage(Page):
     def reset(self):
         self.selected = 'second'
 
     def draw(self):    
-        imgui.begin(self.title)
+        gui.begin(self.title)
 
-        if imgui.listbox_header("Custom List", 200, 100):
+        if gui.list_box_header("Custom List", 200, 100):
             for option in OPTIONS:
-                clicked, selected = imgui.selectable(option, option == self.selected)
+                clicked, selected = gui.selectable(option, option == self.selected)
                 if clicked:
                     self.selected = option
 
-            imgui.listbox_footer()
+            gui.list_box_footer()
 
-        imgui.text("selection: ")
-        imgui.same_line()
-        imgui.text(self.selected)
+        gui.text("selection: ")
+        gui.same_line()
+        gui.text(self.selected)
 
-        imgui.end()
+        gui.end()
 
 def install(app):
     app.add_page(ListboxPage, "listbox", "Listbox")

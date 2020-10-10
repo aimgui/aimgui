@@ -1,6 +1,4 @@
-import arcade
-import imgui
-import imgui.core
+import aimgui as gui
 
 from imdemo.page import Page
 
@@ -10,46 +8,46 @@ class DragInt(Page):
         self.value = 42
 
     def draw(self):
-        imgui.begin("Example: drag int")
-        changed, self.value = imgui.drag_int("drag int", self.value,)
-        imgui.text("Changed: %s, Value: %s" % (changed, self.value))
-        imgui.end()
+        gui.begin("Example: drag int")
+        changed, self.value = gui.drag_int("drag int", self.value,)
+        gui.text("Changed: %s, Value: %s" % (changed, self.value))
+        gui.end()
 
 class DragInt2(Page):
     def reset(self):
         self.values = 88, 42
 
     def draw(self):
-        imgui.begin("Example: drag int 2")
-        changed, self.values = imgui.drag_int2(
-            "drag ints", *self.values
+        gui.begin("Example: drag int 2")
+        changed, self.values = gui.drag_int2(
+            "drag ints", self.values
         )
-        imgui.text("Changed: %s, Values: %s" % (changed, self.values))
-        imgui.end()
+        gui.text("Changed: %s, Values: %s" % (changed, self.values))
+        gui.end()
 
 class DragInt3(Page):
     def reset(self):
         self.values = 88, 42, 69
 
     def draw(self):
-        imgui.begin("Example: drag int 3")
-        changed, self.values = imgui.drag_int3(
-            "drag ints", *self.values
+        gui.begin("Example: drag int 3")
+        changed, self.values = gui.drag_int3(
+            "drag ints", self.values
         )
-        imgui.text("Changed: %s, Values: %s" % (changed, self.values))
-        imgui.end()
+        gui.text("Changed: %s, Values: %s" % (changed, self.values))
+        gui.end()
 
 class DragInt4(Page):
     def reset(self):
         self.values = 88, 42, 69, 0
 
     def draw(self):
-        imgui.begin("Example: drag int 4")
-        changed, self.values = imgui.drag_int4(
-            "drag ints", *self.values
+        gui.begin("Example: drag int 4")
+        changed, self.values = gui.drag_int4(
+            "drag ints", self.values
         )
-        imgui.text("Changed: %s, Values: %s" % (changed, self.values))
-        imgui.end()
+        gui.text("Changed: %s, Values: %s" % (changed, self.values))
+        gui.end()
 
 def install(app):
     app.add_page(DragInt, "dragint", "Drag Integer")

@@ -8,7 +8,7 @@ class Index(Page):
     def draw(self):
         gui.begin("Index")
 
-        gui.text("Welcome to the Arcade ImGui Demo!")
+        gui.text("Welcome to the AimGui Demo!")
         
         gui.end()
 

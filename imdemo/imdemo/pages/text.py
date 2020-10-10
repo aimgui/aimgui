@@ -1,27 +1,25 @@
-import arcade
-import imgui
-import imgui.core
+import aimgui as gui
 
 from imdemo.page import Page
 
 class DrawTextPage(Page):
     def draw(self):
-        imgui.begin("Text")
-        draw_list = imgui.get_window_draw_list()
-        draw_list.add_text(20, 35, imgui.get_color_u32_rgba(1,1,0,1), "Hello!")
-        imgui.end()
+        gui.begin("Text")
+        draw_list = gui.get_window_draw_list()
+        draw_list.add_text((20, 35), gui.get_color_u32_rgba((1,1,0,1)), "Hello!")
+        gui.end()
 
 class TextPage(Page):
     def draw(self):
-        imgui.begin("Example: simple text")
-        imgui.text("Simple text")
-        imgui.end()
+        gui.begin("Example: simple text")
+        gui.text("Simple text")
+        gui.end()
 
 class ColoredTextPage(Page):
     def draw(self):
-        imgui.begin("Example: colored text")
-        imgui.text_colored("Colored text", 1, 0, 0)
-        imgui.end()
+        gui.begin("Example: colored text")
+        gui.text_colored((1, 0, 0, 1), "Colored text")
+        gui.end()
 
 class UnformattedTextPage(Page):
     def reset(self):
@@ -32,15 +30,15 @@ class UnformattedTextPage(Page):
         '''
 
     def draw(self):
-        imgui.begin("Example: unformatted text")
-        imgui.text_unformatted(self.text)
-        imgui.end()
+        gui.begin("Example: unformatted text")
+        gui.text_unformatted(self.text)
+        gui.end()
 
 class LabelTextPage(Page):
     def draw(self):
-        imgui.begin("Example: text with label")
-        imgui.label_text("my label", "my text")
-        imgui.end()
+        gui.begin("Example: text with label")
+        gui.label_text("my label", "my text")
+        gui.end()
 
 def install(app):
     app.add_page(DrawTextPage, "drawtext", "Draw Text")

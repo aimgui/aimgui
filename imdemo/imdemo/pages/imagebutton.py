@@ -1,7 +1,7 @@
-import os
 import random
+
 import arcade
-import imgui
+import aimgui as gui
 
 from imdemo.page import Page
 
@@ -20,11 +20,11 @@ class ImageButton(Page):
         self.message = ''
 
     def draw(self):
-        imgui.begin("Image Button")
-        if imgui.image_button(self.texture.glo, *self.texture.size):
+        gui.begin("Image Button")
+        if gui.image_button(self.texture.glo.value, self.texture.size):
             self.message = MESSAGES[random.randint(0, len(MESSAGES)-1)]
-        imgui.text(self.message)
-        imgui.end()
+        gui.text(self.message)
+        gui.end()
 
 def install(app):
     app.add_page(ImageButton, "imagebutton", "Image Button")

@@ -1,22 +1,21 @@
-import arcade
-import imgui
-import imgui.core
+import aimgui as gui
 
 from imdemo.page import Page
 
 
 class Combo(Page):
     def reset(self):
+        self.options = ["first", "second", "third"]
         self.current = 2
 
     def draw(self):
-        imgui.begin("Example: combo widget")
+        gui.begin("Example: combo widget")
 
-        clicked, self.current = imgui.combo(
-            "combo", self.current, ["first", "second", "third"]
+        clicked, self.current = gui.combo(
+            "combo", self.current, self.options
         )
-
-        imgui.end()
+        gui.text(f"You chose:  {self.options[self.current]}")
+        gui.end()
 
 def install(app):
     app.add_page(Combo, "combo", "Combo")

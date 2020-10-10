@@ -1,13 +1,11 @@
-import arcade
-import imgui
-import imgui.core
+import aimgui as gui
 
 from imdemo.page import Page
 
 
 class DemoPage(Page):
     def draw(self):
-        imgui.show_test_window()
+        gui.show_demo_window()
 
 def install(app):
     app.add_page(DemoPage, 'demo', 'Demo in Demo')

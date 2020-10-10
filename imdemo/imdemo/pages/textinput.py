@@ -1,6 +1,4 @@
-import arcade
-import imgui
-import imgui.core
+import aimgui as gui
 
 from imdemo.page import Page
 
@@ -10,32 +8,32 @@ class TextInputPage(Page):
         self.text_val = 'Type your message here.'
 
     def draw(self):
-        imgui.begin(self.title)
-        changed, self.text_val = imgui.input_text(
+        gui.begin(self.title)
+        changed, self.text_val = gui.input_text(
             'Text',
             self.text_val,
             256
         )
-        imgui.text('You wrote:')
-        imgui.same_line()
-        imgui.text(self.text_val)
-        imgui.end()
+        gui.text('You wrote:')
+        gui.same_line()
+        gui.text(self.text_val)
+        gui.end()
 
 class MultiTextInputPage(Page):
     def reset(self):
         self.text_val = 'Type your message here.'
 
     def draw(self):
-        imgui.begin(self.title)
-        changed, self.text_val = imgui.input_text_multiline(
+        gui.begin(self.title)
+        changed, self.text_val = gui.input_text_multiline(
             'Message',
             self.text_val,
             2056
         )
-        imgui.text('You wrote:')
-        imgui.same_line()
-        imgui.text(self.text_val)
-        imgui.end()
+        gui.text('You wrote:')
+        gui.same_line()
+        gui.text(self.text_val)
+        gui.end()
 
 def install(app):
     app.add_page(TextInputPage, "textinput", "Text Input")
