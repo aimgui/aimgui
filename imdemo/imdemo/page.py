@@ -22,12 +22,12 @@ class Page(arcade.View):
         gui.new_frame()
         
         if self.window.view_metrics:
-            self.window.view_metrics = gui.show_metrics_window(open=True)
+            self.window.view_metrics = gui.show_metrics_window(p_open=True)
 
         self.draw_mainmenu()
         self.draw_navbar()
 
-        gui.set_next_window_position(288, 32, gui.ONCE)
+        gui.set_next_window_pos((288, 32), gui.ONCE)
         gui.set_next_window_size((512, 512), gui.ONCE)
 
         self.draw()

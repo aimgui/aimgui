@@ -103,6 +103,69 @@ void init_main(py::module &libaimgui, Registry &registry) {
     }, py::arg("key"), py::arg("value"));
     PYEXTEND_END
 
+    PYEXTEND_BEGIN(ImDrawList, DrawList)
+    DrawList.def_property_readonly("cmd_buffer_size",
+        [](const ImDrawList &dl) {
+            auto result = PyLong_FromLong(dl.CmdBuffer.Size);
+            return py::reinterpret_steal<py::object>(result);
+        }
+    );
+
+    DrawList.def_property_readonly("cmd_buffer_data",
+        [](const ImDrawList &dl) {
+            auto result = PyMemoryView_FromMemory((char*)dl.CmdBuffer.Data, dl.CmdBuffer.Size*AimDrawList::COMMAND_SIZE, PyBUF_WRITE);
+            //result.itemsize = sizeof(void*);
+            //auto result = PyCapsule_New(dl.CmdBuffer.Data, NULL, NULL);
+            return py::reinterpret_steal<py::object>(result);
+        }
+    );
+
+    DrawList.def_property_readonly("vtx_buffer_size",
+        [](const ImDrawList &dl) {
+            auto result = PyLong_FromLong(dl.VtxBuffer.Size);
+            return py::reinterpret_steal<py::object>(result);
+        }
+    );
+
+    DrawList.def_property_readonly("vtx_buffer_data",
+        [](const ImDrawList &dl) {
+            auto result = PyMemoryView_FromMemory((char*)dl.VtxBuffer.Data, dl.VtxBuffer.Size*AimDrawList::VERTEX_SIZE, PyBUF_WRITE);
+            //auto result = PyCapsule_New(dl.VtxBuffer.Data, NULL, NULL);
+            return py::reinterpret_steal<py::object>(result);
+        }
+    );
+
+    DrawList.def_property_readonly("idx_buffer_size",
+        [](const ImDrawList &dl) {
+            auto result = PyLong_FromLong(dl.IdxBuffer.Size);
+            return py::reinterpret_steal<py::object>(result);
+        }
+    );
+
+    DrawList.def_property_readonly("idx_buffer_data",
+        [](const ImDrawList &dl) {
+            auto result = PyMemoryView_FromMemory((char*)dl.IdxBuffer.Data, dl.IdxBuffer.Size*AimDrawList::INDEX_SIZE, PyBUF_WRITE);
+            //auto result = PyCapsule_New(dl.IdxBuffer.Data, NULL, NULL);
+            return py::reinterpret_steal<py::object>(result);
+        }
+    );
+
+    /*DrawList.def_property_readonly("commands",
+        [](const ImDrawList &dl) {
+            auto result = PyList_New(dl.CmdBuffer.Size);
+            for(int i = 0; i < dl.CmdBuffer.Size; ++i ) {
+                PyList_SetItem(result, i, py::object(dl.CmdBuffer[i]));
+            }
+            return py::reinterpret_steal<py::object>(result);
+        }
+    );*/
+
+    DrawList.def("__iter__", 
+        [](const ImDrawList &dl) { return py::make_iterator(dl.CmdBuffer.Data, dl.CmdBuffer.Data + dl.CmdBuffer.Size); },
+        py::keep_alive<0, 1>() /* Essential: keep object alive while iterator exists */);
+
+    PYEXTEND_END
+
     PYEXTEND_BEGIN(ImDrawData, DrawData)
     DrawData.def_property_readonly("cmd_lists", [](const ImDrawData& self)
     {
@@ -189,6 +252,16 @@ void init_main(py::module &libaimgui, Registry &registry) {
     , py::arg("max_size")
     , py::arg("size") = ImVec2(0,0)
     , py::arg("flags") = 0
+    , py::return_value_policy::automatic_reference);
+    libaimgui.def("menu_item", [](const char * label, const char * shortcut, bool * p_selected, bool enabled)
+    {
+        auto ret = ImGui::MenuItem(label, shortcut, p_selected, enabled);
+        return std::make_tuple(ret, p_selected);
+    }
+    , py::arg("label")
+    , py::arg("shortcut")
+    , py::arg("p_selected")
+    , py::arg("enabled") = true
     , py::return_value_policy::automatic_reference);
     libaimgui.def("combo", [](const char* label, int * current_item, std::vector<std::string> items, int popup_max_height_in_items)
     {

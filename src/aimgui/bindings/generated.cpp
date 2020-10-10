@@ -1110,22 +1110,6 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::return_value_policy::automatic_reference);
     libaimgui.def("end_menu", &ImGui::EndMenu
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("menu_item", py::overload_cast<const char *, const char *, bool, bool>(&ImGui::MenuItem)
-    , py::arg("label")
-    , py::arg("shortcut") = nullptr
-    , py::arg("selected") = false
-    , py::arg("enabled") = true
-    , py::return_value_policy::automatic_reference);
-    libaimgui.def("menu_item", [](const char * label, const char * shortcut, bool * p_selected, bool enabled)
-    {
-        auto ret = ImGui::MenuItem(label, shortcut, p_selected, enabled);
-        return std::make_tuple(ret, p_selected);
-    }
-    , py::arg("label")
-    , py::arg("shortcut")
-    , py::arg("p_selected")
-    , py::arg("enabled") = true
-    , py::return_value_policy::automatic_reference);
     libaimgui.def("begin_tooltip", &ImGui::BeginTooltip
     , py::return_value_policy::automatic_reference);
     libaimgui.def("end_tooltip", &ImGui::EndTooltip

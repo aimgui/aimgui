@@ -30,6 +30,7 @@ EXCLUDES = set(
 [
     # Wrapped
     'ImGui::Combo',
+    'ImGui::MenuItem',
     'ImGui::Selectable',
     'ImGui::ListBox',
     'ImGui::InputText',
