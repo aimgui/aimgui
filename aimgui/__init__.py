@@ -29,7 +29,6 @@ VERTEX_BUFFER_UV_OFFSET = extra.vertex_buffer_vertex_uv_offset()
 VERTEX_BUFFER_COL_OFFSET = extra.vertex_buffer_vertex_col_offset()
 
 VERTEX_SIZE = extra.vertex_buffer_vertex_size()
-
 INDEX_SIZE = extra.index_buffer_index_size()
 
 # ==== Condition constants (redefines for autodoc)

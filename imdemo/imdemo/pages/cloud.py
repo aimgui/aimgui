@@ -5,8 +5,7 @@ import os
 import random
 import pyglet
 
-import imgui
-import imgui.core
+import aimgui as gui
 
 from imdemo.page import Page
 from imdemo.particle import AnimatedAlphaParticle
@@ -51,13 +50,13 @@ class CloudPage(Page):
         self.emitter.update()
 
     def draw(self):
-        imgui.set_next_window_position(self.window.width - 288, 32, imgui.ONCE)
-        imgui.set_next_window_size(256, 256, imgui.ONCE)
+        gui.set_next_window_pos((self.window.width - 288, 32), gui.ONCE)
+        gui.set_next_window_size((256, 256), gui.ONCE)
 
-        imgui.begin("Cloud")
-        if imgui.button("Reset"):
+        gui.begin("Cloud")
+        if gui.button("Reset"):
             self.reset()
-        imgui.end()
+        gui.end()
 
         self.emitter.draw()
 

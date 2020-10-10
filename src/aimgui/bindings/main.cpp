@@ -305,6 +305,17 @@ void init_main(py::module &libaimgui, Registry &registry) {
     , py::arg("items")
     , py::arg("height_in_items") = -1
     , py::return_value_policy::automatic_reference);
+
+    libaimgui.def("collapsing_header", [](const char * label, bool * p_open, ImGuiTreeNodeFlags flags)
+    {
+        auto ret = ImGui::CollapsingHeader(label, p_open, flags);
+        return std::make_tuple(ret, p_open);
+    }
+    , py::arg("label")
+    , py::arg("p_open")
+    , py::arg("flags") = 0
+    , py::return_value_policy::automatic_reference);
+
     libaimgui.def("plot_lines", [](const char* label, std::vector<float> values, int values_offset, const char* overlay_text, float scale_min, float scale_max, ImVec2 graph_size)
     {
         ImGui::PlotLines(label, values.data(), values.size(), values_offset, overlay_text, scale_min, scale_max, graph_size, sizeof(float));

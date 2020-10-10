@@ -1051,19 +1051,6 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::return_value_policy::automatic_reference);
     libaimgui.def("get_tree_node_to_label_spacing", &ImGui::GetTreeNodeToLabelSpacing
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("collapsing_header", py::overload_cast<const char *, ImGuiTreeNodeFlags>(&ImGui::CollapsingHeader)
-    , py::arg("label")
-    , py::arg("flags") = 0
-    , py::return_value_policy::automatic_reference);
-    libaimgui.def("collapsing_header", [](const char * label, bool * p_open, ImGuiTreeNodeFlags flags)
-    {
-        auto ret = ImGui::CollapsingHeader(label, p_open, flags);
-        return std::make_tuple(ret, p_open);
-    }
-    , py::arg("label")
-    , py::arg("p_open")
-    , py::arg("flags") = 0
-    , py::return_value_policy::automatic_reference);
     libaimgui.def("set_next_item_open", &ImGui::SetNextItemOpen
     , py::arg("is_open")
     , py::arg("cond") = 0

@@ -1,4 +1,3 @@
-import arcade
 import aimgui as gui
 
 from imdemo.page import Page

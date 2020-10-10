@@ -1,6 +1,4 @@
-import arcade
-import imgui
-import imgui.core
+import aimgui as gui
 
 from imdemo.page import Page
 
@@ -10,12 +8,12 @@ class CollapsingHeader(Page):
         self.visible = True
 
     def draw(self):
-        imgui.begin("Example: collapsing header")
-        expanded, self.visible = imgui.collapsing_header("Expand me!", self.visible)
+        gui.begin("Example: collapsing header")
+        expanded, self.visible = gui.collapsing_header("Expand me!", self.visible)
 
         if expanded:
-            imgui.text("Now you see me!")
-        imgui.end()
+            gui.text("Now you see me!")
+        gui.end()
 
 def install(app):
     app.add_page(CollapsingHeader, "collapsingheader", "Collapsing Header")

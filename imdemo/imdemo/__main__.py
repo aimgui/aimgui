@@ -1,7 +1,5 @@
 import sys
 
-sys.path.append('.')
-
 from imdemo import App
 
 
@@ -11,11 +9,11 @@ app.use('index')
 app.use('bullet')
 app.use('button')
 app.use('checkbox')
-'''
 app.use('child')
 app.use('circle')
 app.use('cloud')
 app.use('collapsingheader')
+'''
 app.use('coloredit')
 app.use('colors')
 app.use('columns')
