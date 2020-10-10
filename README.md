@@ -18,8 +18,8 @@ CMake
 
 Clone the repository and change directory
 
-       git clone https://github.com/kfields/arcade-imgui.git
-       cd arcade-imgui
+       git clone https://github.com/kfields/aimgui.git
+       cd aimgui
 
 ## Run the Demo
 

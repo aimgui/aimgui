@@ -18,7 +18,7 @@ namespace pybind11 { namespace detail {
 
     template <> struct type_caster<ImVec2> {
     public:
-        PYBIND11_TYPE_CASTER(ImVec2, _("ImVec2"));
+        PYBIND11_TYPE_CASTER(ImVec2, _("Vec2"));
         bool load(handle src, bool implicit) {
             PyObject *source = src.ptr();
             value[0] = PyFloat_AsDouble(PyTuple_GetItem(source, 0));
@@ -35,7 +35,7 @@ namespace pybind11 { namespace detail {
 
     template <> struct type_caster<ImVec4> {
     public:
-        PYBIND11_TYPE_CASTER(ImVec4, _("ImVec4"));
+        PYBIND11_TYPE_CASTER(ImVec4, _("Vec4"));
         bool load(handle src, bool implicit) {
             PyObject *source = src.ptr();
             value.x = PyFloat_AsDouble(PyTuple_GetItem(source, 0));

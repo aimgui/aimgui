@@ -2,6 +2,8 @@ import os
 import re
 import sys
 import collections
+import pathlib
+
 from clang import cindex
 
 HEADER = """
@@ -11,38 +13,13 @@ HEADER = """
 #include <limits>
 #include "imgui.h"
 #include "imgui_internal.h"
+
+#include <aimgui/conversions.h>
+#include "bindtools.h"
+
 namespace py = pybind11;
 
-template<typename T>
-void template_ImVector(py::module &module, const char* name)
-{
-    py::class_< ImVector<T> >(module, name)
-        .def_property_readonly_static("stride", [](py::object)
-        {
-            return sizeof(T);
-        })
-        .def_property_readonly("data", [](const ImVector<T>& self)
-        {
-            return long((void*)self.Data);
-        })
-        .def("__len__", [](const ImVector<T>& self)
-        {
-            return self.size();
-        })
-        .def("__iter__", [](const ImVector<T>& self)
-        {
-            return py::make_iterator(self.begin(), self.end());
-        })
-        .def("__getitem__", [](const ImVector<T>& self, size_t i)
-        {
-            if ((int)i >= self.size()) throw py::index_error();
-            return self[i];
-        })
-        ;
-}
-
-PYBIND11_MODULE(libaimgui, libaimgui)
-{
+void init_generated(py::module &libaimgui, Registry &registry) {
 """
 
 FOOTER = """
@@ -53,6 +30,7 @@ EXCLUDES = set(
 [
     # Wrapped
     'ImGui::Combo',
+    'ImGui::Selectable',
     'ImGui::ListBox',
     'ImGui::InputText',
     'ImGui::InputTextMultiline',
@@ -61,6 +39,7 @@ EXCLUDES = set(
     'ImDrawData::CmdLists',
     'ImGuiIO::MouseDown',
     'ImGuiIO::KeysDown',
+    'ImGuiIO::KeyMap',
     'ImGuiIO::InputCharacters',
     'ImGuiIO::NavInputs',
     'ImFontAtlas::GetTexDataAsAlpha8',
@@ -84,6 +63,8 @@ EXCLUDES = set(
     'ImFontAtlas::GetCustomRectByIndex',
     'ImFontAtlas::CalcCustomRectUV',
     'ImFontAtlas::GetMouseCursorTexData',
+    'ImFontGlyph::Codepoint',
+    'ImFontGlyph::Visible',
     'ImFont::CalcTextSizeA',
     'ImGui::SetNextWindowSizeConstraints',
     'ImGui::SetAllocatorFunctions',
@@ -100,13 +81,17 @@ EXCLUDES = set(
     'ImGui',
     'ImGuiPlatformIO',
     'ImGuiPlatformMonitor',
-    'ImGuiContext',
     'ImGuiDockContext',
     'ImGuiDockNodeSettings',
+    'ImGuiListClipper'
 ])
 
 OVERLOADED = set([
     'ImGui::IsPopupOpen',
+    'ImGui::SetScrollX',
+    'ImGui::SetScrollY',
+    'ImGui::SetScrollFromPosX',
+    'ImGui::SetScrollFromPosY'
 ])
 
 DEFAULTS = {
@@ -362,8 +347,17 @@ def parse_function(cursor, cls=None):
 
 def parse_class(cursor):
     if is_class_mappable(cursor):
-        clsname = format_type(cursor.spelling)
-        out('py::class_<{}> {}(libaimgui, "{}");'.format(name(cursor), clsname, clsname))
+        clsname = name(cursor)
+        pyname = format_type(cursor.spelling)
+        #out('py::class_<{}> {}(libaimgui, "{}");'.format(name(cursor), clsname, clsname))
+        #TODO:this is a total hack.  Is it because it's private or something?
+        if clsname == '':
+            print('Unnamed class!', cursor.__dict__)
+            #return
+            pyname = "Context"
+            clsname = "ImGuiContext"
+        #out(f'py::class_<{name(cursor)}> {clsname}(libaimgui, "{clsname}");')
+        out(f'PYCLASS_BEGIN(libaimgui, {clsname}, {pyname})')
         for child in cursor.get_children():
             if child.kind == cindex.CursorKind.CONSTRUCTOR:
                 parse_constructor(child, cursor)
@@ -371,6 +365,7 @@ def parse_class(cursor):
                 parse_function(child, cursor)
             elif child.kind == cindex.CursorKind.FIELD_DECL:
                 parse_field(child, cursor)
+        out(f'PYCLASS_END(libaimgui, {clsname}, {pyname})')
 
 def parse_definitions(root):
     for cursor in root.get_children():
@@ -410,10 +405,10 @@ if __name__ == '__main__':
     else:
         cindex.Config.set_library_file('libclang-10.so')
 
-    base = os.path.dirname(os.path.realpath(__file__))
-    path = os.path.join(base, 'extern/imgui/imgui.h')
+    BASE_PATH = pathlib.Path(os.path.realpath(__file__)).parent.parent
+    path = BASE_PATH / 'extern/imgui/imgui.h'
     tu = cindex.Index.create().parse(path, args=['-std=c++17', '-DIMGUI_DISABLE_OBSOLETE_FUNCTIONS=1'])
-    out.file = open(os.path.join(base, 'src/aimgui/generated.cpp'), 'w')
+    out.file = open(BASE_PATH / 'src/aimgui/bindings/generated.cpp', 'w')
     out.indent = 0
     out(HEADER)
     out.indent = 1

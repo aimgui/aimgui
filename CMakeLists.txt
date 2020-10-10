@@ -38,7 +38,8 @@ set(IMGUI_HEADERS
 )
 
 set(IMGUI_SRC
-    #src/aimgui/generated.cpp
+    src/aimgui/bindings/generated.cpp
+    src/aimgui/bindings/main.cpp
     extern/imgui/imgui_demo.cpp
     extern/imgui/imgui_draw.cpp
     extern/imgui/imgui_widgets.cpp
@@ -53,7 +54,9 @@ set(IMGUI_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/extern/imgui)
 #python_extension_module(aimgui)
 
 pybind11_add_module(aimgui MODULE
-    src/aimgui/aimgui.cpp
+    #src/aimgui/aimgui.cpp
+    #src/aimgui/main.cpp
+    src/aimgui/bindings/init.cpp
 )
 
 set_target_properties(aimgui PROPERTIES PREFIX "lib")

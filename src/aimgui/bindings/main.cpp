@@ -7,42 +7,14 @@
 #include "imgui.h"
 #include "imgui_internal.h"
 
-#include "aimgui.h"
-#include "conversions.h"
+#include <aimgui/aimgui.h>
+#include <aimgui/conversions.h>
+
+#include "bindtools.h"
 
 namespace py = pybind11;
 
-template<typename T>
-void template_ImVector(py::module &module, const char* name)
-{
-    py::class_< ImVector<T> >(module, name)
-        .def_property_readonly_static("stride", [](py::object)
-        {
-            return sizeof(T);
-        })
-        .def_property_readonly("data", [](const ImVector<T>& self)
-        {
-            return long((void*)self.Data);
-        })
-        .def("__len__", [](const ImVector<T>& self)
-        {
-            return self.size();
-        })
-        .def("__iter__", [](const ImVector<T>& self)
-        {
-            return py::make_iterator(self.begin(), self.end());
-        })
-        .def("__getitem__", [](const ImVector<T>& self, size_t i)
-        {
-            if ((int)i >= self.size()) throw py::index_error();
-            return self[i];
-        })
-        ;
-}
-
-
-PYBIND11_MODULE(libaimgui, libaimgui)
-{
+void init_main(py::module &libaimgui, Registry &registry) {
     template_ImVector<char>(libaimgui, "Vector_char");
     template_ImVector<float>(libaimgui, "Vector_float");
     template_ImVector<unsigned char>(libaimgui, "Vector_unsignedchar");
@@ -90,18 +62,17 @@ PYBIND11_MODULE(libaimgui, libaimgui)
     , py::return_value_policy::automatic_reference);
 
 
-    // #include "generated.cpp"
 
-
-   py::class_<ImGuiStyle> Style(libaimgui, "Style");
+    PYEXTEND_BEGIN(ImGuiStyle, Style)
     Style.def("set_color", [](ImGuiStyle& self, int item, ImVec4 color)
     {
         if (item < 0) throw py::index_error();
         if (item >= IM_ARRAYSIZE(self.Colors)) throw py::index_error();
         self.Colors[item] = color;
     }, py::arg("item"), py::arg("color"));
+    PYEXTEND_END
 
-    py::class_<ImGuiIO> IO(libaimgui, "IO");
+    PYEXTEND_BEGIN(ImGuiIO, IO)
     IO.def("set_mouse_down", [](ImGuiIO& self, int button, bool down)
     {
         if (button < 0) throw py::index_error();
@@ -114,14 +85,25 @@ PYBIND11_MODULE(libaimgui, libaimgui)
         if (key >= IM_ARRAYSIZE(self.KeysDown)) throw py::index_error();
         self.KeysDown[key] = down;
     }, py::arg("key"), py::arg("down"));
+    IO.def_property_readonly("key_map", [](const ImGuiIO &io) {
+        auto result = PyList_New(ImGuiKey_COUNT);
+        //auto keymap = ImGui::GetIO().KeyMap;
+        auto keymap = io.KeyMap;
+        for(int i = 0; i < ImGuiKey_COUNT; ++i ) {
+            PyList_SetItem(result, i, PyLong_FromLong(keymap[i]));
+        }
+        //return list;
+        return py::reinterpret_steal<py::object>(result);
+    });
     IO.def("set_key_map", [](ImGuiIO& self, int key, int value)
     {
         if (key < 0) throw py::index_error();
         if (key >= IM_ARRAYSIZE(self.KeyMap)) throw py::index_error();
         self.KeyMap[key] = value;
     }, py::arg("key"), py::arg("value"));
+    PYEXTEND_END
 
-    py::class_<ImDrawData> DrawData(libaimgui, "DrawData");
+    PYEXTEND_BEGIN(ImDrawData, DrawData)
     DrawData.def_property_readonly("cmd_lists", [](const ImDrawData& self)
     {
         py::list ret;
@@ -131,8 +113,9 @@ PYBIND11_MODULE(libaimgui, libaimgui)
         }
         return ret;
     });
+    PYEXTEND_END
 
-    py::class_<ImDrawVert> DrawVert(libaimgui, "DrawVert");
+    PYEXTEND_BEGIN(ImDrawVert, DrawVert)
     DrawVert.def_property_readonly_static("pos_offset", [](py::object)
     {
         return IM_OFFSETOF(ImDrawVert, pos);
@@ -145,8 +128,9 @@ PYBIND11_MODULE(libaimgui, libaimgui)
     {
         return IM_OFFSETOF(ImDrawVert, col);
     });
+    PYEXTEND_END
 
-    py::class_<ImFontAtlas> FontAtlas(libaimgui, "FontAtlas");
+    PYEXTEND_BEGIN(ImFontAtlas, FontAtlas)
     FontAtlas.def("get_tex_data_as_alpha8", [](ImFontAtlas& atlas)
     {
         unsigned char* pixels;
@@ -163,6 +147,8 @@ PYBIND11_MODULE(libaimgui, libaimgui)
         std::string data((char*)pixels, width * height * bytes_per_pixel);
         return std::make_tuple(width, height, py::bytes(data));
     });
+    PYEXTEND_END
+
     libaimgui.def("init", []()
     {
         ImGui::CreateContext();
@@ -219,6 +205,18 @@ PYBIND11_MODULE(libaimgui, libaimgui)
     , py::arg("items")
     , py::arg("popup_max_height_in_items") = -1
     , py::return_value_policy::automatic_reference);
+
+    libaimgui.def("selectable", [](const char * label, bool * p_selected, ImGuiSelectableFlags flags, const ImVec2 & size)
+    {
+        auto ret = ImGui::Selectable(label, p_selected, flags, size);
+        return std::make_tuple(ret, p_selected);
+    }
+    , py::arg("label")
+    , py::arg("p_selected")
+    , py::arg("flags") = 0
+    , py::arg("size") = ImVec2(0,0)
+    , py::return_value_policy::automatic_reference);
+
     libaimgui.def("list_box", [](const char* label, int * current_item, std::vector<std::string> items, int height_in_items)
     {
         std::vector<const char*> ptrs;
