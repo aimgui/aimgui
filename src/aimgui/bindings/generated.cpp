@@ -1112,15 +1112,6 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("str_id")
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("begin_popup_modal", [](const char * name, bool * p_open, ImGuiWindowFlags flags)
-    {
-        auto ret = ImGui::BeginPopupModal(name, p_open, flags);
-        return std::make_tuple(ret, p_open);
-    }
-    , py::arg("name")
-    , py::arg("p_open") = nullptr
-    , py::arg("flags") = 0
-    , py::return_value_policy::automatic_reference);
     libaimgui.def("end_popup", &ImGui::EndPopup
     , py::return_value_policy::automatic_reference);
     libaimgui.def("open_popup", &ImGui::OpenPopup
@@ -2001,7 +1992,6 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     Style.def_readwrite("anti_aliased_fill", &ImGuiStyle::AntiAliasedFill);
     Style.def_readwrite("curve_tessellation_tol", &ImGuiStyle::CurveTessellationTol);
     Style.def_readwrite("circle_segment_max_error", &ImGuiStyle::CircleSegmentMaxError);
-    Style.def_readonly("colors", &ImGuiStyle::Colors);
     Style.def(py::init<>());
     Style.def("scale_all_sizes", &ImGuiStyle::ScaleAllSizes
     , py::arg("scale_factor")
@@ -2458,13 +2448,6 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("wrap_width") = 0.0f
     , py::arg("cpu_fine_clip_rect") = nullptr
     , py::return_value_policy::automatic_reference);
-    DrawList.def("add_polyline", &ImDrawList::AddPolyline
-    , py::arg("points")
-    , py::arg("num_points")
-    , py::arg("col")
-    , py::arg("closed")
-    , py::arg("thickness")
-    , py::return_value_policy::automatic_reference);
     DrawList.def("add_convex_poly_filled", &ImDrawList::AddConvexPolyFilled
     , py::arg("points")
     , py::arg("num_points")
@@ -2710,12 +2693,6 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::return_value_policy::automatic_reference);
     FontAtlas.def("add_font_default", &ImFontAtlas::AddFontDefault
     , py::arg("font_cfg") = nullptr
-    , py::return_value_policy::automatic_reference);
-    FontAtlas.def("add_font_from_file_ttf", &ImFontAtlas::AddFontFromFileTTF
-    , py::arg("filename")
-    , py::arg("size_pixels")
-    , py::arg("font_cfg") = nullptr
-    , py::arg("glyph_ranges") = nullptr
     , py::return_value_policy::automatic_reference);
     FontAtlas.def("add_font_from_memory_ttf", &ImFontAtlas::AddFontFromMemoryTTF
     , py::arg("font_data")

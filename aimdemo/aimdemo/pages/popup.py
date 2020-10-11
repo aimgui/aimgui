@@ -15,9 +15,9 @@ class Popup(Page):
         if gui.begin_popup("select-popup"):
             gui.text("Select one")
             gui.separator()
-            gui.selectable("One")
-            gui.selectable("Two")
-            gui.selectable("Three")
+            gui.selectable("One", False)
+            gui.selectable("Two", False)
+            gui.selectable("Three", False)
             gui.end_popup()
 
         gui.end()
@@ -26,7 +26,7 @@ class PopupContextView(Page):
     def draw(self):
         gui.begin("Example: popup context view")
         gui.text("Right-click to set value.")
-        if gui.begin_popup_context_item("Item Context Menu", mouse_button=0):
+        if gui.begin_popup_context_item("Item Context Menu"):
             gui.selectable("Set to Zero")
             gui.end_popup()
         gui.end()
@@ -34,7 +34,7 @@ class PopupContextView(Page):
 class PopupContextWindow(Page):
     def draw(self):
         gui.begin("Example: popup context window")
-        if gui.begin_popup_context_window(mouse_button=0):
+        if gui.begin_popup_context_window():
             gui.selectable("Clear")
             gui.end_popup()
         gui.end()
@@ -48,12 +48,12 @@ class PopupModal(Page):
 
         gui.same_line()
 
-        if gui.begin_popup_modal("select-popup")[0]:
+        if gui.begin_popup_modal("select-popup"):
             gui.text("Select an option:")
             gui.separator()
-            gui.selectable("One")
-            gui.selectable("Two")
-            gui.selectable("Three")
+            gui.selectable("One", False)
+            gui.selectable("Two", False)
+            gui.selectable("Three", False)
             gui.end_popup()
 
         gui.end()

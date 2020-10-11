@@ -1,5 +1,6 @@
 excludes = [
     # Wrapped
+    'ImGui::BeginPopupModal',
     'ImGui::SetDragDropPayload',
     'ImGui::Combo',
     'ImGui::MenuItem',
@@ -11,14 +12,16 @@ excludes = [
     'ImGui::PlotLines',
     'ImGui::PlotHistogram',
     'ImDrawData::CmdLists',
+    'ImDrawList::AddPolyline',
     'ImGuiIO::MouseDown',
     'ImGuiIO::KeysDown',
     'ImGuiIO::KeyMap',
     'ImGuiIO::InputCharacters',
     'ImGuiIO::NavInputs',
+    'ImFontAtlas::AddFontFromFileTTF',
     'ImFontAtlas::GetTexDataAsAlpha8',
     'ImFontAtlas::GetTexDataAsRGBA32',
-    #'ImGuiStyle::Colors',
+    'ImGuiStyle::Colors',
 
     # Internal / Ignored
     'ImGuiTextFilter::Filters',

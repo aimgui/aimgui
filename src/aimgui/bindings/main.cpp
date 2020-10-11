@@ -1,5 +1,5 @@
 #include <limits>
-
+#include <filesystem>
 #include <pybind11/pybind11.h>
 #include <pybind11/functional.h>
 #include <pybind11/stl.h>
@@ -22,6 +22,18 @@ void init_main(py::module &libaimgui, Registry &registry) {
     template_ImVector<ImDrawCmd>(libaimgui, "Vector_DrawCmd");
     template_ImVector<ImDrawVert>(libaimgui, "Vector_DrawVert");
     template_ImVector<ImFontGlyph>(libaimgui, "Vector_FontGlyph");
+
+    //libaimgui.def("begin_popup_modal", [](const char * name, bool * p_open, ImGuiWindowFlags flags)
+    libaimgui.def("begin_popup_modal", [](const char * name, bool p_open, ImGuiWindowFlags flags)
+    {
+        bool open = p_open;
+        auto ret = ImGui::BeginPopupModal(name, &open, flags);
+        return std::make_tuple(ret, p_open);
+    }
+    , py::arg("name")
+    , py::arg("p_open") = false
+    , py::arg("flags") = 0
+    , py::return_value_policy::automatic_reference);
 
     //bool ImGui::SetDragDropPayload(const char* type, const void* data, size_t data_size, ImGuiCond cond)
     libaimgui.def("set_drag_drop_payload",  [](std::string type, std::string data, ImGuiCond cond)
@@ -68,20 +80,20 @@ void init_main(py::module &libaimgui, Registry &registry) {
 
 
     PYEXTEND_BEGIN(ImGuiStyle, Style)
-    /*Style.def_property_readonly("colors", [](const ImGuiIO &io) {
+    Style.def_property_readonly("colors", [](const ImGuiStyle &self) {
+        auto colors = self.Colors;
         auto result = PyList_New(ImGuiCol_COUNT);
-        auto colors = ImGui::GetStyle().Colors;
         for(int i = 0; i < ImGuiCol_COUNT; ++i ) {
-            auto result = PyTuple_New(4);
-            PyTuple_SetItem(result, 0, PyFloat_FromDouble(src.x));
-            PyTuple_SetItem(result, 1, PyFloat_FromDouble(src.y));
-            PyTuple_SetItem(result, 2, PyFloat_FromDouble(src.z));
-            PyTuple_SetItem(result, 3, PyFloat_FromDouble(src.w));
-            PyList_SetItem(result, i, py::tuple(colors[i]));
+            ImVec4 color = colors[i];
+            auto item = PyTuple_New(4);
+            PyTuple_SetItem(item, 0, PyFloat_FromDouble(color.x));
+            PyTuple_SetItem(item, 1, PyFloat_FromDouble(color.y));
+            PyTuple_SetItem(item, 2, PyFloat_FromDouble(color.z));
+            PyTuple_SetItem(item, 3, PyFloat_FromDouble(color.w));
+            PyList_SetItem(result, i, item);
         }
-        //return list;
-        return py::reinterpret_steal<py::object>(result);
-    });*/
+        return py::reinterpret_steal<py::list>(result);
+    });
     Style.def("set_color", [](ImGuiStyle& self, int item, ImVec4 color)
     {
         if (item < 0) throw py::index_error();
@@ -171,19 +183,27 @@ void init_main(py::module &libaimgui, Registry &registry) {
         }
     );
 
-    /*DrawList.def_property_readonly("commands",
-        [](const ImDrawList &dl) {
-            auto result = PyList_New(dl.CmdBuffer.Size);
-            for(int i = 0; i < dl.CmdBuffer.Size; ++i ) {
-                PyList_SetItem(result, i, py::object(dl.CmdBuffer[i]));
-            }
-            return py::reinterpret_steal<py::object>(result);
-        }
-    );*/
-
     DrawList.def("__iter__", 
         [](const ImDrawList &dl) { return py::make_iterator(dl.CmdBuffer.Data, dl.CmdBuffer.Data + dl.CmdBuffer.Size); },
         py::keep_alive<0, 1>() /* Essential: keep object alive while iterator exists */);
+
+    //void ImDrawList::AddPolyline(const ImVec2* points, const int points_count, ImU32 col, bool closed, float thickness)
+    DrawList.def("add_polyline",  [](ImDrawList& self, py::list points, ImU32 col, bool closed, float thickness)
+    {
+        const int points_count = points.size();
+        ImVec2 *pts = (ImVec2*)malloc(points_count * sizeof(ImVec2));
+        for(int i = 0; i < points_count; ++i) {
+            py::object obj = points[i];
+            pts[i] = obj.cast<ImVec2>();
+        }
+        self.AddPolyline(pts, points_count, col, closed, thickness);
+        free(pts);
+    }
+    , py::arg("points")
+    , py::arg("col")
+    , py::arg("closed")
+    , py::arg("thickness")
+    , py::return_value_policy::automatic_reference);
 
     PYEXTEND_END
 
@@ -215,6 +235,18 @@ void init_main(py::module &libaimgui, Registry &registry) {
     PYEXTEND_END
 
     PYEXTEND_BEGIN(ImFontAtlas, FontAtlas)
+    //ImFont* ImFontAtlas::AddFontFromFileTTF(const char* filename, float size_pixels, const ImFontConfig* font_cfg_template, const ImWchar* glyph_ranges)
+    //FontAtlas.def("add_font_from_file_ttf", [](ImFontAtlas& self, std::string filename, float size_pixels, const ImFontConfig* font_cfg_template, const ImWchar* glyph_ranges)
+    FontAtlas.def("add_font_from_file_ttf", [](ImFontAtlas& self, std::string filename, float size_pixels)
+    {
+        //return self.AddFontFromFileTTF(filename.c_str(), size_pixels, font_cfg_template, glyph_ranges);
+        return self.AddFontFromFileTTF(filename.c_str(), size_pixels);
+    }
+    , py::arg("filename")
+    , py::arg("size_pixels")
+    //, py::arg("font_cfg") = nullptr
+    //, py::arg("glyph_ranges") = nullptr
+    , py::return_value_policy::automatic_reference);
     FontAtlas.def("get_tex_data_as_alpha8", [](ImFontAtlas& atlas)
     {
         unsigned char* pixels;

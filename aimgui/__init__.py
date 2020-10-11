@@ -3,7 +3,6 @@ __version__ = '0.1.0'
 import sys
 import platform
 from pathlib import Path
-import ctypes
 
 version = platform.python_version_tuple()
 
@@ -16,13 +15,8 @@ print(sys.path)
 import libaimgui as core 
 from libaimgui import *
 
-from . import extra
-
-def texid_to_int(id):
-    return ctypes.c_uint(id)
-
-def int_to_texid(val):
-    return int(val.value)
+from . import extra 
+from aimgui.extra import *
 
 VERTEX_BUFFER_POS_OFFSET = extra.vertex_buffer_vertex_pos_offset()
 VERTEX_BUFFER_UV_OFFSET = extra.vertex_buffer_vertex_uv_offset()

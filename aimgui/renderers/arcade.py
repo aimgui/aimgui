@@ -5,7 +5,6 @@ from pyglet import gl
 from pyglet.window import key, mouse
 from arcade.gl import BufferDescription, Context
 
-from aimgui import texid_to_int, int_to_texid
 from aimgui.renderers import compute_framebuffer_scale
 from aimgui.renderers.base import BaseOpenGLRenderer
 
