@@ -17,8 +17,8 @@ project(aimgui VERSION "0.1")
 # Define CMAKE_INSTALL_xxx: LIBDIR, INCLUDEDIR
 include(GNUInstallDirs)
 
-# Fetch pybind11
-include(FetchContent)
+#[[ Fetch pybind11
+#include(FetchContent)
 
 FetchContent_Declare(
   pybind11
@@ -26,6 +26,8 @@ FetchContent_Declare(
   GIT_TAG v2.5.0
 )
 FetchContent_MakeAvailable(pybind11)
+]]
+add_subdirectory(extern/pybind11)
 
 # IMGUI
 set(IMGUI_HEADERS

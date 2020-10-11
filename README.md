@@ -10,9 +10,9 @@ AimGui is a library that extends and wraps [Dear ImGui](https://github.com/ocorn
 
 ## Prerequisites
 
-Get [Poetry](https://python-poetry.org/)
-Ninja
-CMake
+* [Poetry](https://python-poetry.org/)
+* CMake
+* Ninja (Optional)
 
 ## Clone
 
