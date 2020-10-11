@@ -1,3 +1,11 @@
+source = 'extern/imgui/imgui.h'
+target = 'src/aimgui/bindings/generated.cpp'
+
+flags = [
+    '-std=c++17',
+    '-DIMGUI_DISABLE_OBSOLETE_FUNCTIONS=1'
+]
+
 excludes = [
     # Wrapped
     'ImGui::BeginPopupModal',

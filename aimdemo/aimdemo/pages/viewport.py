@@ -24,27 +24,22 @@ ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_PassthruCentralNode;
 ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 '''
 
-class DockingPage(Page):
+class ViewportPage(Page):
     def draw(self):
+        viewport = gui.get_main_viewport()
+        gui.set_next_window_pos(viewport.pos)
+        gui.set_next_window_size(viewport.size)
+        gui.set_next_window_viewport(viewport.id)
+        gui.set_next_window_bg_alpha(1)
+
         gui.begin(self.title)
 
-        dockspace_id = gui.get_id("HUB_DockSpace")
-        #ImGui::DockSpace(dockspaceID , ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_None|ImGuiDockNodeFlags_PassthruCentralNode/*|ImGuiDockNodeFlags_NoResize*/);
-        #gui.dock_space(dockspace_id , gui.Vec2(0., 0.), gui.DOCK_NODE_FLAGS_NONE|gui.DOCK_NODE_FLAGS_PASSTHRU_CENTRAL_NODE)
-        gui.dock_space(dockspace_id , (0., 0.), gui.DOCK_NODE_FLAGS_NONE|gui.DOCK_NODE_FLAGS_PASSTHRU_CENTRAL_NODE)
-
-        gui.end()
-
-
-        #ImGui::SetNextWindowDockID(dockspaceID , ImGuiCond_FirstUseEver);
-        gui.set_next_window_dock_id(dockspace_id , gui.COND_FIRST_USE_EVER)
-
-
-        gui.begin('Dockable Window')
         gui.begin_child("region", (150, -50), border=True)
         gui.text("inside region")
         gui.end_child()
+
         gui.text("outside region")
+        gui.end()
 
 def install(app):
-    app.add_page(DockingPage, "docking", "Docking")
+    app.add_page(ViewportPage, "viewport", "Viewport")

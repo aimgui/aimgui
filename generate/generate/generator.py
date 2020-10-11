@@ -96,7 +96,7 @@ class Generator:
         instance = Generator(config)
         return instance
 
-
+    #TODO: These three look like trouble
     def format_attribute(self, name):
         name = snakecase(name)
         name = name.rstrip('_')
@@ -336,7 +336,6 @@ class Generator:
         if self.is_class_mappable(cursor):
             clsname = self.name(cursor)
             pyname = self.format_type(cursor.spelling)
-            #out('py::class_<{}> {}(libaimgui, "{}");'.format(name(cursor), clsname, clsname))
             #TODO:this is a total hack.  Is it because it's private or something?
             if clsname == '':
                 print('Unnamed class!', cursor.__dict__)
@@ -383,9 +382,9 @@ class Generator:
             cindex.Config.set_library_file('libclang-10.so')
 
         BASE_PATH = pathlib.Path(os.path.realpath(__file__)).parent.parent.parent
-        path = BASE_PATH / 'extern/imgui/imgui.h'
-        tu = cindex.Index.create().parse(path, args=['-std=c++17', '-DIMGUI_DISABLE_OBSOLETE_FUNCTIONS=1'])
-        self.out.file = open(BASE_PATH / 'src/aimgui/bindings/generated.cpp', 'w')
+        path = BASE_PATH / self.source
+        tu = cindex.Index.create().parse(path, args=self.flags)
+        self.out.file = open(BASE_PATH / self.target, 'w')
         self.out.indent = 0
         self.out(HEADER)
         self.out.indent = 1
@@ -393,23 +392,3 @@ class Generator:
         self.parse_definitions(tu.cursor)
         self.out.indent = 0
         self.out(FOOTER)
-
-'''
-if __name__ == '__main__':
-    if sys.platform == 'darwin':
-        cindex.Config.set_library_path('/usr/local/opt/llvm@6/lib')
-    else:
-        cindex.Config.set_library_file('libclang-10.so')
-
-    BASE_PATH = pathlib.Path(os.path.realpath(__file__)).parent.parent
-    path = BASE_PATH / 'extern/imgui/imgui.h'
-    tu = cindex.Index.create().parse(path, args=['-std=c++17', '-DIMGUI_DISABLE_OBSOLETE_FUNCTIONS=1'])
-    out.file = open(BASE_PATH / 'src/aimgui/bindings/generated.cpp', 'w')
-    out.indent = 0
-    out(HEADER)
-    out.indent = 1
-    parse_overloads(tu.cursor)
-    parse_definitions(tu.cursor)
-    out.indent = 0
-    out(FOOTER)
-'''
