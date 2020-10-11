@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "aimgen"
+version = "0.1.1"
+description = ""
+authors = ["Kurtis Fields <kurtisfields@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+toml = "^0.10.1"
+click = "^7.1.2"
+clang = "^11.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+aimgen = 'aimgen.command:cli'
