@@ -8,7 +8,7 @@ flags = [
 
 excludes = [
     # Wrapped
-    'ImGui::BeginPopupModal',
+    #'ImGui::BeginPopupModal',
     'ImGui::SetDragDropPayload',
     'ImGui::Combo',
     'ImGui::MenuItem',
@@ -64,7 +64,7 @@ excludes = [
     'ImNewDummy',
     'ImGuiTextBuffer',
     'CustomRect',
-    'ImGui',
+    #'ImGui',
     'ImGuiPlatformIO',
     'ImGuiPlatformMonitor',
     'ImGuiDockContext',

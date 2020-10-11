@@ -35,8 +35,8 @@ class DockingPage(Page):
         dockspace_id = gui.get_id(self.title)
         #ImGui::DockSpace(dockspaceID , ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_None|ImGuiDockNodeFlags_PassthruCentralNode/*|ImGuiDockNodeFlags_NoResize*/);
         #gui.dock_space(dockspace_id , gui.Vec2(0., 0.), gui.DOCK_NODE_FLAGS_NONE|gui.DOCK_NODE_FLAGS_PASSTHRU_CENTRAL_NODE)
-        #dockspace_flags = gui.DOCK_NODE_FLAGS_NONE|gui.DOCK_NODE_FLAGS_PASSTHRU_CENTRAL_NODE
-        dockspace_flags = gui.DOCK_NODE_FLAGS_NONE
+        dockspace_flags = gui.DOCK_NODE_FLAGS_NONE|gui.DOCK_NODE_FLAGS_PASSTHRU_CENTRAL_NODE
+        #dockspace_flags = gui.DOCK_NODE_FLAGS_NONE
         gui.dock_space(dockspace_id , (0., 0.), dockspace_flags)
 
         gui.end()

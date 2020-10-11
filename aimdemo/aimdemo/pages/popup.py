@@ -48,7 +48,7 @@ class PopupModal(Page):
 
         gui.same_line()
 
-        if gui.begin_popup_modal("select-popup"):
+        if gui.begin_popup_modal("select-popup")[0]:
             gui.text("Select an option:")
             gui.separator()
             gui.selectable("One", False)

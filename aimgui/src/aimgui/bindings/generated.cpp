@@ -1112,6 +1112,15 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("str_id")
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
+    libaimgui.def("begin_popup_modal", [](const char * name, bool * p_open, ImGuiWindowFlags flags)
+    {
+        auto ret = ImGui::BeginPopupModal(name, p_open, flags);
+        return std::make_tuple(ret, p_open);
+    }
+    , py::arg("name")
+    , py::arg("p_open") = nullptr
+    , py::arg("flags") = 0
+    , py::return_value_policy::automatic_reference);
     libaimgui.def("end_popup", &ImGui::EndPopup
     , py::return_value_policy::automatic_reference);
     libaimgui.def("open_popup", &ImGui::OpenPopup

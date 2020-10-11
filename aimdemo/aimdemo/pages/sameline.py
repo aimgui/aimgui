@@ -12,11 +12,11 @@ class SameLinePage(Page):
         gui.button("no")
 
         gui.text("same_line() with fixed position:")
-        gui.button("yes"); gui.same_line(50)
+        gui.button("yes"); gui.same_line(100)
         gui.button("no")
 
         gui.text("same_line() with spacing:")
-        gui.button("yes"); gui.same_line(50)
+        gui.button("yes"); gui.same_line(0, 50)
         gui.button("no")
 
         gui.end()

@@ -31,8 +31,8 @@ class ViewportPage(Page):
 
     def draw(self):
         viewport = gui.get_main_viewport()
-        gui.set_next_window_pos(viewport.pos)
-        gui.set_next_window_size(viewport.size)
+        #gui.set_next_window_pos(viewport.pos)
+        #gui.set_next_window_size(viewport.size)
         gui.set_next_window_viewport(viewport.id)
         gui.set_next_window_bg_alpha(1)
 
