@@ -51,6 +51,7 @@ class DockingPage(Page):
         gui.text("inside region")
         gui.end_child()
         gui.text("outside region")
+        gui.end()
 
 def install(app):
     app.add_page(DockingPage, "docking", "Docking")

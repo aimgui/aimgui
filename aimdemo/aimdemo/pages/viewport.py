@@ -27,6 +27,7 @@ ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 class ViewportPage(Page):
     def reset(self):
         io = gui.get_io()
+        io.backend_flags |= gui.BACKEND_FLAGS_PLATFORM_HAS_VIEWPORTS
         io.config_flags |= gui.CONFIG_FLAGS_DOCKING_ENABLE | gui.CONFIG_FLAGS_VIEWPORTS_ENABLE
 
     def draw(self):

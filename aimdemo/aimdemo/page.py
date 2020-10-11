@@ -4,6 +4,7 @@ import aimgui as gui
 class Page(arcade.View):
     def __init__(self, window, name, title):
         super().__init__(window)
+        self.window = window
         self.name = name
         self.title = title
 
