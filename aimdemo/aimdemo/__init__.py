@@ -14,6 +14,7 @@ class Gui:
         self.window = window
         # Must create or set the context before instantiating the renderer
         gui.create_context()
+
         self.renderer = ArcadeRenderer(window)
 
     def draw(self):

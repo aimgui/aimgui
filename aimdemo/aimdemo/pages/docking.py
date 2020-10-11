@@ -25,13 +25,19 @@ ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 '''
 
 class DockingPage(Page):
+    def reset(self):
+        io = gui.get_io()
+        io.config_flags |= gui.CONFIG_FLAGS_DOCKING_ENABLE
     def draw(self):
-        gui.begin(self.title)
+        #gui.begin(self.title, True, gui.WINDOW_FLAGS_DOCK_NODE_HOST)
+        gui.begin(self.title, True)
 
-        dockspace_id = gui.get_id("HUB_DockSpace")
+        dockspace_id = gui.get_id(self.title)
         #ImGui::DockSpace(dockspaceID , ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_None|ImGuiDockNodeFlags_PassthruCentralNode/*|ImGuiDockNodeFlags_NoResize*/);
         #gui.dock_space(dockspace_id , gui.Vec2(0., 0.), gui.DOCK_NODE_FLAGS_NONE|gui.DOCK_NODE_FLAGS_PASSTHRU_CENTRAL_NODE)
-        gui.dock_space(dockspace_id , (0., 0.), gui.DOCK_NODE_FLAGS_NONE|gui.DOCK_NODE_FLAGS_PASSTHRU_CENTRAL_NODE)
+        #dockspace_flags = gui.DOCK_NODE_FLAGS_NONE|gui.DOCK_NODE_FLAGS_PASSTHRU_CENTRAL_NODE
+        dockspace_flags = gui.DOCK_NODE_FLAGS_NONE
+        gui.dock_space(dockspace_id , (0., 0.), dockspace_flags)
 
         gui.end()
 

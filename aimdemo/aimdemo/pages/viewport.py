@@ -25,6 +25,10 @@ ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 '''
 
 class ViewportPage(Page):
+    def reset(self):
+        io = gui.get_io()
+        io.config_flags |= gui.CONFIG_FLAGS_DOCKING_ENABLE | gui.CONFIG_FLAGS_VIEWPORTS_ENABLE
+
     def draw(self):
         viewport = gui.get_main_viewport()
         gui.set_next_window_pos(viewport.pos)

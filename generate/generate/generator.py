@@ -189,15 +189,12 @@ class Generator:
 
     def arg_type(self, argument):
         if argument.type.kind == cindex.TypeKind.CONSTANTARRAY:
-            return 'std::array<{}, {}>&'.format(
-                argument.type.get_array_element_type().spelling,
-                argument.type.get_array_size()
-            )
+            return f'std::array<{argument.type.get_array_element_type().spelling}, {argument.type.get_array_size()}>&'
         return argument.type.spelling
 
     def arg_name(self, argument):
         if argument.type.kind == cindex.TypeKind.CONSTANTARRAY:
-            return '&{}[0]'.format(argument.spelling)
+            return f'&{argument.spelling}[0]'
         return argument.spelling
 
     def arg_types(self, arguments):
@@ -227,19 +224,13 @@ class Generator:
             default = DEFAULTS.get(argument.spelling, default)
             if len(default):
                 default = ' = ' + default
-            self.out(', py::arg("{}"){}'.format(self.format_attribute(argument.spelling), default))
+            self.out(f', py::arg("{self.format_attribute(argument.spelling)}"){default}')
 
     def parse_enum(self, cursor):
-        self.out('py::enum_<{cname}>(libaimgui, "{pyname}", py::arithmetic())'.format(
-            cname=self.name(cursor),
-            pyname=self.format_type(cursor.spelling)
-        ))
+        self.out(f'py::enum_<{self.name(cursor)}>(libaimgui, "{self.format_type(cursor.spelling)}", py::arithmetic())')
         self.out.indent += 1
         for value in cursor.get_children():
-            self.out('.value("{pyname}", {cname})'.format(
-                pyname=self.format_enum(value.spelling),
-                cname=value.spelling
-            ))
+            self.out(f'.value("{self.format_enum(value.spelling)}", {value.spelling})')
         self.out('.export_values();')
         self.out.indent -= 1
         self.out('')
@@ -247,20 +238,20 @@ class Generator:
     def parse_constructor(self, cursor, cls):
         arguments = [a for a in cursor.get_arguments()]
         if len(arguments):
-            self.out('{}.def(py::init<{}>()'.format(self.module(cls), self.arg_types(arguments)))
+            self.out(f'{self.module(cls)}.def(py::init<{self.arg_types(arguments)}>()')
             self.write_pyargs(arguments)
             self.out(');')
         else:
-            self.out('{}.def(py::init<>());'.format(self.module(cls)))
+            self.out(f'{self.module(cls)}.def(py::init<>());')
 
     def parse_field(self, cursor, cls):
         pyname = self.format_attribute(cursor.spelling)
         cname = self.name(cursor)
         if self.is_property_mappable(cursor):
             if self.is_property_readonly(cursor):
-                self.out('{}.def_readonly("{}", &{});'.format(self.module(cls), pyname, cname))
+                self.out(f'{self.module(cls)}.def_readonly("{pyname}", &{cname});')
             else:
-                self.out('{}.def_readwrite("{}", &{});'.format(self.module(cls), pyname, cname))
+                self.out(f'{self.module(cls)}.def_readwrite("{pyname}", &{cname});')
 
     def should_wrap_function(self, cursor):
         if cursor.type.is_function_variadic():
@@ -319,18 +310,18 @@ class Generator:
             cname = '&' + self.name(cursor)
             pyname = self.format_attribute(cursor.spelling)
             if self.is_overloaded(cursor):
-                cname = 'py::overload_cast<{}>({})'.format(self.arg_types(arguments), cname)
+                cname = f'py::overload_cast<{self.arg_types(arguments)}>({cname})'
             if self.should_wrap_function(cursor):
-                self.out('{}.def("{}", []({})'.format(mname, pyname, self.arg_string(arguments)))
+                self.out(f'{mname}.def("{pyname}", []({self.arg_string(arguments)})')
                 self.out('{')
                 ret = '' if self.is_function_void_return(cursor) else 'auto ret = '
-                self.out('    {}{}({});'.format(ret, self.name(cursor), self.arg_names(arguments)))
-                self.out('    return {};'.format(self.get_function_return(cursor)))
+                self.out(f'    {ret}{self.name(cursor)}({self.arg_names(arguments)});')
+                self.out(f'    return {self.get_function_return(cursor)};')
                 self.out('}')
             else:
-                self.out('{}.def("{}", {}'.format(mname, pyname, cname))
+                self.out(f'{mname}.def("{pyname}", {cname}')
             self.write_pyargs(arguments)
-            self.out(', {});'.format(self.get_return_policy(cursor)))
+            self.out(f', {self.get_return_policy(cursor)});')
 
     def parse_class(self, cursor):
         if self.is_class_mappable(cursor):

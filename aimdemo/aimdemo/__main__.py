@@ -55,6 +55,6 @@ app.use('windowdraw')
 app.use('windowmenu')
 app.use('viewport')
 
-app.show('docking')
+app.show('index')
 
 app.run()
