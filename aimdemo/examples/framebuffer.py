@@ -20,9 +20,9 @@ class MyGui:
             )
         image = self.sprite.texture.image
         self.texture = window.ctx.texture(image.size, components=3, data=image.convert("RGB").tobytes())
-        #self.offscreen = window.ctx.framebuffer(color_attachments=window.ctx.texture(FBSIZE))
-        self.offscreen_color_attachment = window.ctx.texture(FBSIZE)
-        self.offscreen = window.ctx.framebuffer(color_attachments=[self.offscreen_color_attachment])
+        self.offscreen = window.ctx.framebuffer(color_attachments=window.ctx.texture(FBSIZE))
+        #self.offscreen_color_attachment = window.ctx.texture(FBSIZE)
+        #self.offscreen = window.ctx.framebuffer(color_attachments=[self.offscreen_color_attachment])
         self.reset()
 
     def reset(self):
@@ -81,10 +81,10 @@ class MyGui:
         self.offscreen.use()
         self.offscreen.clear((0, 0, 0, 0))
         vp = arcade.get_viewport()
-        arcade.set_viewport(0, FBSIZE[0], 0, FBSIZE[1])
+        #arcade.set_viewport(0, FBSIZE[0], 0, FBSIZE[1])
         self.sprite.draw()
-        #self.window.use()
-        self.window.ctx.screen.use()
+        self.window.use()
+        #self.window.ctx.screen.use()
         arcade.set_viewport(*vp)
         self.sprite.draw()
 

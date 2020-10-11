@@ -9,8 +9,8 @@ RESOURCE_PATH = Path(__file__).parent.parent / 'assets'
 class FontPage(Page):
     def reset(self):
         io = gui.get_io()
-
-        self.font = io.fonts.add_font_from_file_ttf(str(RESOURCE_PATH / "DroidSans.ttf"), 20)
+        font_path = self.window.resource_path / 'DroidSans.ttf'
+        self.font = io.fonts.add_font_from_file_ttf(str(font_path), 20)
         self.window.gui.renderer.refresh_font_texture()
 
     def draw(self):
