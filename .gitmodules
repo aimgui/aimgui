@@ -1,4 +1,7 @@
-[submodule "extern/imgui"]
-	path = extern/imgui
+[submodule "aimgui/extern/imgui"]
+	path = aimgui/extern/imgui
 	url = https://github.com/aimgui/imgui
 	branch = docking
+[submodule "aimgui/extern/pybind11"]
+	path = aimgui/extern/pybind11
+	url = https://github.com/pybind/pybind11
