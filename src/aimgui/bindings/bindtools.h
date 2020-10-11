@@ -14,26 +14,18 @@ class Registry {
         this->callbacks[name] = callback;
     }
     void on(py::module& _module, const std::string name, py::detail::generic_type& _class) {
-        std::cout << "on register:  " << name << "\n";
+        //std::cout << "on register:  " << name << "\n";
         if ( this->callbacks.find(name) == this->callbacks.end() ) { return; }
         this->callbacks[name](_class);
     }
 };
 
-/*
-void pyregister(py::detail::generic_type& _class) {
-    std::cout << "registered";
-    py::class_<ImGuiStyle> &Style = (py::class_<ImGuiStyle>&)_class;
-    Style.def_readwrite("alpha", &ImGuiStyle::Alpha);
-}
-*/
-//py::class_<ImVec2> Vec2(libaimgui, "Vec2");
 #define PYCLASS_BEGIN(_module, _class, _name) py::class_<_class> _name(_module, #_name);
 
 #define PYCLASS_END(_module, _class, _name) registry.on(_module, #_name, _name);
 
-#define PYEXTEND_BEGIN(_class, name) std::cout << "registered:  " << #name << "\n"; \
-        registry.addCallback(#name, [](py::detail::generic_type& _type) { \
-            py::class_<_class> &name = (py::class_<_class>&)_type;
+#define PYEXTEND_BEGIN(_class, name) \
+    registry.addCallback(#name, [](py::detail::generic_type& _type) { \
+        py::class_<_class> &name = (py::class_<_class>&)_type;
 
 #define PYEXTEND_END });

@@ -23,29 +23,27 @@ Clone the repository and change directory
 
 ## Run the Demo
 
-        cd imdemo
+        cd aimdemo
         poetry install
         poetry shell
-        python imdemo
+        python aimdemo
 
 ### Individual Examples
 
         python examples/basic.py
         etc ...
 
-## Run the ImFlo Demo
+## Run the AimFlo Demo
 
-        cd imflo
+        cd aimflo
         poetry install
         poetry shell
-        python imdemo
+        python aimflo
 
 
 # Development
 
 ## Tool Chain
-
-[Binder](https://github.com/RosettaCommons/binder)
 
 [pybind11](https://github.com/pybind/pybind11)
 
@@ -54,20 +52,3 @@ Clone the repository and change directory
 ## Build
 
         python setup.py build --build-type Debug
-
-## Building Binder
-        sudo apt install python3-pybind11
-        cd extern/binder
-        cmake CMakeLists.txt -DCMAKE_INSTALL_PREFIX:PATH=$HOME/.local
-        make
-        make install
-
-        binder --root-module imgui --prefix bindings \
-        --bind ImGui \
-        imgui_root.hpp \
-        -- -std=c++11 -Iextern
-
-        binder --root-module aimgui --prefix bindings \
-        --bind ImGui \
-        imgui_root.hpp \
-        -- -std=c++11 -Iextern

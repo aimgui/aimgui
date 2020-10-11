@@ -1,5 +1,6 @@
 excludes = [
     # Wrapped
+    'ImGui::SetDragDropPayload',
     'ImGui::Combo',
     'ImGui::MenuItem',
     'ImGui::Selectable',

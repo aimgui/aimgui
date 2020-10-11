@@ -23,6 +23,16 @@ void init_main(py::module &libaimgui, Registry &registry) {
     template_ImVector<ImDrawVert>(libaimgui, "Vector_DrawVert");
     template_ImVector<ImFontGlyph>(libaimgui, "Vector_FontGlyph");
 
+    //bool ImGui::SetDragDropPayload(const char* type, const void* data, size_t data_size, ImGuiCond cond)
+    libaimgui.def("set_drag_drop_payload",  [](std::string type, std::string data, ImGuiCond cond)
+    {
+        return ImGui::SetDragDropPayload(type.c_str(), data.c_str(), data.length(), cond);
+    }
+    , py::arg("type")
+    , py::arg("data")
+    , py::arg("cond") = 0
+    , py::return_value_policy::automatic_reference);
+
     libaimgui.def("set_scroll_x", py::overload_cast<float>(&ImGui::SetScrollX)
     , py::arg("scroll_x")
     , py::return_value_policy::automatic_reference);
@@ -32,22 +42,16 @@ void init_main(py::module &libaimgui, Registry &registry) {
 
     libaimgui.def("_py_vertex_buffer_vertex_pos_offset", []()
     {
-        // return <uintptr_t><size_t>&(<cimgui.ImDrawVert*>NULL).pos
-        // return sizeof( ((ImDrawVert *) 0)->pos);
         return offsetof(ImDrawVert, pos);
     }
     , py::return_value_policy::automatic_reference);
     libaimgui.def("_py_vertex_buffer_vertex_uv_offset", []()
     {
-        //return <uintptr_t><size_t>&(<cimgui.ImDrawVert*>NULL).uv
-        // return sizeof( ((ImDrawVert *) 0)->uv);
         return offsetof(ImDrawVert, uv);
     }
     , py::return_value_policy::automatic_reference);
     libaimgui.def("_py_vertex_buffer_vertex_col_offset", []()
     {
-        //return <uintptr_t><size_t>&(<cimgui.ImDrawVert*>NULL).col
-        //return sizeof( ((ImDrawVert *) 0)->col);
         return offsetof(ImDrawVert, col);
     }
     , py::return_value_policy::automatic_reference);

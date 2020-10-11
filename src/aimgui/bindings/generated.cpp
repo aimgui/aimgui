@@ -1244,12 +1244,6 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     libaimgui.def("begin_drag_drop_source", &ImGui::BeginDragDropSource
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_drag_drop_payload", &ImGui::SetDragDropPayload
-    , py::arg("type")
-    , py::arg("data")
-    , py::arg("sz")
-    , py::arg("cond") = 0
-    , py::return_value_policy::automatic_reference);
     libaimgui.def("end_drag_drop_source", &ImGui::EndDragDropSource
     , py::return_value_policy::automatic_reference);
     libaimgui.def("begin_drag_drop_target", &ImGui::BeginDragDropTarget
