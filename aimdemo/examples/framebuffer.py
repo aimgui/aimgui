@@ -1,7 +1,7 @@
-import aimgui as gui
-from aimgui.renderers.arcade import ArcadeRenderer
-
 import arcade
+import aimgui as gui
+
+from aimgui.renderers.arcade import ArcadeRenderer
 
 SPRITE_SCALING = 0.5
 FBSIZE = (512, 256)
@@ -9,7 +9,6 @@ FBSIZE = (512, 256)
 class MyGui:
     def __init__(self, window):
         self.window = window
-        # Must create or set the context before instantiating the renderer
         gui.create_context()
         self.renderer = ArcadeRenderer(window)
         self.sprite = arcade.Sprite(
@@ -21,8 +20,6 @@ class MyGui:
         image = self.sprite.texture.image
         self.texture = window.ctx.texture(image.size, components=3, data=image.convert("RGB").tobytes())
         self.offscreen = window.ctx.framebuffer(color_attachments=window.ctx.texture(FBSIZE))
-        #self.offscreen_color_attachment = window.ctx.texture(FBSIZE)
-        #self.offscreen = window.ctx.framebuffer(color_attachments=[self.offscreen_color_attachment])
         self.reset()
 
     def reset(self):
@@ -35,17 +32,14 @@ class MyGui:
     def draw(self):
         gui.new_frame()
 
-        #with self.offscreen:
-        #    self.sprite.draw()
-
-
-        gui.set_next_window_pos((self.window.width - 256 - 16, 32), gui.ONCE)
-        gui.set_next_window_size((256, 256), gui.ONCE)
+        #gui.set_next_window_pos(self.window.width - 256 - 16, 32, gui.ONCE)
+        gui.set_next_window_size((512, 512), gui.ONCE)
 
         gui.begin("Framebuffer Example")
 
         # Rotation
         gui.image(self.texture.glo.value, self.texture.size)
+        
         changed, self.rotation = gui.drag_float(
             "Rotation", self.rotation,
         )
@@ -74,17 +68,23 @@ class MyGui:
         if gui.button("Reset"):
             self.reset()
 
-        gui.image(self.offscreen.glo.value, FBSIZE)
+        fbtexture = self.offscreen.color_attachments[0]
+        gui.image(fbtexture.glo.value, FBSIZE)
 
         gui.end()
 
         self.offscreen.use()
         self.offscreen.clear((0, 0, 0, 0))
         vp = arcade.get_viewport()
-        #arcade.set_viewport(0, FBSIZE[0], 0, FBSIZE[1])
+        arcade.set_viewport(0, FBSIZE[0], 0, FBSIZE[1])
+        prj = self.window.ctx.projection_2d
+        self.window.ctx.projection_2d = (0, FBSIZE[0],FBSIZE[1],0)
         self.sprite.draw()
+        arcade.draw_text("Simple line of text in 20 point", 0,0 , arcade.color.WHITE, 20)
+
+        self.window.ctx.projection_2d = prj
+
         self.window.use()
-        #self.window.ctx.screen.use()
         arcade.set_viewport(*vp)
         self.sprite.draw()
 
