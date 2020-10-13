@@ -10,8 +10,6 @@ import aimgui as gui
 from aimdemo.page import Page
 from aimdemo.particle import AnimatedAlphaParticle
 
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
 SCREEN_TITLE = "Particle based fireworks"
 
 CLOUD_TEXTURES = [
@@ -23,13 +21,14 @@ CLOUD_TEXTURES = [
 class CloudPage(Page):
     def reset(self):
         self.create_emitter()
+        self.fullwidth=self.fullheight=False
 
     def on_show(self):
         arcade.set_background_color(arcade.color.BLACK)
 
     def create_emitter(self):
         self.emitter = arcade.Emitter(
-            center_xy=(500, 500),
+            center_xy=(64, self.window.height/2),
             change_xy=(0.15, 0),
             emit_controller=arcade.EmitMaintainCount(60),
             particle_factory=lambda emitter: AnimatedAlphaParticle(
@@ -45,13 +44,13 @@ class CloudPage(Page):
         )
 
     def update(self, delta_time):
-        if self.emitter.center_x > SCREEN_WIDTH:
+        if self.emitter.center_x > self.window.width:
             self.emitter.center_x = 0
         self.emitter.update()
 
     def draw(self):
-        gui.set_next_window_pos((self.window.width - 288, 32), gui.ONCE)
-        gui.set_next_window_size((256, 256), gui.ONCE)
+        #gui.set_next_window_pos((self.window.width - 288, 32), gui.ONCE)
+        #gui.set_next_window_size((256, 256), gui.ONCE)
 
         gui.begin("Cloud")
         if gui.button("Reset"):

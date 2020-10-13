@@ -10,6 +10,7 @@ FBSIZE = (512, 256)
 class FramebufferPage(Page):
     def __init__(self, window, name, title):
         super().__init__(window, name, title)
+        self.fullwidth = self.fullheight = True
         self.sprite = arcade.Sprite(
             ":resources:images/space_shooter/playerShip1_orange.png",
             SPRITE_SCALING,
@@ -18,9 +19,7 @@ class FramebufferPage(Page):
             )
         image = self.sprite.texture.image
         self.texture = window.ctx.texture(image.size, components=3, data=image.convert("RGB").tobytes())
-        #self.offscreen = window.ctx.framebuffer(color_attachments=window.ctx.texture(FBSIZE))
-        self.offscreen_color_attachment = window.ctx.texture(FBSIZE)
-        self.offscreen = window.ctx.framebuffer(color_attachments=[self.offscreen_color_attachment])
+        self.offscreen = window.ctx.framebuffer(color_attachments=window.ctx.texture(FBSIZE))
 
     def reset(self):
         self.rotation = 0
@@ -30,12 +29,10 @@ class FramebufferPage(Page):
         self.color = 1,1,1
 
     def draw(self):
-        #with self.offscreen:
-        #    self.sprite.draw()
-
-
-        gui.set_next_window_pos((self.window.width - 256 - 16, 32), gui.ONCE)
-        gui.set_next_window_size((256, 256), gui.ONCE)
+        #gui.set_next_window_pos((self.window.width - 512 - 16, 32), gui.ONCE)
+        #gui.set_next_window_size((512, 512), gui.ONCE)
+        #gui.set_next_window_pos((self.window.width - (512+256) - 32, 32), gui.ONCE)
+        #gui.set_next_window_size((512, 512), gui.ONCE)
 
         gui.begin(self.title)
 
@@ -85,7 +82,6 @@ class FramebufferPage(Page):
         arcade.draw_text("Simple line of text in 20 point", 0,0 , arcade.color.WHITE, 20)
         self.window.ctx.projection_2d = prj
 
-        #self.window.use()
         self.window.ctx.screen.use()
         arcade.set_viewport(*vp)
         self.sprite.draw()

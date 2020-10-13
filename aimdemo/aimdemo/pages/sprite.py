@@ -9,6 +9,7 @@ SPRITE_SCALING = 0.5
 class SpritePage(Page):
     def __init__(self, window, name, title):
         super().__init__(window, name, title)
+        self.fullwidth = self.fullheight = False
         self.sprite = arcade.Sprite(
             ":resources:images/space_shooter/playerShip1_orange.png",
             SPRITE_SCALING,
@@ -27,8 +28,8 @@ class SpritePage(Page):
 
     def draw(self):
         #gui.set_next_window_position(288, 32, gui.ONCE)
-        gui.set_next_window_pos((self.window.width - 256 - 16, 32), gui.ONCE)
-        gui.set_next_window_size((256, 256), gui.ONCE)
+        #gui.set_next_window_pos((self.window.width - 256 - 16, 32), gui.ONCE)
+        #gui.set_next_window_size((256, 256), gui.ONCE)
 
         gui.begin("Ship")
 

@@ -4,20 +4,20 @@ from aimdemo.page import Page
 
 class DrawTextPage(Page):
     def draw(self):
-        gui.begin("Text")
+        gui.begin(self.title)
         draw_list = gui.get_window_draw_list()
-        draw_list.add_text((20, 35), gui.get_color_u32_rgba((1,1,0,1)), "Hello!")
+        draw_list.add_text((20, 35), gui.get_color_u32((1,1,0,1)), "Hello!")
         gui.end()
 
 class TextPage(Page):
     def draw(self):
-        gui.begin("Example: simple text")
+        gui.begin(self.title)
         gui.text("Simple text")
         gui.end()
 
 class ColoredTextPage(Page):
     def draw(self):
-        gui.begin("Example: colored text")
+        gui.begin(self.title)
         gui.text_colored((1, 0, 0, 1), "Colored text")
         gui.end()
 
@@ -30,13 +30,13 @@ class UnformattedTextPage(Page):
         '''
 
     def draw(self):
-        gui.begin("Example: unformatted text")
+        gui.begin(self.title)
         gui.text_unformatted(self.text)
         gui.end()
 
 class LabelTextPage(Page):
     def draw(self):
-        gui.begin("Example: text with label")
+        gui.begin(self.title)
         gui.label_text("my label", "my text")
         gui.end()
 

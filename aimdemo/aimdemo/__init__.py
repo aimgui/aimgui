@@ -23,7 +23,8 @@ class Gui:
 
 class App(arcade.Window):
     def __init__(self):
-        super().__init__(1024, 768, "AimGui Demo", resizable=True)
+        #super().__init__(1024, 768, "AimGui Demo", resizable=True)
+        super().__init__(1280, 640, "AimGui Demo", resizable=True)
         self.gui = Gui(self)
         self.pages = {}
         self.view_metrics = False

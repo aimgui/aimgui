@@ -69,7 +69,10 @@ excludes = [
     'ImGuiPlatformMonitor',
     'ImGuiDockContext',
     'ImGuiDockNodeSettings',
-    'ImGuiListClipper'
+    'ImGuiListClipper',
+
+    #Obsolete
+    'ImGuiIO::RenderDrawListsFnUnused'
 ]
 
 overloaded = [

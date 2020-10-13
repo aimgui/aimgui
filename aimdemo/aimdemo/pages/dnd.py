@@ -17,7 +17,8 @@ class DnD(Page):
         if gui.begin_drag_drop_target():
             payload = gui.accept_drag_drop_payload('itemtype')
             if payload is not None:
-                print('Received:', payload)
+                print('Received Payload:  ', payload)
+                print('Received Payload Data:', payload.data)
             gui.end_drag_drop_target()
 
         gui.end()

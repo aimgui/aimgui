@@ -9,14 +9,14 @@ class Input(Page):
         self.test_input = 0
 
     def draw(self):
-        gui.begin("Test Window")
+        gui.begin(self.title)
 
         gui.text("This is the test window.")
-        changed, self.test_input = gui.input_int("Integer Input Test", self.test_input)
+        changed, self.test_input = gui.input_int("Integer", self.test_input)
 
         gui.end()
 
-        arcade.draw_text(str(self.test_input), 512, 128, arcade.color.WHITE_SMOKE, 64)
+        arcade.draw_text(str(self.test_input), 0, 0, arcade.color.WHITE_SMOKE, 64)
 
 class InputDouble(Page):
     def reset(self):
@@ -26,12 +26,12 @@ class InputDouble(Page):
         gui.begin("Test Window")
 
         gui.text("This is the test window.")
-        changed, self.double_val = gui.input_double('Type multiplier:', self.double_val)
+        changed, self.double_val = gui.input_double('Double:', self.double_val)
         gui.text('You wrote: %d' % self.double_val)
 
         gui.end()
 
-        arcade.draw_text(str(self.double_val), 512, 128, arcade.color.WHITE_SMOKE, 64)
+        arcade.draw_text(str(self.double_val), 0, 0, arcade.color.WHITE_SMOKE, 64)
 
 class InputFloat(Page):
     def reset(self):
@@ -41,11 +41,11 @@ class InputFloat(Page):
         gui.begin("Test Window")
 
         gui.text("This is the test window.")
-        changed, self.float_val = gui.input_float('Type coefficient:', self.float_val)
+        changed, self.float_val = gui.input_float('Float:', self.float_val)
         gui.text('You wrote: %f' % self.float_val)
         gui.end()
 
-        arcade.draw_text(str(self.float_val), 512, 128, arcade.color.WHITE_SMOKE, 64)
+        arcade.draw_text(str(self.float_val), 0, 0, arcade.color.WHITE_SMOKE, 64)
 
 def install(app):
     app.add_page(Input, "input", "Input")

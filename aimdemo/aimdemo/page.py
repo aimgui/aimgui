@@ -7,6 +7,8 @@ class Page(arcade.View):
         self.window = window
         self.name = name
         self.title = title
+        self.fullwidth = True
+        self.fullheight = True
 
     def reset(self):
         pass
@@ -28,21 +30,39 @@ class Page(arcade.View):
         self.draw_mainmenu()
         self.draw_navbar()
 
-        gui.set_next_window_pos((288, 32), gui.ONCE)
-        gui.set_next_window_size((512, 512), gui.ONCE)
+        #gui.set_next_window_pos((288, 32), gui.ONCE)
+        #gui.set_next_window_pos((self.window.width - 512 - 32, 32), gui.ONCE)
+        #gui.set_next_window_size((256, 512), gui.ONCE)
+        if self.fullwidth:
+            x = self.window.width - (512+256) - 32
+            width = 512
+        else:
+            x = self.window.width - (512) - 32
+            width = 512/2
+
+        if self.fullheight:
+            y = 32
+            height = self.window.height-32-16
+        else:
+            y = 32
+            height = (self.window.height-32-16)/2
+
+        #gui.set_next_window_pos((self.window.width - (512+256) - 32, 32), gui.ONCE)
+        #gui.set_next_window_size((512, self.window.height-32-16), gui.ONCE)
+
+        gui.set_next_window_pos((x, y), gui.ONCE)
+        gui.set_next_window_size((width, height), gui.ONCE)
 
         self.draw()
         
         gui.end_frame()
 
     def draw_navbar(self):
-        gui.set_next_window_pos((16, 32), gui.ONCE)
-        gui.set_next_window_size((256, 732), gui.ONCE)
+        #gui.set_next_window_pos((16, 32), gui.ONCE)
+        gui.set_next_window_pos((self.window.width - 256 - 16, 32), gui.ONCE)
+        gui.set_next_window_size((256, self.window.height-32-16), gui.ONCE)
         
         gui.begin("Examples")
-
-        titles = [page['title'] for page in self.window.pages.values()]
-        names = [page['name'] for page in self.window.pages.values()]
 
         if gui.list_box_header("Examples", -1, -1):
 
