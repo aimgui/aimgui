@@ -45,10 +45,28 @@ Clone the repository and change directory
 
 ## Tool Chain
 
-[pybind11](https://github.com/pybind/pybind11)
-
 [scikit-build](https://github.com/scikit-build/scikit-build)
+
+[pybind11](https://github.com/pybind/pybind11)
 
 ## Build
 
+### Generate Bindings
+
+        aimgen gen
+
+### Release
+
+        python setup.py build
+
+### Debug
+
         python setup.py build --build-type Debug
+
+# Attribution
+
+I'd like to thank the authors of the following repositories for making this possible!
+
+[deargui](https://github.com/cammm/deargui)
+
+[pyimgui](https://github.com/swistakm/pyimgui)
