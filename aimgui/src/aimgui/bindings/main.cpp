@@ -136,7 +136,32 @@ void init_main(py::module &libaimgui, Registry &registry) {
     }, py::arg("key"), py::arg("value"));
     PYEXTEND_END
 
+    PYEXTEND_BEGIN(ImDrawCmd, DrawCmd)
+    DrawCmd.def_property("user_callback",
+        [](const ImDrawCmd& self) {
+            if(self.UserCallback.ptr() == nullptr) {
+                return py::cast<ImDrawCallback>(py::none());
+            } else {
+                return self.UserCallback;
+            }
+        },
+        [](ImDrawCmd& self, ImDrawCallback cb) {
+            self.UserCallback = cb;
+        }
+    );
+    PYEXTEND_END
+
     PYEXTEND_BEGIN(ImDrawList, DrawList)
+
+    DrawList.def("add_callback", 
+    [](ImDrawList &self ,ImDrawCallback callback, py::object callback_data) {
+        return self.AddCallback(callback, callback_data.ptr());
+    }
+    , py::arg("callback")
+    , py::arg("callback_data")
+    , py::return_value_policy::automatic_reference);
+
+
     DrawList.def_property_readonly("cmd_buffer_size",
         [](const ImDrawList &dl) {
             auto result = PyLong_FromLong(dl.CmdBuffer.Size);

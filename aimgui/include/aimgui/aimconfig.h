@@ -14,12 +14,15 @@
 
 #pragma once
 
-#define ImTextureID unsigned int
-#define ImDrawIdx  int
-#define IMGUI_HAS_DOCK
-#define IMGUI_HAS_VIEWPORT
+#include <pybind11/functional.h>
+namespace py = pybind11;
 
 #define IMGUI_DISABLE_OBSOLETE_FUNCTIONS
+
+#define ImTextureID unsigned int
+#define ImDrawIdx  unsigned int
+
+#define ImDrawCallback py::function
 
 //---- Define assertion handler. Defaults to calling assert().
 // If your macro uses multiple statements, make sure is enclosed in a 'do { .. } while (0)' block so it can be used as a single statement.

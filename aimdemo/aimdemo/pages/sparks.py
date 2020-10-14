@@ -42,6 +42,7 @@ def firework_spark_mutator(particle: arcade.FadeParticle):
 
 class SparksPage(Page):
     def reset(self):
+        self.fullwidth=self.fullheight=False
         self.create_emitter()
 
     def on_show(self):

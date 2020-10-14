@@ -93,7 +93,10 @@ class ArcadeGLRenderer(BaseOpenGLRenderer):
                 x, y, z, w = command.clip_rect
                 gl.glScissor(int(x), int(fb_height - w), int(z - x), int(w - y))
 
-                self._vao.render(self._program, mode=self._ctx.TRIANGLES, vertices=command.elem_count, first=idx_pos)
+                if command.user_callback:
+                    command.user_callback(draw_data, commands, command, command.user_callback_data)
+                else:
+                    self._vao.render(self._program, mode=self._ctx.TRIANGLES, vertices=command.elem_count, first=idx_pos)
                 idx_pos += command.elem_count
 
         # Just reset scissor back to default/viewport
