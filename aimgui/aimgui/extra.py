@@ -19,11 +19,6 @@ __all__ = (
     "styled",
     "istyled",
     "colored",
-    "vertex_buffer_vertex_pos_offset",
-    "vertex_buffer_vertex_uv_offset",
-    "vertex_buffer_vertex_col_offset",
-    "vertex_buffer_vertex_size",
-    "index_buffer_index_size",
 )
 
 # === Extra utilities ====
@@ -128,9 +123,3 @@ def scoped(str_id: str):
     core.push_id(str_id)
     yield
     core.pop_id()
-
-vertex_buffer_vertex_pos_offset = core._py_vertex_buffer_vertex_pos_offset
-vertex_buffer_vertex_uv_offset = core._py_vertex_buffer_vertex_uv_offset
-vertex_buffer_vertex_col_offset = core._py_vertex_buffer_vertex_col_offset
-vertex_buffer_vertex_size = core._py_vertex_buffer_vertex_size
-index_buffer_index_size = core._py_index_buffer_index_size

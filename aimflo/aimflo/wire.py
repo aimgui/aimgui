@@ -11,9 +11,10 @@ class Wire:
     def draw(self):
         x, y = self.output.get_position()
         x1, y1 = self.input.get_position()
-        #draw_list = gui.get_overlay_draw_list()
-        #draw_list.add_line(x,y,x1,y1, gui.get_color_u32_rgba(1,1,1,1), 1)
-        wh = arcade.get_window().height
-        y = wh - y
-        y1 = wh - y1
-        arcade.draw_line(x,y,x1,y1,(arcade.color.WHITE))
+        draw_list = gui.get_background_draw_list()
+        #draw_list.add_line((x,y),(x1,y1), gui.get_color_u32((1,1,1,1)), 1)
+        start = (x,y)
+        end = (x1,y1)
+        cp1 = (x+32, y)
+        cp2 = (x1-32, y1)
+        draw_list.add_bezier_curve(start, cp1, cp2, end, gui.get_color_u32((1,1,1,1)), 1)

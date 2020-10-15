@@ -52,31 +52,30 @@ void init_main(py::module &libaimgui, Registry &registry) {
     , py::arg("scroll_y")
     , py::return_value_policy::automatic_reference);
 
-    libaimgui.def("_py_vertex_buffer_vertex_pos_offset", []()
+    libaimgui.def("get_vertex_buffer_vertex_pos_offset", []()
     {
         return offsetof(ImDrawVert, pos);
     }
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("_py_vertex_buffer_vertex_uv_offset", []()
+    libaimgui.def("get_vertex_buffer_vertex_uv_offset", []()
     {
         return offsetof(ImDrawVert, uv);
     }
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("_py_vertex_buffer_vertex_col_offset", []()
+    libaimgui.def("get_vertex_buffer_vertex_col_offset", []()
     {
         return offsetof(ImDrawVert, col);
     }
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("_py_vertex_buffer_vertex_size", []()
+    libaimgui.def("get_vertex_buffer_vertex_size", []()
     {
         return AimDrawList::VERTEX_SIZE;
     }
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("_py_index_buffer_index_size", []() {
+    libaimgui.def("get_index_buffer_index_size", []() {
         return AimDrawList::INDEX_SIZE;
     }
     , py::return_value_policy::automatic_reference);
-
 
 
     PYEXTEND_BEGIN(ImGuiStyle, Style)
