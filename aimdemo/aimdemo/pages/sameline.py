@@ -1,25 +1,25 @@
-import aimgui as gui
+import aimgui
 
 from aimdemo.page import Page
 
 
 class SameLinePage(Page):
     def draw(self):
-        gui.begin("Example: same line widgets")
+        aimgui.begin("Example: same line widgets")
 
-        gui.text("same_line() with defaults:")
-        gui.button("yes"); gui.same_line()
-        gui.button("no")
+        aimgui.text("same_line() with defaults:")
+        aimgui.button("yes"); aimgui.same_line()
+        aimgui.button("no")
 
-        gui.text("same_line() with fixed position:")
-        gui.button("yes"); gui.same_line(100)
-        gui.button("no")
+        aimgui.text("same_line() with fixed position:")
+        aimgui.button("yes"); aimgui.same_line(100)
+        aimgui.button("no")
 
-        gui.text("same_line() with spacing:")
-        gui.button("yes"); gui.same_line(0, 50)
-        gui.button("no")
+        aimgui.text("same_line() with spacing:")
+        aimgui.button("yes"); aimgui.same_line(0, 50)
+        aimgui.button("no")
 
-        gui.end()
+        aimgui.end()
 
 def install(app):
     app.add_page(SameLinePage, "sameline", "Same Line")

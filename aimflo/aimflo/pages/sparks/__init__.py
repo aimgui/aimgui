@@ -2,7 +2,7 @@ import os
 import random
 
 import arcade
-import aimgui as gui
+import aimgui
 
 from arcade import Point, Vector
 from arcade.utils import _Vec2  # bring in "private" class

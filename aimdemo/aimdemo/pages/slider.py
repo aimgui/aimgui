@@ -1,4 +1,4 @@
-import aimgui as gui
+import aimgui
 
 from aimdemo.page import Page
 
@@ -11,15 +11,15 @@ class FloatSliderPage(Page):
         width = 20
         height = 100
 
-        gui.begin(self.title)
-        changed, self.value = gui.v_slider_float(
+        aimgui.begin(self.title)
+        changed, self.value = aimgui.v_slider_float(
             "vertical slider float",
             (width, height), self.value,
             v_min=0, v_max=100,
             format="%0.3f"
         )
-        gui.text("Changed: %s, Values: %s" % (changed, self.value))
-        gui.end()
+        aimgui.text("Changed: %s, Values: %s" % (changed, self.value))
+        aimgui.end()
 
 class IntSliderPage(Page):
     def reset(self):
@@ -29,15 +29,15 @@ class IntSliderPage(Page):
         width = 20
         height = 100
 
-        gui.begin(self.title)
-        changed, self.value = gui.v_slider_int(
+        aimgui.begin(self.title)
+        changed, self.value = aimgui.v_slider_int(
             "vertical slider int",
             (width, height), self.value,
             v_min=0, v_max=100,
             format="%d"
         )
-        gui.text("Changed: %s, Values: %s" % (changed, self.value))
-        gui.end()
+        aimgui.text("Changed: %s, Values: %s" % (changed, self.value))
+        aimgui.end()
 
 def install(app):
     app.add_page(FloatSliderPage, "floatslider", "Slider - Float")

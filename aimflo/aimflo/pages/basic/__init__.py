@@ -1,5 +1,5 @@
 import arcade
-import aimgui as gui
+import aimgui
 
 from aimflo.page import Page
 

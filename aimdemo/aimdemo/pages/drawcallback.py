@@ -1,15 +1,15 @@
 import arcade
 
-import aimgui as gui
+import aimgui
 
 from aimdemo.page import Page
 
 
 class DrawCallbackPage(Page):
     def draw(self):
-        gui.begin(self.title)
+        aimgui.begin(self.title)
 
-        draw_list = gui.get_window_draw_list()
+        draw_list = aimgui.get_window_draw_list()
 
         def draw_text(draw_data, draw_list, cmd, user_data):
             vp = self.window.get_viewport()
@@ -22,7 +22,7 @@ class DrawCallbackPage(Page):
 
         draw_list.add_callback(draw_text, None)
 
-        gui.end()
+        aimgui.end()
 
 def install(app):
     app.add_page(DrawCallbackPage, "drawcallback", "Draw Callback")

@@ -5,7 +5,7 @@ import os
 import random
 import pyglet
 
-import aimgui as gui
+import aimgui
 
 from aimdemo.page import Page
 from aimdemo.particle import AnimatedAlphaParticle
@@ -68,13 +68,13 @@ class SparksPage(Page):
         self.emitter.update()
 
     def draw(self):
-        #gui.set_next_window_pos((self.window.width - 288, 32), gui.COND_ONCE)
-        #gui.set_next_window_size((256, 256), gui.COND_ONCE)
+        #gui.set_next_window_pos((self.window.width - 288, 32), aimgui.COND_ONCE)
+        #gui.set_next_window_size((256, 256), aimgui.COND_ONCE)
 
-        gui.begin("Sparks")
-        if gui.button("Run"):
+        aimgui.begin("Sparks")
+        if aimgui.button("Run"):
             self.reset()
-        gui.end()
+        aimgui.end()
 
         self.emitter.draw()
 

@@ -4,7 +4,7 @@ import numpy as np
 from rx.subject import Subject
 
 import arcade
-import aimgui as gui
+import aimgui
 
 from aimflo.node import Node
 from aimflo.pin import Output
@@ -42,10 +42,10 @@ class SineNode(Node):
         width = 20
         height = 100
 
-        gui.set_next_window_size((160, 160), gui.COND_ONCE)
+        aimgui.set_next_window_size((160, 160), aimgui.COND_ONCE)
 
-        gui.begin("Sin")
-        changed, freq = gui.v_slider_int(
+        aimgui.begin("Sin")
+        changed, freq = aimgui.v_slider_int(
             "freq",
             (width, height), self.freq,
             v_min=0, v_max=100,
@@ -54,10 +54,10 @@ class SineNode(Node):
         if changed:
             self.freq = freq
 
-        gui.same_line(spacing=16)
+        aimgui.same_line(spacing=16)
         self.begin_output(self.output)
-        gui.button('output')
+        aimgui.button('output')
         self.end_output()
 
-        gui.end()
+        aimgui.end()
 

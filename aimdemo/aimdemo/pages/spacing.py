@@ -1,23 +1,23 @@
-import aimgui as gui
+import aimgui
 
 from aimdemo.page import Page
 
 
 class SpacingPage(Page):
     def draw(self):
-        gui.begin(self.title)
+        aimgui.begin(self.title)
 
-        gui.text("Some text with bullets:")
-        gui.bullet_text("Bullet A")
-        gui.bullet_text("Bullet A")
+        aimgui.text("Some text with bullets:")
+        aimgui.bullet_text("Bullet A")
+        aimgui.bullet_text("Bullet A")
 
-        gui.spacing(); gui.spacing()
+        aimgui.spacing(); aimgui.spacing()
 
-        gui.text("Another text with bullets:")
-        gui.bullet_text("Bullet A")
-        gui.bullet_text("Bullet A")
+        aimgui.text("Another text with bullets:")
+        aimgui.bullet_text("Bullet A")
+        aimgui.bullet_text("Bullet A")
 
-        gui.end()
+        aimgui.end()
 
 def install(app):
     app.add_page(SpacingPage, "spacing", "Spacing")

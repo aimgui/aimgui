@@ -1,4 +1,4 @@
-import aimgui as gui
+import aimgui
 
 from aimdemo.page import Page
 
@@ -8,12 +8,12 @@ class CollapsingHeader(Page):
         self.visible = True
 
     def draw(self):
-        gui.begin("Example: collapsing header")
-        expanded, self.visible = gui.collapsing_header("Expand me!", self.visible)
+        aimgui.begin("Example: collapsing header")
+        expanded, self.visible = aimgui.collapsing_header("Expand me!", self.visible)
 
         if expanded:
-            gui.text("Now you see me!")
-        gui.end()
+            aimgui.text("Now you see me!")
+        aimgui.end()
 
 def install(app):
     app.add_page(CollapsingHeader, "collapsingheader", "Collapsing Header")

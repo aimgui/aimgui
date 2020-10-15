@@ -1,5 +1,5 @@
 import arcade
-import aimgui as gui
+import aimgui
 
 from aimdemo.page import Page
 
@@ -9,12 +9,12 @@ class Input(Page):
         self.test_input = 0
 
     def draw(self):
-        gui.begin(self.title)
+        aimgui.begin(self.title)
 
-        gui.text("This is the test window.")
-        changed, self.test_input = gui.input_int("Integer", self.test_input)
+        aimgui.text("This is the test window.")
+        changed, self.test_input = aimgui.input_int("Integer", self.test_input)
 
-        gui.end()
+        aimgui.end()
 
         arcade.draw_text(str(self.test_input), 0, 0, arcade.color.WHITE_SMOKE, 64)
 
@@ -23,13 +23,13 @@ class InputDouble(Page):
         self.double_val = 3.14159265358979323846
 
     def draw(self):
-        gui.begin("Test Window")
+        aimgui.begin("Test Window")
 
-        gui.text("This is the test window.")
-        changed, self.double_val = gui.input_double('Double:', self.double_val)
-        gui.text('You wrote: %d' % self.double_val)
+        aimgui.text("This is the test window.")
+        changed, self.double_val = aimgui.input_double('Double:', self.double_val)
+        aimgui.text('You wrote: %d' % self.double_val)
 
-        gui.end()
+        aimgui.end()
 
         arcade.draw_text(str(self.double_val), 0, 0, arcade.color.WHITE_SMOKE, 64)
 
@@ -38,12 +38,12 @@ class InputFloat(Page):
         self.float_val = 0.4
 
     def draw(self):
-        gui.begin("Test Window")
+        aimgui.begin("Test Window")
 
-        gui.text("This is the test window.")
-        changed, self.float_val = gui.input_float('Float:', self.float_val)
-        gui.text('You wrote: %f' % self.float_val)
-        gui.end()
+        aimgui.text("This is the test window.")
+        changed, self.float_val = aimgui.input_float('Float:', self.float_val)
+        aimgui.text('You wrote: %f' % self.float_val)
+        aimgui.end()
 
         arcade.draw_text(str(self.float_val), 0, 0, arcade.color.WHITE_SMOKE, 64)
 

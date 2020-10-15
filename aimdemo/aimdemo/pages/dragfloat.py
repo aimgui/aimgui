@@ -1,4 +1,4 @@
-import aimgui as gui
+import aimgui
 
 from aimdemo.page import Page
 
@@ -8,60 +8,60 @@ class DragFloat(Page):
         self.value = 42.0
 
     def draw(self):
-        gui.begin("Example: drag float")
-        changed, self.value = gui.drag_float(
+        aimgui.begin("Example: drag float")
+        changed, self.value = aimgui.drag_float(
             "Default", self.value,
         )
-        changed, self.value = gui.drag_float(
+        changed, self.value = aimgui.drag_float(
             "Less precise", self.value, format="%.1f"
         )
-        gui.text("Changed: %s, Value: %s" % (changed, self.value))
-        gui.end()
+        aimgui.text("Changed: %s, Value: %s" % (changed, self.value))
+        aimgui.end()
 
 class DragFloat2(Page):
     def reset(self):
         self.values = 88.0, 42.0
 
     def draw(self):
-        gui.begin("Example: drag float 2")
-        changed, self.values = gui.drag_float2(
+        aimgui.begin("Example: drag float 2")
+        changed, self.values = aimgui.drag_float2(
             "Default", self.values
         )
-        changed, self.values = gui.drag_float2(
+        changed, self.values = aimgui.drag_float2(
             "Less precise", self.values, format="%.1f"
         )
-        gui.text("Changed: %s, Values: %s" % (changed, self.values))
-        gui.end()
+        aimgui.text("Changed: %s, Values: %s" % (changed, self.values))
+        aimgui.end()
 
 class DragFloat3(Page):
     def reset(self):
         self.values = 88.0, 42.0, 69.0
 
     def draw(self):
-        gui.begin("Example: drag float 3")
-        changed, self.values = gui.drag_float3(
+        aimgui.begin("Example: drag float 3")
+        changed, self.values = aimgui.drag_float3(
             "Default", self.values
         )
-        changed, self.values = gui.drag_float3(
+        changed, self.values = aimgui.drag_float3(
             "Less precise", self.values, format="%.1f"
         )
-        gui.text("Changed: %s, Values: %s" % (changed, self.values))
-        gui.end()
+        aimgui.text("Changed: %s, Values: %s" % (changed, self.values))
+        aimgui.end()
 
 class DragFloat4(Page):
     def reset(self):
         self.values = 88.0, 42.0, 69.0, 0.0
 
     def draw(self):
-        gui.begin("Example: drag float 4")
-        changed, self.values = gui.drag_float4(
+        aimgui.begin("Example: drag float 4")
+        changed, self.values = aimgui.drag_float4(
             "Default", self.values
         )
-        changed, self.values = gui.drag_float4(
+        changed, self.values = aimgui.drag_float4(
             "Less precise", self.values, format="%.1f"
         )
-        gui.text("Changed: %s, Values: %s" % (changed, self.values))
-        gui.end()
+        aimgui.text("Changed: %s, Values: %s" % (changed, self.values))
+        aimgui.end()
 
 def install(app):
     app.add_page(DragFloat, "dragfloat", "Drag Float")

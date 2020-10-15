@@ -5,7 +5,7 @@ from math import sin
 import numpy as np
 
 import arcade
-import aimgui as gui
+import aimgui
 
 from aimflo.node import Node
 from aimflo.pin import Input
@@ -24,12 +24,12 @@ class ScopeNode(Node):
             self.values.popleft()
 
     def draw(self):
-        gui.begin("Scope")
+        aimgui.begin("Scope")
         self.begin_input(self.input)
-        gui.button('input')
+        aimgui.button('input')
         self.end_input()
-        gui.same_line(spacing=16)
-        gui.plot_lines("Sin(t)", np.array(self.values).astype(np.float32), graph_size=gui.get_content_region_avail())
+        aimgui.same_line(spacing=16)
+        aimgui.plot_lines("Sin(t)", np.array(self.values).astype(np.float32), graph_size=aimgui.get_content_region_avail())
 
-        gui.end()
+        aimgui.end()
 

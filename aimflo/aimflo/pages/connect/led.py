@@ -3,7 +3,7 @@ from random import random
 from math import sin
 
 import arcade
-import aimgui as gui
+import aimgui
 
 from aimflo.node import Node
 from aimflo.pin import Input
@@ -19,16 +19,16 @@ class LedNode(Node):
         self.value = value
 
     def draw(self):
-        #gui.set_next_window_position(self.window.width - 256 - 16, 32, gui.COND_ONCE)
-        #gui.set_next_window_size(256, 256, gui.COND_ONCE)
+        #gui.set_next_window_position(self.window.width - 256 - 16, 32, aimgui.COND_ONCE)
+        #gui.set_next_window_size(256, 256, aimgui.COND_ONCE)
 
-        gui.begin("Led")
+        aimgui.begin("Led")
 
         self.begin_input(self.input)
-        gui.button('input')
+        aimgui.button('input')
         self.end_input()
 
-        gui.same_line(spacing=16)
-        gui.text(str(self.value))
-        gui.end()
+        aimgui.same_line(spacing=16)
+        aimgui.text(str(self.value))
+        aimgui.end()
 

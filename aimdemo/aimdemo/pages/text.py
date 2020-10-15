@@ -1,25 +1,25 @@
-import aimgui as gui
+import aimgui
 
 from aimdemo.page import Page
 
 class DrawTextPage(Page):
     def draw(self):
-        gui.begin(self.title)
-        draw_list = gui.get_window_draw_list()
-        draw_list.add_text((20, 35), gui.get_color_u32((1,1,0,1)), "Hello!")
-        gui.end()
+        aimgui.begin(self.title)
+        draw_list = aimgui.get_window_draw_list()
+        draw_list.add_text((20, 35), aimgui.get_color_u32((1,1,0,1)), "Hello!")
+        aimgui.end()
 
 class TextPage(Page):
     def draw(self):
-        gui.begin(self.title)
-        gui.text("Simple text")
-        gui.end()
+        aimgui.begin(self.title)
+        aimgui.text("Simple text")
+        aimgui.end()
 
 class ColoredTextPage(Page):
     def draw(self):
-        gui.begin(self.title)
-        gui.text_colored((1, 0, 0, 1), "Colored text")
-        gui.end()
+        aimgui.begin(self.title)
+        aimgui.text_colored((1, 0, 0, 1), "Colored text")
+        aimgui.end()
 
 class UnformattedTextPage(Page):
     def reset(self):
@@ -30,15 +30,15 @@ class UnformattedTextPage(Page):
         '''
 
     def draw(self):
-        gui.begin(self.title)
-        gui.text_unformatted(self.text)
-        gui.end()
+        aimgui.begin(self.title)
+        aimgui.text_unformatted(self.text)
+        aimgui.end()
 
 class LabelTextPage(Page):
     def draw(self):
-        gui.begin(self.title)
-        gui.label_text("my label", "my text")
-        gui.end()
+        aimgui.begin(self.title)
+        aimgui.label_text("my label", "my text")
+        aimgui.end()
 
 def install(app):
     app.add_page(DrawTextPage, "drawtext", "Draw Text")

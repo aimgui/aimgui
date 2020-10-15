@@ -1,4 +1,4 @@
-import aimgui as gui
+import aimgui
 
 from aimdemo.page import Page
 
@@ -10,10 +10,10 @@ class ImageDraw(Page):
         self.texture = window.ctx.load_texture(image_path, flip=False)
 
     def draw(self):
-        gui.begin("Image example")
-        draw_list = gui.get_window_draw_list()
+        aimgui.begin("Image example")
+        draw_list = aimgui.get_window_draw_list()
         draw_list.add_image(self.texture.glo.value, (0, 0), self.texture.size)
-        gui.end()
+        aimgui.end()
 
 def install(app):
     app.add_page(ImageDraw, "imagedraw", "Image Draw")

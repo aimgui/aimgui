@@ -1,4 +1,4 @@
-import aimgui as gui
+import aimgui
 
 from aimdemo.page import Page
 
@@ -10,9 +10,9 @@ class ImagePage(Page):
         self.texture = window.ctx.load_texture(image_path, flip=False)
 
     def draw(self):
-        gui.begin(self.title)
-        gui.image(self.texture.glo.value, self.texture.size)
-        gui.end()
+        aimgui.begin(self.title)
+        aimgui.image(self.texture.glo.value, self.texture.size)
+        aimgui.end()
 
 def install(app):
     app.add_page(ImagePage, "image", "Image")

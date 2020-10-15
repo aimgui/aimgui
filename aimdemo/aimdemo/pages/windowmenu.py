@@ -1,22 +1,22 @@
-import aimgui as gui
+import aimgui
 
 from aimdemo.page import Page
 
 
 class WindowMenu(Page):
     def draw(self):
-        flags = gui.WINDOW_FLAGS_MENU_BAR
+        flags = aimgui.WINDOW_FLAGS_MENU_BAR
 
-        gui.begin("Child Window - File Browser", flags=flags)
+        aimgui.begin("Child Window - File Browser", flags=flags)
 
-        if gui.begin_menu_bar():
-            if gui.begin_menu('File'):
-                gui.menu_item("Quit", 'Cmd+Q', False, True)
-                gui.end_menu()
+        if aimgui.begin_menu_bar():
+            if aimgui.begin_menu('File'):
+                aimgui.menu_item("Quit", 'Cmd+Q', False, True)
+                aimgui.end_menu()
 
-            gui.end_menu_bar()
+            aimgui.end_menu_bar()
 
-        gui.end()
+        aimgui.end()
 
 def install(app):
     app.add_page(WindowMenu, "windowmenu", "Window Menu")

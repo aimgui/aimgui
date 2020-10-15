@@ -1,5 +1,5 @@
 import arcade
-import aimgui as gui
+import aimgui
 
 from aimdemo.page import Page
 
@@ -27,43 +27,43 @@ class SpritePage(Page):
         self.color = 1,1,1
 
     def draw(self):
-        #gui.set_next_window_position(288, 32, gui.COND_ONCE)
-        #gui.set_next_window_pos((self.window.width - 256 - 16, 32), gui.COND_ONCE)
-        #gui.set_next_window_size((256, 256), gui.COND_ONCE)
+        #gui.set_next_window_position(288, 32, aimgui.COND_ONCE)
+        #gui.set_next_window_pos((self.window.width - 256 - 16, 32), aimgui.COND_ONCE)
+        #gui.set_next_window_size((256, 256), aimgui.COND_ONCE)
 
-        gui.begin("Ship")
+        aimgui.begin("Ship")
 
         # Rotation
-        gui.image(self.texture.glo.value, self.texture.size)
-        changed, self.rotation = gui.drag_float(
+        aimgui.image(self.texture.glo.value, self.texture.size)
+        changed, self.rotation = aimgui.drag_float(
             "Rotation", self.rotation,
         )
         self.sprite.angle = self.rotation
 
         # Scale
-        changed, self.scale = gui.drag_float(
+        changed, self.scale = aimgui.drag_float(
             "Scale", self.scale, .1
         )
         self.sprite.scale = self.scale
 
         # Alpha
-        changed, self.alpha = gui.drag_int(
+        changed, self.alpha = aimgui.drag_int(
             "Alpha", self.alpha, 1, 0, 255
         )
         self.sprite.alpha = self.alpha
 
         # Color
-        _, self.color_enabled = gui.checkbox("Tint", self.color_enabled)
+        _, self.color_enabled = aimgui.checkbox("Tint", self.color_enabled)
         if self.color_enabled:
-            changed, self.color = gui.color_edit3("Color", self.color)
+            changed, self.color = aimgui.color_edit3("Color", self.color)
             self.sprite.color = (int(self.color[0] * 255), int(self.color[1] * 255), int(self.color[2] * 255))
         else:
             self.sprite.color = 255, 255, 255
 
-        if gui.button("Reset"):
+        if aimgui.button("Reset"):
             self.reset()
 
-        gui.end()
+        aimgui.end()
 
         self.sprite.draw()
 

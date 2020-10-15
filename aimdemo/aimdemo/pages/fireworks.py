@@ -5,7 +5,7 @@ import os
 import random
 import pyglet
 
-import aimgui as gui
+import aimgui
 
 from aimdemo.page import Page
 

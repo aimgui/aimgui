@@ -1,4 +1,4 @@
-import aimgui as gui
+import aimgui
 
 from aimdemo.page import Page
 
@@ -26,32 +26,32 @@ ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 
 class DockingPage(Page):
     def reset(self):
-        io = gui.get_io()
-        io.config_flags |= gui.CONFIG_FLAGS_DOCKING_ENABLE
+        io = aimgui.get_io()
+        io.config_flags |= aimgui.CONFIG_FLAGS_DOCKING_ENABLE
     def draw(self):
-        #gui.begin(self.title, True, gui.WINDOW_FLAGS_DOCK_NODE_HOST)
-        gui.begin(self.title, True)
+        #gui.begin(self.title, True, aimgui.WINDOW_FLAGS_DOCK_NODE_HOST)
+        aimgui.begin(self.title, True)
 
-        dockspace_id = gui.get_id(self.title)
+        dockspace_id = aimgui.get_id(self.title)
         #ImGui::DockSpace(dockspaceID , ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_None|ImGuiDockNodeFlags_PassthruCentralNode/*|ImGuiDockNodeFlags_NoResize*/);
-        #gui.dock_space(dockspace_id , gui.Vec2(0., 0.), gui.DOCK_NODE_FLAGS_NONE|gui.DOCK_NODE_FLAGS_PASSTHRU_CENTRAL_NODE)
-        dockspace_flags = gui.DOCK_NODE_FLAGS_NONE|gui.DOCK_NODE_FLAGS_PASSTHRU_CENTRAL_NODE
-        #dockspace_flags = gui.DOCK_NODE_FLAGS_NONE
-        gui.dock_space(dockspace_id , (0., 0.), dockspace_flags)
+        #gui.dock_space(dockspace_id , aimgui.Vec2(0., 0.), aimgui.DOCK_NODE_FLAGS_NONE|aimgui.DOCK_NODE_FLAGS_PASSTHRU_CENTRAL_NODE)
+        dockspace_flags = aimgui.DOCK_NODE_FLAGS_NONE|aimgui.DOCK_NODE_FLAGS_PASSTHRU_CENTRAL_NODE
+        #dockspace_flags = aimgui.DOCK_NODE_FLAGS_NONE
+        aimgui.dock_space(dockspace_id , (0., 0.), dockspace_flags)
 
-        gui.end()
+        aimgui.end()
 
 
         #ImGui::SetNextWindowDockID(dockspaceID , ImGuiCond_FirstUseEver);
-        gui.set_next_window_dock_id(dockspace_id , gui.COND_FIRST_USE_EVER)
+        aimgui.set_next_window_dock_id(dockspace_id , aimgui.COND_FIRST_USE_EVER)
 
 
-        gui.begin('Dockable Window')
-        gui.begin_child("region", (150, -50), border=True)
-        gui.text("inside region")
-        gui.end_child()
-        gui.text("outside region")
-        gui.end()
+        aimgui.begin('Dockable Window')
+        aimgui.begin_child("region", (150, -50), border=True)
+        aimgui.text("inside region")
+        aimgui.end_child()
+        aimgui.text("outside region")
+        aimgui.end()
 
 def install(app):
     app.add_page(DockingPage, "docking", "Docking")

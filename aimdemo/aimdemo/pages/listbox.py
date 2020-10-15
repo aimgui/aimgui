@@ -1,4 +1,4 @@
-import aimgui as gui
+import aimgui
 
 from aimdemo.page import Page
 
@@ -10,36 +10,36 @@ class ListboxPage(Page):
         self.current = 2
 
     def draw(self):    
-        gui.begin(self.title)
+        aimgui.begin(self.title)
 
-        clicked, self.current = gui.list_box(
+        clicked, self.current = aimgui.list_box(
             "List", self.current, self.options
         )
-        gui.text("selection: ")
-        gui.same_line()
-        gui.text(self.options[self.current])
-        gui.end()
+        aimgui.text("selection: ")
+        aimgui.same_line()
+        aimgui.text(self.options[self.current])
+        aimgui.end()
 
 class CustomListboxPage(Page):
     def reset(self):
         self.selected = 'second'
 
     def draw(self):    
-        gui.begin(self.title)
+        aimgui.begin(self.title)
 
-        if gui.list_box_header("Custom List", 200, 100):
+        if aimgui.list_box_header("Custom List", 200, 100):
             for option in OPTIONS:
-                clicked, selected = gui.selectable(option, option == self.selected)
+                clicked, selected = aimgui.selectable(option, option == self.selected)
                 if clicked:
                     self.selected = option
 
-            gui.list_box_footer()
+            aimgui.list_box_footer()
 
-        gui.text("selection: ")
-        gui.same_line()
-        gui.text(self.selected)
+        aimgui.text("selection: ")
+        aimgui.same_line()
+        aimgui.text(self.selected)
 
-        gui.end()
+        aimgui.end()
 
 def install(app):
     app.add_page(ListboxPage, "listbox", "Listbox")

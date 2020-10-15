@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pyglet
 import arcade
-import aimgui as gui
+import aimgui
 
 from aimgui.renderers.arcade import ArcadeRenderer
 
@@ -13,13 +13,13 @@ class Gui:
     def __init__(self, window):
         self.window = window
         # Must create or set the context before instantiating the renderer
-        gui.create_context()
+        aimgui.create_context()
 
         self.renderer = ArcadeRenderer(window)
 
     def draw(self):
-        gui.render()
-        self.renderer.render(gui.get_draw_data())
+        aimgui.render()
+        self.renderer.render(aimgui.get_draw_data())
 
 class App(arcade.Window):
     def __init__(self):

@@ -7,7 +7,7 @@ from math import sin
 import numpy as np
 
 import arcade
-import aimgui as gui
+import aimgui
 
 from aimflo.node import Node
 from aimflo.pin import Input
@@ -80,15 +80,15 @@ class SparkNode(Node):
             self.reset()
 
     def draw(self):
-        gui.begin("Spark")
+        aimgui.begin("Spark")
 
         self.begin_input(self.input)
-        gui.button('input')
+        aimgui.button('input')
         self.end_input()
 
-        if gui.button("Run"):
+        if aimgui.button("Run"):
             self.reset()
 
-        gui.end()
+        aimgui.end()
 
         self.emitter.draw()

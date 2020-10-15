@@ -1,4 +1,4 @@
-import aimgui as gui
+import aimgui
 from aimgui.renderers.arcade import ArcadeRenderer
 
 import arcade
@@ -8,44 +8,44 @@ class ChildGui:
         self.window = window
         self.title = "Child Gui"
         # Must create or set the context before instantiating the renderer
-        self.context = gui.create_context()
-        io = gui.get_io()
-        #io.config_flags |= gui.CONFIG_FLAGS_DOCKING_ENABLE | gui.CONFIG_FLAGS_VIEWPORTS_ENABLE
+        self.context = aimgui.create_context()
+        io = aimgui.get_io()
+        #io.config_flags |= aimgui.CONFIG_FLAGS_DOCKING_ENABLE | aimgui.CONFIG_FLAGS_VIEWPORTS_ENABLE
 
         self.renderer = ArcadeRenderer(window)
 
     def draw(self):
         #gui.set_current_context(self.context)
-        gui.new_frame()
+        aimgui.new_frame()
 
-        gui.set_next_window_pos((16, 32), gui.COND_FIRST_USE_EVER )
-        gui.set_next_window_size( (512, 512), gui.COND_FIRST_USE_EVER )
+        aimgui.set_next_window_pos((16, 32), aimgui.COND_FIRST_USE_EVER )
+        aimgui.set_next_window_size( (512, 512), aimgui.COND_FIRST_USE_EVER )
 
 
         #gui.begin(self.title)
 
-        #dockspace_id = gui.get_id(self.title)
-        #dockspace_flags = gui.DOCK_NODE_FLAGS_NONE|gui.DOCK_NODE_FLAGS_PASSTHRU_CENTRAL_NODE
+        #dockspace_id = aimgui.get_id(self.title)
+        #dockspace_flags = aimgui.DOCK_NODE_FLAGS_NONE|aimgui.DOCK_NODE_FLAGS_PASSTHRU_CENTRAL_NODE
         #gui.dock_space(dockspace_id , (0., 0.), dockspace_flags)
 
         #gui.end()
 
 
-        #gui.set_next_window_dock_id(dockspace_id , gui.COND_FIRST_USE_EVER)
+        #gui.set_next_window_dock_id(dockspace_id , aimgui.COND_FIRST_USE_EVER)
 
 
-        gui.begin('Dockable Window#1')
-        gui.begin_child("region", (150, -50), border=True)
-        gui.text("inside region")
-        gui.end_child()
-        gui.text("outside region")
-        gui.end()
+        aimgui.begin('Dockable Window#1')
+        aimgui.begin_child("region", (150, -50), border=True)
+        aimgui.text("inside region")
+        aimgui.end_child()
+        aimgui.text("outside region")
+        aimgui.end()
 
-        gui.end_frame()
+        aimgui.end_frame()
 
-        gui.render()
+        aimgui.render()
 
-        self.renderer.render(gui.get_draw_data())
+        self.renderer.render(aimgui.get_draw_data())
 
 
 class ChildApp(arcade.Window):
@@ -63,42 +63,42 @@ class MyGui:
         self.window = window
         self.title = "Parent Gui"
         # Must create or set the context before instantiating the renderer
-        self.context = gui.create_context()
-        io = gui.get_io()
-        #io.config_flags |= gui.CONFIG_FLAGS_DOCKING_ENABLE | gui.CONFIG_FLAGS_VIEWPORTS_ENABLE
+        self.context = aimgui.create_context()
+        io = aimgui.get_io()
+        #io.config_flags |= aimgui.CONFIG_FLAGS_DOCKING_ENABLE | aimgui.CONFIG_FLAGS_VIEWPORTS_ENABLE
         self.renderer = ArcadeRenderer(window)
 
     def draw(self):
         #gui.set_current_context(self.context)
-        gui.new_frame()
+        aimgui.new_frame()
 
-        gui.set_next_window_pos( (16, 32), gui.COND_FIRST_USE_EVER )
-        gui.set_next_window_size( (512, 512), gui.COND_FIRST_USE_EVER )
+        aimgui.set_next_window_pos( (16, 32), aimgui.COND_FIRST_USE_EVER )
+        aimgui.set_next_window_size( (512, 512), aimgui.COND_FIRST_USE_EVER )
 
         #gui.begin(self.title)
 
-        #dockspace_id = gui.get_id(self.title)
-        #dockspace_flags = gui.DOCK_NODE_FLAGS_NONE|gui.DOCK_NODE_FLAGS_PASSTHRU_CENTRAL_NODE
+        #dockspace_id = aimgui.get_id(self.title)
+        #dockspace_flags = aimgui.DOCK_NODE_FLAGS_NONE|aimgui.DOCK_NODE_FLAGS_PASSTHRU_CENTRAL_NODE
         #gui.dock_space(dockspace_id , (0., 0.), dockspace_flags)
 
         #gui.end()
 
 
-        #gui.set_next_window_dock_id(dockspace_id , gui.COND_FIRST_USE_EVER)
+        #gui.set_next_window_dock_id(dockspace_id , aimgui.COND_FIRST_USE_EVER)
 
 
-        gui.begin('Dockable Window#2')
-        gui.begin_child("region", (150, -50), border=True)
-        gui.text("inside region")
-        gui.end_child()
-        gui.text("outside region")
-        gui.end()
-        gui.show_metrics_window()
-        gui.end_frame()
+        aimgui.begin('Dockable Window#2')
+        aimgui.begin_child("region", (150, -50), border=True)
+        aimgui.text("inside region")
+        aimgui.end_child()
+        aimgui.text("outside region")
+        aimgui.end()
+        aimgui.show_metrics_window()
+        aimgui.end_frame()
 
-        gui.render()
+        aimgui.render()
 
-        self.renderer.render(gui.get_draw_data())
+        self.renderer.render(aimgui.get_draw_data())
 
 
 class App(arcade.Window):

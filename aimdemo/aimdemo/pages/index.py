@@ -1,16 +1,16 @@
 import arcade
-import aimgui as gui
+import aimgui
 
 from aimdemo.page import Page
 
 
 class Index(Page):
     def draw(self):
-        gui.begin("Index")
+        aimgui.begin("Index")
 
-        gui.text("Welcome to the AimGui Demo!")
+        aimgui.text("Welcome to the AimGui Demo!")
         
-        gui.end()
+        aimgui.end()
 
 def install(app):
     app.add_page(Index, "index", "Index")

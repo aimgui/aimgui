@@ -1,7 +1,7 @@
 from rx.subject import Subject
 
 import arcade
-import aimgui as gui
+import aimgui
 
 from aimflo.node import Node
 from aimflo.pin import Output
@@ -27,20 +27,20 @@ class VolumeNode(Node):
         width = 20
         height = 100
 
-        gui.set_next_window_size((160, 160), gui.COND_ONCE)
+        aimgui.set_next_window_size((160, 160), aimgui.COND_ONCE)
 
-        gui.begin("Volume")
+        aimgui.begin("Volume")
 
-        changed, self.value = gui.v_slider_int(
+        changed, self.value = aimgui.v_slider_int(
             "volume",
             (width, height), self.value,
             v_min=0, v_max=100,
             format="%d"
         )
-        gui.same_line(spacing=16)
+        aimgui.same_line(spacing=16)
         self.begin_output(self.output)
-        gui.button('output')
+        aimgui.button('output')
         self.end_output()
 
-        gui.end()
+        aimgui.end()
 

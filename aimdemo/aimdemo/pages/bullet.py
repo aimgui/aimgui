@@ -1,25 +1,25 @@
-import aimgui as gui
+import aimgui
 
 from aimdemo.page import Page
 
 
 class Bullet(Page):
     def draw(self):
-        gui.begin(self.title)
+        aimgui.begin(self.title)
 
         for i in range(10):
-            gui.bullet()
+            aimgui.bullet()
 
-        gui.end()
+        aimgui.end()
 
 
 class BulletText(Page):
     def draw(self):
-        gui.begin(self.title)
-        gui.bullet_text("Bullet 1")
-        gui.bullet_text("Bullet 2")
-        gui.bullet_text("Bullet 3")
-        gui.end()
+        aimgui.begin(self.title)
+        aimgui.bullet_text("Bullet 1")
+        aimgui.bullet_text("Bullet 2")
+        aimgui.bullet_text("Bullet 3")
+        aimgui.end()
 
 def install(app):
     app.add_page(Bullet, "bullet", "Bullets")

@@ -1,5 +1,5 @@
 import arcade
-import aimgui as gui
+import aimgui
 import aimgui
 
 from aimgui.renderers.arcade import ArcadeRenderer
@@ -8,27 +8,27 @@ class MyGui:
     def __init__(self, window):
         self.window = window
         # Must create or set the context before instantiating the renderer
-        gui.create_context()
+        aimgui.create_context()
         self.renderer = ArcadeRenderer(window)
 
     def draw(self):
-        gui.new_frame()
+        aimgui.new_frame()
 
-        gui.set_next_window_pos( (16, 32) )
-        gui.set_next_window_size( (512, 512) )
+        aimgui.set_next_window_pos( (16, 32) )
+        aimgui.set_next_window_size( (512, 512) )
 
-        gui.begin("Example: bullets")
+        aimgui.begin("Example: bullets")
 
         for i in range(10):
-            gui.bullet()
+            aimgui.bullet()
 
-        gui.end()
+        aimgui.end()
 
-        gui.end_frame()
+        aimgui.end_frame()
 
-        gui.render()
+        aimgui.render()
 
-        self.renderer.render(gui.get_draw_data())
+        self.renderer.render(aimgui.get_draw_data())
 
 
 class App(arcade.Window):

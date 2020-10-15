@@ -1,5 +1,5 @@
 import arcade
-import aimgui as gui
+import aimgui
 
 from aimgui.renderers.arcade import ArcadeRenderer
 
@@ -9,7 +9,7 @@ FBSIZE = (512, 256)
 class MyGui:
     def __init__(self, window):
         self.window = window
-        gui.create_context()
+        aimgui.create_context()
         self.renderer = ArcadeRenderer(window)
         self.sprite = arcade.Sprite(
             ":resources:images/space_shooter/playerShip1_orange.png",
@@ -30,48 +30,48 @@ class MyGui:
         self.color = 1,1,1
 
     def draw(self):
-        gui.new_frame()
+        aimgui.new_frame()
 
-        #gui.set_next_window_pos(self.window.width - 256 - 16, 32, gui.COND_ONCE)
-        gui.set_next_window_size((512, 512), gui.COND_ONCE)
+        #gui.set_next_window_pos(self.window.width - 256 - 16, 32, aimgui.COND_ONCE)
+        aimgui.set_next_window_size((512, 512), aimgui.COND_ONCE)
 
-        gui.begin("Framebuffer Example")
+        aimgui.begin("Framebuffer Example")
 
         # Rotation
-        gui.image(self.texture.glo.value, self.texture.size)
+        aimgui.image(self.texture.glo.value, self.texture.size)
         
-        changed, self.rotation = gui.drag_float(
+        changed, self.rotation = aimgui.drag_float(
             "Rotation", self.rotation,
         )
         self.sprite.angle = self.rotation
 
         # Scale
-        changed, self.scale = gui.drag_float(
+        changed, self.scale = aimgui.drag_float(
             "Scale", self.scale, .1
         )
         self.sprite.scale = self.scale
 
         # Alpha
-        changed, self.alpha = gui.drag_int(
+        changed, self.alpha = aimgui.drag_int(
             "Alpha", self.alpha, 1, 0, 255
         )
         self.sprite.alpha = self.alpha
 
         # Color
-        _, self.color_enabled = gui.checkbox("Tint", self.color_enabled)
+        _, self.color_enabled = aimgui.checkbox("Tint", self.color_enabled)
         if self.color_enabled:
-            changed, self.color = gui.color_edit3("Color", self.color)
+            changed, self.color = aimgui.color_edit3("Color", self.color)
             self.sprite.color = (int(self.color[0] * 255), int(self.color[1] * 255), int(self.color[2] * 255))
         else:
             self.sprite.color = 255, 255, 255
 
-        if gui.button("Reset"):
+        if aimgui.button("Reset"):
             self.reset()
 
         fbtexture = self.offscreen.color_attachments[0]
-        gui.image(fbtexture.glo.value, FBSIZE)
+        aimgui.image(fbtexture.glo.value, FBSIZE)
 
-        gui.end()
+        aimgui.end()
 
         self.offscreen.use()
         self.offscreen.clear((0, 0, 0, 0))
@@ -88,11 +88,11 @@ class MyGui:
         arcade.set_viewport(*vp)
         self.sprite.draw()
 
-        gui.end_frame()
+        aimgui.end_frame()
 
-        gui.render()
+        aimgui.render()
 
-        self.renderer.render(gui.get_draw_data())
+        self.renderer.render(aimgui.get_draw_data())
 
 
 class App(arcade.Window):
