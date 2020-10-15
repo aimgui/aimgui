@@ -1,25 +1,21 @@
 import aimgui
-from aimgui.renderers.arcade import ArcadeRenderer
+from aimgui.impl.arcade import ArcadeGui
 
 import arcade
 
-class ChildGui:
+class ChildGui(ArcadeGui):
     def __init__(self, window):
-        self.window = window
+        super().__init__(window)
         self.title = "Child Gui"
-        # Must create or set the context before instantiating the renderer
-        self.context = aimgui.create_context()
         io = aimgui.get_io()
         #io.config_flags |= aimgui.CONFIG_FLAGS_DOCKING_ENABLE | aimgui.CONFIG_FLAGS_VIEWPORTS_ENABLE
-
-        self.renderer = ArcadeRenderer(window)
 
     def draw(self):
         #gui.set_current_context(self.context)
         aimgui.new_frame()
 
         aimgui.set_next_window_pos((16, 32), aimgui.COND_FIRST_USE_EVER )
-        aimgui.set_next_window_size( (512, 512), aimgui.COND_FIRST_USE_EVER )
+        aimgui.set_next_window_size((512, 512), aimgui.COND_FIRST_USE_EVER )
 
 
         #gui.begin(self.title)
@@ -43,10 +39,7 @@ class ChildGui:
 
         aimgui.end_frame()
 
-        aimgui.render()
-
-        self.renderer.render(aimgui.get_draw_data())
-
+        super().draw()
 
 class ChildApp(arcade.Window):
     def __init__(self):
@@ -58,15 +51,12 @@ class ChildApp(arcade.Window):
         self.gui.draw()
 
 
-class MyGui:
+class MyGui(ArcadeGui):
     def __init__(self, window):
-        self.window = window
+        super().__init__(window)
         self.title = "Parent Gui"
-        # Must create or set the context before instantiating the renderer
-        self.context = aimgui.create_context()
         io = aimgui.get_io()
         #io.config_flags |= aimgui.CONFIG_FLAGS_DOCKING_ENABLE | aimgui.CONFIG_FLAGS_VIEWPORTS_ENABLE
-        self.renderer = ArcadeRenderer(window)
 
     def draw(self):
         #gui.set_current_context(self.context)
@@ -96,10 +86,7 @@ class MyGui:
         aimgui.show_metrics_window()
         aimgui.end_frame()
 
-        aimgui.render()
-
-        self.renderer.render(aimgui.get_draw_data())
-
+        super().draw()
 
 class App(arcade.Window):
     def __init__(self):

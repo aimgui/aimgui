@@ -7,27 +7,15 @@ import pyglet
 import arcade
 import aimgui
 
-from aimgui.renderers.arcade import ArcadeRenderer
-
-class Gui:
-    def __init__(self, window):
-        self.window = window
-        # Must create or set the context before instantiating the renderer
-        aimgui.create_context()
-
-        self.renderer = ArcadeRenderer(window)
-
-    def draw(self):
-        aimgui.render()
-        self.renderer.render(aimgui.get_draw_data())
+from aimgui.impl.arcade import ArcadeGui
 
 class App(arcade.Window):
     def __init__(self):
-        #super().__init__(1024, 768, "AimGui Demo", resizable=True)
         super().__init__(1280, 640, "AimGui Demo", resizable=True)
-        self.gui = Gui(self)
+        self.gui = ArcadeGui(self)
         self.pages = {}
-        self.view_metrics = False
+        self.show_metrics = False
+        self.show_style_editor = False
         self.resource_path = Path(__file__).parent.parent / 'resources'
         file_path = os.path.dirname(os.path.abspath(__file__))
         # print(file_path)

@@ -2,24 +2,31 @@
 
 AimGui is a library that extends and wraps [Dear ImGui](https://github.com/ocornut/imgui) for use with Python Game Libraries
 
-:package: [Package](https://pypi.org/project/aimgui/)
+<!-- :package: [Package](https://pypi.org/project/aimgui/) -->
 
 ## Game Libraries Supported
 
 [The Python Arcade Library](https://arcade.academy/)
 
-## Prerequisites
+## Required
 
 * [Poetry](https://python-poetry.org/)
-* CMake
-* Ninja (Optional)
+
+## Optional
+
+* [Ninja](https://ninja-build.org/)
 
 ## Clone
 
-Clone the repository and change directory
+        git clone --recursive https://github.com/aimgui/aimgui
+        cd aimgui
 
-       git clone https://github.com/kfields/aimgui.git
-       cd aimgui
+## Build AimGui
+
+        cd aimgui
+        poetry install
+        poetry shell
+        python setup.py build
 
 ## Run the Demo
 

@@ -24,8 +24,13 @@ class Page(arcade.View):
 
         aimgui.new_frame()
         
-        if self.window.view_metrics:
-            self.window.view_metrics = aimgui.show_metrics_window(p_open=True)
+        if self.window.show_metrics:
+            self.window.show_metrics = aimgui.show_metrics_window(True)
+
+        if self.window.show_style_editor:
+            self.window.show_style_editor = aimgui.begin('Style Editor', True)[1]
+            aimgui.show_style_editor()
+            aimgui.end()
 
         self.draw_mainmenu()
         self.draw_navbar()
@@ -89,10 +94,12 @@ class Page(arcade.View):
                 aimgui.end_menu()
             # View
             if aimgui.begin_menu('View', True):
-                clicked_metrics, self.window.view_metrics = aimgui.menu_item(
-                    "Metrics", 'Cmd+M', self.window.view_metrics, True
+                clicked_metrics, self.window.show_metrics = aimgui.menu_item(
+                    "Metrics", 'Cmd+M', self.window.show_metrics, True
                 )
-
+                clicked_metrics, self.window.show_style_editor = aimgui.menu_item(
+                    "Style Editor", 'Cmd+S', self.window.show_style_editor, True
+                )
                 aimgui.end_menu()
 
             aimgui.end_main_menu_bar()

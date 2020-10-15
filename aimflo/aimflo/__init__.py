@@ -5,29 +5,14 @@ import arcade
 
 import aimgui
 
-from aimgui.renderers.arcade import ArcadeRenderer
-
-class Gui:
-    def __init__(self, window):
-        self.window = window
-        # Must create or set the context before instantiating the renderer
-        aimgui.create_context()
-        self.renderer = ArcadeRenderer(window)
-
-    def draw(self):
-        aimgui.render()
-        self.renderer.render(aimgui.get_draw_data())
+from aimgui.impl.arcade import ArcadeGui
 
 class App(arcade.Window):
     def __init__(self):
         super().__init__(1024, 768, "AimFlo Demo", resizable=True)
-        self.gui = Gui(self)
+        self.gui = ArcadeGui(self)
         self.pages = {}
-        self.view_metrics = False
-        #file_path = os.path.dirname(os.path.abspath(__file__))
-        # print(file_path)
-        #os.chdir(file_path)
-
+        self.show_metrics = False
 
     def on_draw(self):
         super().on_draw()

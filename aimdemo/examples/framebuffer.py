@@ -1,16 +1,14 @@
 import arcade
 import aimgui
 
-from aimgui.renderers.arcade import ArcadeRenderer
+from aimgui.impl.arcade import ArcadeGui
 
 SPRITE_SCALING = 0.5
 FBSIZE = (512, 256)
 
-class MyGui:
+class MyGui(ArcadeGui):
     def __init__(self, window):
-        self.window = window
-        aimgui.create_context()
-        self.renderer = ArcadeRenderer(window)
+        super().__init__(window)
         self.sprite = arcade.Sprite(
             ":resources:images/space_shooter/playerShip1_orange.png",
             SPRITE_SCALING,
@@ -90,10 +88,7 @@ class MyGui:
 
         aimgui.end_frame()
 
-        aimgui.render()
-
-        self.renderer.render(aimgui.get_draw_data())
-
+        super().draw()
 
 class App(arcade.Window):
     def __init__(self):

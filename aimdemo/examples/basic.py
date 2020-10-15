@@ -1,17 +1,16 @@
 import aimgui
-from aimgui.renderers.arcade import ArcadeRenderer
+from aimgui.impl.arcade import ArcadeGui
 
 import arcade
 
+class App(arcade.Window):
+    def __init__(self):
+        super().__init__(800, 600, "Button Example", resizable=True)
+        self.gui = ArcadeGui(self)
 
-class MyGui:
-    def __init__(self, window):
-        self.window = window
-        # Must create or set the context before instantiating the renderer
-        aimgui.create_context()
-        self.renderer = ArcadeRenderer(window)
+    def on_draw(self):
+        arcade.start_render()
 
-    def draw(self):
         aimgui.new_frame()
 
         aimgui.set_next_window_pos( (16, 32) )
@@ -24,18 +23,6 @@ class MyGui:
 
         aimgui.end_frame()
 
-        aimgui.render()
-
-        self.renderer.render(aimgui.get_draw_data())
-
-
-class App(arcade.Window):
-    def __init__(self):
-        super().__init__(800, 600, "Button Example", resizable=True)
-        self.gui = MyGui(self)
-
-    def on_draw(self):
-        arcade.start_render()
         self.gui.draw()
 
 

@@ -55,6 +55,6 @@ app.use('tree')
 app.use('windowdraw')
 app.use('windowmenu')
 
-app.show('drawcallback')
+app.show('windowdraw')
 
 app.run()

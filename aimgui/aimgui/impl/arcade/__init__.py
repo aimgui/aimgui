@@ -5,13 +5,20 @@ from pyglet import gl
 from pyglet.window import key, mouse
 from arcade.gl import BufferDescription, Context
 
-from aimgui.renderers import compute_framebuffer_scale
-from aimgui.renderers.base import BaseOpenGLRenderer
+from aimgui.renderer import compute_framebuffer_scale
+from aimgui.renderer.base import BaseOpenGLRenderer
 
-def capsule_to_int(capsule):
-    ctypes.pythonapi.PyCapsule_GetPointer.restype = ctypes.c_void_p
-    ctypes.pythonapi.PyCapsule_GetPointer.argtypes = [ctypes.py_object, ctypes.c_char_p]
-    return ctypes.pythonapi.PyCapsule_GetPointer(capsule, None)
+
+class ArcadeGui:
+    def __init__(self, window):
+        self.window = window
+        # Must create or set the context before instantiating the renderer
+        self.context = aimgui.create_context()
+        self.renderer = ArcadeRenderer(window)
+
+    def draw(self):
+        aimgui.render()
+        self.renderer.render(aimgui.get_draw_data())
 
 class ArcadeGLRenderer(BaseOpenGLRenderer):
     """
@@ -22,6 +29,7 @@ class ArcadeGLRenderer(BaseOpenGLRenderer):
     VERTEX_SHADER_SRC = """
     #version 330
     uniform mat4 ProjMtx;
+    uniform vec2 Offset;
     in vec2 Position;
     in vec2 UV;
     in vec4 Color;
@@ -30,7 +38,7 @@ class ArcadeGLRenderer(BaseOpenGLRenderer):
     void main() {
         Frag_UV = UV;
         Frag_Color = Color;
-        gl_Position = ProjMtx * vec4(Position.xy, 0, 1);
+        gl_Position = ProjMtx * vec4(Position.xy + Offset, 0, 1);
     }
     """
 
@@ -53,7 +61,8 @@ class ArcadeGLRenderer(BaseOpenGLRenderer):
         self._vbo = None
         self._ibo = None
         self._font_texture = None
-
+        #
+        self.offset = (0,0)
         super().__init__()
 
     def render(self, draw_data):
@@ -72,6 +81,8 @@ class ArcadeGLRenderer(BaseOpenGLRenderer):
             0.0, 0.0, -1.0, 0.0,
             -1.0, 1.0, 0.0, 1.0,
         )
+
+        self._program["Offset"] = self.offset
 
         draw_data.scale_clip_rects(fb_scale)
 
@@ -94,7 +105,8 @@ class ArcadeGLRenderer(BaseOpenGLRenderer):
                 gl.glScissor(int(x), int(fb_height - w), int(z - x), int(w - y))
 
                 if command.user_callback:
-                    command.user_callback(draw_data, commands, command, command.user_callback_data)
+                    command.user_callback(self, draw_data, commands, command, command.user_callback_data)
+                    self._program["Offset"] = self.offset
                 else:
                     self._vao.render(self._program, mode=self._ctx.TRIANGLES, vertices=command.elem_count, first=idx_pos)
                 idx_pos += command.elem_count
@@ -146,7 +158,7 @@ class ArcadeGLRenderer(BaseOpenGLRenderer):
         self._invalidate_device_objects()
 
 
-class PygletMixin:
+class ArcadeIO:
     REVERSE_KEY_MAP = {
         key.TAB: aimgui.KEY_TAB,
         key.LEFT: aimgui.KEY_LEFT_ARROW,
@@ -277,7 +289,7 @@ class PygletMixin:
         self.io.display_size = width, height
 
 
-class ArcadeRenderer(PygletMixin, ArcadeGLRenderer):
+class ArcadeRenderer(ArcadeIO, ArcadeGLRenderer):
     def __init__(self, window, attach_callbacks=True):
         # super().__init__()
         super().__init__(window)

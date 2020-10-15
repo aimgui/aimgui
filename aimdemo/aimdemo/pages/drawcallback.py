@@ -11,15 +11,19 @@ class DrawCallbackPage(Page):
 
         draw_list = aimgui.get_window_draw_list()
 
-        def draw_text(draw_data, draw_list, cmd, user_data):
+        def draw_text(renderer, draw_list, cmd, user_data):
             vp = self.window.get_viewport()
             clip = cmd.clip_rect
             left = clip[0]
             bottom = self.window.height - clip[3]
 
             #Clipping rectangle (x1, y1, x2, y2). Subtract ImDrawData->DisplayPos to get clipping rectangle in "viewport" coordinates
-            arcade.draw_text("Simple line of text in 20 point", left, bottom, arcade.color.WHITE, 20)
-
+            #arcade.draw_text("Simple line of text in 20 point", left, bottom, arcade.color.WHITE, 20)
+            off = renderer.offset
+            renderer.offset = (left, bottom)
+            arcade.draw_text("Simple line of text in 20 point", 0, 0, arcade.color.WHITE, 20)
+            renderer.offset = off
+            
         draw_list.add_callback(draw_text, None)
 
         aimgui.end()

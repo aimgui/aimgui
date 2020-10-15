@@ -7,10 +7,10 @@ from pathlib import Path
 version = platform.python_version_tuple()
 
 LIB_PATH = Path(__file__).parent.parent / '_skbuild' / f"{platform.system().lower()}-{platform.machine()}-{version[0]}.{version[1]}" / "cmake-build"
-print('LIB_PATH:  ', LIB_PATH)
+#print('LIB_PATH:  ', LIB_PATH)
 
 sys.path.insert(0, str(LIB_PATH))
-print(sys.path)
+#print('SYS_PATH:  ',sys.path)
 
 import libaimgui as core 
 from libaimgui import *
