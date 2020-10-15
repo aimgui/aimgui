@@ -24,24 +24,24 @@ class Checkbox(Page):
 
 class CheckboxFlags(Page):
     def reset(self):
-        self.flags = gui.WINDOW_NO_RESIZE | gui.WINDOW_NO_MOVE
+        self.flags = gui.WINDOW_FLAGS_NO_RESIZE | gui.WINDOW_FLAGS_NO_MOVE
 
     def draw(self):
         gui.begin("Example: checkboxes for flags", flags=self.flags)
 
         clicked, self.flags = gui.checkbox_flags(
-            "No resize", self.flags, gui.WINDOW_NO_RESIZE
+            "No resize", self.flags, gui.WINDOW_FLAGS_NO_RESIZE
         )
         clicked, self.flags = gui.checkbox_flags(
-            "No move", self.flags, gui.WINDOW_NO_MOVE
+            "No move", self.flags, gui.WINDOW_FLAGS_NO_MOVE
         )
         clicked, self.flags = gui.checkbox_flags(
-            "No collapse", self.flags, gui.WINDOW_NO_COLLAPSE
+            "No collapse", self.flags, gui.WINDOW_FLAGS_NO_COLLAPSE
         )
         # note: it also allows to use multiple flags at once
         clicked, self.flags = gui.checkbox_flags(
             "No resize & no move", self.flags,
-            gui.WINDOW_NO_RESIZE | gui.WINDOW_NO_MOVE
+            gui.WINDOW_FLAGS_NO_RESIZE | gui.WINDOW_FLAGS_NO_MOVE
         )
         gui.text("Current flags value: {0:b}".format(self.flags))
         gui.end()

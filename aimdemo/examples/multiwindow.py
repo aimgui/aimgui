@@ -10,7 +10,7 @@ class ChildGui:
         # Must create or set the context before instantiating the renderer
         self.context = gui.create_context()
         io = gui.get_io()
-        io.config_flags |= gui.CONFIG_FLAGS_DOCKING_ENABLE | gui.CONFIG_FLAGS_VIEWPORTS_ENABLE
+        #io.config_flags |= gui.CONFIG_FLAGS_DOCKING_ENABLE | gui.CONFIG_FLAGS_VIEWPORTS_ENABLE
 
         self.renderer = ArcadeRenderer(window)
 
@@ -65,7 +65,7 @@ class MyGui:
         # Must create or set the context before instantiating the renderer
         self.context = gui.create_context()
         io = gui.get_io()
-        io.config_flags |= gui.CONFIG_FLAGS_DOCKING_ENABLE | gui.CONFIG_FLAGS_VIEWPORTS_ENABLE
+        #io.config_flags |= gui.CONFIG_FLAGS_DOCKING_ENABLE | gui.CONFIG_FLAGS_VIEWPORTS_ENABLE
         self.renderer = ArcadeRenderer(window)
 
     def draw(self):
@@ -93,7 +93,7 @@ class MyGui:
         gui.end_child()
         gui.text("outside region")
         gui.end()
-
+        gui.show_metrics_window()
         gui.end_frame()
 
         gui.render()
@@ -111,6 +111,7 @@ class App(arcade.Window):
         self.gui.draw()
 
 
-app = ChildApp()
 app = App()
+app = ChildApp()
+
 arcade.run()

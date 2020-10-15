@@ -27,9 +27,9 @@ class SpritePage(Page):
         self.color = 1,1,1
 
     def draw(self):
-        #gui.set_next_window_position(288, 32, gui.ONCE)
-        #gui.set_next_window_pos((self.window.width - 256 - 16, 32), gui.ONCE)
-        #gui.set_next_window_size((256, 256), gui.ONCE)
+        #gui.set_next_window_position(288, 32, gui.COND_ONCE)
+        #gui.set_next_window_pos((self.window.width - 256 - 16, 32), gui.COND_ONCE)
+        #gui.set_next_window_size((256, 256), gui.COND_ONCE)
 
         gui.begin("Ship")
 

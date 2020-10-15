@@ -7,13 +7,10 @@ from aimdemo.page import Page
 
 class DrawCallbackPage(Page):
     def draw(self):
-        pos_x = 10
-        pos_y = 10
-        sz = 20
-
         gui.begin(self.title)
+
         draw_list = gui.get_window_draw_list()
-        #typedef void (*AimDrawCallback)(const ImDrawList* draw_list, const ImDrawCmd* cmd, void* my_renderer_user_data);
+
         def draw_text(draw_data, draw_list, cmd, user_data):
             vp = self.window.get_viewport()
             clip = cmd.clip_rect
@@ -24,6 +21,7 @@ class DrawCallbackPage(Page):
             arcade.draw_text("Simple line of text in 20 point", left, bottom, arcade.color.WHITE, 20)
 
         draw_list.add_callback(draw_text, None)
+
         gui.end()
 
 def install(app):

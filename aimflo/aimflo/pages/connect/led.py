@@ -19,8 +19,8 @@ class LedNode(Node):
         self.value = value
 
     def draw(self):
-        #gui.set_next_window_position(self.window.width - 256 - 16, 32, gui.ONCE)
-        #gui.set_next_window_size(256, 256, gui.ONCE)
+        #gui.set_next_window_position(self.window.width - 256 - 16, 32, gui.COND_ONCE)
+        #gui.set_next_window_size(256, 256, gui.COND_ONCE)
 
         gui.begin("Led")
 

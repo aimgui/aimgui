@@ -32,8 +32,8 @@ class MyGui:
     def draw(self):
         gui.new_frame()
 
-        #gui.set_next_window_pos(self.window.width - 256 - 16, 32, gui.ONCE)
-        gui.set_next_window_size((512, 512), gui.ONCE)
+        #gui.set_next_window_pos(self.window.width - 256 - 16, 32, gui.COND_ONCE)
+        gui.set_next_window_size((512, 512), gui.COND_ONCE)
 
         gui.begin("Framebuffer Example")
 

@@ -16,7 +16,7 @@ class SinNode(Node):
         width = 20
         height = 100
 
-        imgui.set_next_window_size(160, 160, imgui.ONCE)
+        imgui.set_next_window_size(160, 160, imgui.COND_ONCE)
 
         imgui.begin("Sin")
         self.mark_output(self.output)

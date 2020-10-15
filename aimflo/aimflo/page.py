@@ -53,16 +53,16 @@ class Page(arcade.View):
         self.draw_mainmenu()
         self.draw_navbar()
 
-        gui.set_next_window_pos((288, 32), gui.ONCE)
-        gui.set_next_window_size((512, 512), gui.ONCE)
+        gui.set_next_window_pos((288, 32), gui.COND_ONCE)
+        gui.set_next_window_size((512, 512), gui.COND_ONCE)
 
         self.draw()
         
         gui.end_frame()
 
     def draw_navbar(self):
-        gui.set_next_window_pos((16, 32), gui.ONCE)
-        gui.set_next_window_size((256, 732), gui.ONCE)
+        gui.set_next_window_pos((16, 32), gui.COND_ONCE)
+        gui.set_next_window_size((256, 732), gui.COND_ONCE)
         
         gui.begin("Examples")
 

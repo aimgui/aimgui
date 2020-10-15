@@ -16,8 +16,8 @@ class MeterNode(Node):
         self.add_pin(self.input)
 
     def draw(self):
-        #imgui.set_next_window_position(self.window.width - 256 - 16, 32, imgui.ONCE)
-        #imgui.set_next_window_size(256, 256, imgui.ONCE)
+        #imgui.set_next_window_position(self.window.width - 256 - 16, 32, imgui.COND_ONCE)
+        #imgui.set_next_window_size(256, 256, imgui.COND_ONCE)
 
         imgui.begin("Meter")
         self.mark_input(self.input)

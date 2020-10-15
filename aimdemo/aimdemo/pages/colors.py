@@ -9,7 +9,7 @@ class ColorsPage(Page):
         
         gui.begin("Colors")
         gui.columns(4)
-        for color in range(0, gui.COLOR_COUNT):
+        for color in range(0, gui.COL_COUNT):
             gui.text(f"Color: {color}")
             gui.color_button(f"color#{color}", style.colors[color])
             gui.next_column()

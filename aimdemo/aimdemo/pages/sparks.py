@@ -68,8 +68,8 @@ class SparksPage(Page):
         self.emitter.update()
 
     def draw(self):
-        #gui.set_next_window_pos((self.window.width - 288, 32), gui.ONCE)
-        #gui.set_next_window_size((256, 256), gui.ONCE)
+        #gui.set_next_window_pos((self.window.width - 288, 32), gui.COND_ONCE)
+        #gui.set_next_window_size((256, 256), gui.COND_ONCE)
 
         gui.begin("Sparks")
         if gui.button("Run"):

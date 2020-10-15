@@ -5,7 +5,7 @@ from aimdemo.page import Page
 
 class WindowMenu(Page):
     def draw(self):
-        flags = gui.WINDOW_MENU_BAR
+        flags = gui.WINDOW_FLAGS_MENU_BAR
 
         gui.begin("Child Window - File Browser", flags=flags)
 

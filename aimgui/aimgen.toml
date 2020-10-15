@@ -64,7 +64,6 @@ excludes = [
     'ImNewDummy',
     'ImGuiTextBuffer',
     'CustomRect',
-    #'ImGui',
     'ImGuiPlatformIO',
     'ImGuiPlatformMonitor',
     'ImGuiDockContext',

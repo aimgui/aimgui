@@ -11,7 +11,7 @@ class WindowDraw(Page):
 
         gui.begin(self.title)
         draw_list = gui.get_window_draw_list()
-        for i in range(0, gui.COLOR_COUNT):
+        for i in range(0, gui.COL_COUNT):
             name = gui.get_style_color_name(i)
             pos_y = i*10
             draw_list.add_rect_filled((pos_x, pos_y), (pos_x+sz, pos_y+sz), gui.get_color_u32(i))

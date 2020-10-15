@@ -24,7 +24,7 @@ VERTEX_BUFFER_COL_OFFSET = extra.vertex_buffer_vertex_col_offset()
 
 VERTEX_SIZE = extra.vertex_buffer_vertex_size()
 INDEX_SIZE = extra.index_buffer_index_size()
-
+'''
 # ==== Condition constants (redefines for autodoc)
 #: Set the variable always
 ALWAYS = core.COND_ALWAYS
@@ -342,19 +342,6 @@ DRAG_DROP_ACCEPT_BEFORE_DELIVERY = core.DRAG_DROP_FLAGS_ACCEPT_BEFORE_DELIVERY
 DRAG_DROP_ACCEPT_NO_DRAW_DEFAULT_RECT = core.DRAG_DROP_FLAGS_ACCEPT_NO_DRAW_DEFAULT_RECT
 #: For peeking ahead and inspecting the payload before delivery.
 DRAG_DROP_ACCEPT_PEEK_ONLY = core.DRAG_DROP_FLAGS_ACCEPT_BEFORE_DELIVERY | core.DRAG_DROP_FLAGS_ACCEPT_NO_DRAW_DEFAULT_RECT
-'''
-# === Cardinal Direction
-#: Direction None
-DIRECTION_NONE = core.DIRECTION_NONE
-#: Direction Left
-DIRECTION_LEFT = core.DIRECTION_LEFT
-#: Direction Right
-DIRECTION_RIGHT = core.DIRECTION_RIGHT
-#: Direction Up
-DIRECTION_UP = core.DIRECTION_UP
-#: Direction Down
-DIRECTION_DOWN = core.DIRECTION_DOWN
-'''
 # === Mouse cursor flag constants (redefines for autodoc)
 MOUSE_CURSOR_ARROW = core.MOUSE_CURSOR_ARROW
 #: When hovering over InputText, etc.
@@ -411,3 +398,4 @@ INPUT_TEXT_PASSWORD = core.INPUT_TEXT_FLAGS_PASSWORD
 #: active, if you want to provide your own undo/redo stack you need
 #: e.g. to call clear_active_id().
 INPUT_TEXT_NO_UNDO_REDO = core.INPUT_TEXT_FLAGS_NO_UNDO_REDO
+'''
