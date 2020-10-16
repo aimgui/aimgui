@@ -55,6 +55,6 @@ app.use('tooltip')
 app.use('tree')
 app.use('windowmenu')
 
-app.show('portal')
+app.show('index')
 
 app.run()

@@ -1,10 +1,20 @@
 # AimGui :anger:
 
-AimGui is a library that extends and wraps [Dear ImGui](https://github.com/ocornut/imgui) for use with Python Game Libraries
+AimGui is a library that extends and wraps [Dear ImGui](https://github.com/ocornut/imgui) for use with Python OpenGL Libraries
 
 <!-- :package: [Package](https://pypi.org/project/aimgui/) -->
 
-## Game Libraries Supported
+:warning:  This is pre-alpha software.  Do not use it for production.  Packages and binary wheels are a work in progress
+
+## Motivation
+
+I wanted to experiment with the latest features of Dear ImGui's docking branch
+
+My first thought was to fork [pyimgui](https://github.com/swistakm/pyimgui) but I am not familiar with ctypes so I chose a different route
+
+I combined the Python parts of pyimgui with the C++ parts of [deargui](https://github.com/cammm/deargui), another excellent project
+
+## OpenGL Libraries Supported
 
 [The Python Arcade Library](https://arcade.academy/)
 
