@@ -1,11 +1,9 @@
-import ctypes
-
-import aimgui
 from pyglet import gl
 from pyglet.window import key, mouse
 from arcade.gl import BufferDescription, Context
 import arcade
 
+import aimgui
 from aimgui.renderer import compute_framebuffer_scale
 from aimgui.renderer.base import BaseOpenGLRenderer
 
@@ -13,8 +11,8 @@ from aimgui.renderer.base import BaseOpenGLRenderer
 class ArcadeGui:
     def __init__(self, window):
         self.window = window
-        # Must create or set the context before instantiating the renderer
         self.context = aimgui.create_context()
+        aimgui.set_current_context(self.context)
         self.renderer = ArcadeRenderer(window)
 
     def push_portal(self, draw_list, portal):
