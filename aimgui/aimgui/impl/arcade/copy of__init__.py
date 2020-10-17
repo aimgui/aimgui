@@ -4,7 +4,6 @@ import aimgui
 from pyglet import gl
 from pyglet.window import key, mouse
 from arcade.gl import BufferDescription, Context
-import arcade
 
 from aimgui.renderer import compute_framebuffer_scale
 from aimgui.renderer.base import BaseOpenGLRenderer
@@ -87,7 +86,7 @@ class ArcadeGLRenderer(BaseOpenGLRenderer):
         self.portal = self.portal_stack.pop(-1)
 
     def render(self, draw_data):
-        io = self.io    
+        io = aimgui.get_io()
 
         display_width, display_height = io.display_size
         fb_scale = io.display_framebuffer_scale
@@ -135,13 +134,13 @@ class ArcadeGLRenderer(BaseOpenGLRenderer):
         gl.glScissor(*self._ctx.viewport)
 
     def refresh_font_texture(self):
-        width, height, pixels = self.io.fonts.get_tex_data_as_rgba32()
+        io = aimgui.get_io()
+        width, height, pixels = io.fonts.get_tex_data_as_rgba32()
         # Old font texture will be GCed if exist
         self._font_texture = self._ctx.texture((width, height), components=4, data=pixels)
         # Need to convert ctype to python object.  Can't do it from the c++ side evidently ...
-        #self.io.fonts.tex_id = self._font_texture.glo
-        self.io.fonts.tex_id = self._font_texture.glo.value
-        self.io.fonts.clear_tex_data()
+        io.fonts.tex_id = self._font_texture.glo.value
+        io.fonts.clear_tex_data()
 
     def _create_device_objects(self):
         self._program = self._ctx.program(
@@ -172,7 +171,8 @@ class ArcadeGLRenderer(BaseOpenGLRenderer):
         self._ibo = None
         self._vao = None
         self._program = None
-        self.io.fonts.texture_id = 0
+        io = aimgui.get_io()
+        io.fonts.texture_id = 0
 
     def shutdown(self):
         self._invalidate_device_objects()
@@ -203,20 +203,21 @@ class ArcadeIO:
     }
 
     def _set_pixel_ratio(self, window):
+        io = aimgui.get_io()
         window_size = window.get_size()
-        self.io.display_size = window_size
+        io.display_size = window_size
         # It is conceivable that the pyglet version will not be solely
         # determinant of whether we use the fixed or programmable, so do some
         # minor introspection here to check.
         if hasattr(window, 'get_viewport_size'):
             viewport_size = window.get_viewport_size()
-            self.io.display_fb_scale = compute_framebuffer_scale(window_size, viewport_size)
+            io.display_fb_scale = compute_framebuffer_scale(window_size, viewport_size)
         elif hasattr(window, 'get_pixel_ratio'):
-            self.io.display_fb_scale = (window.get_pixel_ratio(),
+            io.display_fb_scale = (window.get_pixel_ratio(),
                                         window.get_pixel_ratio())
         else:
             # Default to 1.0 in this unlikely circumstance
-            self.io.display_fb_scale = (1.0, 1.0)
+            io.display_fb_scale = (1.0, 1.0)
 
     def _attach_callbacks(self, window):
         window.push_handlers(
@@ -232,7 +233,8 @@ class ArcadeIO:
         )
 
     def _map_keys(self):
-        key_map = self.io.key_map
+        io = aimgui.get_io()
+        key_map = io.key_map
 
         # note: we cannot use default mechanism of mapping keys
         #       because pyglet uses weird key translation scheme
@@ -240,83 +242,91 @@ class ArcadeIO:
             key_map[value] = value
 
     def _on_mods_change(self, mods):
-        self.io.key_ctrl = mods & key.MOD_CTRL
-        self.io.key_super = mods & key.MOD_COMMAND
-        self.io.key_alt = mods & key.MOD_ALT
-        self.io.key_shift = mods & key.MOD_SHIFT
+        io = aimgui.get_io()
+        io.key_ctrl = mods & key.MOD_CTRL
+        io.key_super = mods & key.MOD_COMMAND
+        io.key_alt = mods & key.MOD_ALT
+        io.key_shift = mods & key.MOD_SHIFT
 
     def on_mouse_motion(self, x, y, dx, dy):
-        self.io.mouse_pos = x, self.io.display_size[1] - y
+        io = aimgui.get_io()
+        io.mouse_pos = x, io.display_size[1] - y
 
     def on_key_press(self, key_pressed, mods):
+        io = aimgui.get_io()
         if key_pressed in self.REVERSE_KEY_MAP:
-            #self.io.keys_down[self.REVERSE_KEY_MAP[key_pressed]] = True
-            self.io.set_key_down(self.REVERSE_KEY_MAP[key_pressed], True)
+            io.set_key_down(self.REVERSE_KEY_MAP[key_pressed], True)
         self._on_mods_change(mods)
 
     def on_key_release(self, key_released, mods):
+        io = aimgui.get_io()
         if key_released in self.REVERSE_KEY_MAP:
-            #self.io.keys_down[self.REVERSE_KEY_MAP[key_released]] = False
-            self.io.set_key_down(self.REVERSE_KEY_MAP[key_released], False)
+            io.set_key_down(self.REVERSE_KEY_MAP[key_released], False)
         self._on_mods_change(mods)
 
     def on_text(self, text):
         io = aimgui.get_io()
-
         for char in text:
             io.add_input_character(ord(char))
 
     def on_mouse_drag(self, x, y, dx, dy, button, modifiers):
-        self.io.mouse_pos = x, self.io.display_size[1] - y
+        io = aimgui.get_io()
+        io.mouse_pos = x, io.display_size[1] - y
 
         if button == mouse.LEFT:
-            self.io.set_mouse_down(0, True)
+            io.set_mouse_down(0, True)
 
         if button == mouse.MIDDLE:
-            self.io.set_mouse_down(1, True)
+            io.set_mouse_down(1, True)
 
         if button == mouse.RIGHT:
-            self.io.set_mouse_down(2, True)
+            io.set_mouse_down(2, True)
 
     def on_mouse_press(self, x, y, button, modifiers):
-        self.io.mouse_pos = x, self.io.display_size[1] - y
+        io = aimgui.get_io()
+        io.mouse_pos = x, io.display_size[1] - y
 
         if button == mouse.LEFT:
-            self.io.set_mouse_down(0, True)
+            io.set_mouse_down(0, True)
 
         if button == mouse.MIDDLE:
-            self.io.set_mouse_down(1, True)
+            io.set_mouse_down(1, True)
 
         if button == mouse.RIGHT:
-            self.io.set_mouse_down(2, True)
+            io.set_mouse_down(2, True)
 
     def on_mouse_release(self, x, y, button, modifiers):
-        self.io.mouse_pos = x, self.io.display_size[1] - y
+        io = aimgui.get_io()
+        io.mouse_pos = x, io.display_size[1] - y
 
         if button == mouse.LEFT:
-            self.io.set_mouse_down(0, False)
+            io.set_mouse_down(0, False)
 
         if button == mouse.MIDDLE:
-            self.io.set_mouse_down(1, False)
+            io.set_mouse_down(1, False)
 
         if button == mouse.RIGHT:
-            self.io.set_mouse_down(2, False)
+            io.set_mouse_down(2, False)
 
     def on_mouse_scroll(self, x, y, mods, scroll):
-        self.io.mouse_wheel = scroll
+        io = aimgui.get_io()
+        io.mouse_wheel = scroll
 
     def on_resize(self, width, height):
-        self.io.display_size = width, height
+        io = aimgui.get_io()
+        io.display_size = width, height
 
 
 class ArcadeRenderer(ArcadeIO, ArcadeGLRenderer):
     def __init__(self, window, attach_callbacks=True):
+        # super().__init__()
         super().__init__(window)
+        io = aimgui.get_io()
         window_size = window.get_size()
         viewport_size = window.get_viewport_size()
 
-        self.io.display_size = window_size
-        self.io.display_framebuffer_scale = compute_framebuffer_scale(window_size, viewport_size)
+        io.display_size = window_size
+        io.display_framebuffer_scale = compute_framebuffer_scale(window_size, viewport_size)
 
         self._map_keys()
 

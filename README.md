@@ -8,10 +8,8 @@ AimGui is a library that extends and wraps [Dear ImGui](https://github.com/ocorn
 
 ## Motivation
 
-I wanted to experiment with the latest features of Dear ImGui's docking branch
-
-My first thought was to fork [pyimgui](https://github.com/swistakm/pyimgui) but I am not familiar with ctypes so I chose a different route
-
+I wanted to experiment with the latest features of Dear ImGui's docking branch.
+My first thought was to fork [pyimgui](https://github.com/swistakm/pyimgui) but I am not familiar with ctypes so I chose a different route.
 I combined the Python parts of pyimgui with the C++ parts of [deargui](https://github.com/cammm/deargui), another excellent project
 
 ## OpenGL Libraries Supported
@@ -84,6 +82,6 @@ I combined the Python parts of pyimgui with the C++ parts of [deargui](https://g
 
 I'd like to thank the authors of the following repositories for making this possible!
 
-[deargui](https://github.com/cammm/deargui)
-
 [pyimgui](https://github.com/swistakm/pyimgui)
+
+[deargui](https://github.com/cammm/deargui)

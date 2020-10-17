@@ -23,6 +23,40 @@ void init_main(py::module &libaimgui, Registry &registry) {
     template_ImVector<ImDrawVert>(libaimgui, "Vector_DrawVert");
     template_ImVector<ImFontGlyph>(libaimgui, "Vector_FontGlyph");
 
+    /*
+        ImGuiContext needs to be an opaque type.  Wrap it with PyCapsule
+    */
+    //ImGuiContext* ImGui::CreateContext(ImFontAtlas* shared_font_atlas)
+    libaimgui.def("create_context", [](ImFontAtlas* shared_font_atlas)
+    {
+        return py::capsule(ImGui::CreateContext(shared_font_atlas), "ImGuiContext");
+    }
+    , py::arg("shared_font_atlas") = nullptr
+    , py::return_value_policy::automatic_reference);
+
+    //void ImGui::DestroyContext(ImGuiContext* ctx)
+    libaimgui.def("destroy_context", [](py::capsule& ctx)
+    {
+        ImGui::DestroyContext(ctx);
+    }
+    , py::arg("ctx") = nullptr
+    , py::return_value_policy::automatic_reference);
+
+    //ImGuiContext* ImGui::GetCurrentContext()
+    libaimgui.def("get_current_context", []()
+    {
+        return (void*)ImGui::GetCurrentContext();
+    }
+    , py::return_value_policy::automatic_reference);
+
+    //void ImGui::SetCurrentContext(ImGuiContext* ctx)
+    libaimgui.def("set_current_context", [](py::capsule& ctx)
+    {
+        ImGui::SetCurrentContext(ctx);
+    }
+    , py::arg("ctx")
+    , py::return_value_policy::automatic_reference);
+
     //libaimgui.def("begin_popup_modal", [](const char * name, bool * p_open, ImGuiWindowFlags flags)
     /*libaimgui.def("begin_popup_modal", [](const char * name, bool p_open, ImGuiWindowFlags flags)
     {
@@ -36,7 +70,7 @@ void init_main(py::module &libaimgui, Registry &registry) {
     , py::return_value_policy::automatic_reference);*/
 
     //bool ImGui::SetDragDropPayload(const char* type, const void* data, size_t data_size, ImGuiCond cond)
-    libaimgui.def("set_drag_drop_payload",  [](std::string type, std::string data, ImGuiCond cond)
+    libaimgui.def("set_drag_drop_payload", [](std::string type, std::string data, ImGuiCond cond)
     {
         return ImGui::SetDragDropPayload(type.c_str(), data.c_str(), data.length(), cond);
     }

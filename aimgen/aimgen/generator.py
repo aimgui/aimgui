@@ -329,10 +329,10 @@ class Generator:
             pyname = self.format_type(cursor.spelling)
             #TODO:this is a total hack.  Is it because it's private or something?
             if clsname == '':
-                print('Unnamed class!', cursor.__dict__)
-                #return
-                pyname = "Context"
-                clsname = "ImGuiContext"
+                #print('Unnamed class!', cursor.__dict__)
+                return
+                #pyname = "Context"
+                #clsname = "ImGuiContext"
             #out(f'py::class_<{name(cursor)}> {clsname}(libaimgui, "{clsname}");')
             self.out(f'PYCLASS_BEGIN(libaimgui, {clsname}, {pyname})')
             for child in cursor.get_children():
@@ -342,7 +342,7 @@ class Generator:
                     self.parse_function(child, cursor)
                 elif child.kind == cindex.CursorKind.FIELD_DECL:
                     self.parse_field(child, cursor)
-            self.out(f'PYCLASS_END(libaimgui, {clsname}, {pyname})')
+            self.out(f'PYCLASS_END(libaimgui, {clsname}, {pyname})\n')
 
     def parse_definitions(self, root):
         for cursor in root.get_children():

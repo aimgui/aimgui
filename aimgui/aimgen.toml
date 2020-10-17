@@ -8,6 +8,10 @@ flags = [
 
 excludes = [
     # Wrapped
+    'ImGui::CreateContext',
+    'ImGui::DestroyContext',
+    'ImGui::GetCurrentContext',
+    'ImGui::SetCurrentContext',
     #'ImGui::BeginPopupModal',
     'ImGui::SetDragDropPayload',
     'ImGui::Combo',
@@ -69,6 +73,7 @@ excludes = [
     'ImGuiDockContext',
     'ImGuiDockNodeSettings',
     'ImGuiListClipper',
+    'ImGuiContext',
 
     #Obsolete
     'ImGuiIO::RenderDrawListsFnUnused'

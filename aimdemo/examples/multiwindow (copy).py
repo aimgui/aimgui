@@ -1,46 +1,19 @@
 import aimgui
-from aimgui.impl.arcade import ArcadeRenderer
-
-class ArcadeGui:
-    def __init__(self, window, shared=False):
-        self.window = window
-        # Must create or set the context before instantiating the renderer
-        if not shared:
-            self.context = aimgui.create_context()
-        else:
-            print('shared')
-            self.context = aimgui.get_current_context()
-
-        self.renderer = ArcadeRenderer(window)
-
-    def push_portal(self, draw_list, portal):
-        def cb(renderer, draw_data, draw_list, cmd, user_data):
-            renderer.push_portal(portal)
-        draw_list.add_callback(cb, None)
-
-    def pop_portal(self, draw_list):
-        def cb(renderer, draw_data, draw_list, cmd, user_data):
-            renderer.pop_portal()
-        draw_list.add_callback(cb, None)
-
-    def draw(self):
-        aimgui.render()
-        self.renderer.render(aimgui.get_draw_data())
-
+from aimgui.impl.arcade import ArcadeGui
 
 import arcade
 
 class ChildGui(ArcadeGui):
     def __init__(self, window):
-        super().__init__(window, True)
+        super().__init__(window)
         self.title = "Child Gui"
         io = aimgui.get_io()
         #io.config_flags |= aimgui.CONFIG_FLAGS_DOCKING_ENABLE | aimgui.CONFIG_FLAGS_VIEWPORTS_ENABLE
 
     def draw(self):
-        #print(self.context)
-        #io = aimgui.get_io()
-        #print(io.display_size)
+        print(self.context)
+        io = aimgui.get_io()
+        print(io.display_size)
         #aimgui.set_current_context(self.context)
         aimgui.new_frame()
 
@@ -128,8 +101,8 @@ class App(arcade.Window):
         self.gui.draw()
 
 
-app = App()
 app = ChildApp()
+app = App()
 
 arcade.run()
 import pyglet
