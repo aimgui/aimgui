@@ -1,4 +1,4 @@
-from pyglet import gl
+from pyglet import gl, clock
 from pyglet.window import key, mouse
 from arcade.gl import BufferDescription, Context
 import arcade
@@ -266,39 +266,41 @@ class ArcadeIO:
 
     def on_mouse_drag(self, x, y, dx, dy, button, modifiers):
         self.io.mouse_pos = x, self.io.display_size[1] - y
-
+        
         if button == mouse.LEFT:
             self.io.set_mouse_down(0, True)
 
-        if button == mouse.MIDDLE:
+        if button == mouse.RIGHT:
             self.io.set_mouse_down(1, True)
 
-        if button == mouse.RIGHT:
+        if button == mouse.MIDDLE:
             self.io.set_mouse_down(2, True)
+
 
     def on_mouse_press(self, x, y, button, modifiers):
         self.io.mouse_pos = x, self.io.display_size[1] - y
-
+        code = 0
         if button == mouse.LEFT:
-            self.io.set_mouse_down(0, True)
+            code = 0
+        elif button == mouse.RIGHT:
+            code = 1
+        elif button == mouse.MIDDLE:
+            code = 2
 
-        if button == mouse.MIDDLE:
-            self.io.set_mouse_down(1, True)
-
-        if button == mouse.RIGHT:
-            self.io.set_mouse_down(2, True)
+        self.io.set_mouse_down(code, True)
 
     def on_mouse_release(self, x, y, button, modifiers):
         self.io.mouse_pos = x, self.io.display_size[1] - y
-
+        code = 0; delay = .2
         if button == mouse.LEFT:
-            self.io.set_mouse_down(0, False)
+            code = 0; delay = 0
+        elif button == mouse.RIGHT:
+            code = 1
+        elif button == mouse.MIDDLE:
+            code = 2
+        # Need a slight delay for touch events
+        clock.schedule_once(lambda delta_time : self.io.set_mouse_down(code, False), delay)
 
-        if button == mouse.MIDDLE:
-            self.io.set_mouse_down(1, False)
-
-        if button == mouse.RIGHT:
-            self.io.set_mouse_down(2, False)
 
     def on_mouse_scroll(self, x, y, mods, scroll):
         self.io.mouse_wheel = scroll

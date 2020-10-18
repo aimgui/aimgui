@@ -27,7 +27,7 @@ class PopupContextView(Page):
         aimgui.begin("Example: popup context view")
         aimgui.text("Right-click to set value.")
         if aimgui.begin_popup_context_item("Item Context Menu"):
-            aimgui.selectable("Set to Zero")
+            aimgui.selectable("Set to Zero", True)
             aimgui.end_popup()
         aimgui.end()
 
@@ -35,7 +35,7 @@ class PopupContextWindow(Page):
     def draw(self):
         aimgui.begin("Example: popup context window")
         if aimgui.begin_popup_context_window():
-            aimgui.selectable("Clear")
+            aimgui.selectable("Clear", True)
             aimgui.end_popup()
         aimgui.end()
 
