@@ -28,7 +28,9 @@ class MultiTextInputPage(Page):
         changed, self.text_val = aimgui.input_text_multiline(
             'Message',
             self.text_val,
-            2056
+            2056,
+            (0,0),
+            0
         )
         aimgui.text('You wrote:')
         aimgui.same_line()

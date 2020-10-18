@@ -48,7 +48,7 @@ class PopupModal(Page):
 
         aimgui.same_line()
 
-        if aimgui.begin_popup_modal("select-popup")[0]:
+        if aimgui.begin_popup_modal("select-popup", True)[0]:
             aimgui.text("Select an option:")
             aimgui.separator()
             aimgui.selectable("One", False)

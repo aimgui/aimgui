@@ -235,7 +235,8 @@ class ArcadeIO:
         # note: we cannot use default mechanism of mapping keys
         #       because pyglet uses weird key translation scheme
         for value in self.REVERSE_KEY_MAP.values():
-            key_map[value] = value
+            #key_map[value] = value
+            self.io.set_key_map(value, value)
 
     def _on_mods_change(self, mods):
         self.io.key_ctrl = mods & key.MOD_CTRL
@@ -293,7 +294,7 @@ class ArcadeIO:
         self.io.mouse_pos = x, self.io.display_size[1] - y
         code = 0; delay = .2
         if button == mouse.LEFT:
-            code = 0; delay = 0
+            delay = 0
         elif button == mouse.RIGHT:
             code = 1
         elif button == mouse.MIDDLE:
