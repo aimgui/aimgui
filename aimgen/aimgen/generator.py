@@ -96,7 +96,6 @@ class Generator:
         instance = Generator(config)
         return instance
 
-    #TODO: These three look like trouble
     def format_attribute(self, name):
         name = snakecase(name)
         name = name.rstrip('_')
@@ -329,11 +328,10 @@ class Generator:
             pyname = self.format_type(cursor.spelling)
             #TODO:this is a total hack.  Is it because it's private or something?
             if clsname == '':
-                #print('Unnamed class!', cursor.__dict__)
                 return
-                #pyname = "Context"
+                #print('Unnamed class!', cursor.__dict__)
+                #pyname = "ImContext"
                 #clsname = "ImGuiContext"
-            #out(f'py::class_<{name(cursor)}> {clsname}(libaimgui, "{clsname}");')
             self.out(f'PYCLASS_BEGIN(libaimgui, {clsname}, {pyname})')
             for child in cursor.get_children():
                 if child.kind == cindex.CursorKind.CONSTRUCTOR:
@@ -372,7 +370,6 @@ class Generator:
         else:
             cindex.Config.set_library_file('libclang-10.so')
 
-        #BASE_PATH = pathlib.Path(os.path.realpath(__file__)).parent.parent.parent
         BASE_PATH = pathlib.Path('.')
         path = BASE_PATH / self.source
         tu = cindex.Index.create().parse(path, args=self.flags)

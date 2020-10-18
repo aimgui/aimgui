@@ -1,8 +1,5 @@
 cmake_minimum_required(VERSION 3.14...3.17)
 
-#find_package(PythonExtensions)
-
-#SET(CMAKE_CXX_FLAGS  "-Wno-format-security -Wno-null-conversion")
 SET(CMAKE_CXX_FLAGS  "-Wno-format-security")
 
 add_compile_definitions(IMGUI_USER_CONFIG=<aimgui/aimconfig.h>)
@@ -51,7 +48,6 @@ target_sources(aimgui PRIVATE ${IMGUI_SRC} ${IMGUI_HEADERS})
 #target_sources(aimgui PRIVATE ${IMPLOT_SRC} ${IMPLOT_HEADERS})
 
 # add include files
-file(GLOB_RECURSE AIMGUI_INCLUDE "include/*.hpp" "include/*.inl" "include/*.h")
 target_sources(aimgui PRIVATE ${AIMGUI_INCLUDE}) # for intellisense
 target_include_directories(aimgui
 	PUBLIC

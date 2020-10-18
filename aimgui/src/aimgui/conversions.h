@@ -3,18 +3,6 @@
 namespace py = pybind11;
 
 namespace pybind11 { namespace detail {
-    /*template <> struct type_caster<ImTextureID> {
-    public:
-        PYBIND11_TYPE_CASTER(ImTextureID, _("ImTextureID"));
-        bool load(handle src, bool implicit) {
-            PyObject *source = src.ptr();
-            value = (ImTextureID)PyLong_AsVoidPtr(source);
-            return !PyErr_Occurred();
-        }
-        static handle cast(ImTextureID src, return_value_policy, handle) {
-            return PyLong_FromVoidPtr(src);
-        }
-    };*/
 
     template <> struct type_caster<ImVec2> {
     public:
