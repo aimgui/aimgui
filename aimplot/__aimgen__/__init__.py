@@ -10,15 +10,17 @@ from clang import cindex
 from aimgen import UserSet
 
 HEADER = """
+#include <limits>
+
 #include <pybind11/pybind11.h>
 #include <pybind11/functional.h>
 #include <pybind11/stl.h>
-#include <limits>
-#include "imgui.h"
-#include "imgui_internal.h"
+
+#include "implot.h"
+#include "implot_internal.h"
 
 #include <aimgui/conversions.h>
-#include "bindtools.h"
+#include <aimgui/bindtools.h>
 
 namespace py = pybind11;
 
@@ -175,7 +177,7 @@ class Generator:
 
     def is_cursor_mappable(self, cursor):
         if cursor.location.file:
-            return 'imgui.h' in cursor.location.file.name
+            return 'implot.h' in cursor.location.file.name
         return False
 
     def is_property_readonly(self, cursor):
@@ -344,6 +346,8 @@ class Generator:
 
     def parse_definitions(self, root):
         for cursor in root.get_children():
+            if not self.is_cursor_mappable(cursor):
+                continue
             if cursor.kind == cindex.CursorKind.ENUM_DECL:
                 self.parse_enum(cursor)
             elif cursor.kind == cindex.CursorKind.STRUCT_DECL:

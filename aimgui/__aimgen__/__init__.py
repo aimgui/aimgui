@@ -7,7 +7,7 @@ import toml
 
 from clang import cindex
 
-from . import UserSet
+from aimgen import UserSet
 
 HEADER = """
 #include <pybind11/pybind11.h>
@@ -18,7 +18,7 @@ HEADER = """
 #include "imgui_internal.h"
 
 #include <aimgui/conversions.h>
-#include "bindtools.h"
+#include <aimgui/bindtools.h>
 
 namespace py = pybind11;
 

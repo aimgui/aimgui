@@ -9,8 +9,7 @@
 
 #include <aimgui/aimgui.h>
 #include <aimgui/conversions.h>
-
-#include "bindtools.h"
+#include <aimgui/bindtools.h>
 
 namespace py = pybind11;
 
@@ -77,13 +76,6 @@ void init_main(py::module &libaimgui, Registry &registry) {
     , py::arg("type")
     , py::arg("data")
     , py::arg("cond") = 0
-    , py::return_value_policy::automatic_reference);
-
-    libaimgui.def("set_scroll_x", py::overload_cast<float>(&ImGui::SetScrollX)
-    , py::arg("scroll_x")
-    , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_scroll_y", py::overload_cast<float>(&ImGui::SetScrollY)
-    , py::arg("scroll_y")
     , py::return_value_policy::automatic_reference);
 
     libaimgui.def("get_vertex_buffer_vertex_pos_offset", []()

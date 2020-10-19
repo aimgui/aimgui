@@ -7,7 +7,7 @@
 #include "imgui_internal.h"
 
 #include <aimgui/conversions.h>
-#include "bindtools.h"
+#include <aimgui/bindtools.h>
 
 namespace py = pybind11;
 

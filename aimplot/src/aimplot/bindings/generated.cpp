@@ -1,13 +1,15 @@
 
+#include <limits>
+
 #include <pybind11/pybind11.h>
 #include <pybind11/functional.h>
 #include <pybind11/stl.h>
-#include <limits>
-#include "imgui.h"
-#include "imgui_internal.h"
+
+#include "implot.h"
+#include "implot_internal.h"
 
 #include <aimgui/conversions.h>
-#include "bindtools.h"
+#include <aimgui/bindtools.h>
 
 namespace py = pybind11;
 
@@ -136,7 +138,7 @@ void init_generated(py::module &libaimplot, Registry &registry) {
     , py::arg("_x")
     , py::arg("_y")
     );
-    Point.def(py::init<const int &>()
+    Point.def(py::init<const ImVec2 &>()
     , py::arg("p")
     );
     PYCLASS_END(libaimplot, ImPlotPoint, Point)
@@ -159,13 +161,6 @@ void init_generated(py::module &libaimplot, Registry &registry) {
     PYCLASS_BEGIN(libaimplot, ImPlotLimits, Limits)
     Limits.def_readwrite("x", &ImPlotLimits::X);
     Limits.def_readwrite("y", &ImPlotLimits::Y);
-    Limits.def("contains", &ImPlotLimits::Contains
-    , py::arg("p")
-    , py::return_value_policy::automatic_reference);
-    Limits.def("contains", &ImPlotLimits::Contains
-    , py::arg("x")
-    , py::arg("y")
-    , py::return_value_policy::automatic_reference);
     PYCLASS_END(libaimplot, ImPlotLimits, Limits)
 
     PYCLASS_BEGIN(libaimplot, ImPlotStyle, Style)
@@ -230,7 +225,7 @@ void init_generated(py::module &libaimplot, Registry &registry) {
     , py::arg("title_id")
     , py::arg("x_label") = nullptr
     , py::arg("y_label") = nullptr
-    , py::arg("size")
+    , py::arg("size") = ImVec2(-1,0)
     , py::arg("flags") = ImPlotFlags_None
     , py::arg("x_flags") = ImPlotAxisFlags_None
     , py::arg("y_flags") = ImPlotAxisFlags_None
@@ -244,33 +239,33 @@ void init_generated(py::module &libaimplot, Registry &registry) {
     , py::arg("user_texture_id")
     , py::arg("bounds_min")
     , py::arg("bounds_max")
-    , py::arg("uv0")
-    , py::arg("uv1")
-    , py::arg("tint_col")
+    , py::arg("uv0") = ImVec2(0,0)
+    , py::arg("uv1") = ImVec2(1,1)
+    , py::arg("tint_col") = ImVec4(1,1,1,1)
     , py::return_value_policy::automatic_reference);
     libaimplot.def("plot_text", &ImPlot::PlotText
     , py::arg("text")
     , py::arg("x")
     , py::arg("y")
     , py::arg("vertical") = false
-    , py::arg("pix_offset")
+    , py::arg("pix_offset") = ImVec2(0,0)
     , py::return_value_policy::automatic_reference);
     libaimplot.def("set_next_plot_limits", &ImPlot::SetNextPlotLimits
     , py::arg("xmin")
     , py::arg("xmax")
     , py::arg("ymin")
     , py::arg("ymax")
-    , py::arg("cond")
+    , py::arg("cond") = ImGuiCond_Once
     , py::return_value_policy::automatic_reference);
     libaimplot.def("set_next_plot_limits_x", &ImPlot::SetNextPlotLimitsX
     , py::arg("xmin")
     , py::arg("xmax")
-    , py::arg("cond")
+    , py::arg("cond") = ImGuiCond_Once
     , py::return_value_policy::automatic_reference);
     libaimplot.def("set_next_plot_limits_y", &ImPlot::SetNextPlotLimitsY
     , py::arg("ymin")
     , py::arg("ymax")
-    , py::arg("cond")
+    , py::arg("cond") = ImGuiCond_Once
     , py::arg("y_axis") = 0
     , py::return_value_policy::automatic_reference);
     libaimplot.def("link_next_plot_limits", [](double * xmin, double * xmax, double * ymin, double * ymax, double * ymin2, double * ymax2, double * ymin3, double * ymax3)
@@ -293,55 +288,18 @@ void init_generated(py::module &libaimplot, Registry &registry) {
     , py::arg("y2") = true
     , py::arg("y3") = true
     , py::return_value_policy::automatic_reference);
-    libaimplot.def("set_next_plot_ticks_x", &ImPlot::SetNextPlotTicksX
-    , py::arg("values")
-    , py::arg("n_ticks")
-    , py::arg("labels")
-    , py::arg("show_default") = false
-    , py::return_value_policy::automatic_reference);
-    libaimplot.def("set_next_plot_ticks_x", &ImPlot::SetNextPlotTicksX
-    , py::arg("x_min")
-    , py::arg("x_max")
-    , py::arg("n_ticks")
-    , py::arg("labels")
-    , py::arg("show_default") = false
-    , py::return_value_policy::automatic_reference);
-    libaimplot.def("set_next_plot_ticks_y", &ImPlot::SetNextPlotTicksY
-    , py::arg("values")
-    , py::arg("n_ticks")
-    , py::arg("labels")
-    , py::arg("show_default") = false
-    , py::arg("y_axis") = 0
-    , py::return_value_policy::automatic_reference);
-    libaimplot.def("set_next_plot_ticks_y", &ImPlot::SetNextPlotTicksY
-    , py::arg("y_min")
-    , py::arg("y_max")
-    , py::arg("n_ticks")
-    , py::arg("labels")
-    , py::arg("show_default") = false
-    , py::arg("y_axis") = 0
-    , py::return_value_policy::automatic_reference);
     libaimplot.def("set_plot_y_axis", &ImPlot::SetPlotYAxis
     , py::arg("y_axis")
     , py::return_value_policy::automatic_reference);
     libaimplot.def("hide_next_item", &ImPlot::HideNextItem
     , py::arg("hidden") = true
-    , py::arg("cond")
+    , py::arg("cond") = ImGuiCond_Once
     , py::return_value_policy::automatic_reference);
-    libaimplot.def("pixels_to_plot", &ImPlot::PixelsToPlot
-    , py::arg("pix")
-    , py::arg("y_axis") = IMPLOT_AUTO
-    , py::return_value_policy::automatic_reference);
-    libaimplot.def("pixels_to_plot", &ImPlot::PixelsToPlot
-    , py::arg("x")
-    , py::arg("y")
-    , py::arg("y_axis") = IMPLOT_AUTO
-    , py::return_value_policy::automatic_reference);
-    libaimplot.def("plot_to_pixels", &ImPlot::PlotToPixels
+    libaimplot.def("plot_to_pixels", py::overload_cast<const ImPlotPoint &, int>(&ImPlot::PlotToPixels)
     , py::arg("plt")
     , py::arg("y_axis") = IMPLOT_AUTO
     , py::return_value_policy::automatic_reference);
-    libaimplot.def("plot_to_pixels", &ImPlot::PlotToPixels
+    libaimplot.def("plot_to_pixels", py::overload_cast<double, double, int>(&ImPlot::PlotToPixels)
     , py::arg("x")
     , py::arg("y")
     , py::arg("y_axis") = IMPLOT_AUTO
@@ -368,7 +326,49 @@ void init_generated(py::module &libaimplot, Registry &registry) {
     libaimplot.def("get_plot_query", &ImPlot::GetPlotQuery
     , py::arg("y_axis") = IMPLOT_AUTO
     , py::return_value_policy::automatic_reference);
-    libaimplot.def("drag_line_x", [](const char * id, double * x_value, bool show_label, const int & col, float thickness)
+    libaimplot.def("annotate", [](double x, double y, const ImVec2 & pix_offset, const char * fmt)
+    {
+        ImPlot::Annotate(x, y, pix_offset, fmt);
+        return ;
+    }
+    , py::arg("x")
+    , py::arg("y")
+    , py::arg("pix_offset")
+    , py::arg("fmt")
+    , py::return_value_policy::automatic_reference);
+    libaimplot.def("annotate", [](double x, double y, const ImVec2 & pix_offset, const ImVec4 & color, const char * fmt)
+    {
+        ImPlot::Annotate(x, y, pix_offset, color, fmt);
+        return ;
+    }
+    , py::arg("x")
+    , py::arg("y")
+    , py::arg("pix_offset")
+    , py::arg("color")
+    , py::arg("fmt")
+    , py::return_value_policy::automatic_reference);
+    libaimplot.def("annotate_clamped", [](double x, double y, const ImVec2 & pix_offset, const char * fmt)
+    {
+        ImPlot::AnnotateClamped(x, y, pix_offset, fmt);
+        return ;
+    }
+    , py::arg("x")
+    , py::arg("y")
+    , py::arg("pix_offset")
+    , py::arg("fmt")
+    , py::return_value_policy::automatic_reference);
+    libaimplot.def("annotate_clamped", [](double x, double y, const ImVec2 & pix_offset, const ImVec4 & color, const char * fmt)
+    {
+        ImPlot::AnnotateClamped(x, y, pix_offset, color, fmt);
+        return ;
+    }
+    , py::arg("x")
+    , py::arg("y")
+    , py::arg("pix_offset")
+    , py::arg("color")
+    , py::arg("fmt")
+    , py::return_value_policy::automatic_reference);
+    libaimplot.def("drag_line_x", [](const char * id, double * x_value, bool show_label, const ImVec4 & col, float thickness)
     {
         auto ret = ImPlot::DragLineX(id, x_value, show_label, col, thickness);
         return std::make_tuple(ret, x_value);
@@ -376,10 +376,10 @@ void init_generated(py::module &libaimplot, Registry &registry) {
     , py::arg("id")
     , py::arg("x_value")
     , py::arg("show_label") = true
-    , py::arg("col")
+    , py::arg("col") = IMPLOT_AUTO_COL
     , py::arg("thickness") = 1
     , py::return_value_policy::automatic_reference);
-    libaimplot.def("drag_line_y", [](const char * id, double * y_value, bool show_label, const int & col, float thickness)
+    libaimplot.def("drag_line_y", [](const char * id, double * y_value, bool show_label, const ImVec4 & col, float thickness)
     {
         auto ret = ImPlot::DragLineY(id, y_value, show_label, col, thickness);
         return std::make_tuple(ret, y_value);
@@ -387,10 +387,10 @@ void init_generated(py::module &libaimplot, Registry &registry) {
     , py::arg("id")
     , py::arg("y_value")
     , py::arg("show_label") = true
-    , py::arg("col")
+    , py::arg("col") = IMPLOT_AUTO_COL
     , py::arg("thickness") = 1
     , py::return_value_policy::automatic_reference);
-    libaimplot.def("drag_point", [](const char * id, double * x, double * y, bool show_label, const int & col, float radius)
+    libaimplot.def("drag_point", [](const char * id, double * x, double * y, bool show_label, const ImVec4 & col, float radius)
     {
         auto ret = ImPlot::DragPoint(id, x, y, show_label, col, radius);
         return std::make_tuple(ret, x, y);
@@ -399,7 +399,7 @@ void init_generated(py::module &libaimplot, Registry &registry) {
     , py::arg("x")
     , py::arg("y")
     , py::arg("show_label") = true
-    , py::arg("col")
+    , py::arg("col") = IMPLOT_AUTO_COL
     , py::arg("radius") = 4
     , py::return_value_policy::automatic_reference);
     libaimplot.def("is_legend_entry_hovered", &ImPlot::IsLegendEntryHovered
@@ -431,26 +431,26 @@ void init_generated(py::module &libaimplot, Registry &registry) {
     libaimplot.def("style_colors_light", &ImPlot::StyleColorsLight
     , py::arg("dst") = nullptr
     , py::return_value_policy::automatic_reference);
-    libaimplot.def("push_style_color", &ImPlot::PushStyleColor
+    libaimplot.def("push_style_color", py::overload_cast<ImPlotCol, ImU32>(&ImPlot::PushStyleColor)
     , py::arg("idx")
     , py::arg("col")
     , py::return_value_policy::automatic_reference);
-    libaimplot.def("push_style_color", &ImPlot::PushStyleColor
+    libaimplot.def("push_style_color", py::overload_cast<ImPlotCol, const ImVec4 &>(&ImPlot::PushStyleColor)
     , py::arg("idx")
     , py::arg("col")
     , py::return_value_policy::automatic_reference);
     libaimplot.def("pop_style_color", &ImPlot::PopStyleColor
     , py::arg("count") = 1
     , py::return_value_policy::automatic_reference);
-    libaimplot.def("push_style_var", &ImPlot::PushStyleVar
+    libaimplot.def("push_style_var", py::overload_cast<ImPlotStyleVar, float>(&ImPlot::PushStyleVar)
     , py::arg("idx")
     , py::arg("val")
     , py::return_value_policy::automatic_reference);
-    libaimplot.def("push_style_var", &ImPlot::PushStyleVar
+    libaimplot.def("push_style_var", py::overload_cast<ImPlotStyleVar, int>(&ImPlot::PushStyleVar)
     , py::arg("idx")
     , py::arg("val")
     , py::return_value_policy::automatic_reference);
-    libaimplot.def("push_style_var", &ImPlot::PushStyleVar
+    libaimplot.def("push_style_var", py::overload_cast<ImPlotStyleVar, const ImVec2 &>(&ImPlot::PushStyleVar)
     , py::arg("idx")
     , py::arg("val")
     , py::return_value_policy::automatic_reference);
@@ -458,22 +458,22 @@ void init_generated(py::module &libaimplot, Registry &registry) {
     , py::arg("count") = 1
     , py::return_value_policy::automatic_reference);
     libaimplot.def("set_next_line_style", &ImPlot::SetNextLineStyle
-    , py::arg("col")
+    , py::arg("col") = IMPLOT_AUTO_COL
     , py::arg("weight") = IMPLOT_AUTO
     , py::return_value_policy::automatic_reference);
     libaimplot.def("set_next_fill_style", &ImPlot::SetNextFillStyle
-    , py::arg("col")
+    , py::arg("col") = IMPLOT_AUTO_COL
     , py::arg("alpha_mod") = IMPLOT_AUTO
     , py::return_value_policy::automatic_reference);
     libaimplot.def("set_next_marker_style", &ImPlot::SetNextMarkerStyle
     , py::arg("marker") = IMPLOT_AUTO
     , py::arg("size") = IMPLOT_AUTO
-    , py::arg("fill")
+    , py::arg("fill") = IMPLOT_AUTO_COL
     , py::arg("weight") = IMPLOT_AUTO
-    , py::arg("outline")
+    , py::arg("outline") = IMPLOT_AUTO_COL
     , py::return_value_policy::automatic_reference);
     libaimplot.def("set_next_error_bar_style", &ImPlot::SetNextErrorBarStyle
-    , py::arg("col")
+    , py::arg("col") = IMPLOT_AUTO_COL
     , py::arg("size") = IMPLOT_AUTO
     , py::arg("weight") = IMPLOT_AUTO
     , py::return_value_policy::automatic_reference);
@@ -485,21 +485,21 @@ void init_generated(py::module &libaimplot, Registry &registry) {
     libaimplot.def("get_marker_name", &ImPlot::GetMarkerName
     , py::arg("idx")
     , py::return_value_policy::automatic_reference);
-    libaimplot.def("push_colormap", &ImPlot::PushColormap
+    libaimplot.def("push_colormap", py::overload_cast<ImPlotColormap>(&ImPlot::PushColormap)
     , py::arg("colormap")
     , py::return_value_policy::automatic_reference);
-    libaimplot.def("push_colormap", &ImPlot::PushColormap
+    libaimplot.def("push_colormap", py::overload_cast<const ImVec4 *, int>(&ImPlot::PushColormap)
     , py::arg("colormap")
     , py::arg("size")
     , py::return_value_policy::automatic_reference);
     libaimplot.def("pop_colormap", &ImPlot::PopColormap
     , py::arg("count") = 1
     , py::return_value_policy::automatic_reference);
-    libaimplot.def("set_colormap", &ImPlot::SetColormap
+    libaimplot.def("set_colormap", py::overload_cast<const ImVec4 *, int>(&ImPlot::SetColormap)
     , py::arg("colormap")
     , py::arg("size")
     , py::return_value_policy::automatic_reference);
-    libaimplot.def("set_colormap", &ImPlot::SetColormap
+    libaimplot.def("set_colormap", py::overload_cast<ImPlotColormap, int>(&ImPlot::SetColormap)
     , py::arg("colormap")
     , py::arg("samples") = 0
     , py::return_value_policy::automatic_reference);
@@ -508,7 +508,7 @@ void init_generated(py::module &libaimplot, Registry &registry) {
     libaimplot.def("get_colormap_color", &ImPlot::GetColormapColor
     , py::arg("index")
     , py::return_value_policy::automatic_reference);
-    libaimplot.def("lerp_colormap", &ImPlot::LerpColormap
+    libaimplot.def("lerp_colormap", py::overload_cast<float>(&ImPlot::LerpColormap)
     , py::arg("t")
     , py::return_value_policy::automatic_reference);
     libaimplot.def("next_colormap_color", &ImPlot::NextColormapColor
@@ -540,11 +540,7 @@ void init_generated(py::module &libaimplot, Registry &registry) {
     , py::return_value_policy::automatic_reference);
     libaimplot.def("show_user_guide", &ImPlot::ShowUserGuide
     , py::return_value_policy::automatic_reference);
-    libaimplot.def("set_im_gui_context", [](int * ctx)
-    {
-        ImPlot::SetImGuiContext(ctx);
-        return ctx;
-    }
+    libaimplot.def("set_im_gui_context", &ImPlot::SetImGuiContext
     , py::arg("ctx")
     , py::return_value_policy::automatic_reference);
     libaimplot.def("show_demo_window", [](bool * p_open)

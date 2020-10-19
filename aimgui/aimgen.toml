@@ -1,4 +1,4 @@
-source = 'extern/imgui/imgui.h'
+source = '../imgui/imgui.h'
 target = 'src/aimgui/bindings/generated.cpp'
 
 flags = [
