@@ -185,8 +185,6 @@ void init_main(py::module &libaimgui, Registry &registry) {
     DrawList.def_property_readonly("cmd_buffer_data",
         [](const ImDrawList &dl) {
             auto result = PyMemoryView_FromMemory((char*)dl.CmdBuffer.Data, dl.CmdBuffer.Size*AimDrawList::COMMAND_SIZE, PyBUF_WRITE);
-            //result.itemsize = sizeof(void*);
-            //auto result = PyCapsule_New(dl.CmdBuffer.Data, NULL, NULL);
             return py::reinterpret_steal<py::object>(result);
         }
     );
@@ -201,7 +199,6 @@ void init_main(py::module &libaimgui, Registry &registry) {
     DrawList.def_property_readonly("vtx_buffer_data",
         [](const ImDrawList &dl) {
             auto result = PyMemoryView_FromMemory((char*)dl.VtxBuffer.Data, dl.VtxBuffer.Size*AimDrawList::VERTEX_SIZE, PyBUF_WRITE);
-            //auto result = PyCapsule_New(dl.VtxBuffer.Data, NULL, NULL);
             return py::reinterpret_steal<py::object>(result);
         }
     );
@@ -216,7 +213,6 @@ void init_main(py::module &libaimgui, Registry &registry) {
     DrawList.def_property_readonly("idx_buffer_data",
         [](const ImDrawList &dl) {
             auto result = PyMemoryView_FromMemory((char*)dl.IdxBuffer.Data, dl.IdxBuffer.Size*AimDrawList::INDEX_SIZE, PyBUF_WRITE);
-            //auto result = PyCapsule_New(dl.IdxBuffer.Data, NULL, NULL);
             return py::reinterpret_steal<py::object>(result);
         }
     );
