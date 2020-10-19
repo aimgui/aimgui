@@ -9,28 +9,29 @@ project(aimgui VERSION "0.1")
 # Define CMAKE_INSTALL_xxx: LIBDIR, INCLUDEDIR
 include(GNUInstallDirs)
 
-add_subdirectory(extern/pybind11)
+set(MONO_DIR ${CMAKE_CURRENT_SOURCE_DIR}/..)
 
-# IMGUI
+set(IMGUI_DIR ${MONO_DIR}/imgui)
+
+add_subdirectory(${MONO_DIR}/pybind11 build)
+
 set(IMGUI_HEADERS
-    extern/imgui/imconfig.h
-    extern/imgui/imgui_internal.h
-    extern/imgui/imgui.h
-    extern/imgui/imstb_rectpack.h
-    extern/imgui/imstb_textedit.h
-    extern/imgui/imstb_truetype.h
+    ${IMGUI_DIR}/imconfig.h
+    ${IMGUI_DIR}/imgui_internal.h
+    ${IMGUI_DIR}/imgui.h
+    ${IMGUI_DIR}/imstb_rectpack.h
+    ${IMGUI_DIR}/imstb_textedit.h
+    ${IMGUI_DIR}/imstb_truetype.h
 )
 
 set(IMGUI_SRC
     src/aimgui/bindings/generated.cpp
     src/aimgui/bindings/main.cpp
-    extern/imgui/imgui_demo.cpp
-    extern/imgui/imgui_draw.cpp
-    extern/imgui/imgui_widgets.cpp
-    extern/imgui/imgui.cpp
+    ${IMGUI_DIR}/imgui_demo.cpp
+    ${IMGUI_DIR}/imgui_draw.cpp
+    ${IMGUI_DIR}/imgui_widgets.cpp
+    ${IMGUI_DIR}/imgui.cpp
 )
-
-set(IMGUI_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/extern/imgui)
 
 pybind11_add_module(aimgui MODULE
     src/aimgui/bindings/init.cpp
@@ -53,7 +54,7 @@ target_include_directories(aimgui
 	PUBLIC
 		$<INSTALL_INTERFACE:include>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-        $<BUILD_INTERFACE:${IMGUI_INCLUDE_DIR}>
+        $<BUILD_INTERFACE:${IMGUI_DIR}>
         # $<BUILD_INTERFACE:${IMPLOT_INCLUDE_DIR}>
         # $<BUILD_INTERFACE:${NANOSVG_INCLUDE_DIR}>
 	PRIVATE
