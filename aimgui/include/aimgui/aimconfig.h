@@ -24,6 +24,10 @@ namespace py = pybind11;
 
 #define ImDrawCallback py::function
 
+//#define IMGUI_API __declspec( dllexport )
+#define IMGUI_API PYBIND11_EXPORT
+//#define IMGUI_API __declspec( dllimport )
+
 //---- Define assertion handler. Defaults to calling assert().
 // If your macro uses multiple statements, make sure is enclosed in a 'do { .. } while (0)' block so it can be used as a single statement.
 //#define IM_ASSERT(_EXPR)  MyAssert(_EXPR)

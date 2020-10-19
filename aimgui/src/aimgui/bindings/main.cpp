@@ -56,18 +56,6 @@ void init_main(py::module &libaimgui, Registry &registry) {
     , py::arg("ctx")
     , py::return_value_policy::automatic_reference);
 
-    //libaimgui.def("begin_popup_modal", [](const char * name, bool * p_open, ImGuiWindowFlags flags)
-    /*libaimgui.def("begin_popup_modal", [](const char * name, bool p_open, ImGuiWindowFlags flags)
-    {
-        bool open = p_open;
-        auto ret = ImGui::BeginPopupModal(name, &open, flags);
-        return std::make_tuple(ret, open);
-    }
-    , py::arg("name")
-    , py::arg("p_open") = false
-    , py::arg("flags") = 0
-    , py::return_value_policy::automatic_reference);*/
-
     //bool ImGui::SetDragDropPayload(const char* type, const void* data, size_t data_size, ImGuiCond cond)
     libaimgui.def("set_drag_drop_payload", [](std::string type, std::string data, ImGuiCond cond)
     {

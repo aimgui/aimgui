@@ -8,6 +8,7 @@
 #include "implot.h"
 #include "implot_internal.h"
 
+#include <aimgui/aimgui.h>
 #include <aimgui/conversions.h>
 #include <aimgui/bindtools.h>
 
@@ -211,16 +212,6 @@ void init_generated(py::module &libaimplot, Registry &registry) {
     InputMap.def(py::init<>());
     PYCLASS_END(libaimplot, ImPlotInputMap, InputMap)
 
-    libaimplot.def("create_context", &ImPlot::CreateContext
-    , py::return_value_policy::automatic_reference);
-    libaimplot.def("destroy_context", &ImPlot::DestroyContext
-    , py::arg("ctx") = nullptr
-    , py::return_value_policy::automatic_reference);
-    libaimplot.def("get_current_context", &ImPlot::GetCurrentContext
-    , py::return_value_policy::automatic_reference);
-    libaimplot.def("set_current_context", &ImPlot::SetCurrentContext
-    , py::arg("ctx")
-    , py::return_value_policy::automatic_reference);
     libaimplot.def("begin_plot", &ImPlot::BeginPlot
     , py::arg("title_id")
     , py::arg("x_label") = nullptr

@@ -5,7 +5,7 @@ find_package(PythonExtensions REQUIRED)
 
 SET(CMAKE_CXX_FLAGS  "-Wno-format-security")
 
-add_compile_definitions(IMGUI_USER_CONFIG=<aimgui/aimconfig.h>)
+add_compile_definitions(IMGUI_USER_CONFIG=<aimplot/aimconfig.h>)
 
 project(aimplot VERSION "0.1")
 
@@ -15,12 +15,8 @@ include(GNUInstallDirs)
 set(MONO_DIR ${CMAKE_CURRENT_SOURCE_DIR}/..)
 
 set(AIMGUI_DIR ${MONO_DIR}/aimgui)
-set(AimGui_DIR ${MONO_DIR}/aimgui/cmake)
 set(IMGUI_DIR ${MONO_DIR}/imgui)
 set(IMPLOT_DIR ${MONO_DIR}/implot)
-
-list(APPEND CMAKE_MODULE_PATH "${AIMGUI_DIR}/cmake")
-find_package(AimGui REQUIRED)
 
 add_subdirectory(${MONO_DIR}/pybind11 build)
 
@@ -78,8 +74,6 @@ target_include_directories(aimplot
 
 # scikit-build:  conflicting with pybind11
 #target_link_libraries_with_dynamic_lookup(aimplot PRIVATE pybind11::module aimgui)
-
-target_link_libraries(aimplot PRIVATE ${AimGuiTargets})
 
 #
 # INSTALL

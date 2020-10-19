@@ -3,11 +3,16 @@ target = 'src/aimplot/bindings/generated.cpp'
 
 flags = [
     '-std=c++17',
-    '-DIMGUI_DISABLE_OBSOLETE_FUNCTIONS=1'
+    '-DIMGUI_DISABLE_OBSOLETE_FUNCTIONS=1',
+    '-I../imgui'
 ]
 
 excludes = [
     # Wrapped
+    'ImPlot::CreateContext',
+    'ImPlot::DestroyContext',
+    'ImPlot::GetCurrentContext',
+    'ImPlot::SetCurrentContext',
     # Internal / Ignored
     'ImPlotLimits::Contains',
     'ImPlot::PixelsToPlot',

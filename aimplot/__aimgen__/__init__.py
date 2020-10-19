@@ -19,6 +19,7 @@ HEADER = """
 #include "implot.h"
 #include "implot_internal.h"
 
+#include <aimgui/aimgui.h>
 #include <aimgui/conversions.h>
 #include <aimgui/bindtools.h>
 

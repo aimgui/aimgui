@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.14...3.17)
 
+# This is from scikit-build
+find_package(PythonExtensions REQUIRED)
+
 SET(CMAKE_CXX_FLAGS  "-Wno-format-security")
 
 add_compile_definitions(IMGUI_USER_CONFIG=<aimgui/aimconfig.h>)
@@ -33,14 +36,15 @@ set(IMGUI_SRC
     ${IMGUI_DIR}/imgui.cpp
 )
 
-pybind11_add_module(aimgui MODULE
+#pybind11_add_module(aimgui MODULE
+pybind11_add_module(aimgui SHARED
     src/aimgui/bindings/init.cpp
 )
 
 set_target_properties(aimgui PROPERTIES PREFIX "lib")
 set_target_properties(aimgui PROPERTIES SUFFIX ".so")
 
-install(TARGETS aimgui EXPORT aimgui-targets
+install(TARGETS aimgui EXPORT AimGuiTargets
 	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
 	ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
@@ -78,3 +82,42 @@ set(ignoreMe "${SKBUILD}")
 #          #COMMAND ${CMAKE_COMMAND} -E make_directory ${PROJECT_BINARY_DIR}
 #          COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_INSTALL_LIBDIR}/libaimgui.so ./
 #)
+
+#
+# Generate a configuration for use by plugins
+#
+
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(
+  "${CMAKE_CURRENT_BINARY_DIR}/aimgui/AimGuiConfigVersion.cmake"
+  VERSION ${Upstream_VERSION}
+  COMPATIBILITY AnyNewerVersion
+)
+
+export(EXPORT AimGuiTargets
+  FILE "${CMAKE_CURRENT_BINARY_DIR}/aimgui/AimGuiTargets.cmake"
+  NAMESPACE Upstream::
+)
+configure_file(cmake/AimGuiConfig.cmake
+  "${CMAKE_CURRENT_BINARY_DIR}/aimgui/AimGuiConfig.cmake"
+  COPYONLY
+)
+
+set(ConfigPackageLocation lib/cmake/AimGui)
+install(EXPORT AimGuiTargets
+  FILE
+  AimGuiTargets.cmake
+  NAMESPACE
+    Upstream::
+  DESTINATION
+    ${ConfigPackageLocation}
+)
+install(
+  FILES
+    cmake/AimGuiConfig.cmake
+    "${CMAKE_CURRENT_BINARY_DIR}/aimgui/AimGuiConfig.cmake"
+  DESTINATION
+    ${ConfigPackageLocation}
+  COMPONENT
+    Devel
+)
