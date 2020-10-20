@@ -8,28 +8,7 @@ from aimgui.renderer import compute_framebuffer_scale
 from aimgui.renderer.base import BaseOpenGLRenderer
 
 
-class ArcadeGui:
-    def __init__(self, window):
-        self.window = window
-        self.context = aimgui.create_context()
-        aimgui.set_current_context(self.context)
-        self.renderer = ArcadeRenderer(window)
-
-    def push_portal(self, draw_list, portal):
-        def cb(renderer, draw_data, draw_list, cmd, user_data):
-            renderer.push_portal(portal)
-        draw_list.add_callback(cb, None)
-
-    def pop_portal(self, draw_list):
-        def cb(renderer, draw_data, draw_list, cmd, user_data):
-            renderer.pop_portal()
-        draw_list.add_callback(cb, None)
-
-    def draw(self):
-        aimgui.render()
-        self.renderer.render(aimgui.get_draw_data())
-
-class ArcadeGLRenderer(BaseOpenGLRenderer):
+class ArcadeRendererBase(BaseOpenGLRenderer):
     """
     A renderer using the arcade.gl module instead of PyOpenGL.
     This is using pyglet's OpenGL bindings instead.
@@ -310,7 +289,7 @@ class ArcadeIO:
         self.io.display_size = width, height
 
 
-class ArcadeRenderer(ArcadeIO, ArcadeGLRenderer):
+class ArcadeRenderer(ArcadeIO, ArcadeRendererBase):
     def __init__(self, window, attach_callbacks=True):
         super().__init__(window)
         window_size = window.get_size()
@@ -333,3 +312,24 @@ class ArcadeRenderer(ArcadeIO, ArcadeGLRenderer):
                 self.on_mouse_scroll,
                 self.on_resize,
             )
+
+class ArcadeGui:
+    def __init__(self, window):
+        self.window = window
+        self.context = aimgui.create_context()
+        aimgui.set_current_context(self.context)
+        self.renderer = ArcadeRenderer(window)
+
+    def push_portal(self, draw_list, portal):
+        def cb(renderer, draw_data, draw_list, cmd, user_data):
+            renderer.push_portal(portal)
+        draw_list.add_callback(cb, None)
+
+    def pop_portal(self, draw_list):
+        def cb(renderer, draw_data, draw_list, cmd, user_data):
+            renderer.pop_portal()
+        draw_list.add_callback(cb, None)
+
+    def draw(self):
+        aimgui.render()
+        self.renderer.render(aimgui.get_draw_data())
