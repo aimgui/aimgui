@@ -49,7 +49,7 @@ class App(arcade.Window):
 
     def use(self, name):
         import importlib.util
-        spec = importlib.util.find_spec(f"aimplotdemo.pages.{name}")
+        spec = importlib.util.find_spec(f"aimplotdemo.page.{name}")
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
         module, install = module, module.install

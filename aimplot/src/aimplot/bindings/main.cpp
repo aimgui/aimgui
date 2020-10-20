@@ -48,11 +48,7 @@ void init_main(py::module &libaimplot, Registry &registry) {
     , py::arg("ctx")
     , py::return_value_policy::automatic_reference);
 
-    /* Plots a standard 2D line plot.
-    template <typename T> IMPLOT_API void PlotLine(const char* label_id, const T* values, int count, double xscale=1, double x0=0, int offset=0, int stride=sizeof(T));
-    template <typename T> IMPLOT_API void PlotLine(const char* label_id, const T* xs, const T* ys, int count, int offset=0, int stride=sizeof(T));
-                        IMPLOT_API void PlotLineG(const char* label_id, ImPlotPoint (*getter)(void* data, int idx), void* data, int count, int offset=0);
-    */
+    //template <typename T> IMPLOT_API void PlotLine(const char* label_id, const T* values, int count, double xscale=1, double x0=0, int offset=0, int stride=sizeof(T));
     libaimplot.def("plot_line", [](const char* label_id, const py::array_t<double>& values, int count)
     {
         ImPlot::PlotLine<double>(label_id, (double*)values.unchecked().data(), count);
@@ -62,6 +58,27 @@ void init_main(py::module &libaimplot, Registry &registry) {
     , py::arg("count")
     , py::return_value_policy::automatic_reference);
 
+    //template <typename T> IMPLOT_API  void PlotScatter(const char* label_id, const T* values, int count, double xscale=1, double x0=0, int offset=0, int stride=sizeof(T));
+    libaimplot.def("plot_scatter", [](const char* label_id, const py::array_t<double>& values, int count)
+    {
+        ImPlot::PlotScatter<double>(label_id, (double*)values.unchecked().data(), count);
+    }
+    , py::arg("label_id")
+    , py::arg("values")
+    , py::arg("count")
+    , py::return_value_policy::automatic_reference);
+
+    //template <typename T> IMPLOT_API void PlotShaded(const char* label_id, const T* values, int count, double y_ref=0, double xscale=1, double x0=0, int offset=0, int stride=sizeof(T));
+    libaimplot.def("plot_shaded", [](const char* label_id, const py::array_t<double>& values, int count)
+    {
+        ImPlot::PlotShaded<double>(label_id, (double*)values.unchecked().data(), count);
+    }
+    , py::arg("label_id")
+    , py::arg("values")
+    , py::arg("count")
+    , py::return_value_policy::automatic_reference);
+
+    //template <typename T> IMPLOT_API void PlotBars(const char* label_id, const T* values, int count, double width=0.67, double shift=0, int offset=0, int stride=sizeof(T));
     libaimplot.def("plot_bars", [](const char* label_id, const py::array_t<double>& values, int count)
     {
         ImPlot::PlotBars<double>(label_id, (double*)values.unchecked().data(), count);
@@ -71,5 +88,26 @@ void init_main(py::module &libaimplot, Registry &registry) {
     , py::arg("count")
     , py::return_value_policy::automatic_reference);
 
+    //template <typename T> IMPLOT_API void PlotBarsH(const char* label_id, const T* values, int count, double height=0.67, double shift=0, int offset=0, int stride=sizeof(T));
+    libaimplot.def("plot_bars_h", [](const char* label_id, const py::array_t<double>& values, int count)
+    {
+        ImPlot::PlotBarsH<double>(label_id, (double*)values.unchecked().data(), count);
+    }
+    , py::arg("label_id")
+    , py::arg("values")
+    , py::arg("count")
+    , py::return_value_policy::automatic_reference);
+
+    //template <typename T> IMPLOT_API void PlotErrorBars(const char* label_id, const T* xs, const T* ys, const T* err, int count, int offset=0, int stride=sizeof(T));
+    /* TODO: Put this one off until I understand it!
+    libaimplot.def("plot_error_bars", [](const char* label_id, const py::array_t<double>& xs, const py::array_t<double>& ys, const py::array_t<double>& err int count)
+    {
+        ImPlot::PlotErrorBars<double>(label_id, (double*)xs.unchecked().data(), (double*)ys.unchecked().data(), (double*)err.unchecked().data(), count);
+    }
+    , py::arg("label_id")
+    , py::arg("values")
+    , py::arg("count")
+    , py::return_value_policy::automatic_reference);
+    */
 }
 

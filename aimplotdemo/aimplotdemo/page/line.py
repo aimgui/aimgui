@@ -3,7 +3,7 @@ import numpy as np
 import aimgui
 import aimplot
 
-from aimplotdemo.page import Page
+from . import Page
 
 
 class LinePlotPage(Page):

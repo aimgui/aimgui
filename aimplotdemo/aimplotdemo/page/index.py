@@ -1,7 +1,7 @@
 import arcade
 import aimgui
 
-from aimplotdemo.page import Page
+from . import Page
 
 
 class Index(Page):
