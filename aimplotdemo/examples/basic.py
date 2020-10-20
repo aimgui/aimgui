@@ -12,18 +12,13 @@ from aimgui.impl.arcade import ArcadeRenderer
 import aimplot
 
 class MyGui:
-    def __init__(self, window, shared=False):
-        self.shared = shared
+    def __init__(self, window):
         self.window = window
         aimgui.create_context()
         aimplot.create_context()
         self.renderer = ArcadeRenderer(window)
 
     def draw(self):
-        aimgui.render()
-        self.renderer.render(aimgui.get_draw_data())
-
-    def update(self, delta_time):
         aimgui.render()
         self.renderer.render(aimgui.get_draw_data())
 
