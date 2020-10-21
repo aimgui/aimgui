@@ -17,7 +17,6 @@ class ArcadeRenderer(BaseOpenGLRenderer):
     VERTEX_SHADER_SRC = """
     #version 330
     uniform mat4 ProjMtx;
-    uniform vec2 Portal;
     in vec2 Position;
     in vec2 UV;
     in vec4 Color;
@@ -26,7 +25,7 @@ class ArcadeRenderer(BaseOpenGLRenderer):
     void main() {
         Frag_UV = UV;
         Frag_Color = Color;
-        gl_Position = ProjMtx * vec4(Position.xy + Portal, 0, 1);
+        gl_Position = ProjMtx * vec4(Position.xy, 0, 1);
     }
     """
 
@@ -49,19 +48,7 @@ class ArcadeRenderer(BaseOpenGLRenderer):
         self._vbo = None
         self._ibo = None
         self._font_texture = None
-        #
-        self.portal = (0,0)
-        self.portal_stack = []
-        #
         super().__init__()
-
-    def push_portal(self, portal):
-        self.portal_stack.append(self.portal)
-        self.portal = portal
-        self._program["Portal"] = self.portal
-
-    def pop_portal(self):
-        self.portal = self.portal_stack.pop(-1)
 
     def render(self, draw_data):
         io = self.io    
@@ -79,8 +66,6 @@ class ArcadeRenderer(BaseOpenGLRenderer):
             0.0, 0.0, -1.0, 0.0,
             -1.0, 1.0, 0.0, 1.0,
         )
-
-        self._program["Portal"] = self.portal
 
         draw_data.scale_clip_rects(fb_scale)
 
@@ -297,7 +282,7 @@ class ArcadeGui(ArcadeGuiBase):
         aimgui.set_current_context(self.context)
 
         self.io = aimgui.get_io()
-        
+
         self.renderer = ArcadeRenderer(window)
 
         window_size = window.get_size()
@@ -320,16 +305,6 @@ class ArcadeGui(ArcadeGuiBase):
                 self.on_mouse_scroll,
                 self.on_resize,
             )
-
-    def push_portal(self, draw_list, portal):
-        def cb(renderer, draw_data, draw_list, cmd, user_data):
-            renderer.push_portal(portal)
-        draw_list.add_callback(cb, None)
-
-    def pop_portal(self, draw_list):
-        def cb(renderer, draw_data, draw_list, cmd, user_data):
-            renderer.pop_portal()
-        draw_list.add_callback(cb, None)
 
     def draw(self):
         aimgui.render()
