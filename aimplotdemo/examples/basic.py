@@ -6,21 +6,14 @@ import numpy as np
 import arcade
 
 import aimgui
-#from aimgui.impl.arcade import ArcadeGui
-from aimgui.impl.arcade import ArcadeRenderer
+from aimgui.impl.arcade import ArcadeGui
 
 import aimplot
 
-class MyGui:
+class MyGui(ArcadeGui):
     def __init__(self, window):
-        self.window = window
-        aimgui.create_context()
+        super().__init__(window)
         aimplot.create_context()
-        self.renderer = ArcadeRenderer(window)
-
-    def draw(self):
-        aimgui.render()
-        self.renderer.render(aimgui.get_draw_data())
 
 
 class App(arcade.Window):

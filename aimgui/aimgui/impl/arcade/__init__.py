@@ -8,7 +8,7 @@ from aimgui.renderer import compute_framebuffer_scale
 from aimgui.renderer.base import BaseOpenGLRenderer
 
 
-class ArcadeRendererBase(BaseOpenGLRenderer):
+class ArcadeRenderer(BaseOpenGLRenderer):
     """
     A renderer using the arcade.gl module instead of PyOpenGL.
     This is using pyglet's OpenGL bindings instead.
@@ -155,7 +155,7 @@ class ArcadeRendererBase(BaseOpenGLRenderer):
         self._invalidate_device_objects()
 
 
-class ArcadeIO:
+class ArcadeGuiBase:
     REVERSE_KEY_MAP = {
         key.TAB: aimgui.KEY_TAB,
         key.LEFT: aimgui.KEY_LEFT_ARROW,
@@ -289,9 +289,17 @@ class ArcadeIO:
         self.io.display_size = width, height
 
 
-class ArcadeRenderer(ArcadeIO, ArcadeRendererBase):
+class ArcadeGui(ArcadeGuiBase):
     def __init__(self, window, attach_callbacks=True):
-        super().__init__(window)
+        self.window = window
+
+        self.context = aimgui.create_context()
+        aimgui.set_current_context(self.context)
+
+        self.io = aimgui.get_io()
+        
+        self.renderer = ArcadeRenderer(window)
+
         window_size = window.get_size()
         viewport_size = window.get_viewport_size()
 
@@ -312,13 +320,6 @@ class ArcadeRenderer(ArcadeIO, ArcadeRendererBase):
                 self.on_mouse_scroll,
                 self.on_resize,
             )
-
-class ArcadeGui:
-    def __init__(self, window):
-        self.window = window
-        self.context = aimgui.create_context()
-        aimgui.set_current_context(self.context)
-        self.renderer = ArcadeRenderer(window)
 
     def push_portal(self, draw_list, portal):
         def cb(renderer, draw_data, draw_list, cmd, user_data):

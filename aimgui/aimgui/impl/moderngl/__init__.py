@@ -10,7 +10,7 @@ from aimgui.renderer import compute_framebuffer_scale
 from aimgui.renderer.base import BaseOpenGLRenderer
 
 
-class ModernGLRendererBase(BaseOpenGLRenderer):
+class ModernGLRenderer(BaseOpenGLRenderer):
 
     VERTEX_SHADER_SRC = """
         #version 330
@@ -176,11 +176,9 @@ class ModernGLRendererBase(BaseOpenGLRenderer):
         self._font_texture = None
 
 
-class ModernGLIO:
+class ModernGLGuiBase:
     def __init__(self, window):
         self.wnd = window
-        self.io = aimgui.get_io()
-        self._map_keys()
 
     def _map_keys(self):
         keys = self.wnd.keys
@@ -245,7 +243,6 @@ class ModernGLIO:
         self.io.mouse_pos = self._mouse_pos_viewport(x, y)
 
     def mouse_drag_event(self, x, y, dx, dy):
-        print('drag')
         self.io.mouse_pos = self._mouse_pos_viewport(x, y)
 
         if self.wnd.mouse_states.left:
@@ -258,7 +255,6 @@ class ModernGLIO:
             self.io.set_mouse_down(2, True)
 
     def mouse_press_event(self, x, y, button):
-        print(button)
         self.io.mouse_pos = self._mouse_pos_viewport(x, y)
 
         if button == self.wnd.mouse.left:
@@ -290,15 +286,20 @@ class ModernGLIO:
         io.add_input_character(ord(char))
 
 
-class ModernGLRenderer(ModernGLRendererBase):
+class ModernGLGui(ModernGLGuiBase):
     def __init__(self, window, attach_callbacks=True):
-        super().__init__(wnd=window)
-        self.wnd = window
+        super().__init__(window)
+        self.window = window
+        self.context = aimgui.create_context()
+        aimgui.set_current_context(self.context)
+        self.io = aimgui.get_io()
+        self.renderer = ModernGLRenderer(wnd=window)
 
         self.io.display_size = self.wnd.size
-        #self.io. display_framebuffer_scale = self.wnd.pixel_ratio, self.wnd.pixel_ratio
-        #self.io.display_framebuffer_scale = compute_framebuffer_scale(self.wnd.pixel_ratio, self.wnd.pixel_ratio)
         self.io.display_framebuffer_scale = self.wnd.pixel_ratio, self.wnd.pixel_ratio
+
+        self._map_keys()
+
         '''
         if attach_callbacks:
             print('attach')
@@ -315,13 +316,6 @@ class ModernGLRenderer(ModernGLRendererBase):
             print(self.wnd.__dict__)
             #self.wnd.close_func = self.close
         '''
-class ModernGLGui:
-    def __init__(self, window):
-        self.window = window
-        self.context = aimgui.create_context()
-        aimgui.set_current_context(self.context)
-        self.renderer = ModernGLRenderer(window)
-        self.io = ModernGLIO(window)
 
     def draw(self):
         aimgui.render()

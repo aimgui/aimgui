@@ -62,7 +62,7 @@ class Page(arcade.View):
 
     def draw_navbar(self):
         aimgui.set_next_window_pos((16, 32), aimgui.COND_ONCE)
-        aimgui.set_next_window_size((256, 732), aimgui.COND_ONCE)
+        aimgui.set_next_window_size((256, self.window.height-32-16), aimgui.COND_ONCE)
         
         aimgui.begin("Examples")
 

@@ -19,8 +19,8 @@ class App(moderngl_window.WindowConfig):
 
         aimgui.new_frame()
 
-        aimgui.set_next_window_pos((16, 32), aimgui.COND_ONCE )
-        aimgui.set_next_window_size((512, 512), aimgui.COND_ONCE )
+        aimgui.set_next_window_pos((16, 32), aimgui.COND_ONCE)
+        aimgui.set_next_window_size((512, 512), aimgui.COND_ONCE)
 
         aimgui.begin("Example: button")
         aimgui.button("Button 1")
@@ -32,28 +32,28 @@ class App(moderngl_window.WindowConfig):
         self.gui.draw()
 
     def resize(self, width: int, height: int):
-        self.gui.io.resize(width, height)
+        self.gui.resize(width, height)
 
     def key_event(self, key, action, modifiers):
-        self.gui.io.key_event(key, action, modifiers)
+        self.gui.key_event(key, action, modifiers)
 
     def mouse_position_event(self, x, y, dx, dy):
-        self.gui.io.mouse_position_event(x, y, dx, dy)
+        self.gui.mouse_position_event(x, y, dx, dy)
 
     def mouse_drag_event(self, x, y, dx, dy):
-        self.gui.io.mouse_drag_event(x, y, dx, dy)
+        self.gui.mouse_drag_event(x, y, dx, dy)
 
     def mouse_scroll_event(self, x_offset, y_offset):
-        self.gui.io.mouse_scroll_event(x_offset, y_offset)
+        self.gui.mouse_scroll_event(x_offset, y_offset)
 
     def mouse_press_event(self, x, y, button):
-        self.gui.io.mouse_press_event(x, y, button)
+        self.gui.mouse_press_event(x, y, button)
 
     def mouse_release_event(self, x: int, y: int, button: int):
-        self.gui.io.mouse_release_event(x, y, button)
+        self.gui.mouse_release_event(x, y, button)
 
     def unicode_char_entered(self, char):
-        self.gui.io.unicode_char_entered(char)
+        self.gui.unicode_char_entered(char)
 
 
 moderngl_window.run_window_config(App)

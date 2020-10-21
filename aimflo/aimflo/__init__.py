@@ -9,7 +9,7 @@ from aimgui.impl.arcade import ArcadeGui
 
 class App(arcade.Window):
     def __init__(self):
-        super().__init__(1024, 768, "AimFlo Demo", resizable=True)
+        super().__init__(1280, 640, "AimFlo Demo", resizable=True)
         self.gui = ArcadeGui(self)
         self.pages = {}
         self.show_metrics = False
