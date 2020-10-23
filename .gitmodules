@@ -8,3 +8,6 @@
 [submodule "implot"]
 	path = implot
 	url = https://github.com/epezent/implot
+[submodule "imnodes"]
+	path = imnodes
+	url = https://github.com/aimgui/imnodes
