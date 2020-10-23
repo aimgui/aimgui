@@ -1,0 +1,25 @@
+source = '../imnodes/imnodes.h'
+target = 'src/aimnodes/bindings/generated.cpp'
+
+flags = [
+    '-std=c++17',
+    '-DIMGUI_DISABLE_OBSOLETE_FUNCTIONS=1',
+    '-I../imgui'
+]
+
+excludes = [
+    # Wrapped
+    'imnodes::EditorContextCreate',
+    'imnodes::EditorContextFree',
+    'imnodes::EditorContextSet',
+    # Internal / Ignored
+    'imnodes::EditorContext',
+    'imnodes::SaveEditorStateToIniString',
+    'imnodes::LoadEditorStateFromIniFile',
+    'imnodes::LoadEditorStateFromIniString',
+    'imnodes::SaveEditorStateToIniFile',
+    #Obsolete
+]
+
+overloaded = [
+]
