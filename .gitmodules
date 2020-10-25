@@ -11,3 +11,6 @@
 [submodule "imnodes"]
 	path = imnodes
 	url = https://github.com/aimgui/imnodes
+[submodule "imbp"]
+	path = imbp
+	url = https://github.com/thedmd/imgui-node-editor
