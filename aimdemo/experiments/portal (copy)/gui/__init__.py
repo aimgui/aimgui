@@ -17,6 +17,7 @@ class ArcadeRenderer(BaseOpenGLRenderer):
     VERTEX_SHADER_SRC = """
     #version 330
     uniform mat4 ProjMtx;
+    uniform vec2 Portal;
     in vec2 Position;
     in vec2 UV;
     in vec4 Color;
@@ -25,7 +26,7 @@ class ArcadeRenderer(BaseOpenGLRenderer):
     void main() {
         Frag_UV = UV;
         Frag_Color = Color;
-        gl_Position = ProjMtx * vec4(Position.xy, 0, 1);
+        gl_Position = ProjMtx * vec4(Position.xy + Portal, 0, 1);
     }
     """
 
@@ -48,7 +49,20 @@ class ArcadeRenderer(BaseOpenGLRenderer):
         self._vbo = None
         self._ibo = None
         self._font_texture = None
+        #
+        self.portal = (0,0)
+        self.portal_stack = []
+        #
         super().__init__()
+
+    def push_portal(self, portal):
+        self.portal_stack.append(self.portal)
+        self.portal = portal
+        self._program["Portal"] = self.portal
+
+    def pop_portal(self):
+        print('pop')
+        self.portal = self.portal_stack.pop(-1)
 
     def render(self, draw_data):
         io = self.io    
@@ -66,6 +80,8 @@ class ArcadeRenderer(BaseOpenGLRenderer):
             0.0, 0.0, -1.0, 0.0,
             -1.0, 1.0, 0.0, 1.0,
         )
+
+        self._program["Portal"] = self.portal
 
         draw_data.scale_clip_rects(fb_scale)
 
@@ -89,8 +105,7 @@ class ArcadeRenderer(BaseOpenGLRenderer):
 
                 if command.user_callback:
                     command.user_callback(self, draw_data, commands, command, command.user_callback_data)
-                else:
-                    self._vao.render(self._program, mode=self._ctx.TRIANGLES, vertices=command.elem_count, first=idx_pos)
+                self._vao.render(self._program, mode=self._ctx.TRIANGLES, vertices=command.elem_count, first=idx_pos)
                 idx_pos += command.elem_count
 
         # Just reset scissor back to default/viewport
@@ -199,6 +214,7 @@ class ArcadeGuiBase:
         # note: we cannot use default mechanism of mapping keys
         #       because pyglet uses weird key translation scheme
         for value in self.REVERSE_KEY_MAP.values():
+            #key_map[value] = value
             self.io.set_key_map(value, value)
 
     def _on_mods_change(self, mods):
@@ -212,11 +228,13 @@ class ArcadeGuiBase:
 
     def on_key_press(self, key_pressed, mods):
         if key_pressed in self.REVERSE_KEY_MAP:
+            #self.io.keys_down[self.REVERSE_KEY_MAP[key_pressed]] = True
             self.io.set_key_down(self.REVERSE_KEY_MAP[key_pressed], True)
         self._on_mods_change(mods)
 
     def on_key_release(self, key_released, mods):
         if key_released in self.REVERSE_KEY_MAP:
+            #self.io.keys_down[self.REVERSE_KEY_MAP[key_released]] = False
             self.io.set_key_down(self.REVERSE_KEY_MAP[key_released], False)
         self._on_mods_change(mods)
 
@@ -264,8 +282,8 @@ class ArcadeGuiBase:
         clock.schedule_once(lambda delta_time : self.io.set_mouse_down(code, False), delay)
 
 
-    def on_mouse_scroll(self, x, y, dx, dy):
-        self.io.mouse_wheel = dy
+    def on_mouse_scroll(self, x, y, mods, scroll):
+        self.io.mouse_wheel = scroll
 
     def on_resize(self, width, height):
         self.io.display_size = width, height
@@ -302,6 +320,16 @@ class ArcadeGui(ArcadeGuiBase):
                 self.on_mouse_scroll,
                 self.on_resize,
             )
+
+    def push_portal(self, draw_list, portal):
+        def cb(renderer, draw_data, draw_list, cmd, user_data):
+            renderer.push_portal(portal)
+        draw_list.add_callback(cb, None)
+
+    def pop_portal(self, draw_list):
+        def cb(renderer, draw_data, draw_list, cmd, user_data):
+            renderer.pop_portal()
+        draw_list.add_callback(cb, None)
 
     def draw(self):
         aimgui.render()
