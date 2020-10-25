@@ -1,0 +1,22 @@
+source = '../imbp/imgui_node_editor.h'
+target = 'src/aimbp/bindings/generated.cpp'
+
+flags = [
+    '-std=c++17',
+    '-DIMGUI_DISABLE_OBSOLETE_FUNCTIONS=1',
+    '-I../imgui'
+]
+
+excludes = [
+    # Wrapped
+    'ax::NodeEditor::SetCurrentEditor',
+    'ax::NodeEditor::GetCurrentEditor',
+    'ax::NodeEditor::CreateEditor',
+    'ax::NodeEditor::DestroyEditor',
+    # Internal / Ignored
+    'ax::NodeEditor::Config',
+    #Obsolete
+]
+
+overloaded = [
+]
