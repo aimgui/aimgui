@@ -262,11 +262,11 @@ class ArcadeGuiBase:
         if not inbounds:
             return
         
-        if modifiers & key.MOD_ALT:
+        if modifiers & key.MOD_CTRL:
             self.zoom = self.zoom + (dy * self.zoom_delta)
             return
 
-        if modifiers & key.MOD_CTRL:
+        if modifiers & key.MOD_ALT:
             self.pan = self.pan[0] + dx, self.pan[1] - dy
             return
 
