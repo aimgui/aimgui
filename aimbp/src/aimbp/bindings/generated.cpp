@@ -15,6 +15,8 @@
 #include <aimgui/conversions.h>
 #include <aimgui/bindtools.h>
 
+#include <aimbp/conversions.h>
+
 namespace py = pybind11;
 
 using namespace ax::NodeEditor;

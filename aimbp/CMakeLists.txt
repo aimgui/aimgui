@@ -42,6 +42,9 @@ set(IMBP_SRC
     src/aimbp/bindings/generated.cpp
     src/aimbp/bindings/main.cpp
     ${IMBP_DIR}/imgui_node_editor.cpp
+    ${IMBP_DIR}/imgui_node_editor_api.cpp
+    ${IMBP_DIR}/crude_json.cpp
+    ${IMBP_DIR}/imgui_canvas.cpp
 )
 
 pybind11_add_module(aimbp MODULE

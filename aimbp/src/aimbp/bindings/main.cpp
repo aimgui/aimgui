@@ -34,12 +34,20 @@ void init_main(py::module &libaimbp, Registry &registry) {
         return py::capsule(ax::NodeEditor::GetCurrentEditor(), "ImBpEditorContext");
     }
     , py::return_value_policy::automatic_reference);
+    /*
     libaimbp.def("create_editor", [](py::capsule& config)
     {
         return py::capsule(ax::NodeEditor::CreateEditor(config), "ImBpEditorContext");
     }
     , py::arg("config") = nullptr
     , py::return_value_policy::automatic_reference);
+    */
+    libaimbp.def("create_editor", []()
+    {
+        return py::capsule(ax::NodeEditor::CreateEditor(), "ImBpEditorContext");
+    }
+    , py::return_value_policy::automatic_reference);
+
     libaimbp.def("destroy_editor", [](py::capsule& ctx)
     {
         ax::NodeEditor::DestroyEditor(ctx);
