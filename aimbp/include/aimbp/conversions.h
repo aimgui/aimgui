@@ -34,4 +34,18 @@ namespace pybind11 { namespace detail {
         }
     };
 
+    template <> struct type_caster<LinkId> {
+    public:
+        PYBIND11_TYPE_CASTER(LinkId, _("LinkId"));
+        bool load(handle src, bool implicit) {
+            PyObject *source = src.ptr();
+            value = PyLong_AsLong(source);
+            return !PyErr_Occurred();
+        }
+        static handle cast(LinkId src, return_value_policy /* policy */, handle /* parent */) {
+            auto result = PyLong_FromLong(src.Get());
+            return result;
+        }
+    };
+
 }} // namespace pybind11::detail

@@ -208,16 +208,6 @@ void init_generated(py::module &libaimbp, Registry &registry) {
     , py::arg("color") = ImVec4(1,1,1,1)
     , py::arg("thickness") = 1.0f
     , py::return_value_policy::automatic_reference);
-    libaimbp.def("query_new_link", py::overload_cast<ax::NodeEditor::PinId *, ax::NodeEditor::PinId *>(&ax::NodeEditor::QueryNewLink)
-    , py::arg("start_id")
-    , py::arg("end_id")
-    , py::return_value_policy::automatic_reference);
-    libaimbp.def("query_new_link", py::overload_cast<ax::NodeEditor::PinId *, ax::NodeEditor::PinId *, const ImVec4 &, float>(&ax::NodeEditor::QueryNewLink)
-    , py::arg("start_id")
-    , py::arg("end_id")
-    , py::arg("color")
-    , py::arg("thickness") = 1.0f
-    , py::return_value_policy::automatic_reference);
     libaimbp.def("query_new_node", py::overload_cast<ax::NodeEditor::PinId *>(&ax::NodeEditor::QueryNewNode)
     , py::arg("pin_id")
     , py::return_value_policy::automatic_reference);

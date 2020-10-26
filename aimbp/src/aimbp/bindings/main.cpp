@@ -54,30 +54,24 @@ void init_main(py::module &libaimbp, Registry &registry) {
     }
     , py::arg("ctx")
     , py::return_value_policy::automatic_reference);
-
-   /*
-    //EditorContext* EditorContextCreate()
-    libaimbp.def("editor_context_create", []()
-    {
-        return py::capsule(imnodes::EditorContextCreate(), "ImNodesEditorContext");
-    }
-    , py::return_value_policy::automatic_reference);
-
-    //void EditorContextFree(EditorContext* ctx)
-    libaimbp.def("editor_context_free", [](py::capsule& ctx)
-    {
-        imnodes::EditorContextFree(ctx);
-    }
-    , py::arg("ctx") = nullptr
-    , py::return_value_policy::automatic_reference);
-
-    //void EditorContextSet(EditorContext*);
-    libaimbp.def("editor_context_set", [](py::capsule& ctx)
-    {
-        imnodes::EditorContextSet(ctx);
-    }
-    , py::arg("ctx")
+    /*
+    libaimbp.def("query_new_link", py::overload_cast<ax::NodeEditor::PinId *, ax::NodeEditor::PinId *, const ImVec4 &, float>(&ax::NodeEditor::QueryNewLink)
+    , py::arg("start_id")
+    , py::arg("end_id")
+    , py::arg("color") = ImVec4(1,1,1,1)
+    , py::arg("thickness") = 1.0f
     , py::return_value_policy::automatic_reference);
     */
+    libaimbp.def("query_new_link",  [](const ImVec4& color, float thickness)
+    {
+        ax::NodeEditor::PinId pin1, pin2;
+        bool success = ax::NodeEditor::QueryNewLink(&pin1, &pin2, color, thickness);
+        auto result = py::make_tuple(success, pin1.Get(), pin2.Get());
+        return result;
+    }
+    , py::arg("color") = ImVec4(1,1,1,1)
+    , py::arg("thickness") = 1.0f
+    , py::return_value_policy::automatic_reference);
+
 }
 

@@ -13,6 +13,7 @@ excludes = [
     'ax::NodeEditor::GetCurrentEditor',
     'ax::NodeEditor::CreateEditor',
     'ax::NodeEditor::DestroyEditor',
+    'ax::NodeEditor::QueryNewLink',
     # Internal / Ignored
     'ax::NodeEditor::Config',
     #Obsolete
