@@ -8,7 +8,7 @@ from aimgui.renderer import compute_framebuffer_scale
 from aimgui.renderer.base import BaseOpenGLRenderer
 
 
-class ArcadePortalRenderer(BaseOpenGLRenderer):
+class ArcadeRenderer(BaseOpenGLRenderer):
     """
     A renderer using the arcade.gl module instead of PyOpenGL.
     This is using pyglet's OpenGL bindings instead.
@@ -41,16 +41,28 @@ class ArcadePortalRenderer(BaseOpenGLRenderer):
     }
     """
 
-    def __init__(self, gui, *args, **kwargs):
-        self.gui = gui
-        self._window = gui.window
-        self._ctx: Context = gui.window.ctx
+    def __init__(self, window, *args, **kwargs):
+        self._window = window
+        self._ctx: Context = window.ctx
         self._program = None
         self._vao = None
         self._vbo = None
         self._ibo = None
         self._font_texture = None
+        #
+        self.portal = (0,0)
+        self.portal_stack = []
+        #
         super().__init__()
+
+    def push_portal(self, portal):
+        self.portal_stack.append(self.portal)
+        self.portal = portal
+        self._program["Portal"] = self.portal
+
+    def pop_portal(self):
+        self.portal = self.portal_stack.pop(-1)
+        self._program["Portal"] = self.portal
 
     def render(self, draw_data):
         io = self.io    
@@ -61,26 +73,15 @@ class ArcadePortalRenderer(BaseOpenGLRenderer):
         fb_height = int(display_height * fb_scale[1])
         if fb_width == 0 or fb_height == 0:
             return
-        '''
+
         self._program["ProjMtx"] = (
             2.0 / display_width, 0.0, 0.0, 0.0,
             0.0, 2.0 / -display_height, 0.0, 0.0,
             0.0, 0.0, -1.0, 0.0,
             -1.0, 1.0, 0.0, 1.0,
         )
-        '''
-        zoom = self.gui.zoom
-        self._program["ProjMtx"] = (
-            2.0 / display_width*zoom, 0.0, 0.0, 0.0,
-            0.0, 2.0 / -display_height*zoom, 0.0, 0.0,
-            0.0, 0.0, -1.0, 0.0,
-            -1.0, 1.0, 0.0, 1.0,
-        )
 
-        px = self.gui.position[0] + self.gui.pan[0]
-        py = self.gui.position[1] + self.gui.pan[1]
-
-        self._program["Portal"] = px, py
+        self._program["Portal"] = self.portal
 
         draw_data.scale_clip_rects(fb_scale)
 
@@ -100,18 +101,16 @@ class ArcadePortalRenderer(BaseOpenGLRenderer):
                 gl.glBindTexture(gl.GL_TEXTURE_2D, command.texture_id)
                 # Set scissor box
                 x, y, z, w = command.clip_rect
-                #gl.glScissor(int(x), int(fb_height - w), int(z - x), int(w - y))
+                gl.glScissor(int(x), int(fb_height - w), int(z - x), int(w - y))
 
                 if command.user_callback:
                     command.user_callback(self, draw_data, commands, command, command.user_callback_data)
-                self._vao.render(self._program, mode=self._ctx.TRIANGLES, vertices=command.elem_count, first=idx_pos)
+                else:
+                    self._vao.render(self._program, mode=self._ctx.TRIANGLES, vertices=command.elem_count, first=idx_pos)
                 idx_pos += command.elem_count
 
         # Just reset scissor back to default/viewport
-        #gl.glScissor(*self._ctx.viewport)
-        x, y = self.gui.position
-        w, h = self.gui.size
-        #gl.glScissor(int(x), int(y), int(x+w), int(y+h))
+        gl.glScissor(*self._ctx.viewport)
 
     def refresh_font_texture(self):
         width, height, pixels = self.io.fonts.get_tex_data_as_rgba32()
@@ -189,13 +188,13 @@ class ArcadeGuiBase:
         # minor introspection here to check.
         if hasattr(window, 'get_viewport_size'):
             viewport_size = window.get_viewport_size()
-            self.io.display_framebuffer_scale = compute_framebuffer_scale(window_size, viewport_size)
+            self.io.display_fb_scale = compute_framebuffer_scale(window_size, viewport_size)
         elif hasattr(window, 'get_pixel_ratio'):
-            self.io.display_framebuffer_scale = (window.get_pixel_ratio(),
+            self.io.display_fb_scale = (window.get_pixel_ratio(),
                                         window.get_pixel_ratio())
         else:
             # Default to 1.0 in this unlikely circumstance
-            self.io.display_framebuffer_scale = (1.0, 1.0)
+            self.io.display_fb_scale = (1.0, 1.0)
 
     def _attach_callbacks(self, window):
         window.push_handlers(
@@ -216,6 +215,7 @@ class ArcadeGuiBase:
         # note: we cannot use default mechanism of mapping keys
         #       because pyglet uses weird key translation scheme
         for value in self.REVERSE_KEY_MAP.values():
+            #key_map[value] = value
             self.io.set_key_map(value, value)
 
     def _on_mods_change(self, mods):
@@ -224,13 +224,18 @@ class ArcadeGuiBase:
         self.io.key_alt = mods & key.MOD_ALT
         self.io.key_shift = mods & key.MOD_SHIFT
 
+    def on_mouse_motion(self, x, y, dx, dy):
+        self.io.mouse_pos = x, self.io.display_size[1] - y
+
     def on_key_press(self, key_pressed, mods):
         if key_pressed in self.REVERSE_KEY_MAP:
+            #self.io.keys_down[self.REVERSE_KEY_MAP[key_pressed]] = True
             self.io.set_key_down(self.REVERSE_KEY_MAP[key_pressed], True)
         self._on_mods_change(mods)
 
     def on_key_release(self, key_released, mods):
         if key_released in self.REVERSE_KEY_MAP:
+            #self.io.keys_down[self.REVERSE_KEY_MAP[key_released]] = False
             self.io.set_key_down(self.REVERSE_KEY_MAP[key_released], False)
         self._on_mods_change(mods)
 
@@ -240,36 +245,9 @@ class ArcadeGuiBase:
         for char in text:
             io.add_input_character(ord(char))
 
-    def translate_mouse(self, x, y):
-        px, py = self.position
-        w, h = self.size
-        inbounds = True
-        if x < px or x > px+w or y < py or y > py+h:
-            inbounds = False
-        px = px + self.pan[0]
-        py = py + self.pan[1]
-
-        return inbounds, x/self.zoom-px, (self.io.display_size[1] - y)/self.zoom - py
-
-    def on_mouse_motion(self, x, y, dx, dy):
-        inbounds, px, py = self.translate_mouse(x, y)
-        if not inbounds:
-            return
-        self.io.mouse_pos = px, py
-
     def on_mouse_drag(self, x, y, dx, dy, button, modifiers):
-        inbounds, px, py = self.translate_mouse(x, y)
-        if not inbounds:
-            return
+        self.io.mouse_pos = x, self.io.display_size[1] - y
         
-        if modifiers & key.MOD_CTRL:
-            self.zoom = self.zoom + (dy * self.zoom_delta)
-            return
-
-        if modifiers & key.MOD_ALT:
-            self.pan = self.pan[0] + dx, self.pan[1] - dy
-            return
-
         if button == mouse.LEFT:
             self.io.set_mouse_down(0, True)
 
@@ -279,14 +257,9 @@ class ArcadeGuiBase:
         if button == mouse.MIDDLE:
             self.io.set_mouse_down(2, True)
 
-        self.io.mouse_pos = px, py
 
     def on_mouse_press(self, x, y, button, modifiers):
-        inbounds, px, py = self.translate_mouse(x, y)
-        if not inbounds:
-            return
-        self.io.mouse_pos = px, py
-
+        self.io.mouse_pos = x, self.io.display_size[1] - y
         code = 0
         if button == mouse.LEFT:
             code = 0
@@ -298,11 +271,7 @@ class ArcadeGuiBase:
         self.io.set_mouse_down(code, True)
 
     def on_mouse_release(self, x, y, button, modifiers):
-        inbounds, px, py = self.translate_mouse(x, y)
-        if not inbounds:
-            return
-        self.io.mouse_pos = px, py
-
+        self.io.mouse_pos = x, self.io.display_size[1] - y
         code = 0; delay = .2
         if button == mouse.LEFT:
             delay = 0
@@ -314,14 +283,14 @@ class ArcadeGuiBase:
         clock.schedule_once(lambda delta_time : self.io.set_mouse_down(code, False), delay)
 
 
-    def on_mouse_scroll(self, x, y, dx, dy):
-        self.io.mouse_wheel = dy
+    def on_mouse_scroll(self, x, y, mods, scroll):
+        self.io.mouse_wheel = scroll
 
     def on_resize(self, width, height):
         self.io.display_size = width, height
 
 
-class ArcadePortalGui(ArcadeGuiBase):
+class ArcadeGui(ArcadeGuiBase):
     def __init__(self, window, attach_callbacks=True):
         self.window = window
 
@@ -330,17 +299,13 @@ class ArcadePortalGui(ArcadeGuiBase):
 
         self.io = aimgui.get_io()
 
-        self.renderer = ArcadePortalRenderer(self)
+        self.renderer = ArcadeRenderer(window)
 
         window_size = window.get_size()
         viewport_size = window.get_viewport_size()
 
         self.io.display_size = window_size
         self.io.display_framebuffer_scale = compute_framebuffer_scale(window_size, viewport_size)
-
-        self.pan = 0, 0
-        self.zoom = 1
-        self.zoom_delta = .01
 
         self._map_keys()
 
@@ -356,6 +321,16 @@ class ArcadePortalGui(ArcadeGuiBase):
                 self.on_mouse_scroll,
                 self.on_resize,
             )
+
+    def push_portal(self, draw_list, portal):
+        def cb(renderer, draw_data, draw_list, cmd, user_data):
+            renderer.push_portal(portal)
+        draw_list.add_callback(cb, None)
+
+    def pop_portal(self, draw_list):
+        def cb(renderer, draw_data, draw_list, cmd, user_data):
+            renderer.pop_portal()
+        draw_list.add_callback(cb, None)
 
     def draw(self):
         aimgui.render()

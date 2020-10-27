@@ -83,6 +83,7 @@ class App(arcade.Window):
                     aimbp.link(link[0], link[1], link[2])
         aimbp.end_create()
 
+        # Draw the links
         for link in self.links:
             aimbp.link(link[0], link[1], link[2])
 
