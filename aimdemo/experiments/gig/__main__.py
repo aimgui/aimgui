@@ -9,8 +9,8 @@ import arcade
 class InnerGui(ArcadePortalGui):
     def draw(self):
         aimgui.set_current_context(self.context)
-        self.io.display_framebuffer_scale = (self.zoom, self.zoom)
-        self.io.font_global_scale = self.zoom
+        #self.io.display_framebuffer_scale = (self.zoom, self.zoom)
+        #self.io.font_global_scale = self.zoom
         aimgui.new_frame()
         
         aimgui.set_next_window_size((500,500))
@@ -60,15 +60,21 @@ class App(arcade.Window):
         aimgui.begin("Example: button")
         aimgui.button("Button 1")
         aimgui.button("Button 2")
+        #aimgui.begin_child('MyChild', border=True)
         self.inner_gui.position = aimgui.get_cursor_screen_pos()
-        self.inner_gui.size = (600, 400)
-        aimgui.invisible_button("Blah", (600, 400))
+        #size = (600, 400)
+        size = aimgui.get_content_region_max()
+        self.inner_gui.size = size
+        aimgui.invisible_button("Blah", size)
+        self.inner_gui.hovered = aimgui.is_item_hovered()
+
         def cb(renderer, draw_data, draw_list, cmd, user_data):
             self.inner_gui.draw()
             aimgui.set_current_context(self.gui.context)
         draw_list = aimgui.get_window_draw_list()
         draw_list.add_callback(cb, None)
         #aimgui.set_current_context(self.gui.context)
+        #aimgui.end_child()
         aimgui.end()
 
         aimgui.show_metrics_window()

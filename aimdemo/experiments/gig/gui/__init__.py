@@ -243,23 +243,24 @@ class ArcadeGuiBase:
     def translate_mouse(self, x, y):
         px, py = self.position
         w, h = self.size
-        inbounds = True
-        if x < px or x > px+w or y < py or y > py+h:
-            inbounds = False
+
+        hovered = self.hovered
+
+        print(hovered)
         px = px + self.pan[0]
         py = py + self.pan[1]
 
-        return inbounds, x/self.zoom-px, (self.io.display_size[1] - y)/self.zoom - py
+        return hovered, x/self.zoom-px, (self.io.display_size[1] - y)/self.zoom - py
 
     def on_mouse_motion(self, x, y, dx, dy):
-        inbounds, px, py = self.translate_mouse(x, y)
-        if not inbounds:
+        hovered, px, py = self.translate_mouse(x, y)
+        if not hovered:
             return
         self.io.mouse_pos = px, py
 
     def on_mouse_drag(self, x, y, dx, dy, button, modifiers):
-        inbounds, px, py = self.translate_mouse(x, y)
-        if not inbounds:
+        hovered, px, py = self.translate_mouse(x, y)
+        if not hovered:
             return
         
         if modifiers & key.MOD_CTRL:
@@ -267,7 +268,7 @@ class ArcadeGuiBase:
             return
 
         if modifiers & key.MOD_ALT:
-            self.pan = self.pan[0] + dx, self.pan[1] - dy
+            self.pan = self.pan[0] + dx/self.zoom, self.pan[1] - dy/self.zoom
             return
 
         if button == mouse.LEFT:
@@ -282,8 +283,8 @@ class ArcadeGuiBase:
         self.io.mouse_pos = px, py
 
     def on_mouse_press(self, x, y, button, modifiers):
-        inbounds, px, py = self.translate_mouse(x, y)
-        if not inbounds:
+        hovered, px, py = self.translate_mouse(x, y)
+        if not hovered:
             return
         self.io.mouse_pos = px, py
 
@@ -298,8 +299,8 @@ class ArcadeGuiBase:
         self.io.set_mouse_down(code, True)
 
     def on_mouse_release(self, x, y, button, modifiers):
-        inbounds, px, py = self.translate_mouse(x, y)
-        if not inbounds:
+        hovered, px, py = self.translate_mouse(x, y)
+        if not hovered:
             return
         self.io.mouse_pos = px, py
 
@@ -341,6 +342,7 @@ class ArcadePortalGui(ArcadeGuiBase):
         self.pan = 0, 0
         self.zoom = 1
         self.zoom_delta = .01
+        self.hovered = False
 
         self._map_keys()
 
