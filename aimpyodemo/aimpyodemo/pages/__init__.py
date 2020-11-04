@@ -1,5 +1,31 @@
+import sys
 import arcade
 import aimgui
+
+def trim_docstring(docstring):
+    if not docstring:
+        return ''
+    # Convert tabs to spaces (following the normal Python rules)
+    # and split into a list of lines:
+    lines = docstring.expandtabs().splitlines()
+    # Determine minimum indentation (first line doesn't count):
+    indent = sys.maxsize
+    for line in lines[1:]:
+        stripped = line.lstrip()
+        if stripped:
+            indent = min(indent, len(line) - len(stripped))
+    # Remove indentation (first line is special):
+    trimmed = [lines[0].strip()]
+    if indent < sys.maxsize:
+        for line in lines[1:]:
+            trimmed.append(line[indent:].rstrip())
+    # Strip off trailing and leading blank lines:
+    while trimmed and not trimmed[-1]:
+        trimmed.pop()
+    while trimmed and not trimmed[0]:
+        trimmed.pop(0)
+    # Return a single string:
+    return '\n'.join(trimmed)
 
 class Page(arcade.View):
     def __init__(self, window, name, title):
@@ -63,20 +89,19 @@ class Page(arcade.View):
         aimgui.end_frame()
 
     def draw_navbar(self):
-        #gui.set_next_window_pos((16, 32), aimgui.COND_ONCE)
         aimgui.set_next_window_pos((self.window.width - 256 - 16, 32), aimgui.COND_ONCE)
         aimgui.set_next_window_size((256, self.window.height-32-16), aimgui.COND_ONCE)
         
         aimgui.begin("Examples")
 
-        if aimgui.list_box_header("Examples", -1, -1):
+        for section in self.window.sections.values():
+            if aimgui.tree_node(section['title']):
+                for entry in section['pages'].values():
+                    opened, selected = aimgui.selectable(entry['title'], entry['name'] == self.window.page.name)
+                    if opened:
+                        self.window.show(entry['name'])
+                aimgui.tree_pop()
 
-            for entry in self.window.pages.values():
-                opened, selected = aimgui.selectable(entry['title'], entry['name'] == self.window.page.name)
-                if opened:
-                    self.window.show(entry['name'])
-
-            aimgui.list_box_footer()
         
         aimgui.end()
 
@@ -105,4 +130,20 @@ class Page(arcade.View):
             aimgui.end_main_menu_bar()
 
     def draw(self):
+        aimgui.begin(self.title)
+
+        if aimgui.button('Play'):
+            self.play()
+        if aimgui.button('Stop'):
+            self.stop()
+
+        if(self.__doc__):
+            aimgui.text_unformatted(trim_docstring(self.__doc__))
+
+        aimgui.end()
+
+    def play(self):
         pass
+
+    def stop(self):
+        self.reset()

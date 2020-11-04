@@ -1,5 +1,3 @@
-import time
-
 from pyo import *
 
 import aimgui
@@ -19,16 +17,20 @@ class BasicPage(Page):
         #fm2.ctrl()
 
         # Interpolates between input objects to produce a single output
-        self.sel = Selector([fm1, fm2]).out(dur=3.)
+        self.sel = Selector([fm1, fm2])
         #sel.ctrl(title="Input interpolator (0=FM, 1=CrossFM)")
         #time.sleep(3)
 
     def draw(self):
         aimgui.begin(self.title)
 
-        aimgui.text("Buzzzz...")
+        if aimgui.button('Play'):
+            self.sel.out()
         
+        if aimgui.button('Stop'):
+            self.reset()
+
         aimgui.end()
 
 def install(app):
-    app.add_page(BasicPage, "basic", "Basic")
+    app.add_page(BasicPage, "basic", "basic", "Basic")

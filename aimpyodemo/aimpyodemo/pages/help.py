@@ -4,7 +4,7 @@ import aimgui
 from . import Page
 
 
-class Index(Page):
+class AboutPage(Page):
     def draw(self):
         aimgui.begin("Index")
 
@@ -13,4 +13,4 @@ class Index(Page):
         aimgui.end()
 
 def install(app):
-    app.add_page(Index, "index", "Index")
+    app.add_page(AboutPage, "help", "about", "About")

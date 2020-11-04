@@ -18,6 +18,7 @@ class App(arcade.Window):
     def __init__(self):
         super().__init__(1280, 640, "AimPyo Demo", resizable=True)
         self.gui = ArcadeGui(self)
+        self.sections = {}
         self.pages = {}
         self.show_metrics = False
         self.show_style_editor = False
@@ -32,7 +33,8 @@ class App(arcade.Window):
         self.gui.draw()
 
     def run(self):
-        self.server = s = Server(audio='jack').boot()
+        self.server = s = Server(audio='jack')
+        s.boot()
         s.start()
 
         arcade.run()
@@ -45,9 +47,21 @@ class App(arcade.Window):
         module, install = module, module.install
         install(self)
 
-    def add_page(self, klass, name, title):
+    def add_section(self, title):
         # print(page.__dict__)
-        self.pages[name] = { 'klass': klass, 'name': name, 'title': title }
+        if not title in self.sections.keys():
+            section = { 'title': title, 'pages':{}}
+            self.sections[title] = section
+        else:
+            section = self.sections[title]
+        return section
+
+    def add_page(self, klass, section_title, name, title):
+        # print(page.__dict__)
+        section = self.add_section(section_title)
+        entry = { 'klass': klass, 'name': name, 'title': title }
+        self.pages[name] = entry
+        section['pages'][name] = entry
 
     def show(self, name):
         def callback(delta_time):

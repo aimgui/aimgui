@@ -5,9 +5,11 @@ from aimpyodemo import App
 
 app = App()
 
-app.use('index')
-app.use('basic')
+#app.use('basic')
+app.use('help')
+app.use('intro')
+app.use('controls')
 
-app.show('basic')
+app.show('about')
 
 app.run()
