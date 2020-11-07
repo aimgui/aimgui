@@ -45,7 +45,7 @@ class App(arcade.Window):
 
         aimgui.end_frame()
 
-        self.gui.draw()
+        self.gui.render()
 
 
 app = App()

@@ -13,6 +13,7 @@ app.use('soundfiles')
 app.use('envelopes')
 app.use('filters')
 
-app.show('about')
+#app.show('about')
+app.show('dynamiccontrol')
 
 app.run()

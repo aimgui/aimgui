@@ -31,6 +31,7 @@ class Page(arcade.View):
     def __init__(self, window, name, title):
         super().__init__(window)
         self.window = window
+        self.gui = self.window.gui
         self.name = name
         self.title = title
         self.fullwidth = True
@@ -85,7 +86,7 @@ class Page(arcade.View):
         aimgui.set_next_window_size((width, height), aimgui.COND_ONCE)
 
         self.draw()
-        
+        self.window.gui.draw()
         aimgui.end_frame()
 
     def draw_navbar(self):

@@ -11,13 +11,13 @@ import pyglet
 import arcade
 import aimgui
 
-from aimgui.impl.arcade import ArcadeGui
+from .gui import PyoGui
 
 
 class App(arcade.Window):
     def __init__(self):
         super().__init__(1280, 640, "AimPyo Demo", resizable=True)
-        self.gui = ArcadeGui(self)
+        self.gui = PyoGui(self)
         self.sections = {}
         self.pages = {}
         self.show_metrics = False
@@ -30,7 +30,7 @@ class App(arcade.Window):
 
     def on_draw(self):
         super().on_draw()
-        self.gui.draw()
+        self.gui.render()
 
     def run(self):
         self.server = s = Server(audio='jack')

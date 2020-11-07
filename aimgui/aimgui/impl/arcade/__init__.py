@@ -303,6 +303,6 @@ class ArcadeGui(ArcadeGuiBase):
                 self.on_resize,
             )
 
-    def draw(self):
+    def render(self):
         aimgui.render()
         self.renderer.render(aimgui.get_draw_data())

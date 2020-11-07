@@ -80,7 +80,7 @@ class App(arcade.Window):
         aimgui.show_metrics_window()
         aimgui.end_frame()
 
-        self.gui.draw()
+        self.gui.render()
         #self.inner_gui.draw()
 
 

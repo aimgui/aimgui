@@ -18,24 +18,21 @@ class DynamicControl(Page):
         #s.amp = 0.1
 
         # Creates two objects with cool parameters, one per channel.
-        self.a = a = FM()
-        self.b = b = FM()
+        self.a = FM()
+        self.b = FM()
 
-        gui = self.gui
-        gui.clear()
         # Opens the controller windows.
-        gui.ctrl(a, title="Frequency modulation left channel")
-        gui.ctrl(b, title="Frequency modulation right channel")
+        a.ctrl(title="Frequency modulation left channel")
+        b.ctrl(title="Frequency modulation right channel")
 
         # If a list of values is given at a particular argument, the ctrl
         # window will show a multislider to set each value separately.
 
-        self.oscs = oscs = Sine([100, 200, 300, 400, 500, 600, 700, 800], mul=0.1)
-        gui.ctrl(oscs, title="Simple additive synthesis")
+        oscs = Sine([100, 200, 300, 400, 500, 600, 700, 800], mul=0.1).out()
+        oscs.ctrl(title="Simple additive synthesis")
 
-        #s.gui(locals())
+        s.gui(locals())
 
     def play(self):
         self.a.out()
         self.b.out(1)
-        self.oscs.out()

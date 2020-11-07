@@ -48,7 +48,7 @@ class ChildApp(arcade.Window):
 
     def on_draw(self):
         arcade.start_render()
-        self.gui.draw()
+        self.gui.render()
 
 
 class MyGui(ArcadeGui):
@@ -95,7 +95,7 @@ class App(arcade.Window):
 
     def on_draw(self):
         arcade.start_render()
-        self.gui.draw()
+        self.gui.render()
 
 
 app = ChildApp()

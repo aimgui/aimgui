@@ -38,7 +38,7 @@ class App(arcade.Window):
 
     def on_draw(self):
         arcade.start_render()
-        self.gui.draw()
+        self.gui.render()
 
 
 def test_render():
