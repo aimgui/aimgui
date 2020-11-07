@@ -3,7 +3,7 @@ from pyo import *
 from .. import Page
 
 
-class SinePage(Page):
+class SineTone(Page):
     """
     02-sine-tone.py - The "hello world" of audio programming!
 

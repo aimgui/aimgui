@@ -6,7 +6,7 @@ import aimgui
 from .. import Page
 
 
-class OutputChannelsPage(Page):
+class OutputChannels(Page):
     """
     05-output-channels.py - Sending signals to different physical outputs.
 

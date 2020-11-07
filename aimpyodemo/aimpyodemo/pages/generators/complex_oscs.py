@@ -13,7 +13,7 @@ import aimgui
 from .. import Page
 
 
-class ComplexOcsPage(Page):
+class ComplexOcs(Page):
     """
     01-complex-oscs.py - Complex spectrum oscillators.
 

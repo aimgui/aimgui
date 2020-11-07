@@ -5,7 +5,7 @@ import aimgui
 from .. import Page
 
 
-class ParallelProcPage(Page):
+class ParallelProc(Page):
     """
     03-parallel-proc.py - Multiple processes on a single source.
 

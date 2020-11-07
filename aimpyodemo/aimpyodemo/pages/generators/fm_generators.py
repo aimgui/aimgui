@@ -3,7 +3,7 @@ from pyo import *
 from .. import Page
 
 
-class FmGeneratorsPage(Page):
+class FmGenerators(Page):
     """
     03-fm-generators.py - Frequency modulation synthesis.
 

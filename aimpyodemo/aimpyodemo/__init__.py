@@ -56,8 +56,11 @@ class App(arcade.Window):
             section = self.sections[title]
         return section
 
-    def add_page(self, klass, section_title, name, title):
+    def add_page(self, klass, section_title, title=None):
         # print(page.__dict__)
+        name = klass.__name__.lower()
+        if not title:
+            title = klass.__name__
         section = self.add_section(section_title)
         entry = { 'klass': klass, 'name': name, 'title': title }
         self.pages[name] = entry

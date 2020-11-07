@@ -5,7 +5,7 @@ import aimgui
 from . import Page
 
 
-class BasicPage(Page):
+class Basic(Page):
     def reset(self):
         # FM implements the basic Chowning algorithm
         fm1 = FM(carrier=250, ratio=[1.5, 1.49], index=10, mul=0.3)
@@ -33,4 +33,4 @@ class BasicPage(Page):
         aimgui.end()
 
 def install(app):
-    app.add_page(BasicPage, "basic", "basic", "Basic")
+    app.add_page(Basic, "basic")

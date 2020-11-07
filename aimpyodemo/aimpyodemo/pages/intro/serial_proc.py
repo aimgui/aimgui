@@ -5,7 +5,7 @@ import aimgui
 from .. import Page
 
 
-class SerialProcPage(Page):
+class SerialProc(Page):
     """
     04-serial-proc.py - Chaining processes on a single source.
 

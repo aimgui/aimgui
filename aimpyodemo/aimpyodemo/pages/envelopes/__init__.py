@@ -5,8 +5,8 @@ from .simple_envelopes import SimpleEnvelopes
 from .breakpoints_functions import BreakpointsFunctions
 
 def install(app):
-    app.add_page(DataSignalConversion, "envelopes", "datasignalconversion", "DataSignalConversion")
-    app.add_page(LinearRamp, "envelopes", "linearramp", "LinearRamp")
-    app.add_page(ExponentialRamp, "envelopes", "exponentialramp", "ExponentialRamp")
-    app.add_page(SimpleEnvelopes, "envelopes", "simpleenvelopes", "SimpleEnvelopes")
-    app.add_page(BreakpointsFunctions, "envelopes", "breakpointsfunctions", "BreakpointsFunctions")
+    app.add_page(DataSignalConversion, "envelopes")
+    app.add_page(LinearRamp, "envelopes")
+    app.add_page(ExponentialRamp, "envelopes")
+    app.add_page(SimpleEnvelopes, "envelopes")
+    app.add_page(BreakpointsFunctions, "envelopes")

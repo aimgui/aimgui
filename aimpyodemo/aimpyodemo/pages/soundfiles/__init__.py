@@ -5,8 +5,8 @@ from .record_perf import RecordPerf
 from .record_streams import RecordStreams
 
 def install(app):
-    app.add_page(ReadFromDisk, "soundfiles", "readfromdisk", "ReadFromDisk")
-    app.add_page(ReadFromDisk2, "soundfiles", "readfromdisk2", "ReadFromDisk2")
-    app.add_page(ReadFromRam, "soundfiles", "readfromram", "ReadFromRam")
-    app.add_page(RecordPerf, "soundfiles", "recordperf", "RecordPerf")
-    app.add_page(RecordStreams, "soundfiles", "recordstreams", "RecordStreams")
+    app.add_page(ReadFromDisk, "soundfiles")
+    app.add_page(ReadFromDisk2, "soundfiles")
+    app.add_page(ReadFromRam, "soundfiles")
+    app.add_page(RecordPerf, "soundfiles")
+    app.add_page(RecordStreams, "soundfiles")

@@ -1,9 +1,9 @@
-from .sine_tone import SinePage
-from .parallel_proc import ParallelProcPage
-from .serial_proc import SerialProcPage
-from .output_channels import OutputChannelsPage
+from .sine_tone import SineTone
+from .parallel_proc import ParallelProc
+from .serial_proc import SerialProc
+from .output_channels import OutputChannels
 
 def install(app):
-    app.add_page(SinePage, "intro", "sine", "Sine")
-    app.add_page(ParallelProcPage, "intro", "parallelproc", "ParallelProc")
-    app.add_page(OutputChannelsPage, "intro", "outputchannels", "OutputChannels")
+    app.add_page(SineTone, "intro")
+    app.add_page(ParallelProc, "intro")
+    app.add_page(OutputChannels, "intro")

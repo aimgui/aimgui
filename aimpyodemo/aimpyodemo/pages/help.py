@@ -4,13 +4,13 @@ import aimgui
 from . import Page
 
 
-class AboutPage(Page):
+class About(Page):
     def draw(self):
-        aimgui.begin("Index")
+        aimgui.begin(self.title)
 
         aimgui.text("Welcome to the AimPyo Demo!")
         
         aimgui.end()
 
 def install(app):
-    app.add_page(AboutPage, "help", "about", "About")
+    app.add_page(About, "help")

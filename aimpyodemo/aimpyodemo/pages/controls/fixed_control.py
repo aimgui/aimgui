@@ -5,7 +5,7 @@ import aimgui
 from .. import Page
 
 
-class FixedControlPage(Page):
+class FixedControl(Page):
     """
     01-fixed-control.py - Number as argument.
 
