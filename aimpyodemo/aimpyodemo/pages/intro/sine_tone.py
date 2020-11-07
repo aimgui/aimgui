@@ -1,7 +1,5 @@
 from pyo import *
 
-import aimgui
-
 from .. import Page
 
 
