@@ -32,6 +32,7 @@ class Page(arcade.View):
         super().__init__(window)
         self.window = window
         self.gui = self.window.gui
+        self.server = self.window.server
         self.name = name
         self.title = title
         self.fullwidth = True

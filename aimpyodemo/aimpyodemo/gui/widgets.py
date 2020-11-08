@@ -1,4 +1,5 @@
-from typing import Counter
+import string
+
 from pyo import *
 
 import aimgui
@@ -21,12 +22,32 @@ class PyoScope(Drawable):
         self.scope = Scope(input, function=fn)
 
     def draw(self):
-        aimgui.begin("My Plot")
-        if aimplot.begin_plot("My Plot"):
+        letters = list(string.ascii_uppercase)
+        aimgui.begin("Scope")
+        if aimplot.begin_plot("Scope Plot"):
             for data in self.data:
                 #print(data)
                 _, data = zip(*data)
-                aimplot.plot_line("A", data, len(data))
+                aimplot.plot_line(letters.pop(), data, len(data))
+            aimplot.end_plot()
+        aimgui.end()
+
+class PyoSpectrum(Drawable):
+    def __init__(self, input, size=1024, wintype=2, function=None, wintitle="Spectrum"):
+        self.data = []
+        def fn(data):
+            self.data = data
+
+        self.scope = Spectrum(input, function=fn)
+
+    def draw(self):
+        letters = list(string.ascii_uppercase)
+        aimgui.begin("Spectrum")
+        if aimplot.begin_plot("Spectrum Plot"):
+            for data in self.data:
+                #print(data)
+                _, data = zip(*data)
+                aimplot.plot_line(letters.pop(), data, len(data))
             aimplot.end_plot()
         aimgui.end()
 

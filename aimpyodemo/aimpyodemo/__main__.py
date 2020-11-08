@@ -13,7 +13,6 @@ app.use('soundfiles')
 app.use('envelopes')
 app.use('filters')
 
-#app.show('about')
-app.show('outputrange')
+app.show('about')
 
 app.run()
