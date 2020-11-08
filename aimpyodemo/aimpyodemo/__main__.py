@@ -12,6 +12,7 @@ app.use('generators')
 app.use('soundfiles')
 app.use('envelopes')
 app.use('filters')
+app.use('effects')
 
 app.show('about')
 

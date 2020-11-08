@@ -249,23 +249,25 @@ class PyoObjectControl(Drawable):
 class FMControl(PyoObjectControl):
     def __init__(self, obj, map_list=None, title=None):
         super().__init__(obj, map_list, title)
-        print('init')
         self._map_list = [
             SLMap(10, 500, "lin", "carrier", obj._carrier),
             SLMap(0.01, 10, "lin", "ratio", obj._ratio),
             SLMap(0, 20, "lin", "index", obj._index),
             SLMapMul(obj._mul),
         ]
-        #PyoObject.ctrl(self, map_list, title)
 
 class SineControl(PyoObjectControl):
     def __init__(self, obj, map_list=None, title=None):
         super().__init__(obj, map_list, title)
-        print('init')
         self._map_list = [SLMapFreq(obj._freq), SLMapPhase(obj._phase), SLMapMul(obj._mul)]
-        #PyoObject.ctrl(self, map_list, title)
+
+class SigControl(PyoObjectControl):
+    def __init__(self, obj, map_list=None, title=None):
+        super().__init__(obj, map_list, title)
+        self._map_list = [SLMap(0, 1, "lin", "value", obj._value)]
 
 kinds = {
     "FM": FMControl,
-    "Sine": SineControl
+    "Sine": SineControl,
+    "Sig": SigControl
 }
