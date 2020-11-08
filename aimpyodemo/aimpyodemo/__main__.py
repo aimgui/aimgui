@@ -13,6 +13,10 @@ app.use('soundfiles')
 app.use('envelopes')
 app.use('filters')
 app.use('effects')
+app.use('dynamics')
+app.use('callbacks')
+#app.use('tables')
+app.use('midi')
 
 app.show('about')
 

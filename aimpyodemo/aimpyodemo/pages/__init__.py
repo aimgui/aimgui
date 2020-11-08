@@ -31,12 +31,22 @@ class Page(arcade.View):
     def __init__(self, window, name, title):
         super().__init__(window)
         self.window = window
-        self.gui = self.window.gui
-        self.server = self.window.server
         self.name = name
         self.title = title
         self.fullwidth = True
         self.fullheight = True
+
+    @property
+    def gui(self):
+        return self.window.gui
+
+    @property
+    def server(self):
+        return self.window.server
+
+    @property
+    def resource_path(self):
+        return self.window.resource_path
 
     def reset(self):
         pass

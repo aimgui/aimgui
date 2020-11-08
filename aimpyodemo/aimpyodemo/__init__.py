@@ -35,6 +35,7 @@ class App(arcade.Window):
 
     def run(self):
         self.server = s = Server(audio='jack')
+        s.setMidiInputDevice(4)
         s.boot()
         s.start()
 

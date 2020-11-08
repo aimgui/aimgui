@@ -15,6 +15,7 @@ class Drawable:
 
 class PyoScope(Drawable):
     def __init__(self, input, length=0.05, gain=0.67, function=None, wintitle="Scope"):
+        self.title = wintitle
         self.data = []
         def fn(data):
             self.data = data
@@ -23,7 +24,7 @@ class PyoScope(Drawable):
 
     def draw(self):
         letters = list(string.ascii_uppercase)
-        aimgui.begin("Scope")
+        aimgui.begin(self.title)
         if aimplot.begin_plot("Scope Plot"):
             for data in self.data:
                 #print(data)

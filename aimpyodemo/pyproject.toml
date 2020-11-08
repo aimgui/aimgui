@@ -10,6 +10,7 @@ pyo = {path = "../pyo",  develop = true}
 arcade = "^2.4.3"
 aimgui = {path = "../aimgui",  develop = true}
 aimplot = {path = "../aimplot",  develop = true}
+mido = "^1.2.9"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

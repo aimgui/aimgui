@@ -1,14 +1,8 @@
-"""
-04-simple-midi-synth.py - Create a MIDI synthesizer as a custom class.
+import random
 
-A more elaborate MIDI synthesizer built in a custom python class. This
-makes easier to use it multiple times. In this example, two objects are
-created, one for the played pitch and another playing one octave lower.
-
-"""
 from pyo import *
-from random import random
 
+from .. import Page
 
 class Synth:
     def __init__(self, transpo=1, mul=1):
@@ -33,7 +27,7 @@ class Synth:
         self.damp = ButLP(self.mix, freq=5000)
 
         # Moving notches, using two out-of-phase sine wave oscillators.
-        self.lfo = Sine(0.2, phase=[random(), random()]).range(250, 4000)
+        self.lfo = Sine(0.2, phase=[random.random(), random.random()]).range(250, 4000)
         self.notch = ButBR(self.damp, self.lfo, mul=mul)
 
     def out(self):
@@ -46,18 +40,29 @@ class Synth:
         return self.notch
 
 
-s = Server()
-s.setMidiInputDevice(99)  # Open all input devices.
-s.boot()
+class SimpleMidiSynth(Page):
+    """
+    04-simple-midi-synth.py - Create a MIDI synthesizer as a custom class.
 
-# Create the midi synth.
-a1 = Synth()
+    A more elaborate MIDI synthesizer built in a custom python class. This
+    makes easier to use it multiple times. In this example, two objects are
+    created, one for the played pitch and another playing one octave lower.
 
-# Send the synth's signal into a reverb processor.
-rev = STRev(a1.sig(), inpos=[0.1, 0.9], revtime=2, cutoff=4000, bal=0.15).out()
+    """
 
-# It's very easy to double the synth sound!
-# One octave lower and directly sent to the audio output.
-a2 = Synth(transpo=0.5, mul=0.7).out()
+    def reset(self):
+        #s.setMidiInputDevice(99)  # Open all input devices.
 
-s.gui(locals())
+        # Create the midi synth.
+        a1 = Synth()
+
+        # Send the synth's signal into a reverb processor.
+        self.rev = STRev(a1.sig(), inpos=[0.1, 0.9], revtime=2, cutoff=4000, bal=0.15)
+
+        # It's very easy to double the synth sound!
+        # One octave lower and directly sent to the audio output.
+        self.a2 = Synth(transpo=0.5, mul=0.7)
+
+    def play(self):
+        self.rev.out()
+        self.a2.out()

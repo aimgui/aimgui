@@ -45,8 +45,8 @@ class PyoGui(ArcadeGui):
         self.drawables.append(ctrl)
 
     # def __init__(self, input, length=0.05, gain=0.67, function=None, wintitle="Scope"):
-    def scope(self, input):
-        sc = PyoScope(input)
+    def scope(self, input, wintitle="Scope"):
+        sc = PyoScope(input, wintitle=wintitle)
         self.drawables.append(sc)
 
     #def __init__(self, input, size=1024, wintype=2, function=None, wintitle="Spectrum"):
