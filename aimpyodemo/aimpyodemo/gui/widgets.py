@@ -2,6 +2,7 @@ from typing import Counter
 from pyo import *
 
 import aimgui
+import aimplot
 
 class Drawable:
     def __init__(self):
@@ -10,6 +11,24 @@ class Drawable:
     def draw(self):
         for drawable in self.drawables:
             drawable.draw()
+
+class PyoScope(Drawable):
+    def __init__(self, input, length=0.05, gain=0.67, function=None, wintitle="Scope"):
+        self.data = []
+        def fn(data):
+            self.data = data
+
+        self.scope = Scope(input, function=fn)
+
+    def draw(self):
+        aimgui.begin("My Plot")
+        if aimplot.begin_plot("My Plot"):
+            for data in self.data:
+                #print(data)
+                _, data = zip(*data)
+                aimplot.plot_line("A", data, len(data))
+            aimplot.end_plot()
+        aimgui.end()
 
 class PyoObjectControl(Drawable):
     counter = 0

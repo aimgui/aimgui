@@ -28,7 +28,7 @@ class FixedControl(Page):
         self.h6 = Sine(freq=freq * 11, phase=0.5, mul=1.0 / pow(11, 2))
 
         # Displays the final waveform
-        #sp = Scope(self.h1 + self.h2 + self.h3 + self.h4 + self.h5 + self.h6)
+        sp = self.gui.scope(self.h1 + self.h2 + self.h3 + self.h4 + self.h5 + self.h6)
 
     def play(self):
         self.h1.out()

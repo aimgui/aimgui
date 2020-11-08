@@ -6,9 +6,10 @@ authors = ["Kurtis Fields <kurtisfields@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
+pyo = {path = "../pyo",  develop = true}
 arcade = "^2.4.3"
 aimgui = {path = "../aimgui",  develop = true}
-pyo = {path = "../pyo",  develop = true}
+aimplot = {path = "../aimplot",  develop = true}
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

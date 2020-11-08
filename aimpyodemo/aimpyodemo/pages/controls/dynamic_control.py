@@ -33,7 +33,7 @@ class DynamicControl(Page):
         self.oscs = oscs = Sine([100, 200, 300, 400, 500, 600, 700, 800], mul=0.1)
         gui.ctrl(oscs, title="Simple additive synthesis")
 
-        #s.gui(locals())
+        sc = self.gui.scope([a, b, oscs])
 
     def play(self):
         self.a.out()

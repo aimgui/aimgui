@@ -1,10 +1,11 @@
 from aimgui.impl.arcade import ArcadeGui
-
-from .widgets import PyoObjectControl
+import aimplot
+from .widgets import PyoObjectControl, PyoScope
 
 class PyoGui(ArcadeGui):
     def __init__(self, window, attach_callbacks=True):
         super().__init__(window, attach_callbacks)
+        aimplot.create_context()
         self.drawables = []
 
     def clear(self):
@@ -42,3 +43,8 @@ class PyoGui(ArcadeGui):
         '''
         ctrl = PyoObjectControl.produce(obj, map_list, title)
         self.drawables.append(ctrl)
+
+    # def __init__(self, input, length=0.05, gain=0.67, function=None, wintitle="Scope"):
+    def scope(self, input):
+        sc = PyoScope(input)
+        self.drawables.append(sc)

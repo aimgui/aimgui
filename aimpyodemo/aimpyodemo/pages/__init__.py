@@ -40,6 +40,9 @@ class Page(arcade.View):
     def reset(self):
         pass
 
+    def close(self):
+        self.gui.clear()
+        
     @classmethod
     def create(self, app, name, title):
         page = self(app, name, title)

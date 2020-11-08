@@ -14,6 +14,6 @@ app.use('envelopes')
 app.use('filters')
 
 #app.show('about')
-app.show('dynamiccontrol')
+app.show('outputrange')
 
 app.run()

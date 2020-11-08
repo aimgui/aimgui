@@ -17,7 +17,9 @@ class SineTone(Page):
         # Creates a sine wave player.
         # The out() method starts the processing
         # and sends the signal to the output.
-        self.a = Sine()
+        self.a = a = Sine()
+        self.gui.ctrl(a, title="Sine Tone")
+        sc = self.gui.scope(a)
 
     def play(self):
         self.a.out()

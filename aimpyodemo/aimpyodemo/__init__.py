@@ -20,6 +20,7 @@ class App(arcade.Window):
         self.gui = PyoGui(self)
         self.sections = {}
         self.pages = {}
+        self.page = None
         self.show_metrics = False
         self.show_style_editor = False
         self.resource_path = Path(__file__).parent.parent / 'resources'
@@ -68,6 +69,9 @@ class App(arcade.Window):
 
     def show(self, name):
         def callback(delta_time):
+            if self.page is not None:
+                self.page.close()
+
             entry = self.pages[name]
             self.page = page = entry['klass'].create(self, name, entry['title'])
             self.show_view(page)
