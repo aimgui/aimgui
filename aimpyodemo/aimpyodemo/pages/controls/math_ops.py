@@ -22,7 +22,7 @@ class MathOps(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
         self.gui.clear()
         self.server.amp = 0.1
 
@@ -48,7 +48,7 @@ class MathOps(Page):
         sp = self.gui.spectrum([d, e])
         sc = self.gui.scope([d, e])
 
-    def play(self):
+    def do_start(self):
         self.b.out()
         self.d.out()
         self.e.out()

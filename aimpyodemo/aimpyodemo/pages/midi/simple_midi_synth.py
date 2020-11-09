@@ -50,7 +50,7 @@ class SimpleMidiSynth(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
         #s.setMidiInputDevice(99)  # Open all input devices.
 
         # Create the midi synth.
@@ -63,6 +63,6 @@ class SimpleMidiSynth(Page):
         # One octave lower and directly sent to the audio output.
         self.a2 = Synth(transpo=0.5, mul=0.7)
 
-    def play(self):
+    def do_start(self):
         self.rev.out()
         self.a2.out()

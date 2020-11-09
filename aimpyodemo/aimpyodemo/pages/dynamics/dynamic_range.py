@@ -30,7 +30,7 @@ class DynamicRange(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
         # The original source.
         src = SfPlayer(str(self.window.resource_path / "snds" / "drumloop.wav"), loop=True)
 
@@ -71,5 +71,5 @@ class DynamicRange(Page):
         # endOfLoop is called every time the SfPlayer reaches the end of the sound.
         tf = TrigFunc(src["trig"], endOfLoop)
 
-    def play(self):
+    def do_start(self):
         self.std.out()

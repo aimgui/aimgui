@@ -25,6 +25,7 @@ class PyoScope(Drawable):
     def draw(self):
         letters = list(string.ascii_uppercase)
         aimgui.begin(self.title)
+        aimplot.set_next_plot_limits(0,500,0,500)
         if aimplot.begin_plot("Scope Plot"):
             for data in self.data:
                 #print(data)
@@ -44,6 +45,7 @@ class PyoSpectrum(Drawable):
     def draw(self):
         letters = list(string.ascii_uppercase)
         aimgui.begin("Spectrum")
+        aimplot.set_next_plot_limits(0,500,0,500)
         if aimplot.begin_plot("Spectrum Plot"):
             for data in self.data:
                 #print(data)
@@ -58,27 +60,13 @@ class PyoObjectControl(Drawable):
     def produce(self, obj, map_list=None, title=None):
         return kinds[obj.__class__.__name__](obj, map_list, title)
 
-    def draw(self):
-        width = 20
-        height = 100
-
-        aimgui.begin(self.title)
-        for i, m in enumerate(self._map_list):
-            key, init, mini, maxi, scl, res, dataOnly = m.name, m.init, m.min, m.max, m.scale, m.res, m.dataOnly
-            # filters PyoObjects
-            if type(init) not in [list, float, int]:
-                continue
-            value = getattr(self._obj, key)
-            speed = maxi / 100
-            if key == 'phase':
-                #print(value)
-                print('scl', scl)
-                print('mini:  ', mini)
-                print('maxi:  ', maxi)
-                print('speed:  ', speed)
-                #if speed > 1.:
-                #    speed = 1.
-
+    def draw_multislider(self, m, arr):
+        key, init, mini, maxi, scl, res, dataOnly = m.name, m.init, m.min, m.max, m.scale, m.res, m.dataOnly
+        speed = maxi / 100
+        arr_changed = False
+        for i in range(0, len(arr)):
+            value = arr[i]
+            aimgui.push_id(i)
             if type(value) is int:
                 changed, value = aimgui.drag_int(
                     key,
@@ -89,7 +77,8 @@ class PyoObjectControl(Drawable):
                     #format="%0.3f"
                 )
                 if changed:
-                    setattr(self._obj, key, value)
+                    arr[i] = value
+                    arr_changed |= True
             elif type(value) is float:
                 changed, value = aimgui.drag_float(
                     key,
@@ -99,7 +88,60 @@ class PyoObjectControl(Drawable):
                     format="%0.3f"
                 )
                 if changed:
-                    setattr(self._obj, key, value)
+                    arr[i] = value
+                    arr_changed |= True
+            aimgui.pop_id()
+        return arr_changed
+
+    def draw_slider(self, m):
+            key, init, mini, maxi, scl, res, dataOnly = m.name, m.init, m.min, m.max, m.scale, m.res, m.dataOnly
+            # filters PyoObjects
+            if type(init) not in [list, float, int]:
+                return
+            changed = False
+            value = getattr(self._obj, key)
+            speed = maxi / 100
+            '''
+            if key == 'phase':
+                #print(value)
+                print('scl', scl)
+                print('mini:  ', mini)
+                print('maxi:  ', maxi)
+                print('speed:  ', speed)
+                #if speed > 1.:
+                #    speed = 1.
+            '''
+            if type(value) is int:
+                changed, value = aimgui.drag_int(
+                    key,
+                    value,
+                    speed,
+                    v_min=int(mini),
+                    v_max=int(maxi),
+                    #format="%0.3f"
+                )
+            elif type(value) is float:
+                changed, value = aimgui.drag_float(
+                    key,
+                    value,
+                    speed,
+                    v_min=mini, v_max=maxi,
+                    format="%0.3f"
+                )
+            elif type(value) is list:
+                changed = self.draw_multislider(m, value)
+
+            if changed:
+                setattr(self._obj, key, value)
+
+    def draw(self):
+        width = 20
+        height = 100
+
+        aimgui.begin(self.title)
+
+        for i, m in enumerate(self._map_list):
+            self.draw_slider(m)
 
         aimgui.end()
 
@@ -259,16 +301,26 @@ class FMControl(PyoObjectControl):
 
 class SineControl(PyoObjectControl):
     def __init__(self, obj, map_list=None, title=None):
+        if not map_list:
+            map_list = [SLMapFreq(obj._freq), SLMapPhase(obj._phase), SLMapMul(obj._mul)]
         super().__init__(obj, map_list, title)
-        self._map_list = [SLMapFreq(obj._freq), SLMapPhase(obj._phase), SLMapMul(obj._mul)]
 
 class SigControl(PyoObjectControl):
     def __init__(self, obj, map_list=None, title=None):
+        if not map_list:
+            map_list = [SLMap(0, 1, "lin", "value", obj._value)]
         super().__init__(obj, map_list, title)
-        self._map_list = [SLMap(0, 1, "lin", "value", obj._value)]
+
+class InterpControl(PyoObjectControl):
+    def __init__(self, obj, map_list=None, title=None):
+        if not map_list:
+            map_list = [SLMap(0.0, 1.0, "lin", "interp", self._interp), SLMapMul(self._mul)]
+        super().__init__(obj, map_list, title)
+        
 
 kinds = {
     "FM": FMControl,
     "Sine": SineControl,
-    "Sig": SigControl
+    "Sig": SigControl,
+    "Interp": InterpControl
 }

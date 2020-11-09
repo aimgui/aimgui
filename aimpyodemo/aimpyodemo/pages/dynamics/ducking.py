@@ -17,7 +17,7 @@ class Ducking(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
         # Alternate voice and silence.
         table = SndTable(str(self.resource_path / "snds" / "transparent.aif"))
         metro = SDelay(Metro(3).play(), 1)
@@ -47,6 +47,6 @@ class Ducking(Page):
         # Apply gain factor and output music.
         self.outsynth = (music * ampscl)
 
-    def play(self):
+    def do_start(self):
         self.stvoice.out()
         self.outsynth.out()

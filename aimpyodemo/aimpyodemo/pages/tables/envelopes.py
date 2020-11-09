@@ -33,7 +33,7 @@ class Envelopes(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
         # Defines tables for the amplitude, the ratio and the modulation index.
         amp_table = CosTable([(0, 0), (100, 1), (1024, 0.5), (7000, 0.5), (8192, 0)])
         rat_table = ExpTable(
@@ -70,5 +70,5 @@ class Envelopes(Page):
         note(200, 2)
 
 
-    def play(self):
+    def do_start(self):
         self.fm.out()

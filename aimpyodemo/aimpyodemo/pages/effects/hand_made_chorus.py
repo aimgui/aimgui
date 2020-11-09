@@ -26,7 +26,7 @@ class HandMadeChorus(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
         #s = Server(duplex=0).boot()
 
         # Start a source sound.
@@ -50,6 +50,6 @@ class HandMadeChorus(Page):
         # right (default behaviour of the out() method).
         self.delays = Delay(sf, lfos, feedback=0.5, mul=0.5)
 
-    def play(self):
+    def do_start(self):
         self.sf2.out()
         self.delays.out()

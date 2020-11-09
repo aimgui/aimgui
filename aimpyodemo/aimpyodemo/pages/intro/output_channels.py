@@ -24,7 +24,10 @@ class OutputChannels(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
+        # Drops the gain by 20 dB.
+        self.server.amp = 0.1
+
         # Creates a source (white noise)
         n = Noise()
 
@@ -34,6 +37,6 @@ class OutputChannels(Page):
         # Sends the high frequencies (above 1000 Hz) to the right
         self.hp = ButHP(n)
 
-    def play(self):
+    def do_start(self):
         self.lp.out()
         self.hp.out(1)

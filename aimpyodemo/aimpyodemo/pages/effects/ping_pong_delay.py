@@ -18,7 +18,7 @@ class PingPongDelay(Page):
     
     """
 
-    def reset(self):
+    def do_reset(self):
         s = self.server
         gui = self.gui
         #s = Server(duplex=0).boot()
@@ -74,7 +74,7 @@ class PingPongDelay(Page):
         self.pat = Pattern(playit, 1)
 
 
-    def play(self):
+    def do_start(self):
         self.sfout.out()
         self.right.out(1)
         self.left.out()

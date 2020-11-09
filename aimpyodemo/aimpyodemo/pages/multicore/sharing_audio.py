@@ -1,21 +1,8 @@
-"""
-02-sharing-audio.py - Sharing audio signals between processes.
-
-Usage:
-    python3 -i 02-sharing-audio.py
-
-"""
 import sys, time, random, multiprocessing
+
 from pyo import *
 
-if sys.platform.startswith("linux"):
-    audio = "jack"
-elif sys.platform.startswith("darwin"):
-    audio = "portaudio"
-    print("SharedTable does not behave correctly under MacOS... This example doesn't work.")
-else:
-    print("Multicore examples don't run under Windows... Sorry!")
-    exit()
+from .. import Page
 
 
 class Proc(multiprocessing.Process):
@@ -25,6 +12,15 @@ class Proc(multiprocessing.Process):
         self.create = create
 
     def run(self):
+        if sys.platform.startswith("linux"):
+            audio = "jack"
+        elif sys.platform.startswith("darwin"):
+            audio = "portaudio"
+            print("SharedTable does not behave correctly under MacOS... This example doesn't work.")
+        else:
+            print("Multicore examples don't run under Windows... Sorry!")
+            return
+
         self.server = Server(audio=audio)
         self.server.deactivateMidi()
         self.server.boot().start()
@@ -52,8 +48,20 @@ class Proc(multiprocessing.Process):
         self.server.stop()
 
 
-if __name__ == "__main__":
-    analysis = Proc(create=True)
-    synthesis = Proc(create=False)
-    analysis.start()
-    synthesis.start()
+class SharingAudio(Page):
+    """
+    02-sharing-audio.py - Sharing audio signals between processes.
+
+    Usage:
+        python3 -i 02-sharing-audio.py
+
+    """
+
+    def do_reset(self):
+        pass
+
+    def do_start(self):
+        analysis = Proc(create=True)
+        synthesis = Proc(create=False)
+        analysis.start()
+        synthesis.start()

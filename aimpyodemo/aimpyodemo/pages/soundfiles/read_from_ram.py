@@ -18,7 +18,7 @@ class ReadFromRam(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
         path = str(self.window.resource_path / 'snds' / "transparent.aif")
 
         # Loads the sound file in RAM. Beginning and ending points
@@ -31,5 +31,5 @@ class ReadFromRam(Page):
         # Simple stereo looping playback (right channel is 180 degrees out-of-phase).
         self.osc = Osc(table=t, freq=freq, phase=[0, 0.5], mul=0.4)
 
-    def play(self):
+    def do_start(self):
         self.osc.out()

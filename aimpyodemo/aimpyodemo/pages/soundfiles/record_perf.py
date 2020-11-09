@@ -32,7 +32,7 @@ class RecordPerf(Page):
     with an argument to `recstart()`.
     """
 
-    def reset(self):
+    def do_reset(self):
         # Path of the recorded sound file.
         path = os.path.join(os.path.expanduser("~"), "Desktop", "synth.wav")
         # Record for 10 seconds a 24-bit wav file.
@@ -46,7 +46,7 @@ class RecordPerf(Page):
         lfo = Sine(freq=[0.15, 0.16]).range(1.25, 1.5)
         self.fm2 = CrossFM(carrier=200, ratio=lfo, ind1=10, ind2=2, mul=amp)
 
-    def play(self):
+    def do_start(self):
         self.amp.play()
         self.fm2.out()
         # Starts the recording for 10 seconds...

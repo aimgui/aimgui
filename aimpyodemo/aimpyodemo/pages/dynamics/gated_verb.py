@@ -13,7 +13,7 @@ class GatedVerb(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
         # Play the drum lopp..
         sf = SfPlayer(str(self.resource_path / "snds" / "drumloop.wav"), loop=True)
 
@@ -29,5 +29,5 @@ class GatedVerb(Page):
         # Balance between the dry and wet (gated-reverb) signals.
         self.output = Interp(sf.mix(2), cmp, interp=0.2)
 
-    def play(self):
+    def do_start(self):
         self.output.out()

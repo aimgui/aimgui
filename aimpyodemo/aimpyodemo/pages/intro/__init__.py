@@ -6,4 +6,5 @@ from .output_channels import OutputChannels
 def install(app):
     app.add_page(SineTone, "intro")
     app.add_page(ParallelProc, "intro")
+    app.add_page(SerialProc, "intro")
     app.add_page(OutputChannels, "intro")

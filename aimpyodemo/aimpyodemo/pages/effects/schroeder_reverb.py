@@ -29,7 +29,7 @@ class SchroederReverb(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
         #s = Server(duplex=0).boot()
 
         soundfile = SndTable(str(self.window.resource_path / "snds" / "transparent.aif"))
@@ -56,6 +56,6 @@ class SchroederReverb(Page):
         self.lowp = Tone(all2, freq=3500, mul=0.25)
 
 
-    def play(self):
+    def do_start(self):
         self.src2.out()
         self.lowp.out()

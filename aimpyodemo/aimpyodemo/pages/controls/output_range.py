@@ -27,7 +27,7 @@ class OutputRange(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
         # The `mul` attribute multiplies each sample by its value.
         self.a = a = Sine(freq=100, mul=0.1)
 
@@ -43,7 +43,7 @@ class OutputRange(Page):
         sc = self.gui.scope([a, b, c])
 
 
-    def play(self):
+    def do_start(self):
         self.a.out()
         self.b.out()
         self.c.out()

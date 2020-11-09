@@ -12,7 +12,7 @@ class HandlingChannels4(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
         # Creates a Server with 8 channels
         #s = Server(nchnls=8).boot()
 
@@ -23,7 +23,7 @@ class HandlingChannels4(Page):
         self.a = Sine(freq=500, mul=amps)
 
 
-    def play(self):
+    def do_start(self):
         # Sets the output channels ordering
         self.a.out(chnl=[3, 4, 2, 5, 1, 6, 0, 7])
 

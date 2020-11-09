@@ -22,7 +22,7 @@ class SimpleEnvelopes(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
         # Infinite sustain for the global envelope.
         self.globalamp = globalamp = Fader(fadein=2, fadeout=2, dur=0)
 
@@ -50,7 +50,7 @@ class SimpleEnvelopes(Page):
         # Periodically call a function.
         self.pat = Pattern(play_note, time=2)
 
-    def play(self):
+    def do_start(self):
         self.globalamp.play()
         self.sig.out()
         self.pat.play()

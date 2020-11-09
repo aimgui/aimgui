@@ -25,7 +25,7 @@ class BreakpointsFunctions(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
         # Randomly built 10-points amplitude envelope.
         t = 0
         points = [(0.0, 0.0), (2.0, 0.0)]
@@ -58,7 +58,7 @@ class BreakpointsFunctions(Page):
         self.pat = Pattern(playnote, 2)
 
 
-    def play(self):
+    def do_start(self):
         self.fsg.out()
         self.rev.out()
         self.pat.play()

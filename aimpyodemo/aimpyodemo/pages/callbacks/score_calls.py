@@ -18,7 +18,7 @@ class ScoreCalls(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
         # A four-streams oscillator to produce a chord.
         osc = SineLoop(freq=[0, 0, 0, 0], feedback=0.05, mul=0.2)
         self.rev = WGVerb(osc.mix(2), feedback=0.8, cutoff=4000, bal=0.2)
@@ -72,5 +72,5 @@ class ScoreCalls(Page):
         score = Score(count, fname="event_")
 
 
-    def play(self):
+    def do_start(self):
         self.rev.out()

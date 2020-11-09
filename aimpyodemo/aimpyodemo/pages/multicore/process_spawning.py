@@ -1,23 +1,8 @@
-"""
-01-processes-spawning.py - Simple processes spawning, no synchronization. 
-
-Need at least 4 cores to be really effective.
-
-Usage:
-    python3 -i 01-processes-spawning.py
-
-"""
 import sys, time, random, multiprocessing
+
 from pyo import *
 
-if sys.platform.startswith("linux"):
-    audio = "jack"
-elif sys.platform.startswith("darwin"):
-    audio = "portaudio"
-else:
-    print("Multicore examples don't run under Windows... Sorry!")
-    exit()
-
+from .. import Page
 
 class Proc(multiprocessing.Process):
     def __init__(self, pitch):
@@ -26,6 +11,14 @@ class Proc(multiprocessing.Process):
         self.pitch = pitch
 
     def run(self):
+        if sys.platform.startswith("linux"):
+            audio = "jack"
+        elif sys.platform.startswith("darwin"):
+            audio = "portaudio"
+        else:
+            print("Multicore examples don't run under Windows... Sorry!")
+            return
+
         self.server = Server(audio=audio)
         self.server.deactivateMidi()
         self.server.boot().start()
@@ -41,11 +34,25 @@ class Proc(multiprocessing.Process):
         self.server.stop()
 
 
-if __name__ == "__main__":
-    # C major chord (one note per process).
-    p1, p2, p3, p4 = Proc(48), Proc(52), Proc(55), Proc(60)
-    p1.start()
-    p2.start()
-    p3.start()
-    p4.start()
-    time.sleep(35)
+class ProcessSpawning(Page):
+    """
+    01-processes-spawning.py - Simple processes spawning, no synchronization. 
+
+    Need at least 4 cores to be really effective.
+
+    Usage:
+        python3 -i 01-processes-spawning.py
+
+    """
+
+    def do_reset(self):
+        pass
+
+    def do_start(self):
+        # C major chord (one note per process).
+        p1, p2, p3, p4 = Proc(48), Proc(52), Proc(55), Proc(60)
+        p1.start()
+        p2.start()
+        p3.start()
+        p4.start()
+        time.sleep(35)

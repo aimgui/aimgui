@@ -16,7 +16,7 @@ class HandlingChannels2(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
         # Creates a Server with 8 channels
         #s = Server(nchnls=8).boot()
 
@@ -26,6 +26,6 @@ class HandlingChannels2(Page):
         # Mixes it up to four streams
         self.b = a.mix(4)
 
-    def play(self):
+    def do_start(self):
         # Outputs to channels 0, 2, 4 and 6
         self.b.out(chnl=0, inc=2)

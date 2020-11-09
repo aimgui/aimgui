@@ -12,7 +12,7 @@ class NoteinObject(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
         s = self.server
         s.setMidiInputDevice(99)  # Open all input devices.
         #s.boot()
@@ -76,6 +76,6 @@ class NoteinObject(Page):
         tfoff = TrigFunc(notes["trigoff"], noteoff, arg=list(range(10)))
 
 
-    def play(self):
+    def do_start(self):
         self.outL.out()
         self.outR.out(1)

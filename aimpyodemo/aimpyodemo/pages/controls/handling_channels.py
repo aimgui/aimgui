@@ -25,7 +25,7 @@ class HandlingChannels(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
         # Sets fundamental frequency and highest harmonic.
         freq = 100
         high = 20
@@ -43,5 +43,5 @@ class HandlingChannels(Page):
         print("Number of Chorus streams: %d" % len(b))
 
 
-    def play(self):
+    def do_start(self):
         self.b.out()

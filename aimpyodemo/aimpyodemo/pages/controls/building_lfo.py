@@ -20,7 +20,7 @@ class BuildingLfo(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
         # Creates a noise source
         n = Noise()
 
@@ -40,6 +40,6 @@ class BuildingLfo(Page):
         # Creates a second dynamic bandpass filter applied to the noise source
         self.bp2 = ButBP(n, freq=lfo3, q=lfo4)
 
-    def play(self):
+    def do_start(self):
         self.bp1.out()
         self.bp2.out(1)

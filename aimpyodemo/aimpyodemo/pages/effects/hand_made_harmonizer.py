@@ -21,7 +21,7 @@ class HandMadeHarmonizer(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
         #s = Server(duplex=0).boot()
 
         # Play a melodic sound and send its signal to the left speaker.
@@ -52,7 +52,7 @@ class HandMadeHarmonizer(Page):
         # mix(1) is used to mix the two overlaps on a single audio stream.
         self.snd = Delay(sf, delay=ind * wsize, mul=win).mix(1)
 
-    def play(self):
+    def do_start(self):
         self.sf.out()
         # The transposed signal is sent to the right speaker.
         self.snd.out(1)

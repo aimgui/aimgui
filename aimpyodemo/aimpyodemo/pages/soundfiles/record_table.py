@@ -20,7 +20,7 @@ class SinePage(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
         # Audio inputs must be available.
         #s = Server(duplex=1).boot()
 
@@ -51,5 +51,5 @@ class SinePage(Page):
 
         s.gui(locals())
 
-    def play(self):
+    def do_start(self):
         self.a.out()

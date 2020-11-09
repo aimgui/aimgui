@@ -31,7 +31,7 @@ class StrangeAttractors(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
         ### Oscilloscope ###
 
         # LFO applied to the `chaos` attribute
@@ -62,5 +62,5 @@ class StrangeAttractors(Page):
         #s.gui(locals())
 
 
-    def play(self):
+    def do_start(self):
         self.a.out()

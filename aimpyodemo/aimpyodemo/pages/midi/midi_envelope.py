@@ -20,7 +20,7 @@ class MidiEnvelope(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
         #s.setMidiInputDevice(99)  # Open all input devices.
 
         # Automatically converts MIDI pitches to frequencies in Hz.
@@ -46,6 +46,6 @@ class MidiEnvelope(Page):
         # Sum the signals and apply a global reverberation.
         self.rev = WGVerb(sig1 + stereo, feedback=0.8, cutoff=5000, bal=0.3)
 
-    def play(self):
+    def do_start(self):
         self.sig1.out()
         self.rev.out()

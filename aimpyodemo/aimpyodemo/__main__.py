@@ -17,6 +17,10 @@ app.use('dynamics')
 app.use('callbacks')
 #app.use('tables')
 app.use('midi')
+#app.use('osc')
+app.use('multirate')
+app.use('multicore')
+app.use('utilities')
 
 app.show('about')
 

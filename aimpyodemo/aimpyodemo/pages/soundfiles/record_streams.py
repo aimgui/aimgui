@@ -20,7 +20,7 @@ class RecordStreams(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
         # Creates an amplitude envelope
         self.amp = amp = Fader(fadein=1, fadeout=1, dur=10, mul=0.3)
 
@@ -36,7 +36,7 @@ class RecordStreams(Page):
         hlfo = Sine(freq=[0.1, 0.11, 0.12, 0.13]).range(7000, 8000)
         self.high = Sine(freq=hlfo, mul=amp * 0.1)
 
-    def play(self):
+    def do_start(self):
         # Defines sound file paths.
         path = os.path.join(os.path.expanduser("~"), "Desktop")
         bname = os.path.join(path, "bass.wav")

@@ -18,14 +18,14 @@ class DataSignalConversion(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
         # A python integer (or float).
         anumber = 100
 
         # Conversion from number to an audio stream (vector of floats).
         self.astream = Sig(anumber)
 
-    def play(self):
+    def do_start(self):
         # Use a Print (capital "P") object to print an audio stream.
         pp = Print(self.astream, interval=0.1, message="Audio stream value")
 

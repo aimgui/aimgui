@@ -30,7 +30,7 @@ class BandLimitedOcs(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
         # Sets fundamental frequency.
         freq = 187.5
 
@@ -50,5 +50,5 @@ class BandLimitedOcs(Page):
         #s.gui(locals())
 
 
-    def play(self):
+    def do_start(self):
         self.osc.out()

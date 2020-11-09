@@ -54,7 +54,7 @@ class ControlChange(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
         #s.setMidiInputDevice(99)  # Open all input devices.
 
         ### Setup the MIDI controllers.
@@ -78,5 +78,5 @@ class ControlChange(Page):
         self.rev = STRev(a1.sig(), inpos=[0.1, 0.9], revtime=2, cutoff=4000, bal=0.15).out()
 
 
-    def play(self):
+    def do_start(self):
         pass

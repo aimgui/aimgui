@@ -1,7 +1,5 @@
 from pyo import *
 
-import aimgui
-
 from .. import Page
 
 
@@ -18,7 +16,10 @@ class SerialProc(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
+        # Drops the gain by 20 dB.
+        self.server.amp = 0.1
+
         # Creates a sine wave as the source to process.
         self.a = a = Sine()
 
@@ -34,7 +35,7 @@ class SerialProc(Page):
         # And again...
         self.h4 = Harmonizer(h3)
 
-    def play(self):
+    def do_start(self):
         self.a.out()
         self.h1.out()
         self.h2.out()

@@ -26,7 +26,7 @@ class MidiOut(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
         pm_list_devices()
 
         # Open all MIDI output devices.
@@ -68,5 +68,5 @@ class MidiOut(Page):
         pat = Pattern(midi_event, 0.125).play()
 
 
-    def play(self):
+    def do_start(self):
         pass

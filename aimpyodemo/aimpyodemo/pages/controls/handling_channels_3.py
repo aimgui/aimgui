@@ -13,7 +13,7 @@ class HandlingChannels3(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
         # Creates a Server with 8 channels
         #s = Server(nchnls=8).boot()
 
@@ -25,6 +25,6 @@ class HandlingChannels3(Page):
 
 
 
-    def play(self):
+    def do_start(self):
         # Shuffles physical output channels
         self.a.out(chnl=-1)

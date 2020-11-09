@@ -22,7 +22,7 @@ class FuzzDisto(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
         #s = Server(duplex=0).boot()
 
         # The audio source (try with your own sounds).
@@ -76,5 +76,5 @@ class FuzzDisto(Page):
         sc = self.gui.scope(mixed)
 
 
-    def play(self):
+    def do_start(self):
         self.out.out()

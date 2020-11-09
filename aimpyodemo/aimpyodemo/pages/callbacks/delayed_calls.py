@@ -13,7 +13,7 @@ class DelayedCalls(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
         # A four-streams oscillator to produce a chord.
         self.amp = amp = Fader(fadein=0.005, fadeout=0.05, mul=0.2)
         osc = SineLoop(freq=[0, 0, 0, 0], feedback=0.05, mul=amp)
@@ -56,6 +56,6 @@ class DelayedCalls(Page):
         # The last event activates the fadeout of the amplitude envelope.
         c6 = CallAfter(amp.stop, time=5.95, arg=None)
 
-    def play(self):
+    def do_start(self):
         self.rev.out()
         self.amp.play()

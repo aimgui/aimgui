@@ -21,7 +21,7 @@ class ReadFromDisk2(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
         # Sound bank
         folder = self.window.resource_path / 'snds'
         sounds = ["alum1.wav", "alum2.wav", "alum3.wav", "alum4.wav"]
@@ -53,6 +53,6 @@ class ReadFromDisk2(Page):
         #s.gui(locals())
 
 
-    def play(self):
+    def do_start(self):
         self.sfL.out()
         self.sfR.out()

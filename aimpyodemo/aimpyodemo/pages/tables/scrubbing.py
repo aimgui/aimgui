@@ -18,7 +18,7 @@ class Scrubbing(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
         # The callback given to the SndTable.view() method.
         def mouse(mpos):
             print("X = %.2f, Y = %.2f" % tuple(mpos))
@@ -54,5 +54,5 @@ class Scrubbing(Page):
         s.gui(locals())
 
 
-    def play(self):
+    def do_start(self):
         self.a.out()

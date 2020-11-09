@@ -21,7 +21,7 @@ class ReadFromDisk(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
         path = str(self.window.resource_path / 'snds' / "transparent.aif")
         print(path)
 
@@ -31,5 +31,5 @@ class ReadFromDisk(Page):
         #s.gui(locals())
 
 
-    def play(self):
+    def do_start(self):
         self.sf.out()

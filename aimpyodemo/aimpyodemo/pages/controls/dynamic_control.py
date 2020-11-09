@@ -14,8 +14,9 @@ class DynamicControl(Page):
 
     """
 
-    def reset(self):
-        #s.amp = 0.1
+    def do_reset(self):
+        # Drops the gain by 20 dB.
+        self.server.amp = 0.1
 
         # Creates two objects with cool parameters, one per channel.
         self.a = a = FM()
@@ -35,7 +36,7 @@ class DynamicControl(Page):
 
         sc = self.gui.scope([a, b, oscs])
 
-    def play(self):
+    def do_start(self):
         self.a.out()
         self.b.out(1)
         self.oscs.out()

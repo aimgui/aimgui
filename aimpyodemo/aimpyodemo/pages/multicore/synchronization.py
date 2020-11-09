@@ -1,23 +1,7 @@
-"""
-03-synchronization.py - Synchronizing multiple processes.
-
-Usage:
-    python3 -i 03-synchronization.py
-
-"""
 import sys, time, random, multiprocessing
 from pyo import *
 
 RECORD = False
-
-if sys.platform.startswith("linux"):
-    audio = "jack"
-elif sys.platform.startswith("darwin"):
-    audio = "portaudio"
-    print("SharedTable does not behave correctly under MacOS... This example doesn't work.")
-else:
-    print("Multicore examples don't run under Windows... Sorry!")
-    exit()
 
 
 class Main(multiprocessing.Process):
@@ -26,6 +10,15 @@ class Main(multiprocessing.Process):
         self.daemon = True
 
     def run(self):
+        if sys.platform.startswith("linux"):
+            audio = "jack"
+        elif sys.platform.startswith("darwin"):
+            audio = "portaudio"
+            print("SharedTable does not behave correctly under MacOS... This example doesn't work.")
+        else:
+            print("Multicore examples don't run under Windows... Sorry!")
+            return
+
         self.server = Server(audio=audio)
         self.server.deactivateMidi()
         self.server.boot().start()
@@ -76,13 +69,30 @@ class Proc(multiprocessing.Process):
         self.server.stop()
 
 
-if __name__ == "__main__":
-    signal, child = multiprocessing.Pipe()
-    p1, p2 = Proc(1, child), Proc(2, child)
-    main = Main()
-    p1.start()
-    p2.start()
-    time.sleep(0.1)
-    main.start()
-    time.sleep(0.1)
-    signal.send(1)
+from pyo import *
+
+from .. import Page
+
+
+class Synchronization(Page):
+    """
+    03-synchronization.py - Synchronizing multiple processes.
+
+    Usage:
+        python3 -i 03-synchronization.py
+
+    """
+
+    def do_reset(self):
+        pass
+
+    def do_start(self):
+        signal, child = multiprocessing.Pipe()
+        p1, p2 = Proc(1, child), Proc(2, child)
+        main = Main()
+        p1.start()
+        p2.start()
+        time.sleep(0.1)
+        main.start()
+        time.sleep(0.1)
+        signal.send(1)

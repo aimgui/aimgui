@@ -15,7 +15,7 @@ class RmsTracing(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
         MINFREQ = 250
         MAXFREQ = 5000
 
@@ -33,5 +33,5 @@ class RmsTracing(Page):
         # effect more or less present.
         self.filter = ButBP(sf.mix(2), freq=freq, q=2)
 
-    def play(self):
+    def do_start(self):
         self.filter.out()

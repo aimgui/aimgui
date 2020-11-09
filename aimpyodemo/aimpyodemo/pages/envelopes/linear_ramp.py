@@ -24,7 +24,7 @@ class LinearRamp(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
         # 2 seconds linear ramp starting at 0.0 and ending at 0.3.
         amp = SigTo(value=0.3, time=2.0, init=0.0)
 
@@ -42,5 +42,5 @@ class LinearRamp(Page):
         # Play a simple wave.
         self.sig = RCOsc(freq, sharp=0.7, mul=amp)
 
-    def play(self):
+    def do_start(self):
         self.sig.out()

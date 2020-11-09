@@ -22,7 +22,7 @@ class LowpassFilters(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
         # White noise generator
         n = Noise(0.5)
 
@@ -43,5 +43,5 @@ class LowpassFilters(Page):
         #sp = Spectrum(sel)
 
 
-    def play(self):
+    def do_start(self):
         self.sel.out()

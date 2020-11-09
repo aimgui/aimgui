@@ -31,7 +31,7 @@ class MultichannelExpansion(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
         self.gui.clear()
         ### Using multichannel-expansion to create a square wave ###
 
@@ -58,5 +58,5 @@ class MultichannelExpansion(Page):
         sc = self.gui.scope(b)
 
 
-    def play(self):
+    def do_start(self):
         self.b.out()

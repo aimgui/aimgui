@@ -5,8 +5,6 @@ sys.setdlopenflags(os.RTLD_GLOBAL | os.RTLD_LAZY)
 
 from pathlib import Path
 
-from pyo import *
-
 import pyglet
 import arcade
 import aimgui
@@ -34,12 +32,9 @@ class App(arcade.Window):
         self.gui.render()
 
     def run(self):
-        self.server = s = Server(audio='jack')
-        s.setMidiInputDevice(4)
-        s.boot()
-        s.start()
-
         arcade.run()
+        if self.page:
+            self.page.close()
 
     def use(self, name):
         import importlib.util

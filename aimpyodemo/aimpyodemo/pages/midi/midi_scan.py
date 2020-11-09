@@ -27,7 +27,7 @@ class MidiScan(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
         s = self.server
         # Print the list of available MIDI devices to the console.
         pm_list_devices()
@@ -53,5 +53,5 @@ class MidiScan(Page):
         #scan = CtlScan2(scanner, toprint=False)
         scan = CtlScan2(scanner)
 
-    def play(self):
+    def do_start(self):
         self.a.out()

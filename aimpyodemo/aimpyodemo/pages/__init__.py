@@ -1,4 +1,7 @@
 import sys
+
+from pyo import *
+
 import arcade
 import aimgui
 
@@ -35,23 +38,47 @@ class Page(arcade.View):
         self.title = title
         self.fullwidth = True
         self.fullheight = True
+        self.server = None
 
     @property
     def gui(self):
         return self.window.gui
 
     @property
-    def server(self):
-        return self.window.server
-
-    @property
     def resource_path(self):
         return self.window.resource_path
 
     def reset(self):
+        if self.server:
+            self.server.shutdown()
+        self.boot_server()
+        self.gui.clear()
+        self.do_reset()
+
+    def do_reset(self):
         pass
 
+    def start(self):
+        self.start_server()
+        self.do_start()
+
+    def do_start(self):
+        pass
+
+    def boot_server(self):
+        self.server = s = Server(audio='jack')
+        s.setMidiInputDevice(4)
+        s.boot()
+
+    def start_server(self):
+        self.server.start()
+
+    def stop(self):
+        self.reset()
+
     def close(self):
+        if self.server:
+            self.server.shutdown()
         self.gui.clear()
         
     @classmethod
@@ -147,8 +174,8 @@ class Page(arcade.View):
     def draw(self):
         aimgui.begin(self.title)
 
-        if aimgui.button('Play'):
-            self.play()
+        if aimgui.button('Start'):
+            self.start()
         if aimgui.button('Stop'):
             self.stop()
 
@@ -156,9 +183,3 @@ class Page(arcade.View):
             aimgui.text_unformatted(trim_docstring(self.__doc__))
 
         aimgui.end()
-
-    def play(self):
-        pass
-
-    def stop(self):
-        self.reset()

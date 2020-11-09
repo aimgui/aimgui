@@ -25,7 +25,7 @@ class NoiseGenerators(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
         # White noise
         n1 = Noise(0.3)
 
@@ -45,5 +45,5 @@ class NoiseGenerators(Page):
         #s.gui(locals())
 
 
-    def play(self):
+    def do_start(self):
         self.sel.out()

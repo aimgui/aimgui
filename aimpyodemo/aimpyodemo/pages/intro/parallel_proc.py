@@ -1,7 +1,5 @@
 from pyo import *
 
-import aimgui
-
 from .. import Page
 
 
@@ -20,7 +18,10 @@ class ParallelProc(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
+        # Drops the gain by 20 dB.
+        self.server.amp = 0.1
+
         # Creates a sine wave as the source to process.
         a = Sine()
 
@@ -33,7 +34,7 @@ class ParallelProc(Page):
         # And through a frequency shifter.
         self.sh = FreqShift(a)
 
-    def play(self):
+    def do_start(self):
         self.hr.out()
         self.ch.out()
         self.sh.out()

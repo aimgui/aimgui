@@ -15,7 +15,7 @@ class MultichannelExpansion2(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
         # 12 streams with different combinations of `freq` and `ratio`.
         a = SumOsc(
             freq=[100, 150.2, 200.5, 250.7],
@@ -28,5 +28,5 @@ class MultichannelExpansion2(Page):
         self.rev = Freeverb(a.mix(2), size=0.80, damp=0.70, bal=0.30)
 
 
-    def play(self):
+    def do_start(self):
         self.rev.out()

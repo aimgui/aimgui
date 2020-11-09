@@ -14,7 +14,10 @@ class FixedControl(Page):
 
     """
 
-    def reset(self):
+    def do_reset(self):
+        # Drops the gain by 20 dB.
+        self.server.amp = 0.1
+
         # Sets fundamental frequency
         freq = 440
 
@@ -30,7 +33,7 @@ class FixedControl(Page):
         # Displays the final waveform
         sp = self.gui.scope(self.h1 + self.h2 + self.h3 + self.h4 + self.h5 + self.h6)
 
-    def play(self):
+    def do_start(self):
         self.h1.out()
         self.h2.out()
         self.h3.out()
