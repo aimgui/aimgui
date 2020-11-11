@@ -23,7 +23,7 @@ class ReadFromDisk2(Page):
 
     def do_reset(self):
         # Sound bank
-        folder = self.window.resource_path / 'snds'
+        folder = self.resource_path / 'snds'
         sounds = ["alum1.wav", "alum2.wav", "alum3.wav", "alum4.wav"]
 
         # Creates the left and right players
@@ -49,9 +49,6 @@ class ReadFromDisk2(Page):
 
         # The "end-of-file" signal triggers the function "newR"
         self.tfR = TrigFunc(sfR["trig"], newR)
-
-        #s.gui(locals())
-
 
     def do_start(self):
         self.sfL.out()

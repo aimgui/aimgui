@@ -31,6 +31,7 @@ class BandLimitedOcs(Page):
     """
 
     def do_reset(self):
+        gui = self.gui
         # Sets fundamental frequency.
         freq = 187.5
 
@@ -38,16 +39,14 @@ class BandLimitedOcs(Page):
         lfo = Sine(0.2, mul=0.5, add=0.5)
 
         # Various band-limited waveforms
-        self.osc = LFO(freq=freq, sharp=lfo, mul=0.4)
-        #osc.ctrl()
+        self.osc = osc = LFO(freq=freq, sharp=lfo, mul=0.4)
+        gui.ctrl(osc)
 
         # Displays the waveform
-        #sc = Scope(osc)
+        sc = gui.scope(osc)
 
         # Displays the spectrum contents
-        #sp = Spectrum(osc)
-
-        #s.gui(locals())
+        sp = gui.spectrum(osc)
 
 
     def do_start(self):

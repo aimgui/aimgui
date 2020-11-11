@@ -45,8 +45,6 @@ class RandomGeneratators(Page):
         # A simple synth...
         self.a = SineLoop(freq=fr, feedback=fd, mul=amp)
 
-        #s.gui(locals())
-
 
     def do_start(self):
         self.a.out()

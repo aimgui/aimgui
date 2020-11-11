@@ -32,6 +32,7 @@ class StrangeAttractors(Page):
     """
 
     def do_reset(self):
+        gui = self.gui
         ### Oscilloscope ###
 
         # LFO applied to the `chaos` attribute
@@ -48,18 +49,16 @@ class StrangeAttractors(Page):
 
         # Interpolates between input objects to produce a single output
         sel = Selector([n1, n2, n3])
-        #sel.ctrl(title="Input interpolator (0=Rossler, 1=Lorenz, 2=ChenLee)")
+        gui.ctrl(sel, title="Input interpolator (0=Rossler, 1=Lorenz, 2=ChenLee)")
 
         # Displays the waveform of the chosen attractor
-        #sc = Scope(sel)
+        gui.scope(sel)
 
         ### Audio ###
 
         # Lorenz with very low pitch value that acts as a LFO
         freq = Lorenz(0.005, chaos=0.7, stereo=True, mul=250, add=500)
         self.a = Sine(freq, mul=0.3)
-
-        #s.gui(locals())
 
 
     def do_start(self):

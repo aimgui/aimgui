@@ -23,12 +23,13 @@ class LowpassFilters(Page):
     """
 
     def do_reset(self):
+        gui = self.gui
         # White noise generator
         n = Noise(0.5)
 
         # Common cutoff frequency control
         freq = Sig(1000)
-        #freq.ctrl([SLMap(50, 5000, "lin", "value", 1000)], title="Cutoff Frequency")
+        gui.ctrl(freq, [SLMap(50, 5000, "lin", "value", 1000)], title="Cutoff Frequency")
 
         # Three different lowpass filters
         tone = Tone(n, freq)
@@ -36,11 +37,11 @@ class LowpassFilters(Page):
         mooglp = MoogLP(n, freq)
 
         # Interpolates between input objects to produce a single output
-        self.sel = Selector([tone, butlp, mooglp])
-        #sel.ctrl(title="Filter selector (0=Tone, 1=ButLP, 2=MoogLP)")
+        self.sel = sel = Selector([tone, butlp, mooglp])
+        gui.ctrl(sel, title="Filter selector (0=Tone, 1=ButLP, 2=MoogLP)")
 
         # Displays the spectrum contents of the chosen source
-        #sp = Spectrum(sel)
+        gui.spectrum(sel)
 
 
     def do_start(self):

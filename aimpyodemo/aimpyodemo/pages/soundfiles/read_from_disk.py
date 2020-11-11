@@ -22,14 +22,11 @@ class ReadFromDisk(Page):
     """
 
     def do_reset(self):
-        path = str(self.window.resource_path / 'snds' / "transparent.aif")
+        path = str(self.resource_path / 'snds' / "transparent.aif")
         print(path)
 
         # stereo playback with a slight shift between the two channels.
         self.sf = SfPlayer(path, speed=[1, 0.995], loop=True, mul=0.4)
-
-        #s.gui(locals())
-
 
     def do_start(self):
         self.sf.out()

@@ -39,6 +39,7 @@ class ComplexOcs(Page):
     """
 
     def do_reset(self):
+        gui = self.gui
         # Sets fundamental frequency.
         freq = 187.5
 
@@ -59,17 +60,15 @@ class ComplexOcs(Page):
         osc4 = SuperSaw(freq=freq, detune=lfo4, mul=0.3)
 
         # Interpolates between input objects to produce a single output
-        self.sel = Selector([osc1, osc2, osc3, osc4])
+        self.sel = sel = Selector([osc1, osc2, osc3, osc4])
 
-        #sel.ctrl(title="Input interpolator (0=Blit, 1=RCOsc, 2=SineLoop, 3=SuperSaw)")
+        gui.ctrl(sel, title="Input interpolator (0=Blit, 1=RCOsc, 2=SineLoop, 3=SuperSaw)")
 
         # Displays the waveform of the chosen source
-        #sc = Scope(sel)
+        sc = gui.scope(sel)
 
         # Displays the spectrum contents of the chosen source
-        #sp = Spectrum(sel)
-
-        #s.gui(locals())
+        sp = gui.spectrum(sel)
 
     def do_start(self):
         self.sel.out()

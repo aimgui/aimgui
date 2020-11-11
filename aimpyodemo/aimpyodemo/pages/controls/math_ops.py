@@ -23,7 +23,7 @@ class MathOps(Page):
     """
 
     def do_reset(self):
-        self.gui.clear()
+        # Drops the gain by 20 dB.
         self.server.amp = 0.1
 
         # Full scale sine wave

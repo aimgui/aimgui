@@ -51,7 +51,7 @@ class Page(arcade.View):
     def reset(self):
         if self.server:
             self.server.shutdown()
-        self.boot_server()
+        self.create_server()
         self.gui.clear()
         self.do_reset()
 
@@ -65,7 +65,7 @@ class Page(arcade.View):
     def do_start(self):
         pass
 
-    def boot_server(self):
+    def create_server(self):
         self.server = s = Server(audio='jack')
         s.setMidiInputDevice(4)
         s.boot()

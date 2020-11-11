@@ -17,6 +17,7 @@ def install(app):
     app.add_page(BuildingLfo, "controls")
     app.add_page(MathOps, "controls")
     app.add_page(MultichannelExpansion, "controls")
+    app.add_page(MultichannelExpansion2, "controls")
     app.add_page(HandlingChannels, "controls")
     app.add_page(HandlingChannels2, "controls")
     app.add_page(HandlingChannels3, "controls")

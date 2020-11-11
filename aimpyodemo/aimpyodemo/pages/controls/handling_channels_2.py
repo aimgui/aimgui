@@ -15,11 +15,11 @@ class HandlingChannels2(Page):
     inc : Output channel increment value.
 
     """
+    def create_server(self):
+        # Creates a Server with 8 channels
+        self.server = Server(audio='jack', nchnls=8).boot()
 
     def do_reset(self):
-        # Creates a Server with 8 channels
-        #s = Server(nchnls=8).boot()
-
         # Generates a sine wave
         a = Sine(freq=500, mul=0.3)
 

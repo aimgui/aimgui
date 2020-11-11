@@ -36,7 +36,7 @@ class RecordPerf(Page):
         # Path of the recorded sound file.
         path = os.path.join(os.path.expanduser("~"), "Desktop", "synth.wav")
         # Record for 10 seconds a 24-bit wav file.
-        s = self.window.server
+        s = self.server
         s.recordOptions(dur=10, filename=path, fileformat=0, sampletype=1)
 
         # Creates an amplitude envelope
@@ -50,5 +50,5 @@ class RecordPerf(Page):
         self.amp.play()
         self.fm2.out()
         # Starts the recording for 10 seconds...
-        s = self.window.server
+        s = self.server
         s.recstart()

@@ -32,7 +32,6 @@ class MultichannelExpansion(Page):
     """
 
     def do_reset(self):
-        self.gui.clear()
         ### Using multichannel-expansion to create a square wave ###
 
         # Sets fundamental frequency.

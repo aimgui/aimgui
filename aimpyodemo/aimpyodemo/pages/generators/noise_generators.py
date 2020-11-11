@@ -26,6 +26,7 @@ class NoiseGenerators(Page):
     """
 
     def do_reset(self):
+        gui = self.gui
         # White noise
         n1 = Noise(0.3)
 
@@ -36,13 +37,11 @@ class NoiseGenerators(Page):
         n3 = BrownNoise(0.3)
 
         # Interpolates between input objects to produce a single output
-        self.sel = Selector([n1, n2, n3])
-        #sel.ctrl(title="Input interpolator (0=White, 1=Pink, 2=Brown)")
+        self.sel = sel = Selector([n1, n2, n3])
+        gui.ctrl(sel, title="Input interpolator (0=White, 1=Pink, 2=Brown)")
 
         # Displays the spectrum contents of the chosen source
-        #sp = Spectrum(sel)
-
-        #s.gui(locals())
+        gui.spectrum(sel)
 
 
     def do_start(self):

@@ -314,13 +314,61 @@ class SigControl(PyoObjectControl):
 class InterpControl(PyoObjectControl):
     def __init__(self, obj, map_list=None, title=None):
         if not map_list:
-            map_list = [SLMap(0.0, 1.0, "lin", "interp", self._interp), SLMapMul(self._mul)]
+            map_list = [SLMap(0.0, 1.0, "lin", "interp", obj._interp), SLMapMul(obj._mul)]
         super().__init__(obj, map_list, title)
         
+class SelectorControl(PyoObjectControl):
+    def __init__(self, obj, map_list=None, title=None):
+        if not map_list:
+            map_list = [SLMap(0, len(obj._inputs) - 1, "lin", "voice", obj._voice), SLMapMul(obj._mul)]
+        super().__init__(obj, map_list, title)
+
+class LFOControl(PyoObjectControl):
+    def __init__(self, obj, map_list=None, title=None):
+        if not map_list:
+            map_list = [
+                SLMap(0.1, obj.getSamplingRate() * 0.25, "log", "freq", obj._freq),
+                SLMap(0.0, 1.0, "lin", "sharp", obj._sharp),
+                SLMap(0, 7, "lin", "type", obj._type, "int", dataOnly=True),
+                SLMapMul(obj._mul),
+            ]
+        super().__init__(obj, map_list, title)
+
+class CrossFMControl(PyoObjectControl):
+    def __init__(self, obj, map_list=None, title=None):
+        if not map_list:
+            map_list = [
+                SLMap(10, 500, "lin", "carrier", obj._carrier),
+                SLMap(0.01, 10, "lin", "ratio", obj._ratio),
+                SLMap(0, 20, "lin", "ind1", obj._ind1),
+                SLMap(0, 20, "lin", "ind2", obj._ind2),
+                SLMapMul(obj._mul),
+            ]
+        super().__init__(obj, map_list, title)
+
+class SigToControl(PyoObjectControl):
+    def __init__(self, obj, map_list=None, title=None):
+        if not map_list:
+            map_list = [SLMap(0, 10, "lin", "time", obj._time)]
+        super().__init__(obj, map_list, title)
+
+class PortControl(PyoObjectControl):
+    def __init__(self, obj, map_list=None, title=None):
+        if not map_list:
+            map_list = [
+                SLMap(0.001, 10.0, "log", "risetime", obj._risetime),
+                SLMap(0.001, 10.0, "log", "falltime", obj._falltime),
+            ]
+        super().__init__(obj, map_list, title)
 
 kinds = {
     "FM": FMControl,
     "Sine": SineControl,
     "Sig": SigControl,
-    "Interp": InterpControl
+    "Interp": InterpControl,
+    "Selector": SelectorControl,
+    "LFO": LFOControl,
+    "CrossFM": CrossFMControl,
+    "SigTo": SigToControl,
+    "Port": PortControl
 }

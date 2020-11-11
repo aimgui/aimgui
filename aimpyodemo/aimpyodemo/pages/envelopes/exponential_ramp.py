@@ -16,6 +16,7 @@ class ExponentialRamp(Page):
     """
 
     def do_reset(self):
+        gui = self.gui
         # 2 seconds linear ramp starting at 0.0 and ending at 0.3.
         amp = SigTo(value=0.3, time=2.0, init=0.0)
 
@@ -29,7 +30,7 @@ class ExponentialRamp(Page):
         # Sharp attack for rising notes and long release for falling notes.
         freq = Port(pick, risetime=0.001, falltime=0.25, mul=[1, 1.005])
         # Play with portamento times.
-        #freq.ctrl()
+        gui.ctrl(freq)
 
         # Play a simple wave.
         self.sig = RCOsc(freq, sharp=0.7, mul=amp)
