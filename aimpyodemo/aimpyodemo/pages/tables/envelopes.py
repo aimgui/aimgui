@@ -34,6 +34,7 @@ class Envelopes(Page):
     """
 
     def do_reset(self):
+        gui = self.gui
         # Defines tables for the amplitude, the ratio and the modulation index.
         amp_table = CosTable([(0, 0), (100, 1), (1024, 0.5), (7000, 0.5), (8192, 0)])
         rat_table = ExpTable(
@@ -43,9 +44,9 @@ class Envelopes(Page):
 
         # call their graph() method. Use the "yrange" argument to set the minimum
         # and maximum bundaries of the graph (defaults to 0 and 1).
-        #amp_table.graph(title="Amplitude envelope")
-        #rat_table.graph(title="Ratio envelope")
-        #ind_table.graph(yrange=(0, 20), title="Modulation index envelope")
+        gui.graph(amp_table, title="Amplitude envelope")
+        gui.graph(rat_table, title="Ratio envelope")
+        gui.graph(ind_table, yrange=(0, 20), title="Modulation index envelope")
 
         # Initialize the table readers (TableRead.play() must be called explicitly).
         amp = TableRead(table=amp_table, freq=1, loop=False, mul=0.3)

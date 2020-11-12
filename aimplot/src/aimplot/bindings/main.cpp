@@ -58,6 +58,17 @@ void init_main(py::module &libaimplot, Registry &registry) {
     , py::arg("count")
     , py::return_value_policy::automatic_reference);
 
+    //template IMPLOT_API void PlotLine<double>(const char* label_id, const double* xs, const double* ys, int count, int offset, int stride);
+    libaimplot.def("plot_line", [](const char* label_id, const py::array_t<double>& xs, const py::array_t<double>& ys, int count)
+    {
+        ImPlot::PlotLine<double>(label_id, (double*)xs.unchecked().data(), (double*)ys.unchecked().data(), count);
+    }
+    , py::arg("label_id")
+    , py::arg("xs")
+    , py::arg("ys")
+    , py::arg("count")
+    , py::return_value_policy::automatic_reference);
+
     //template <typename T> IMPLOT_API  void PlotScatter(const char* label_id, const T* values, int count, double xscale=1, double x0=0, int offset=0, int stride=sizeof(T));
     libaimplot.def("plot_scatter", [](const char* label_id, const py::array_t<double>& values, int count)
     {

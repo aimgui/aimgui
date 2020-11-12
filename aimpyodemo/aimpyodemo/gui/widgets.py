@@ -60,6 +60,22 @@ class PyoObjectControl(Drawable):
     def produce(self, obj, map_list=None, title=None):
         return controls[obj.__class__.__name__](obj, map_list, title)
 
+    def __init__(self, obj=None, map_list=None, title=None):
+        self.values = []
+        if not title:
+            title = obj.__class__.__name__
+        self.title = title + '##' + str(self.counter)
+        self.counter += 1
+
+        self._obj = obj
+        self._map_list = map_list
+        self._sliders = []
+        self._excluded = []
+        self._values = {}
+        self._displays = {}
+        self._maps = {}
+        self._sigs = {}
+
     def draw_multislider(self, m, arr):
         key, init, mini, maxi, scl, res, dataOnly = m.name, m.init, m.min, m.max, m.scale, m.res, m.dataOnly
         speed = maxi / 100
@@ -135,9 +151,6 @@ class PyoObjectControl(Drawable):
                 setattr(self._obj, key, value)
 
     def draw(self):
-        width = 20
-        height = 100
-
         aimgui.begin(self.title)
 
         for i, m in enumerate(self._map_list):
@@ -145,149 +158,6 @@ class PyoObjectControl(Drawable):
 
         aimgui.end()
 
-    def __init__(self, obj=None, map_list=None, title=None):
-        self.values = []
-        if not title:
-            title = obj.__class__.__name__
-        self.title = title + '##' + str(self.counter)
-        self.counter += 1
-        from pyo.lib.controls import SigTo
-        '''
-        self.menubar = wx.MenuBar()
-        self.fileMenu = wx.Menu()
-        self.fileMenu.Append(9999, "Close\tCtrl+W", kind=wx.ITEM_NORMAL)
-        self.fileMenu.Bind(wx.EVT_MENU, self._destroy, id=9999)
-        self.fileMenu.AppendSeparator()
-        self.fileMenu.Append(
-            10000, "Copy all parameters to the clipboard (4 digits of precision)\tCtrl+C", kind=wx.ITEM_NORMAL
-        )
-        self.Bind(wx.EVT_MENU, self.copy, id=10000)
-        self.fileMenu.Append(
-            10001, "Copy all parameters to the clipboard (full precision)\tShift+Ctrl+C", kind=wx.ITEM_NORMAL
-        )
-        self.Bind(wx.EVT_MENU, self.copy, id=10001)
-        self.menubar.Append(self.fileMenu, "&File")
-        self.SetMenuBar(self.menubar)
-        self.Bind(wx.EVT_CLOSE, self._destroy)
-        '''
-        self._obj = obj
-        self._map_list = map_list
-        self._sliders = []
-        self._excluded = []
-        self._values = {}
-        self._displays = {}
-        self._maps = {}
-        self._sigs = {}
-        '''
-        panel = wx.Panel(self)
-        panel.SetBackgroundColour(BACKGROUND_COLOUR)
-        mainBox = wx.BoxSizer(wx.VERTICAL)
-        self.box = wx.FlexGridSizer(10, 2, 5, 5)
-
-        for i, m in enumerate(self._map_list):
-            key, init, mini, maxi, scl, res, dataOnly = m.name, m.init, m.min, m.max, m.scale, m.res, m.dataOnly
-            # filters PyoObjects
-            if type(init) not in [list, float, int]:
-                self._excluded.append(key)
-            else:
-                self._maps[key] = m
-                # label (param name)
-                if dataOnly:
-                    label = wx.StaticText(panel, -1, key + " *")
-                else:
-                    label = wx.StaticText(panel, -1, key)
-                # create and pack slider
-                if type(init) != list:
-                    if scl == "log":
-                        scl = True
-                    else:
-                        scl = False
-                    if res == "int":
-                        res = True
-                    else:
-                        res = False
-                    self._sliders.append(
-                        ControlSlider(
-                            panel,
-                            mini,
-                            maxi,
-                            init,
-                            log=scl,
-                            size=(300, 16),
-                            outFunction=Command(self.setval, key),
-                            integer=res,
-                            ctrllabel=key,
-                        )
-                    )
-                    self.box.AddMany([(label, 0, wx.LEFT, 5), (self._sliders[-1], 1, wx.EXPAND | wx.LEFT, 5)])
-                else:
-                    self._sliders.append(MultiSlider(panel, init, key, self.setval, m, ctrllabel=key))
-                    self.box.AddMany([(label, 0, wx.LEFT, 5), (self._sliders[-1], 1, wx.EXPAND | wx.LEFT, 5)])
-                # set obj attribute to PyoObject SigTo
-                if not dataOnly:
-                    self._values[key] = init
-                    self._sigs[key] = SigTo(init, 0.025, init)
-                    refStream = self._obj.getBaseObjects()[0]._getStream()
-                    server = self._obj.getBaseObjects()[0].getServer()
-                    for k in range(len(self._sigs[key].getBaseObjects())):
-                        curStream = self._sigs[key].getBaseObjects()[k]._getStream()
-                        server.changeStreamPosition(refStream, curStream)
-                    setattr(self._obj, key, self._sigs[key])
-        self.box.AddGrowableCol(1, 1)
-        mainBox.Add(self.box, 1, wx.EXPAND | wx.TOP | wx.BOTTOM | wx.RIGHT, 10)
-
-        panel.SetSizerAndFit(mainBox)
-        self.SetClientSize(panel.GetSize())
-        self.SetMinSize(self.GetSize())
-        self.SetMaxSize((-1, self.GetSize()[1]))
-        '''
-    def _destroy(self, event):
-        for m in self._map_list:
-            key = m.name
-            if key not in self._excluded and key in self._values:
-                setattr(self._obj, key, self._values[key])
-                del self._sigs[key]
-        self.Destroy()
-
-    def setval(self, key, x):
-        if key in self._values:
-            self._values[key] = x
-            setattr(self._sigs[key], "value", x)
-        else:
-            setattr(self._obj, key, x)
-
-    def copy(self, evt):
-        labels = [slider.getCtrlLabel() for slider in self._sliders]
-        values = [slider.GetValue() for slider in self._sliders]
-        if evt.GetId() == 10000:
-            pstr = ""
-            for i in range(len(labels)):
-                pstr += "%s=" % labels[i]
-                if type(values[i]) == list:
-                    pstr += "["
-                    pstr += ", ".join(["%.4f" % val for val in values[i]])
-                    pstr += "]"
-                else:
-                    pstr += "%.4f" % values[i]
-                if i < (len(labels) - 1):
-                    pstr += ", "
-        else:
-            pstr = ""
-            for i in range(len(labels)):
-                pstr += "%s=" % labels[i]
-                if type(values[i]) == list:
-                    pstr += "["
-                    pstr += ", ".join([str(val) for val in values[i]])
-                    pstr += "]"
-                else:
-                    pstr += str(values[i])
-                if i < (len(labels) - 1):
-                    pstr += ", "
-        data = wx.TextDataObject(pstr)
-        if wx.TheClipboard.Open():
-            wx.TheClipboard.Clear()
-            wx.TheClipboard.SetData(data)
-            wx.TheClipboard.Close()
 
 class FMControl(PyoObjectControl):
     def __init__(self, obj, map_list=None, title=None):
@@ -361,6 +231,45 @@ class PortControl(PyoObjectControl):
             ]
         super().__init__(obj, map_list, title)
 
+class LooperControl(PyoObjectControl):
+    def __init__(self, obj, map_list=None, title=None):
+        if not map_list:
+            map_list = [
+                SLMap(0.1, 2.0, "lin", "pitch", obj._pitch),
+                SLMap(0.0, obj._table.getDur(), "lin", "start", obj._start),
+                SLMap(0.01, obj._table.getDur(), "lin", "dur", obj._dur),
+                SLMap(1, 50, "lin", "xfade", obj._xfade),
+                SLMap(0, 3, "lin", "mode", obj._mode, res="int", dataOnly=True),
+                SLMap(0, 2, "lin", "xfadeshape", obj._xfadeshape, res="int", dataOnly=True),
+                SLMap(1, 4, "lin", "interp", obj._interp, res="int", dataOnly=True),
+                SLMapMul(obj._mul),
+            ]
+        super().__init__(obj, map_list, title)
+
+class NoiseControl(PyoObjectControl):
+    def __init__(self, obj, map_list=None, title=None):
+        if not map_list:
+            map_list = [SLMapMul(obj._mul)]
+        super().__init__(obj, map_list, title)
+
+class Particle2Control(PyoObjectControl):
+    def __init__(self, obj, map_list=None, title=None):
+        tablesize = obj._table.getSize(False)
+        if not map_list:
+            map_list = [
+                SLMap(1, 250, "lin", "dens", obj._dens),
+                SLMap(0.25, 2.0, "lin", "pitch", obj._pitch),
+                SLMap(0, tablesize, "lin", "pos", obj._pos, res="int"),
+                SLMap(0.001, 1.0, "lin", "dur", obj._dur),
+                SLMap(0.0, 1.0, "lin", "dev", obj._dev),
+                SLMap(0.0, 1.0, "lin", "pan", obj._pan),
+                SLMap(50.0, 18000.0, "log", "filterfreq", obj._filterfreq),
+                SLMap(0.25, 100.0, "log", "filterq", obj._filterq),
+                SLMap(0, 4.0, "lin", "filtertype", obj._filtertype, res="int"),
+                SLMapMul(obj._mul),
+            ]
+        super().__init__(obj, map_list, title)
+
 controls = {
     "FM": FMControl,
     "Sine": SineControl,
@@ -370,7 +279,10 @@ controls = {
     "LFO": LFOControl,
     "CrossFM": CrossFMControl,
     "SigTo": SigToControl,
-    "Port": PortControl
+    "Port": PortControl,
+    "Looper": LooperControl,
+    "Noise": NoiseControl,
+    "Particle2": Particle2Control
 }
 
 class PyoObjectView(Drawable):
@@ -381,19 +293,22 @@ class PyoObjectView(Drawable):
 
     def __init__(self, obj, title="Table waveform"):
         self.obj = obj
-        self.title = title
+        if not title:
+            title = obj.__class__.__name__
+        self.title = title + '##' + str(self.counter)
+        self.counter += 1
 
 class TableView(PyoObjectView):
     def __init__(self, obj, title="Table waveform"):
         super().__init__(obj, title)
-        self.samples = obj._base_objs[0].getViewTable((500, 200))
 
     def draw(self):
+        samples = self.obj._base_objs[0].getViewTable((500, 200))
+        _, samples = zip(*samples)
         letters = list(string.ascii_uppercase)
         aimgui.begin(self.title)
         aimplot.set_next_plot_limits(0,500,0,200)
         if aimplot.begin_plot("Table View"):
-            _, samples = zip(*self.samples)
             aimplot.plot_line(letters.pop(), samples, len(samples))
             aimplot.end_plot()
         aimgui.end()
@@ -401,4 +316,42 @@ class TableView(PyoObjectView):
 
 views = {
     "ExpTable": TableView,
+    "SndTable": TableView,
+    "WinTable": TableView,
+    "LinTable": TableView,
+    "AtanTable": TableView,
+}
+
+class PyoObjectGraph(Drawable):
+    counter = 0
+    @classmethod
+    def produce(self, obj, yrange=(0.0, 1.0), title=None):
+        return graphs[obj.__class__.__name__](obj, yrange, title)
+
+    def __init__(self, obj, yrange, title="Table waveform"):
+        self.obj = obj
+        self.pts = obj.getPoints()
+        self.xrange = obj._size
+        self.yrange = yrange
+        self.title = title
+
+class TableGraph(PyoObjectGraph):
+    def __init__(self, obj, yrange=(0.0, 1.0), title="Table waveform"):
+        super().__init__(obj, yrange, title)
+
+    def draw(self):
+        letters = list(string.ascii_uppercase)
+        aimgui.begin(self.title)
+        aimplot.set_next_plot_limits(0, self.xrange, self.yrange[0], self.yrange[1])
+        if aimplot.begin_plot("Table Waveform"):
+            xs, ys = zip(*self.pts)
+            aimplot.plot_line(letters.pop(), xs, ys, len(self.pts))
+            aimplot.end_plot()
+        aimgui.end()
+
+
+graphs = {
+    "CosTable": TableGraph,
+    "ExpTable": TableGraph,
+    "LinTable": TableGraph,
 }

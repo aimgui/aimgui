@@ -1,6 +1,6 @@
 from aimgui.impl.arcade import ArcadeGui
 import aimplot
-from .widgets import PyoObjectControl, PyoObjectView, PyoScope, PyoSpectrum
+from .widgets import PyoObjectControl, PyoObjectView, PyoObjectGraph, PyoScope, PyoSpectrum
 
 class PyoGui(ArcadeGui):
     def __init__(self, window, attach_callbacks=True):
@@ -20,8 +20,13 @@ class PyoGui(ArcadeGui):
         self.drawables.append(ctrl)
         return ctrl
 
-    def view(self, obj, title=None):
+    def view(self, obj, title=None, mouse_callback=None):
         ctrl = PyoObjectView.produce(obj, title)
+        self.drawables.append(ctrl)
+        return ctrl
+
+    def graph(self, obj, yrange=(0.0, 1.0), title=None):
+        ctrl = PyoObjectGraph.produce(obj, yrange, title)
         self.drawables.append(ctrl)
         return ctrl
 

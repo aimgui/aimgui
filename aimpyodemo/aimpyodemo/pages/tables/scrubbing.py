@@ -19,6 +19,7 @@ class Scrubbing(Page):
     """
 
     def do_reset(self):
+        gui = self.gui
         # The callback given to the SndTable.view() method.
         def mouse(mpos):
             print("X = %.2f, Y = %.2f" % tuple(mpos))
@@ -30,9 +31,9 @@ class Scrubbing(Page):
 
 
         # Load and normalize the sound in the table.
-        snd = SndTable("../snds/ounkmaster.aif").normalize()
+        snd = SndTable(str(self.resource_path / "snds" / "ounkmaster.aif")).normalize()
         # Open the waveform view with a mouse position callback.
-        snd.view(title="Scrubbing window", mouse_callback=mouse)
+        gui.view(snd, title="Scrubbing window", mouse_callback=mouse)
 
         # Left and right channel gain values.
         leftRightAmp = SigTo([1, 1], time=0.1, init=[1, 1], mul=0.1)
@@ -40,7 +41,7 @@ class Scrubbing(Page):
         position = SigTo(0.5, time=0.1, init=0.5, mul=snd.getSize(), add=Noise(5))
 
         # Simple sound granulator.
-        gran = Granulator(
+        self.gran = Granulator(
             table=snd,  # the sound table.
             env=HannTable(),  # the grain envelope.
             pitch=[0.999, 1.0011],  # global pitch (change every grain).
@@ -49,10 +50,8 @@ class Scrubbing(Page):
             grains=64,  # the number of grains.
             basedur=0.1,  # duration for which the grain is not transposed.
             mul=leftRightAmp,  # stereo gain.
-        ).out()
-
-        s.gui(locals())
+        )
 
 
     def do_start(self):
-        self.a.out()
+        self.gran.out()

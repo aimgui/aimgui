@@ -48,13 +48,13 @@ class DelayedCalls(Page):
         # frequency would be passed to the callback of the first (and single)
         # stream (a list of functions at first argument would create a
         # multi-stream object). A tuple is treated as a single argument.
-        c1 = CallAfter(new_notes, time=0.95, arg=(60, 64, 67, 69))
-        c2 = CallAfter(new_notes, time=1.95, arg=(60, 65, 69, 76))
-        c3 = CallAfter(new_notes, time=2.95, arg=(62, 65, 69, 74))
-        c4 = CallAfter(new_notes, time=3.45, arg=(59, 65, 67, 74))
-        c5 = CallAfter(new_notes, time=3.95, arg=(60, 64, 67, 72))
+        self.c1 = CallAfter(new_notes, time=0.95, arg=(60, 64, 67, 69))
+        self.c2 = CallAfter(new_notes, time=1.95, arg=(60, 65, 69, 76))
+        self.c3 = CallAfter(new_notes, time=2.95, arg=(62, 65, 69, 74))
+        self.c4 = CallAfter(new_notes, time=3.45, arg=(59, 65, 67, 74))
+        self.c5 = CallAfter(new_notes, time=3.95, arg=(60, 64, 67, 72))
         # The last event activates the fadeout of the amplitude envelope.
-        c6 = CallAfter(amp.stop, time=5.95, arg=None)
+        self.c6 = CallAfter(amp.stop, time=5.95, arg=None)
 
     def do_start(self):
         self.rev.out()
