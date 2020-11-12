@@ -42,7 +42,7 @@ class Ducking(Page):
         ampscl = Scale(amp, outmin=1, outmax=0.1)
 
         # Display the gain factor.
-        sc = self.gui.scope(ampscl)
+        self.gui.scope(ampscl)
 
         # Apply gain factor and output music.
         self.outsynth = (music * ampscl)

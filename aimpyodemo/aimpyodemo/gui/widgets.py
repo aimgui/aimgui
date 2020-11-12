@@ -58,7 +58,7 @@ class PyoObjectControl(Drawable):
     counter = 0
     @classmethod
     def produce(self, obj, map_list=None, title=None):
-        return kinds[obj.__class__.__name__](obj, map_list, title)
+        return controls[obj.__class__.__name__](obj, map_list, title)
 
     def draw_multislider(self, m, arr):
         key, init, mini, maxi, scl, res, dataOnly = m.name, m.init, m.min, m.max, m.scale, m.res, m.dataOnly
@@ -361,7 +361,7 @@ class PortControl(PyoObjectControl):
             ]
         super().__init__(obj, map_list, title)
 
-kinds = {
+controls = {
     "FM": FMControl,
     "Sine": SineControl,
     "Sig": SigControl,
@@ -371,4 +371,34 @@ kinds = {
     "CrossFM": CrossFMControl,
     "SigTo": SigToControl,
     "Port": PortControl
+}
+
+class PyoObjectView(Drawable):
+    counter = 0
+    @classmethod
+    def produce(self, obj, title=None):
+        return views[obj.__class__.__name__](obj, title)
+
+    def __init__(self, obj, title="Table waveform"):
+        self.obj = obj
+        self.title = title
+
+class TableView(PyoObjectView):
+    def __init__(self, obj, title="Table waveform"):
+        super().__init__(obj, title)
+        self.samples = obj._base_objs[0].getViewTable((500, 200))
+
+    def draw(self):
+        letters = list(string.ascii_uppercase)
+        aimgui.begin(self.title)
+        aimplot.set_next_plot_limits(0,500,0,200)
+        if aimplot.begin_plot("Table View"):
+            _, samples = zip(*self.samples)
+            aimplot.plot_line(letters.pop(), samples, len(samples))
+            aimplot.end_plot()
+        aimgui.end()
+
+
+views = {
+    "ExpTable": TableView,
 }

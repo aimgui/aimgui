@@ -21,11 +21,12 @@ class HandMadeHarmonizer(Page):
 
     """
 
-    def do_reset(self):
-        #s = Server(duplex=0).boot()
+    def create_server(self):
+        self.server = Server(audio='jack', duplex=0).boot()
 
+    def do_reset(self):
         # Play a melodic sound and send its signal to the left speaker.
-        self.sf = sf = SfPlayer(str(self.window.resource_path / "snds" / "flute.aif"), speed=1, loop=True, mul=0.5)
+        self.sf = sf = SfPlayer(str(self.resource_path / "snds" / "flute.aif"), speed=1, loop=True, mul=0.5)
 
         # Half-sine window used as the amplitude envelope of the overlaps.
         env = WinTable(8)

@@ -22,11 +22,13 @@ class FuzzDisto(Page):
 
     """
 
-    def do_reset(self):
-        #s = Server(duplex=0).boot()
+    def create_server(self):
+        self.server = Server(audio='jack', duplex=0).boot()
 
+    def do_reset(self):
+        gui = self.gui
         # The audio source (try with your own sounds).
-        SOURCE = str(self.window.resource_path / "snds" / "flute.aif")
+        SOURCE = str(self.resource_path / "snds" / "flute.aif")
 
         # Distortion parameters
         BP_CENTER_FREQ = 400  # Bandpass filter center frequency.
@@ -54,7 +56,7 @@ class FuzzDisto(Page):
         table.add(high_table)
 
         # Show the transfert function.
-        #table.view(title="Transfert function")
+        gui.view(table, title="Transfert function")
 
         # Bandpass filter and boost gain applied on input signal.
         bp = ButBP(src, freq=BP_CENTER_FREQ, q=BP_Q)
@@ -73,7 +75,7 @@ class FuzzDisto(Page):
         self.out = (mixed * 0.3)
 
         # Show the resulting waveform.
-        sc = self.gui.scope(mixed)
+        self.gui.scope(mixed)
 
 
     def do_start(self):

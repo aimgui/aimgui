@@ -2,6 +2,7 @@ from pyo import *
 
 from .. import Page
 
+c = 0
 
 class DynamicRange(Page):
     """
@@ -32,7 +33,7 @@ class DynamicRange(Page):
 
     def do_reset(self):
         # The original source.
-        src = SfPlayer(str(self.window.resource_path / "snds" / "drumloop.wav"), loop=True)
+        src = SfPlayer(str(self.resource_path / "snds" / "drumloop.wav"), loop=True)
 
         # The three dynamic processing.
         cmp = Compress(src, thresh=-18, ratio=3, risetime=0.005, falltime=0.05, knee=0.5)
@@ -49,7 +50,7 @@ class DynamicRange(Page):
         output = Selector(signals)
 
         # Converts the signal from mono to stereo.
-        self.stout = output.mix(2).out()
+        self.stout = output.mix(2)
 
         # Live oscilloscope of the alternated signals.
         sc = self.gui.scope(output, wintitle="=== Original ===")
@@ -63,13 +64,16 @@ class DynamicRange(Page):
         def endOfLoop():
             global c
             output.voice = c
+            '''
             if sc.viewFrame is not None:
                 sc.viewFrame.SetTitle("=== %s ===" % labels[c])
+            '''
+            sc.title = "=== %s ===" % labels[c]
             c = (c + 1) % num_of_sigs
 
 
         # endOfLoop is called every time the SfPlayer reaches the end of the sound.
-        tf = TrigFunc(src["trig"], endOfLoop)
+        self.tf = TrigFunc(src["trig"], endOfLoop)
 
     def do_start(self):
-        self.std.out()
+        self.stout.out()

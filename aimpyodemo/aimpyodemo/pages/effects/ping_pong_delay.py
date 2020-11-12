@@ -18,10 +18,12 @@ class PingPongDelay(Page):
     
     """
 
+    def create_server(self):
+        self.server = Server(audio='jack', duplex=0).boot()
+
     def do_reset(self):
         s = self.server
         gui = self.gui
-        #s = Server(duplex=0).boot()
 
         # Compute the duration, in seconds, of one buffer size.
         buftime = s.getBufferSize() / s.getSamplingRate()
@@ -39,7 +41,7 @@ class PingPongDelay(Page):
         delay_time_r = Sig(delay_time_l, add=-buftime)
 
         # Setup up a soundfile player.
-        sf = SfPlayer(str(self.window.resource_path / "snds" / "alum1.wav")).stop()
+        sf = SfPlayer(str(self.resource_path / "snds" / "alum1.wav")).stop()
 
         # Send the original sound to both speakers.
         self.sfout = sf.mix(2)
