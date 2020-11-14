@@ -21,6 +21,7 @@ app.use('midi')
 app.use('multirate')
 app.use('multicore')
 app.use('utilities')
+app.use('events')
 
 app.show('about')
 

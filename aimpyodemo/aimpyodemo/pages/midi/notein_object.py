@@ -13,8 +13,6 @@ class NoteinObject(Page):
     """
 
     def do_reset(self):
-        s = self.server
-        s.setMidiInputDevice(99)  # Open all input devices.
         #s.boot()
 
         # Default arguments of the Notein object.
@@ -72,8 +70,8 @@ class NoteinObject(Page):
         # TrigFunc calls a function when it receives a trigger. Because notes["trigon"]
         # contains 10 streams, there will be 10 caller, each one with its own argument,
         # taken from the list of integers given at `arg` argument.
-        tfon = TrigFunc(notes["trigon"], noteon, arg=list(range(10)))
-        tfoff = TrigFunc(notes["trigoff"], noteoff, arg=list(range(10)))
+        self.tfon = TrigFunc(notes["trigon"], noteon, arg=list(range(10)))
+        self.tfoff = TrigFunc(notes["trigoff"], noteoff, arg=list(range(10)))
 
 
     def do_start(self):

@@ -27,20 +27,17 @@ class MidiScan(Page):
 
     """
 
-    def do_reset(self):
-        s = self.server
-        # Print the list of available MIDI devices to the console.
-        pm_list_devices()
-
-        #s = Server(duplex=0)
-
+    def create_server(self):
+        self.server = s = Server(audio='jack', duplex=0)
         # Give the ID of the desired device (as listed by pm_list_devices()) to the
         # setMidiInputDevice() of the Server. A bigger number than the higher device
         # ID will open all connected MIDI devices.
-        #s.setMidiInputDevice(99)
+        s.setMidiInputDevice(4)
+        s.boot()
 
-        # The MIDI device must be set before booting the server.
-        #s.boot().start()
+    def do_reset(self):
+        # Print the list of available MIDI devices to the console.
+        pm_list_devices()
 
         print("Play with your Midi controllers...")
 
@@ -51,7 +48,7 @@ class MidiScan(Page):
 
         # Listen to controller input.
         #scan = CtlScan2(scanner, toprint=False)
-        scan = CtlScan2(scanner)
+        self.scan = CtlScan(scanner)
 
     def do_start(self):
         self.a.out()
