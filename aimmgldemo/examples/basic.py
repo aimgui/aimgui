@@ -29,7 +29,7 @@ class App(moderngl_window.WindowConfig):
 
         aimgui.end_frame()
 
-        self.gui.render()
+        self.gui.draw()
 
     def resize(self, width: int, height: int):
         self.gui.resize(width, height)

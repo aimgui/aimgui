@@ -14,7 +14,9 @@ I combined the Python parts of pyimgui with the C++ parts of [deargui](https://g
 
 ## OpenGL Libraries Supported
 
-[The Python Arcade Library](https://arcade.academy/)
+[The Python Arcade Library](https://arcade.academy)
+
+[ModernGL](https://github.com/moderngl/moderngl)
 
 ## Required
 
