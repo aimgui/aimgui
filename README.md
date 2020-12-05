@@ -50,6 +50,20 @@ I combined the Python parts of pyimgui with the C++ parts of [deargui](https://g
         python examples/basic.py
         etc ...
 
+## Build AimPlot
+
+        cd aimplot
+        poetry install
+        poetry shell
+        python setup.py build
+
+## Run the Demo
+
+        cd aimplotdemo
+        poetry install
+        poetry shell
+        python aimplotdemo
+
 ## Run the AimFlo Demo
 
         cd aimflo
