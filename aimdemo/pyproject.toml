@@ -8,9 +8,9 @@ authors = ["Kurtis Fields <kurtisfields@gmail.com>"]
 vscode = "scripts:vscode"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.9"
 aimgui = {path = "../aimgui",  develop = true}
-arcade = "^2.4.3"
+arcade = "^2.5.7"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

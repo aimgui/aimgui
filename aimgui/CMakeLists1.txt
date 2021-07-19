@@ -14,13 +14,15 @@ set(IMGUI_SRC
     ${IMGUI_DIR}/imgui.cpp
 )
 
+#pybind11_add_module(aimgui MODULE
 pybind11_add_module(aimgui SHARED
+#pybind11_add_module(aimgui
     src/aimgui/bindings/init.cpp
 )
 
 configure_project(aimgui)
 
-add_compile_definitions(AIMGUI_DLL)
+add_compile_definitions(IMGUI_IMPLEMENTATION=1)
 
 install(TARGETS aimgui EXPORT AimGuiTargets
 	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
@@ -28,6 +30,7 @@ install(TARGETS aimgui EXPORT AimGuiTargets
 )
 
 target_sources(aimgui PRIVATE ${IMGUI_SRC} ${IMGUI_HEADERS})
+#target_sources(aimgui PRIVATE ${IMPLOT_SRC} ${IMPLOT_HEADERS})
 
 # add include files
 target_sources(aimgui PRIVATE ${AIMGUI_INCLUDE}) # for intellisense
@@ -36,6 +39,8 @@ target_include_directories(aimgui
 		$<INSTALL_INTERFACE:include>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<BUILD_INTERFACE:${IMGUI_DIR}>
+        # $<BUILD_INTERFACE:${IMPLOT_INCLUDE_DIR}>
+        # $<BUILD_INTERFACE:${NANOSVG_INCLUDE_DIR}>
 	PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
@@ -59,20 +64,20 @@ set(ignoreMe "${SKBUILD}")
 #
 # Generate a configuration for use by plugins
 #
-message(Build ${BUILD_DIR})
+
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file(
-  "${BUILD_DIR}/aimgui/AimGuiConfigVersion.cmake"
+  "${CMAKE_CURRENT_BINARY_DIR}/aimgui/AimGuiConfigVersion.cmake"
   VERSION ${Upstream_VERSION}
   COMPATIBILITY AnyNewerVersion
 )
 
 export(EXPORT AimGuiTargets
-  FILE "${BUILD_DIR}/aimgui/AimGuiTargets.cmake"
+  FILE "${CMAKE_CURRENT_BINARY_DIR}/aimgui/AimGuiTargets.cmake"
   NAMESPACE Upstream::
 )
 configure_file(cmake_config/AimGuiConfig.cmake
-  "${BUILD_DIR}/aimgui/AimGuiConfig.cmake"
+  "${CMAKE_CURRENT_BINARY_DIR}/aimgui/AimGuiConfig.cmake"
   COPYONLY
 )
 
@@ -88,7 +93,7 @@ install(EXPORT AimGuiTargets
 install(
   FILES
     cmake_config/AimGuiConfig.cmake
-    "${BUILD_DIR}/aimgui/AimGuiConfig.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/aimgui/AimGuiConfig.cmake"
   DESTINATION
     ${ConfigPackageLocation}
   COMPONENT

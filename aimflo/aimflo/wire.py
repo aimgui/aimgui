@@ -17,4 +17,4 @@ class Wire:
         end = (x1,y1)
         cp1 = (x+32, y)
         cp2 = (x1-32, y1)
-        draw_list.add_bezier_curve(start, cp1, cp2, end, aimgui.get_color_u32((1,1,1,1)), 1)
+        draw_list.add_bezier_cubic(start, cp1, cp2, end, aimgui.get_color_u32((1,1,1,1)), 1)

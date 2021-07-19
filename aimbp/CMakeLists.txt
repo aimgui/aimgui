@@ -1,37 +1,12 @@
-cmake_minimum_required(VERSION 3.14...3.17)
-
-# This is from scikit-build
-find_package(PythonExtensions REQUIRED)
-
-SET(CMAKE_CXX_FLAGS  "-Wno-format-security")
-
-add_compile_definitions(IMGUI_USER_CONFIG=<aimgui/aimconfig.h>)
+cmake_minimum_required(VERSION 3.4)
 
 project(aimbp VERSION "0.1")
 
-# Define CMAKE_INSTALL_xxx: LIBDIR, INCLUDEDIR
-include(GNUInstallDirs)
+include(../cmake/Common.cmake)
 
-set(MONO_DIR ${CMAKE_CURRENT_SOURCE_DIR}/..)
-
-set(AIMGUI_DIR ${MONO_DIR}/aimgui)
-set(AimGui_DIR ${MONO_DIR}/aimgui/cmake)
-set(IMGUI_DIR ${MONO_DIR}/imgui)
-set(IMBP_DIR ${MONO_DIR}/imbp)
-
-list(APPEND CMAKE_MODULE_PATH "${AIMGUI_DIR}/cmake")
 find_package(AimGui REQUIRED)
 
-add_subdirectory(${MONO_DIR}/pybind11 build)
-
-set(IMGUI_HEADERS
-    ${IMGUI_DIR}/imconfig.h
-    ${IMGUI_DIR}/imgui_internal.h
-    ${IMGUI_DIR}/imgui.h
-    ${IMGUI_DIR}/imstb_rectpack.h
-    ${IMGUI_DIR}/imstb_textedit.h
-    ${IMGUI_DIR}/imstb_truetype.h
-)
+set(IMBP_DIR ${MONO_DIR}/imbp)
 
 set(IMBP_HEADERS
     ${IMBP_DIR}/imgui_node_editor.h
@@ -79,7 +54,7 @@ target_include_directories(aimbp
 # scikit-build:  conflicting with pybind11
 #target_link_libraries_with_dynamic_lookup(aimbp PRIVATE pybind11::module aimgui)
 
-target_link_libraries(aimbp PRIVATE ${AimGuiTargets})
+target_link_libraries(aimbp PRIVATE Upstream::aimgui)
 
 #
 # INSTALL

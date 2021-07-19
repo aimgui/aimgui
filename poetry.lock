@@ -14,7 +14,7 @@ toml = "^0.10.1"
 
 [package.source]
 type = "directory"
-url = "../aimgen"
+url = "aimgen"
 
 [[package]]
 name = "atomicwrites"
@@ -169,7 +169,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "576da162e32938eed32c3d9549c42cf8cc1249f23ba7b6a1746f5f0be5aecf3e"
+content-hash = "089dd18986ffa5fc5221eeac0413517bdc2c204421b139c51dea8df7f05bc3c2"
 
 [metadata.files]
 aimgen = []

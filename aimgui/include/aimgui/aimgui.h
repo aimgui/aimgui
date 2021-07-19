@@ -2,8 +2,6 @@
 
 namespace py = pybind11;
 
-//PYBIND11_EXPORT extern ImGuiContext *GImGui;
-
 typedef ImVector<ImDrawCmd> AimCmdBuffer;
 typedef ImVector<ImDrawIdx> AimIdxBuffer;
 typedef ImVector<ImDrawVert> AimVtxBuffer;

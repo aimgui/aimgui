@@ -13,6 +13,12 @@
 
 namespace py = pybind11;
 
+/*thread_local ImGuiContext* TImGui;
+ImGuiContext* GetGImGui() {
+  return TImGui;
+}*/
+ImGuiContext* TImGui;  // Current implicit context pointer
+
 void init_main(py::module &libaimgui, Registry &registry) {
     template_ImVector<char>(libaimgui, "Vector_char");
     template_ImVector<float>(libaimgui, "Vector_float");
@@ -153,9 +159,11 @@ void init_main(py::module &libaimgui, Registry &registry) {
     DrawCmd.def_property("user_callback",
         [](const ImDrawCmd& self) {
             if(self.UserCallback.ptr() == nullptr) {
-                return py::cast<ImDrawCallback>(py::none());
+                //return py::cast<ImDrawCallback>(py::none());
+                //return py::function(py::cast(nullptr));
+                return py::cast<py::object>(Py_None);
             } else {
-                return self.UserCallback;
+                return py::object(self.UserCallback);
             }
         },
         [](ImDrawCmd& self, ImDrawCallback cb) {

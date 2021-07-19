@@ -4,13 +4,21 @@ import sys
 import platform
 from pathlib import Path
 
-version = platform.python_version_tuple()
+def add_plugin(location):
+  version = platform.python_version_tuple()
+  os = platform.system().lower()
+  build_dir = "cmake-build"
+  if os == 'windows':
+    os = 'win'
+    build_dir = "cmake-build/Release"
 
-LIB_PATH = Path(__file__).parent.parent / '_skbuild' / f"{platform.system().lower()}-{platform.machine()}-{version[0]}.{version[1]}" / "cmake-build"
-#print('LIB_PATH:  ', LIB_PATH)
+  LIB_PATH = Path(location).parent.parent / '_skbuild' / f"{os}-{platform.machine()}-{version[0]}.{version[1]}" / build_dir
+  print('LIB_PATH:  ', LIB_PATH)
 
-sys.path.insert(0, str(LIB_PATH))
-#print('SYS_PATH:  ',sys.path)
+  sys.path.insert(0, str(LIB_PATH))
+  print('SYS_PATH:  ',sys.path)
+
+add_plugin(__file__)
 
 import libaimgui as core 
 from libaimgui import *

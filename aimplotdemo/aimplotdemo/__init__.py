@@ -1,7 +1,7 @@
 __version__ = '0.1.0'
 
 import sys, os
-sys.setdlopenflags(os.RTLD_GLOBAL | os.RTLD_LAZY)
+#sys.setdlopenflags(os.RTLD_GLOBAL | os.RTLD_LAZY)
 
 from pathlib import Path
 

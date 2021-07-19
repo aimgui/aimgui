@@ -28,6 +28,32 @@ namespace py = pybind11;
 //#define IMGUI_API __declspec( dllexport )
 #define IMGUI_API PYBIND11_EXPORT
 //#define IMGUI_API __declspec( dllimport )
+struct ImGuiContext;
+/*#ifdef IMGUI_IMPLEMENTATION
+#    define AIMGUI_API __declspec(dllexport)
+#else
+#    define AIMGUI_API __declspec(dllimport)
+#endif*/
+#ifdef AIMGUI_DLL
+#define AIMGUI_GLOBAL extern "C" __declspec(dllexport)
+#else
+#define AIMGUI_GLOBAL extern "C" __declspec(dllimport)
+#endif
+
+AIMGUI_GLOBAL ImGuiContext* TImGui;  // Current implicit context pointer
+#define GImGui TImGui
+/*#ifdef IMGUI_IMPLEMENTATION
+  struct ImGuiContext;
+  extern thread_local ImGuiContext* TImGui;
+  #define GImGui TImGui
+#else
+  IMGUI_API ImGuiContext* GetGImGui();
+  #define GImGui (GetGImGui())
+#endif*/
+
+/*struct ImGuiContext;
+extern AIMGUI_API ImGuiContext* TImGui;  // Current implicit context pointer
+#define GImGui TImGui*/
 
 //---- Define assertion handler. Defaults to calling assert().
 // If your macro uses multiple statements, make sure is enclosed in a 'do { .. } while (0)' block so it can be used as a single statement.

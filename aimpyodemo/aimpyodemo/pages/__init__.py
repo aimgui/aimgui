@@ -66,7 +66,8 @@ class Page(arcade.View):
         pass
 
     def create_server(self):
-        self.server = s = Server(audio='jack')
+        #self.server = s = Server(audio='jack')
+        self.server = s = Server()
         s.setMidiInputDevice(4)
         s.boot()
 

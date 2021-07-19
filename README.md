@@ -31,18 +31,23 @@ I combined the Python parts of pyimgui with the C++ parts of [deargui](https://g
         git clone --recursive https://github.com/aimgui/aimgui
         cd aimgui
 
+## Virtual Environment
+
+        poetry shell
+
 ## Build AimGui
 
         cd aimgui
         poetry install
-        poetry shell
         python setup.py build
+
+### Visual Studio 2019
+        python setup.py build -G "Visual Studio 16 2019"
 
 ## Run the Demo
 
         cd aimdemo
         poetry install
-        poetry shell
         python aimdemo
 
 ### Individual Examples
@@ -54,21 +59,18 @@ I combined the Python parts of pyimgui with the C++ parts of [deargui](https://g
 
         cd aimplot
         poetry install
-        poetry shell
         python setup.py build
 
 ## Run the Demo
 
         cd aimplotdemo
         poetry install
-        poetry shell
         python aimplotdemo
 
 ## Run the AimFlo Demo
 
         cd aimflo
         poetry install
-        poetry shell
         python aimflo
 
 

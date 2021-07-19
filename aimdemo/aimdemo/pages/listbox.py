@@ -27,13 +27,13 @@ class CustomListboxPage(Page):
     def draw(self):    
         aimgui.begin(self.title)
 
-        if aimgui.list_box_header("Custom List", 200, 100):
+        if aimgui.begin_list_box("Custom List", (200, 100)):
             for option in OPTIONS:
                 clicked, selected = aimgui.selectable(option, option == self.selected)
                 if clicked:
                     self.selected = option
 
-            aimgui.list_box_footer()
+            aimgui.end_list_box()
 
         aimgui.text("selection: ")
         aimgui.same_line()

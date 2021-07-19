@@ -69,14 +69,14 @@ class Page(arcade.View):
         
         aimgui.begin("Examples")
 
-        if aimgui.list_box_header("Examples", -1, -1):
+        if aimgui.begin_list_box("Examples", (-1, -1)):
 
             for entry in self.window.pages.values():
                 opened, selected = aimgui.selectable(entry['title'], entry['name'] == self.window.page.name)
                 if opened:
                     self.window.show(entry['name'])
 
-            aimgui.list_box_footer()
+            aimgui.end_list_box()
         
         aimgui.end()
 

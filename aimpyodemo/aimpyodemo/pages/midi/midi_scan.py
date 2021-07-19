@@ -28,11 +28,12 @@ class MidiScan(Page):
     """
 
     def create_server(self):
-        self.server = s = Server(audio='jack', duplex=0)
+        #self.server = s = Server(audio='jack', duplex=0)
+        self.server = s = Server(duplex=0)
         # Give the ID of the desired device (as listed by pm_list_devices()) to the
         # setMidiInputDevice() of the Server. A bigger number than the higher device
         # ID will open all connected MIDI devices.
-        s.setMidiInputDevice(4)
+        s.setMidiInputDevice(1)
         s.boot()
 
     def do_reset(self):

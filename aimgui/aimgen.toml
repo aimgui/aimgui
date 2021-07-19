@@ -36,6 +36,10 @@ excludes = [
     'ImGuiStyle::Colors',
 
     # Internal / Ignored
+    'ImGui::TableGetColumnName', #TODO:Wrap or something
+    'ImGuiTableColumnSortSpecs::SortDirection',
+    'ImFontGlyph::Colored',
+    'ImGui::GetAllocatorFunctions',
     'ImGuiTextFilter::Filters',
     'ImGuiStorage::Data',
     'ImFontAtlas::TexPixelsAlpha8',

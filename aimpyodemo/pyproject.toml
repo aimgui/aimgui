@@ -5,12 +5,13 @@ description = ""
 authors = ["Kurtis Fields <kurtisfields@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.8"
-pyo = {path = "../pyo",  develop = true}
-arcade = "^2.4.3"
+python = "^3.9"
+#pyo = {path = "../pyo",  develop = true}
+pyo = "^1.0.4"
+arcade = "^2.5.7"
 aimgui = {path = "../aimgui",  develop = true}
 aimplot = {path = "../aimplot",  develop = true}
-mido = "^1.2.9"
+mido = "^1.2.10"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
