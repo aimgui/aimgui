@@ -376,8 +376,10 @@ class Generator:
     def generate(self):
         if sys.platform == 'darwin':
             cindex.Config.set_library_path('/usr/local/opt/llvm@6/lib')
-        else:
+        elif sys.platform == 'linux':
             cindex.Config.set_library_file('libclang-10.so')
+        else:
+            cindex.Config.set_library_file('C:/Program Files/LLVM/bin/libclang.dll')
 
         BASE_PATH = pathlib.Path('.')
         path = BASE_PATH / self.source
