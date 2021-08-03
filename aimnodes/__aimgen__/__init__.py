@@ -20,14 +20,13 @@ HEADER = """
 #include "imgui_internal.h"
 
 #include "imnodes.h"
+#include "imnodes_internal.h"
 
 #include <aimgui/aimgui.h>
 #include <aimgui/conversions.h>
 #include <aimgui/bindtools.h>
 
 namespace py = pybind11;
-
-using namespace imnodes;
 
 void init_generated(py::module &libaimnodes, Registry &registry) {
 """

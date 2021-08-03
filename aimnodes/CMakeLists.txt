@@ -10,6 +10,7 @@ set(IMNODES_DIR ${MONO_DIR}/imnodes)
 
 set(IMNODES_HEADERS
     ${IMNODES_DIR}/imnodes.h
+    ${IMNODES_DIR}/imnodes_internal.h
 )
 
 set(IMNODES_SRC
@@ -43,11 +44,6 @@ target_include_directories(aimnodes
 	PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
-
-#target_link_libraries(aimnodes PRIVATE pybind11::module aimgui)
-
-# scikit-build:  conflicting with pybind11
-#target_link_libraries_with_dynamic_lookup(aimnodes PRIVATE pybind11::module aimgui)
 
 target_link_libraries(aimnodes PRIVATE Upstream::aimgui)
 

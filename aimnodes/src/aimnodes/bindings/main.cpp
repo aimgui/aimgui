@@ -9,8 +9,6 @@
 #include "imgui.h"
 #include "imgui_internal.h"
 
-#include "imnodes.h"
-
 #include <aimgui/aimgui.h>
 #include <aimgui/conversions.h>
 #include <aimgui/bindtools.h>
@@ -19,9 +17,8 @@ namespace py = pybind11;
 
 void init_main(py::module &libaimnodes, Registry &registry) {
 
-    /*
-        EditorContext needs to be an opaque type.  Wrap it with PyCapsule
-    */
+    
+    /*//EditorContext needs to be an opaque type.  Wrap it with PyCapsule
     //EditorContext* EditorContextCreate()
     libaimnodes.def("editor_context_create", []()
     {
@@ -44,6 +41,6 @@ void init_main(py::module &libaimnodes, Registry &registry) {
     }
     , py::arg("ctx")
     , py::return_value_policy::automatic_reference);
-
+  */
 }
 
