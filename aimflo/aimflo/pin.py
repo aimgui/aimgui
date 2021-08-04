@@ -5,8 +5,8 @@ class Pin:
     id_counter = 0
 
     def __init__(self, node, name):
-        self.id = self.id_counter
-        self.id_counter += 1
+        self.id = Pin.id_counter
+        Pin.id_counter += 1
         self.node = node
         self.name = name
         self.wires = []

@@ -5,8 +5,9 @@ import aimnodes
 class Node:
     id_counter = 0
     def __init__(self, name):
-        self.id = self.id_counter
-        self.id_counter += 1
+        self.id = Node.id_counter
+        print(self.id)
+        Node.id_counter += 1
         self.name = name
         self.page = None
         self.pins = []

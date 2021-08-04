@@ -1,6 +1,5 @@
 import arcade
 import aimgui
-import aimnodes
 
 from aimflo.wire import Wire
 
@@ -21,9 +20,6 @@ class Page(arcade.View):
     def add_node(self, node):
         self.nodes.append(node)
         return node
-
-    def add_wire(self, wire):
-        self.wires.append(wire)
 
     def connect(self, output, input):
         self.wires.append(Wire(output, input))
@@ -107,11 +103,8 @@ class Page(arcade.View):
             aimgui.end_main_menu_bar()
 
     def draw(self):
-        aimgui.begin('Node Editor')
-        aimnodes.begin_node_editor()
         for node in self.nodes:
             node.draw()
+
         for wire in self.wires:
             wire.draw()
-        aimnodes.end_node_editor()        
-        aimgui.end()

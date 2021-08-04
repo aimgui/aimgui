@@ -105,10 +105,3 @@ class Page(arcade.View):
                 aimgui.end_menu()
 
             aimgui.end_main_menu_bar()
-
-    def draw(self):
-        for node in self.nodes:
-            node.draw()
-
-        for wire in self.wires:
-            wire.draw()
