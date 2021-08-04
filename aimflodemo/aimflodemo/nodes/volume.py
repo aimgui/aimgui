@@ -7,12 +7,11 @@ from aimflo.node import Node
 from aimflo.pin import Output
 
 class VolumeNode(Node):
-    def __init__(self, page):
-        super().__init__(page)
+    def __init__(self, graph, name):
+        super().__init__(graph, name)
         self._value = 88
         self.subject = Subject()
         self.output = Output(self, 'output', self.subject)
-        self.add_pin(self.output)
 
     @property
     def value(self):
@@ -23,24 +22,14 @@ class VolumeNode(Node):
         self._value = value
         self.output.write(value)
 
-    def draw(self):
+    def begin(self):
+        super().begin()
         width = 20
         height = 100
-
-        aimgui.set_next_window_size((160, 160), aimgui.COND_ONCE)
-
-        aimgui.begin("Volume")
-
         changed, self.value = aimgui.v_slider_int(
             "volume",
             (width, height), self.value,
             v_min=0, v_max=100,
             format="%d"
         )
-        aimgui.same_line(spacing=16)
-        self.begin_output(self.output)
-        aimgui.button('output')
-        self.end_output()
-
-        aimgui.end()
 

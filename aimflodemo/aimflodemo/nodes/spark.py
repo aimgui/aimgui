@@ -39,11 +39,10 @@ SPARK_PAIRS = [
 ]
 
 class SparkNode(Node):
-    def __init__(self, page):
-        super().__init__(page)
+    def __init__(self, graph, name):
+        super().__init__(graph, name)
         self.change = 0
         self.input = Input(self, 'input', self.process)
-        self.add_pin(self.input)
 
     def reset(self):
         self.create_emitter()
@@ -79,16 +78,10 @@ class SparkNode(Node):
             del self.emitter
             self.reset()
 
-    def draw(self):
-        aimgui.begin("Spark")
-
-        self.begin_input(self.input)
-        aimgui.button('input')
-        self.end_input()
+    def begin(self):
+        super().begin()
 
         if aimgui.button("Run"):
             self.reset()
-
-        aimgui.end()
 
         self.emitter.draw()

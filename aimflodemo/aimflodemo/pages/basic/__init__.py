@@ -4,8 +4,8 @@ import aimnodes
 
 from aimflo.page import Page
 
-from .volume import VolumeNode
-from .led import LedNode
+from aimflodemo.nodes.volume import VolumeNode
+from aimflodemo.nodes.led import LedNode
 from aimflo.wire import Wire
 
 class BasicPage(Page):

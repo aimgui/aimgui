@@ -3,7 +3,6 @@ from math import sin
 import numpy as np
 from rx.subject import Subject
 
-import arcade
 import aimgui
 
 from aimflo.node import Node
@@ -16,13 +15,12 @@ samples = 44100
 #y = 100*np.sin(2 * np.pi * freq * x / sampling_rate)
 
 class SineNode(Node):
-    def __init__(self, page):
-        super().__init__(page)
+    def __init__(self, graph, name):
+        super().__init__(graph, name)
         self._freq = 88
         self.clock = 0
         self.subject = Subject()
         self.output = Output(self, 'output', self.subject)
-        self.add_pin(self.output)
 
     @property
     def freq(self):
@@ -38,13 +36,11 @@ class SineNode(Node):
         y = np.sin(self.freq * x)
         self.output.write(y)
     
-    def draw(self):
+    def begin(self):
+        super().begin()
         width = 20
         height = 100
 
-        aimgui.set_next_window_size((160, 160), aimgui.COND_ONCE)
-
-        aimgui.begin("Sin")
         changed, freq = aimgui.v_slider_int(
             "freq",
             (width, height), self.freq,
@@ -53,11 +49,3 @@ class SineNode(Node):
         )
         if changed:
             self.freq = freq
-
-        aimgui.same_line(spacing=16)
-        self.begin_output(self.output)
-        aimgui.button('output')
-        self.end_output()
-
-        aimgui.end()
-

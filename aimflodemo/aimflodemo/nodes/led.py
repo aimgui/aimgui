@@ -13,7 +13,6 @@ class LedNode(Node):
         super().__init__(graph, name)
         self.value = 0
         self.input = Input(self, 'input', self.process)
-        self.add_pin(self.input)
 
     def process(self, value):
         self.value = value

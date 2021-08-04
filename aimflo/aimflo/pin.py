@@ -12,6 +12,7 @@ class Pin:
         self.wires = []
         self.x = 0
         self.y = 0
+        self.node.add_pin(self)
 
     def destroy(self):
         pass
