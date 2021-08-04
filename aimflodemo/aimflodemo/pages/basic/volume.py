@@ -7,8 +7,8 @@ from aimflo.node import Node
 from aimflo.pin import Output
 
 class VolumeNode(Node):
-    def __init__(self, name):
-        super().__init__(name)
+    def __init__(self, graph, name):
+        super().__init__(graph, name)
         self._value = 88
         self.subject = Subject()
         self.output = Output(self, 'output', self.subject)

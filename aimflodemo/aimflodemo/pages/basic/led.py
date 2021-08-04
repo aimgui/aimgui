@@ -9,8 +9,8 @@ from aimflo.node import Node
 from aimflo.pin import Input
 
 class LedNode(Node):
-    def __init__(self, name):
-        super().__init__(name)
+    def __init__(self, graph, name):
+        super().__init__(graph, name)
         self.value = 0
         self.input = Input(self, 'input', self.process)
         self.add_pin(self.input)
