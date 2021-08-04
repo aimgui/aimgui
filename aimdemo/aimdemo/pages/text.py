@@ -1,4 +1,5 @@
 import aimgui
+from aimgui import rel
 
 from aimdemo.page import Page
 
@@ -6,7 +7,8 @@ class DrawTextPage(Page):
     def draw(self):
         aimgui.begin(self.title)
         draw_list = aimgui.get_window_draw_list()
-        draw_list.add_text((20, 35), aimgui.get_color_u32((1,1,0,1)), "Hello!")
+        p1 = rel(100, 60)
+        draw_list.add_text(p1, aimgui.get_color_u32((1,1,0,1)), "Hello!")
         aimgui.end()
 
 class TextPage(Page):

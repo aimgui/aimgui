@@ -1,5 +1,5 @@
 import aimgui
-
+from aimgui import rel
 from aimgui.impl.arcade import ArcadeGui
 
 from experiments.gig.gui import ArcadePortalGui
@@ -15,25 +15,26 @@ class InnerGui(ArcadePortalGui):
         
         aimgui.set_next_window_size((500,500))
         aimgui.begin('Portal')
-        aimgui.button("Button 3")
-        aimgui.button("Button 4")
 
         pos_x, pos_y = self.io.mouse_pos
         sz = 10
 
         draw_list = aimgui.get_foreground_draw_list()
         draw_list.add_rect_filled((pos_x, pos_y), (pos_x+sz, pos_y+sz), aimgui.get_color_u32(0))
-        '''
-        draw_list = aimgui.get_foreground_draw_list()
-        pos_x = 10
-        pos_y = 10
+
         sz = 20
+        draw_list = aimgui.get_window_draw_list()
+        rgba_color = aimgui.get_color_u32((1, 1, 1, 1))
         for i in range(0, aimgui.COL_COUNT):
             name = aimgui.get_style_color_name(i)
-            pos_y = i*20
-            draw_list.add_rect_filled((pos_x, pos_y), (pos_x+sz, pos_y+sz), aimgui.get_color_u32(i))
-            draw_list.add_text((pos_x+32, pos_y), aimgui.get_color_u32((1,1,1,1)), name)
-        '''
+            color = aimgui.get_color_u32(aimgui.get_style_color_vec4(i))
+            p1 = rel(0, i*10)
+            p2 = (p1[0] + sz, p1[1] + sz)
+            draw_list.add_rect_filled(p1, p2, color)
+            
+            p1 = rel(20, i*10)
+            draw_list.add_text(p1, rgba_color, name)
+
         aimgui.end()
 
         aimgui.begin('Portal##2')
@@ -60,9 +61,8 @@ class App(arcade.Window):
         aimgui.begin("Example: button")
         aimgui.button("Button 1")
         aimgui.button("Button 2")
-        #aimgui.begin_child('MyChild', border=True)
+
         self.inner_gui.position = aimgui.get_cursor_screen_pos()
-        #size = (600, 400)
         size = aimgui.get_content_region_max()
         self.inner_gui.size = size
         aimgui.invisible_button("Blah", size)
@@ -71,18 +71,16 @@ class App(arcade.Window):
         def cb(renderer, draw_data, draw_list, cmd, user_data):
             self.inner_gui.draw()
             aimgui.set_current_context(self.gui.context)
+
         draw_list = aimgui.get_window_draw_list()
         draw_list.add_callback(cb, None)
-        #aimgui.set_current_context(self.gui.context)
-        #aimgui.end_child()
+
         aimgui.end()
 
         aimgui.show_metrics_window()
         aimgui.end_frame()
 
         self.gui.render()
-        #self.inner_gui.draw()
-
 
 app = App()
 arcade.run()

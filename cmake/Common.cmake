@@ -30,7 +30,6 @@ set(IMGUI_HEADERS
 )
 
 set(AIMGUI_DIR ${MONO_DIR}/aimgui)
-#set(AimGui_DIR ${MONO_DIR}/aimgui/cmake)
 set(IMGUI_DIR ${MONO_DIR}/imgui)
 
 #list(APPEND CMAKE_MODULE_PATH "${AIMGUI_DIR}/cmake")

@@ -13,6 +13,5 @@ aimgen = {path = "../aimgen",  develop = true}
 scikit-build = "^0.11.1"
 
 [build-system]
-#requires = ["poetry>=0.12", "setuptools", "wheel", "scikit-build", "cmake", "ninja"]
 requires = ["poetry-core>=1.0.0", "setuptools", "wheel", "scikit-build", "cmake", "ninja"]
 build-backend = "poetry.masonry.api"

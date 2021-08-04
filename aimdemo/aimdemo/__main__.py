@@ -55,6 +55,7 @@ app.use('textinput')
 app.use('tooltip')
 app.use('tree')
 app.use('windowmenu')
+app.use('windowdraw')
 
 app.show('index')
 

@@ -1,4 +1,5 @@
 import aimgui
+from aimgui import rel
 
 from aimdemo.page import Page
 
@@ -12,7 +13,9 @@ class ImageDraw(Page):
     def draw(self):
         aimgui.begin("Image example")
         draw_list = aimgui.get_window_draw_list()
-        draw_list.add_image(self.texture.glo.value, (0, 0), self.texture.size)
+        pos = rel(0,0)
+        pos2 = self.texture.size[0] + pos[0], self.texture.size[1] + pos[1]
+        draw_list.add_image(self.texture.glo.value, pos, pos2)
         aimgui.end()
 
 def install(app):

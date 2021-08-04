@@ -23,7 +23,7 @@ class App(arcade.Window):
         draw_list = aimgui.get_window_draw_list()
         self.gui.push_portal(draw_list, portal)
         region = aimgui.get_content_region_max()
-        print(region)
+        #print(region)
         aimgui.push_clip_rect((0,0), region, False)
         #draw_list.push_clip_rect_full_screen()
         for i in range(0, aimgui.COL_COUNT):
