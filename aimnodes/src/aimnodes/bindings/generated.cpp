@@ -8,12 +8,12 @@
 #include "imgui.h"
 #include "imgui_internal.h"
 
-#include "imnodes.h"
-#include "imnodes_internal.h"
-
 #include <aimgui/aimgui.h>
 #include <aimgui/conversions.h>
 #include <aimgui/bindtools.h>
+
+#include "imnodes.h"
+#include "imnodes_internal.h"
 
 namespace py = pybind11;
 

@@ -1,5 +1,14 @@
 __version__ = '0.1.0'
 
+import aimgui
+
+aimgui.add_plugin(__file__)
+
+from libaimnodes import *
+
+'''
+__version__ = '0.1.0'
+
 import sys
 import platform
 from pathlib import Path
@@ -14,3 +23,4 @@ sys.path.insert(0, str(LIB_PATH))
 
 #import libaimnodes as core 
 from libaimnodes import *
+'''

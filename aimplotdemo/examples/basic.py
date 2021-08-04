@@ -1,5 +1,5 @@
 import sys, os
-sys.setdlopenflags(os.RTLD_GLOBAL | os.RTLD_LAZY)
+#sys.setdlopenflags(os.RTLD_GLOBAL | os.RTLD_LAZY)
 
 import numpy as np
 

@@ -5,8 +5,8 @@ description = ""
 authors = ["Kurtis Fields <kurtisfields@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.8"
-arcade = "^2.4.3"
+python = "^3.9"
+arcade = "^2.5.7"
 aimgui = {path = "../aimgui",  develop = true}
 aimnodes = {path = "../aimnodes",  develop = true}
 

@@ -2056,11 +2056,11 @@ void init_generated(py::module &libaimgui, Registry &registry) {
         .value("COLOR_EDIT_FLAGS_PICKER_HUE_WHEEL", ImGuiColorEditFlags_PickerHueWheel)
         .value("COLOR_EDIT_FLAGS_INPUT_RGB", ImGuiColorEditFlags_InputRGB)
         .value("COLOR_EDIT_FLAGS_INPUT_HSV", ImGuiColorEditFlags_InputHSV)
-        .value("COLOR_EDIT_FLAGS__OPTIONS_DEFAULT", ImGuiColorEditFlags__OptionsDefault)
-        .value("COLOR_EDIT_FLAGS__DISPLAY_MASK", ImGuiColorEditFlags__DisplayMask)
-        .value("COLOR_EDIT_FLAGS__DATA_TYPE_MASK", ImGuiColorEditFlags__DataTypeMask)
-        .value("COLOR_EDIT_FLAGS__PICKER_MASK", ImGuiColorEditFlags__PickerMask)
-        .value("COLOR_EDIT_FLAGS__INPUT_MASK", ImGuiColorEditFlags__InputMask)
+        .value("COLOR_EDIT_FLAGS_DEFAULT_OPTIONS", ImGuiColorEditFlags_DefaultOptions_)
+        .value("COLOR_EDIT_FLAGS_DISPLAY_MASK", ImGuiColorEditFlags_DisplayMask_)
+        .value("COLOR_EDIT_FLAGS_DATA_TYPE_MASK", ImGuiColorEditFlags_DataTypeMask_)
+        .value("COLOR_EDIT_FLAGS_PICKER_MASK", ImGuiColorEditFlags_PickerMask_)
+        .value("COLOR_EDIT_FLAGS_INPUT_MASK", ImGuiColorEditFlags_InputMask_)
         .export_values();
 
     py::enum_<ImGuiSliderFlags_>(libaimgui, "SliderFlags", py::arithmetic())
@@ -2290,7 +2290,6 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     WindowClass.def_readwrite("viewport_flags_override_clear", &ImGuiWindowClass::ViewportFlagsOverrideClear);
     WindowClass.def_readwrite("tab_item_flags_override_set", &ImGuiWindowClass::TabItemFlagsOverrideSet);
     WindowClass.def_readwrite("dock_node_flags_override_set", &ImGuiWindowClass::DockNodeFlagsOverrideSet);
-    WindowClass.def_readwrite("dock_node_flags_override_clear", &ImGuiWindowClass::DockNodeFlagsOverrideClear);
     WindowClass.def_readwrite("docking_always_tab_bar", &ImGuiWindowClass::DockingAlwaysTabBar);
     WindowClass.def_readwrite("docking_allow_unclassed", &ImGuiWindowClass::DockingAllowUnclassed);
     WindowClass.def(py::init<>());
@@ -2961,6 +2960,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     FontAtlas.def_readwrite("tex_desired_width", &ImFontAtlas::TexDesiredWidth);
     FontAtlas.def_readwrite("tex_glyph_padding", &ImFontAtlas::TexGlyphPadding);
     FontAtlas.def_readwrite("locked", &ImFontAtlas::Locked);
+    FontAtlas.def_readwrite("tex_ready", &ImFontAtlas::TexReady);
     FontAtlas.def_readwrite("tex_pixels_use_colors", &ImFontAtlas::TexPixelsUseColors);
     FontAtlas.def_readonly("tex_uv_lines", &ImFontAtlas::TexUvLines);
     FontAtlas.def_readwrite("font_builder_io", &ImFontAtlas::FontBuilderIO);
@@ -2981,6 +2981,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     Font.def_readwrite("config_data_count", &ImFont::ConfigDataCount);
     Font.def_readwrite("fallback_char", &ImFont::FallbackChar);
     Font.def_readwrite("ellipsis_char", &ImFont::EllipsisChar);
+    Font.def_readwrite("dot_char", &ImFont::DotChar);
     Font.def_readwrite("dirty_lookup_tables", &ImFont::DirtyLookupTables);
     Font.def_readwrite("scale", &ImFont::Scale);
     Font.def_readwrite("ascent", &ImFont::Ascent);
@@ -3053,9 +3054,6 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     Font.def("set_glyph_visible", &ImFont::SetGlyphVisible
     , py::arg("c")
     , py::arg("visible")
-    , py::return_value_policy::automatic_reference);
-    Font.def("set_fallback_char", &ImFont::SetFallbackChar
-    , py::arg("c")
     , py::return_value_policy::automatic_reference);
     Font.def("is_glyph_range_unused", &ImFont::IsGlyphRangeUnused
     , py::arg("c_begin")

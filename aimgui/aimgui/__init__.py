@@ -10,7 +10,7 @@ def add_plugin(location):
   build_dir = "cmake-build"
   if os == 'windows':
     os = 'win'
-    build_dir = "cmake-build/Release"
+    build_dir = "cmake-build/Debug"
 
   LIB_PATH = Path(location).parent.parent / '_skbuild' / f"{os}-{platform.machine()}-{version[0]}.{version[1]}" / build_dir
   #print('LIB_PATH:  ', LIB_PATH)

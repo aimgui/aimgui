@@ -6,12 +6,18 @@
 #include <pybind11/stl.h>
 #include <pybind11/numpy.h>
 
-#include "imnodes.h"
-#include "imnodes_internal.h"
+#include "imgui.h"
+#include "imgui_internal.h"
 
 #include <aimgui/aimgui.h>
 #include <aimgui/conversions.h>
 #include <aimgui/bindtools.h>
+
+#include "imnodes.h"
+#include "imnodes_internal.h"
+
+//TODO:Why did I have to put this here?  Getting an external reference error
+char ImGuiTextBuffer::EmptyString[1] = { 0 };
 
 namespace py = pybind11;
 

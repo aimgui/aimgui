@@ -42,7 +42,7 @@ I combined the Python parts of pyimgui with the C++ parts of [deargui](https://g
         python setup.py build
 
 ### Visual Studio 2019
-        python setup.py build -G "Visual Studio 16 2019"
+        python setup.py build -G "Visual Studio 16 2019" --build-type Debug
 
 ## Run the Demo
 

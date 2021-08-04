@@ -29,7 +29,8 @@ install(TARGETS aimnodes EXPORT aimnodes-targets
 	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
 	ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
-
+target_compile_definitions(aimnodes PRIVATE IMGUI_USER_CONFIG=<aimgui/aimconfig.h>)
+#target_compile_definitions(aimnodes PRIVATE IMGUI_API=PYBIND11_EXPORT)
 target_sources(aimnodes PRIVATE ${IMNODES_SRC} ${IMNODES_HEADERS})
 
 # add include files

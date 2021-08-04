@@ -1,5 +1,5 @@
 import sys, os
-sys.setdlopenflags(os.RTLD_GLOBAL | os.RTLD_LAZY)
+#sys.setdlopenflags(os.RTLD_GLOBAL | os.RTLD_LAZY)
 
 import numpy as np
 
@@ -13,7 +13,7 @@ import aimnodes
 class MyGui(ArcadeGui):
     def __init__(self, window):
         super().__init__(window)
-        aimnodes.initialize()
+        #aimnodes.initialize()
 
         aimnodes.push_attribute_flag(aimnodes.ATTRIBUTE_FLAGS_ENABLE_LINK_DETACH_WITH_DRAG_CLICK)
 
