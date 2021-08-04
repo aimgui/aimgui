@@ -9,15 +9,20 @@ flags = [
 
 excludes = [
     # Wrapped
-    'imnodes::EditorContextCreate',
-    'imnodes::EditorContextFree',
-    'imnodes::EditorContextSet',
+    'ImNodes::CreateContext',
+    'ImNodes::DestroyContext',
+    'ImNodes::GetCurrentContext',
+    'ImNodes::SetCurrentContext',
+
+    'ImNodes::EditorContextCreate',
+    'ImNodes::EditorContextFree',
+    'ImNodes::EditorContextSet',
     # Internal / Ignored
-    'imnodes::EditorContext',
-    'imnodes::SaveEditorStateToIniString',
-    'imnodes::LoadEditorStateFromIniFile',
-    'imnodes::LoadEditorStateFromIniString',
-    'imnodes::SaveEditorStateToIniFile',
+    'ImNodes::EditorContext',
+    'ImNodes::SaveEditorStateToIniString',
+    'ImNodes::LoadEditorStateFromIniFile',
+    'ImNodes::LoadEditorStateFromIniString',
+    'ImNodes::SaveEditorStateToIniFile',
     #Obsolete
 ]
 

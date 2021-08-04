@@ -13,7 +13,7 @@ import aimnodes
 class MyGui(ArcadeGui):
     def __init__(self, window):
         super().__init__(window)
-        #aimnodes.initialize()
+        aimnodes.create_context()
 
         aimnodes.push_attribute_flag(aimnodes.ATTRIBUTE_FLAGS_ENABLE_LINK_DETACH_WITH_DRAG_CLICK)
 

@@ -124,24 +124,6 @@ void init_generated(py::module &libaimnodes, Registry &registry) {
     libaimnodes.def("set_im_gui_context", &ImNodes::SetImGuiContext
     , py::arg("ctx")
     , py::return_value_policy::automatic_reference);
-    libaimnodes.def("create_context", &ImNodes::CreateContext
-    , py::return_value_policy::automatic_reference);
-    libaimnodes.def("destroy_context", &ImNodes::DestroyContext
-    , py::arg("ctx") = nullptr
-    , py::return_value_policy::automatic_reference);
-    libaimnodes.def("get_current_context", &ImNodes::GetCurrentContext
-    , py::return_value_policy::automatic_reference);
-    libaimnodes.def("set_current_context", &ImNodes::SetCurrentContext
-    , py::arg("ctx")
-    , py::return_value_policy::automatic_reference);
-    libaimnodes.def("editor_context_create", &ImNodes::EditorContextCreate
-    , py::return_value_policy::automatic_reference);
-    libaimnodes.def("editor_context_free", &ImNodes::EditorContextFree
-    , py::arg("")
-    , py::return_value_policy::automatic_reference);
-    libaimnodes.def("editor_context_set", &ImNodes::EditorContextSet
-    , py::arg("")
-    , py::return_value_policy::automatic_reference);
     libaimnodes.def("editor_context_get_panning", &ImNodes::EditorContextGetPanning
     , py::return_value_policy::automatic_reference);
     libaimnodes.def("editor_context_reset_panning", &ImNodes::EditorContextResetPanning
@@ -361,35 +343,14 @@ void init_generated(py::module &libaimnodes, Registry &registry) {
     }
     , py::arg("data_size") = nullptr
     , py::return_value_policy::automatic_reference);
-    libaimnodes.def("save_editor_state_to_ini_string", [](const ImNodesEditorContext * editor, size_t * data_size)
-    {
-        auto ret = ImNodes::SaveEditorStateToIniString(editor, data_size);
-        return std::make_tuple(ret, data_size);
-    }
-    , py::arg("editor")
-    , py::arg("data_size") = nullptr
-    , py::return_value_policy::automatic_reference);
     libaimnodes.def("load_current_editor_state_from_ini_string", &ImNodes::LoadCurrentEditorStateFromIniString
-    , py::arg("data")
-    , py::arg("data_size")
-    , py::return_value_policy::automatic_reference);
-    libaimnodes.def("load_editor_state_from_ini_string", &ImNodes::LoadEditorStateFromIniString
-    , py::arg("editor")
     , py::arg("data")
     , py::arg("data_size")
     , py::return_value_policy::automatic_reference);
     libaimnodes.def("save_current_editor_state_to_ini_file", &ImNodes::SaveCurrentEditorStateToIniFile
     , py::arg("file_name")
     , py::return_value_policy::automatic_reference);
-    libaimnodes.def("save_editor_state_to_ini_file", &ImNodes::SaveEditorStateToIniFile
-    , py::arg("editor")
-    , py::arg("file_name")
-    , py::return_value_policy::automatic_reference);
     libaimnodes.def("load_current_editor_state_from_ini_file", &ImNodes::LoadCurrentEditorStateFromIniFile
-    , py::arg("file_name")
-    , py::return_value_policy::automatic_reference);
-    libaimnodes.def("load_editor_state_from_ini_file", &ImNodes::LoadEditorStateFromIniFile
-    , py::arg("editor")
     , py::arg("file_name")
     , py::return_value_policy::automatic_reference);
 
