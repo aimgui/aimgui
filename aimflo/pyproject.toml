@@ -7,6 +7,7 @@ authors = ["Kurtis Fields <kurtisfields@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.9"
 aimgui = {path = "../aimgui",  develop = true}
+aimnodes = {path = "../aimnodes",  develop = true}
 arcade = "^2.5.7"
 rx = "^3.1.1"
 scipy = "^1.5.2"

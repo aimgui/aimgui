@@ -1,8 +1,3 @@
-import sys, os
-#sys.setdlopenflags(os.RTLD_GLOBAL | os.RTLD_LAZY)
-
-import numpy as np
-
 import arcade
 
 import aimgui
@@ -14,10 +9,9 @@ class MyGui(ArcadeGui):
     def __init__(self, window):
         super().__init__(window)
         aimnodes.create_context()
-
         aimnodes.push_attribute_flag(aimnodes.ATTRIBUTE_FLAGS_ENABLE_LINK_DETACH_WITH_DRAG_CLICK)
-
         io = aimnodes.get_io()
+        #TODO:Looks too scary to wrap.
         #io.link_detach_with_modifier_click.modifier = aimgui.get_io().key_ctrl
 
 
@@ -81,7 +75,7 @@ class App(arcade.Window):
             self.add_link(result[1], result[2])
 
         if (result := aimnodes.is_link_destroyed(0))[0]:
-            print(result[1])
+            print('destroyed: ', result[1])
 
         aimgui.end()
         #aimgui.show_metrics_window()

@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "aimnodesdemo"
+name = "aimflodemo"
 version = "0.1.0"
 description = ""
 authors = ["Kurtis Fields <kurtisfields@gmail.com>"]
@@ -9,6 +9,7 @@ python = "^3.9"
 arcade = "^2.5.7"
 aimgui = {path = "../aimgui",  develop = true}
 aimnodes = {path = "../aimnodes",  develop = true}
+aimflo = {path = "../aimflo",  develop = true}
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

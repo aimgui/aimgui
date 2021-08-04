@@ -1,7 +1,4 @@
-import sys
-
 from aimplotdemo import App
-
 
 app = App()
 

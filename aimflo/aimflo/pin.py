@@ -1,5 +1,12 @@
+import aimgui
+import aimnodes
+
 class Pin:
+    id_counter = 0
+
     def __init__(self, node, name):
+        self.id = self.id_counter
+        self.id_counter += 1
         self.node = node
         self.name = name
         self.wires = []
@@ -16,6 +23,13 @@ class Pin:
         return (self.x, self.y)
 
     def draw(self):
+        self.begin()
+        self.end()
+
+    def begin(self):
+        pass
+
+    def end(self):
         pass
 
 class Input(Pin):
@@ -27,6 +41,13 @@ class Input(Pin):
         super().add_wire(wire)
         wire.output.observable.subscribe(self.action)
 
+    def begin(self):
+        aimnodes.begin_input_attribute(self.id)
+        aimgui.text(self.name)
+
+    def end(self):
+        aimnodes.end_input_attribute()
+
 class Output(Pin):
     def __init__(self, node, name, observable):
         super().__init__(node, name)
@@ -34,3 +55,10 @@ class Output(Pin):
 
     def write(self, value):
         self.observable.on_next(value)
+
+    def begin(self):
+        aimnodes.begin_output_attribute(self.id)
+        aimgui.text(self.name)
+
+    def end(self):
+        aimnodes.end_output_attribute()
