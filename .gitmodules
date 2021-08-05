@@ -14,3 +14,6 @@
 [submodule "imnodes"]
 	path = imnodes
 	url = https://github.com/Nelarius/imnodes
+[submodule "bgfx"]
+	path = bgfx
+	url = https://github.com/bkaradzic/bgfx
