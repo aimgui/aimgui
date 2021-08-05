@@ -1,0 +1,37 @@
+source = '../imnodes/imnodes.h'
+#TODO: Might want multiple, mappable headers
+mapped = 'imnodes.h'
+target = 'src/aimnodes/bindings/generated.cpp'
+
+prefix = 'ImNodes'
+short_prefix = 'Im'
+
+module = 'libaimnodes'
+
+flags = [
+    '-std=c++17',
+    '-DIMGUI_DISABLE_OBSOLETE_FUNCTIONS=1',
+    '-I../imgui'
+]
+
+excludes = [
+    # Wrapped
+    'ImNodes::CreateContext',
+    'ImNodes::DestroyContext',
+    'ImNodes::GetCurrentContext',
+    'ImNodes::SetCurrentContext',
+
+    'ImNodes::EditorContextCreate',
+    'ImNodes::EditorContextFree',
+    'ImNodes::EditorContextSet',
+    # Internal / Ignored
+    'ImNodes::EditorContext',
+    'ImNodes::SaveEditorStateToIniString',
+    'ImNodes::LoadEditorStateFromIniFile',
+    'ImNodes::LoadEditorStateFromIniString',
+    'ImNodes::SaveEditorStateToIniFile',
+    #Obsolete
+]
+
+overloaded = [
+]
