@@ -159,8 +159,6 @@ void init_main(py::module &libaimgui, Registry &registry) {
     DrawCmd.def_property("user_callback",
         [](const ImDrawCmd& self) {
             if(self.UserCallback.ptr() == nullptr) {
-                //return py::cast<ImDrawCallback>(py::none());
-                //return py::function(py::cast(nullptr));
                 return py::cast<py::object>(Py_None);
             } else {
                 return py::object(self.UserCallback);

@@ -30,7 +30,6 @@ class App(arcade.Window):
         install(self)
 
     def add_page(self, klass, name, title):
-        # print(page.__dict__)
         self.pages[name] = { 'klass': klass, 'name': name, 'title': title }
 
     def show(self, name):

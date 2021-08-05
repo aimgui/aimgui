@@ -79,5 +79,34 @@ void init_main(py::module &libaimnodes, Registry &registry) {
     }
     , py::arg("ctx")
     , py::return_value_policy::automatic_reference);
+
+/*
+void MiniMap(
+    const float                              minimap_size_fraction = 0.2f,
+    const ImNodesMiniMapLocation             location = ImNodesMiniMapLocation_TopLeft,
+    const ImNodesMiniMapNodeHoveringCallback node_hovering_callback = NULL,
+    void*                                    node_hovering_callback_data = NULL);
+*/
+    libaimnodes.def("mini_map",
+      [](const float                              minimap_size_fraction = 0.2f,
+        const ImNodesMiniMapLocation             location = ImNodesMiniMapLocation_TopLeft,
+        const ImNodesMiniMapNodeHoveringCallback node_hovering_callback = NULL,
+        void* node_hovering_callback_data = NULL) {
+          return ImNodes::MiniMap(minimap_size_fraction, location, node_hovering_callback, node_hovering_callback_data);
+      }
+      , py::arg("size_fraction")
+      , py::arg("location")
+      , py::arg("hovering_callback")
+      , py::arg("hovering_callback_data")
+      , py::return_value_policy::automatic_reference);
+
+    /*libaimnodes.def("mini_map",
+    [](ImDrawList &self ,ImDrawCallback callback, py::object callback_data) {
+        return self.AddCallback(callback, callback_data.ptr());
+    }
+    , py::arg("callback")
+    , py::arg("callback_data")
+    , py::return_value_policy::automatic_reference);
+    */
 }
 
