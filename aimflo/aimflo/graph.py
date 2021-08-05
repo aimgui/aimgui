@@ -57,11 +57,16 @@ class Graph:
 
     def draw(self):
         aimgui.begin('Node Editor')
+
         aimnodes.begin_node_editor()
+
         for node in self.nodes:
             node.draw()
         for wire in self.wires:
             wire.draw()
+
+        #TODO:AimGen isn't generating this for some reason
+        #aimnodes.mini_map()
         aimnodes.end_node_editor()
 
         if (result := aimnodes.is_link_created(0,0))[0]:

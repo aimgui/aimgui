@@ -7,9 +7,37 @@ import toml
 
 from clang import cindex
 
-from . import UserSet
+from aimgen import UserSet
 
-from abc import ABC, abstractmethod
+HEADER = """
+#include <pybind11/pybind11.h>
+#include <pybind11/functional.h>
+#include <pybind11/stl.h>
+#include <limits>
+#include "imgui.h"
+#include "imgui_internal.h"
+
+#include <aimgui/conversions.h>
+#include <aimgui/bindtools.h>
+
+namespace py = pybind11;
+
+void init_generated(py::module &libaimgui, Registry &registry) {
+"""
+
+FOOTER = """
+}
+"""
+
+DEFAULTS = {
+    'out_h' : '0',
+    'out_s' : '0',
+    'out_v' : '0',
+    'out_r' : '0',
+    'out_g' : '0',
+    'out_g' : '0',
+    'out_ini_size' : '0',
+}
 
 def snakecase(name):
     s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
@@ -42,24 +70,10 @@ class Out:
             self.file.write(line.replace('>>', '> >'))
         self.file.write('\n')
 
-class GeneratorABC(ABC):
+class Generator:
     def __init__(self, *config, **kwargs):
         self.out = Out()
         #
-        # Injected members
-        # TODO: Validate after injection
-        #
-        self.source = None
-        self.mapped = None
-        self.target = None
-        self.prefix = None
-        self.short_prefix = None
-        self.module = None
-        self.flags = None
-        self.excludes = None
-        self.overloaded = None
-        # End Injected members
-
         self.options = { 'save': True }
         for dictionary in config:
             for key in dictionary:
@@ -76,20 +90,11 @@ class GeneratorABC(ABC):
         self.options = Options(self.options)
         self.overloaded = Overloaded(self.overloaded)
 
-    @property
-    @abstractmethod
-    def header(self):
-        pass
-
-    @property
-    @abstractmethod
-    def footer(self):
-        pass
-
-    @property
-    @abstractmethod
-    def defaults(self):
-        pass
+    @classmethod
+    def create(self, filename="aimgen.toml"):
+        config = toml.load(filename)
+        instance = Generator(config)
+        return instance
 
     def format_attribute(self, name):
         name = snakecase(name)
@@ -98,8 +103,8 @@ class GeneratorABC(ABC):
         return name
 
     def format_type(self, name):
-        name = name.replace(self.prefix, '')
-        name = name.replace(self.short_prefix, '')
+        name = name.replace('ImGui', '')
+        name = name.replace('Im', '')
         name = name.replace('<', '_')
         name = name.replace('>', '')
         name = name.replace(' ', '')
@@ -107,16 +112,16 @@ class GeneratorABC(ABC):
         return name
 
     def format_enum(self, name):
-        name = name.replace(self.prefix, '')
-        name = name.replace(self.short_prefix, '')
+        name = name.replace('ImGui', '')
+        name = name.replace('Im', '')
         name = snakecase(name).upper()
         name = name.replace('__', '_')
         name = name.rstrip('_')
         return name
 
-    def module_(self, cursor):
+    def module(self, cursor):
         if cursor is None:
-            return self.module
+            return 'libaimgui'
         else:
             return self.format_type(cursor.spelling)
 
@@ -170,7 +175,7 @@ class GeneratorABC(ABC):
 
     def is_cursor_mappable(self, cursor):
         if cursor.location.file:
-            return self.mapped in cursor.location.file.name
+            return 'imgui.h' in cursor.location.file.name
         return False
 
     def is_property_readonly(self, cursor):
@@ -215,13 +220,13 @@ class GeneratorABC(ABC):
                     default = 'nullptr'
                 elif not len(default):
                     default = self.default_from_tokens(child.get_tokens())
-            default = self.defaults.get(argument.spelling, default)
+            default = DEFAULTS.get(argument.spelling, default)
             if len(default):
                 default = ' = ' + default
             self.out(f', py::arg("{self.format_attribute(argument.spelling)}"){default}')
 
     def parse_enum(self, cursor):
-        self.out(f'py::enum_<{self.name(cursor)}>({self.module}, "{self.format_type(cursor.spelling)}", py::arithmetic())')
+        self.out(f'py::enum_<{self.name(cursor)}>(libaimgui, "{self.format_type(cursor.spelling)}", py::arithmetic())')
         self.out.indent += 1
         for value in cursor.get_children():
             self.out(f'.value("{self.format_enum(value.spelling)}", {value.spelling})')
@@ -232,20 +237,20 @@ class GeneratorABC(ABC):
     def parse_constructor(self, cursor, cls):
         arguments = [a for a in cursor.get_arguments()]
         if len(arguments):
-            self.out(f'{self.module_(cls)}.def(py::init<{self.arg_types(arguments)}>()')
+            self.out(f'{self.module(cls)}.def(py::init<{self.arg_types(arguments)}>()')
             self.write_pyargs(arguments)
             self.out(');')
         else:
-            self.out(f'{self.module_(cls)}.def(py::init<>());')
+            self.out(f'{self.module(cls)}.def(py::init<>());')
 
     def parse_field(self, cursor, cls):
         pyname = self.format_attribute(cursor.spelling)
         cname = self.name(cursor)
         if self.is_property_mappable(cursor):
             if self.is_property_readonly(cursor):
-                self.out(f'{self.module_(cls)}.def_readonly("{pyname}", &{cname});')
+                self.out(f'{self.module(cls)}.def_readonly("{pyname}", &{cname});')
             else:
-                self.out(f'{self.module_(cls)}.def_readwrite("{pyname}", &{cname});')
+                self.out(f'{self.module(cls)}.def_readwrite("{pyname}", &{cname});')
 
     def should_wrap_function(self, cursor):
         if cursor.type.is_function_variadic():
@@ -299,7 +304,7 @@ class GeneratorABC(ABC):
 
     def parse_function(self, cursor, cls=None):
         if self.is_function_mappable(cursor):
-            mname = self.module_(cls)
+            mname = self.module(cls)
             arguments = [a for a in cursor.get_arguments()]
             cname = '&' + self.name(cursor)
             pyname = self.format_attribute(cursor.spelling)
@@ -327,7 +332,7 @@ class GeneratorABC(ABC):
                 #print('Unnamed class!', cursor.__dict__)
                 #pyname = "ImContext"
                 #clsname = "ImGuiContext"
-            self.out(f'PYCLASS_BEGIN({self.module}, {clsname}, {pyname})')
+            self.out(f'PYCLASS_BEGIN(libaimgui, {clsname}, {pyname})')
             for child in cursor.get_children():
                 if child.kind == cindex.CursorKind.CONSTRUCTOR:
                     self.parse_constructor(child, cursor)
@@ -335,12 +340,10 @@ class GeneratorABC(ABC):
                     self.parse_function(child, cursor)
                 elif child.kind == cindex.CursorKind.FIELD_DECL:
                     self.parse_field(child, cursor)
-            self.out(f'PYCLASS_END({self.module}, {clsname}, {pyname})\n')
+            self.out(f'PYCLASS_END(libaimgui, {clsname}, {pyname})\n')
 
     def parse_definitions(self, root):
         for cursor in root.get_children():
-            if not self.is_cursor_mappable(cursor):
-                continue
             if cursor.kind == cindex.CursorKind.ENUM_DECL:
                 self.parse_enum(cursor)
             elif cursor.kind == cindex.CursorKind.STRUCT_DECL:
@@ -364,27 +367,20 @@ class GeneratorABC(ABC):
     def generate(self):
         if sys.platform == 'darwin':
             cindex.Config.set_library_path('/usr/local/opt/llvm@6/lib')
-        elif sys.platform == 'linux':
-            cindex.Config.set_library_file('libclang-10.so')
-        else:
-            cindex.Config.set_library_file('C:/Program Files/LLVM/bin/libclang.dll')
-        '''
-        if sys.platform == 'darwin':
-            cindex.Config.set_library_path('/usr/local/opt/llvm@6/lib')
         elif sys.platform == 'win32':
             #cindex.Config.set_library_file('libclang.dll')
             cindex.Config.set_library_path('C:/Program Files/LLVM/bin')
         else:
             cindex.Config.set_library_file('libclang-10.so')
-        '''
+
         BASE_PATH = pathlib.Path('.')
         path = BASE_PATH / self.source
         tu = cindex.Index.create().parse(path, args=self.flags)
         self.out.file = open(BASE_PATH / self.target, 'w')
         self.out.indent = 0
-        self.out(self.header)
+        self.out(HEADER)
         self.out.indent = 1
         self.parse_overloads(tu.cursor)
         self.parse_definitions(tu.cursor)
         self.out.indent = 0
-        self.out(self.footer)
+        self.out(FOOTER)

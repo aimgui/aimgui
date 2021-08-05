@@ -12,45 +12,10 @@ class Page(arcade.View):
         self.title = title
         self.dragged = None
         self.graph = Graph()
-        '''
-        self.nodes = []
-        self.node_map = {}
-        self.wires = []
-        self.wire_map = {}
-        self.pin_map = {}
-        '''
     
     def reset(self):
         self.graph.reset()
-        '''
-        for node in self.nodes:
-            node.reset()
-        '''
-    '''
-    def add_node(self, node):
-        self.nodes.append(node)
-        self.node_map[node.id] = node
-        return node
 
-    def remove_node(self, node):
-        self.nodes.remove(node)
-        self.node_map.pop(node.id)
-
-    def add_wire(self, wire):
-        self.wires.append(wire)
-        self.wire_map[wire.id] = wire
-
-    def remove_wire(self, wire):
-        wire.destroy()
-        self.wires.remove(wire)
-        self.wire_map.pop(wire.id)
-
-    def connect(self, output, input):
-        self.add_wire(Wire(output, input))
-
-    def disconnect(self, wire):
-        self.remove_wire(wire)
-    '''
     @classmethod
     def create(self, app, name, title):
         page = self(app, name, title)
@@ -67,10 +32,6 @@ class Page(arcade.View):
 
     def update(self, delta_time):
         self.graph.update(delta_time)
-        '''
-        for node in self.nodes:
-            node.update(delta_time)
-        '''
 
     def on_draw(self):
       
@@ -135,27 +96,3 @@ class Page(arcade.View):
 
     def draw(self):
         self.graph.draw()
-        '''
-        aimgui.begin('Node Editor')
-        aimnodes.begin_node_editor()
-        for node in self.nodes:
-            node.draw()
-        for wire in self.wires:
-            wire.draw()
-        aimnodes.end_node_editor()
-
-        if (result := aimnodes.is_link_created(0,0))[0]:
-            print(result)
-            output = self.node_map[result[1]]
-            input = self.node_map[result[2]]
-            print('output:  {output}')
-            print('input:  {input}')
-            self.connect(output, input)
-
-        if (result := aimnodes.is_link_destroyed(0))[0]:
-            wire = self.wire_map[result[1]]
-            print('destroyed: ', wire)
-            self.disconnect(wire)
-
-        aimgui.end()
-        '''
