@@ -4,9 +4,35 @@ project(aimgfx VERSION "0.1")
 
 include(../cmake/Common.cmake)
 
+#find_package(AimGui REQUIRED)
 set(AIMGFX_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
+set(BX_DIR ${MONO_DIR}/bx)
+set(BX_SRC
+  ${BX_DIR}/src/amalgamated.cpp
+)
+set(BIMG_DIR ${MONO_DIR}/bimg)
 
+set(OPTION_ASTC_TESTS OFF CACHE BOOL "Build all the unit tests" FORCE)
+add_subdirectory(${BIMG_DIR}/3rdparty/astc-codec astc-codec)
+
+set(BIMG_SRC
+  ${BIMG_DIR}/src/image.cpp
+  ${BIMG_DIR}/src/image_gnf.cpp
+)
+
+set(BGFX_DIR ${MONO_DIR}/bgfx)
+
+set(BGFX_HEADERS
+    ${AIMGFX_DIR}/include/aimgfx/aimgfx.h
+    ${BGFX_DIR}/include/bgfx/bgfx.h
+)
+
+set(BGFX_SRC
+    src/aimgfx/bindings/generated.cpp
+    src/aimgfx/bindings/main.cpp
+    ${BGFX_DIR}/src/amalgamated.cpp
+)
 
 pybind11_add_module(aimgfx MODULE
     src/aimgfx/bindings/init.cpp
@@ -33,6 +59,17 @@ target_include_directories(aimgfx
         $<BUILD_INTERFACE:${BGFX_DIR}>
 	PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
+        ${BX_DIR}/include/compat/msvc
+        ${BX_DIR}/include
+        ${BX_DIR}/3rdparty
+        ${BIMG_DIR}/include
+        ${BIMG_DIR}/3rdparty
+        #${BIMG_DIR}/3rdparty/astc-codec/include
+        #${BIMG_DIR}/3rdparty/astc-codec
+        ${BGFX_DIR}/include
+        ${BGFX_DIR}/3rdparty
+        ${BGFX_DIR}/3rdparty/khronos
+        ${BGFX_DIR}/3rdparty/dxsdk/include
 )
 
 #target_link_libraries(aimgfx PRIVATE Upstream::aimgui)

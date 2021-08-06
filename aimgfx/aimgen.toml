@@ -11,8 +11,8 @@ module = 'libaimgfx'
 # Flags that get passed to LLVM to parse the headers
 flags = [
     '-std=c++17',
-    '-DIMGUI_DISABLE_OBSOLETE_FUNCTIONS=1',
-    '-I../imgui'
+    #'-DIMGUI_DISABLE_OBSOLETE_FUNCTIONS=1',
+    '-I../bgfx/include'
 ]
 
 excludes = [

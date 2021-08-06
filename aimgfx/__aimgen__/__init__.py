@@ -2,7 +2,7 @@ from clang import cindex
 
 import toml
 
-from aimgen.generator import GeneratorABC
+from aimgen.generator import GeneratorBase
 
 HEADER = """
 #include <limits>
@@ -32,7 +32,7 @@ DEFAULTS = {
     '_init' : 'bgfx::Init()'
 }
 
-class Generator(GeneratorABC):
+class Generator(GeneratorBase):
     def __init__(self, *config, **kwargs):
         super().__init__(*config, **kwargs)
 
@@ -40,6 +40,7 @@ class Generator(GeneratorABC):
     def create(self, filename="aimgen.toml"):
         config = toml.load(filename)
         instance = Generator(config)
+        instance.import_factories()
         return instance
 
     @property
@@ -53,7 +54,7 @@ class Generator(GeneratorABC):
     @property
     def defaults(self):
         return DEFAULTS
-
+    '''
     def parse_class_enum(self, node, clsname, pyname):
         #self.out(f'py::enum_<{self.name(node)}>({self.module}, "{self.format_type(node.spelling)}", py::arithmetic())')
         self.out(f'py::enum_<{self.name(node)}>({self.module}, "{pyname}", py::arithmetic())')
@@ -87,3 +88,4 @@ class Generator(GeneratorABC):
 
             if not wrapped:
               self.out(f'PYCLASS_END({self.module}, {clsname}, {pyname})\n')
+    '''

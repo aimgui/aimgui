@@ -1,8 +1,6 @@
-class Parse:
-    def __init__(node):
-        pass
+from parser import Parser
 
-class ParseRoot(Parse):
+class RootParser(Parser):
     def __init__(node):
         pass
 

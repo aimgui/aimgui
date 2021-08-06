@@ -1,8 +1,6 @@
 import os
 import sys
-#sys.path.append(os.getcwd())
 
-#from __aimgen__ import Generator
 from pathlib import Path
 
 import importlib.util

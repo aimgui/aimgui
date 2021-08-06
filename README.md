@@ -73,16 +73,6 @@ I combined the Python parts of pyimgui with the C++ parts of [deargui](https://g
         poetry install
         python aimflo
 
-
-#set_property(
-#  TARGET pybind11::module
-#  APPEND
-#  PROPERTY
-#    INTERFACE_LINK_LIBRARIES pybind11::python_link_helper
-#    "$<$<OR:$<PLATFORM_ID:Windows>,$<PLATFORM_ID:Cygwin>>:$<BUILD_INTERFACE:${PYTHON_LIBRARIES}>>")
-
-target_link_libraries(pybind11::module INTERFACE ${PYTHON_LIBRARIES})
-
 # Development
 
 ## Tool Chain
