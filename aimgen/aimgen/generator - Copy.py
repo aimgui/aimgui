@@ -28,8 +28,8 @@ class Overloaded(UserSet):
         super().__init__(data)
         self.visited = set()
 
-    def is_overloaded(self, node):
-        return self.name(node) in self
+    def is_overloaded(self, cursor):
+        return self.name(cursor) in self
 
 class Out:
     def __init__(self) -> None:
@@ -114,43 +114,43 @@ class GeneratorABC(ABC):
         name = name.rstrip('_')
         return name
 
-    def module_(self, node):
-        if node is None:
+    def module_(self, cursor):
+        if cursor is None:
             return self.module
         else:
-            return self.format_type(node.spelling)
+            return self.format_type(cursor.spelling)
 
-    def is_excluded(self, node):
-        if self.name(node) in self.excludes:
+    def is_excluded(self, cursor):
+        if self.name(cursor) in self.excludes:
             return True
-        if node.spelling.startswith('_'):
+        if cursor.spelling.startswith('_'):
             return True
         return False
 
-    def name(self, node):
-        if node is None:
+    def name(self, cursor):
+        if cursor is None:
             return ''
-        elif node.kind == cindex.CursorKind.TRANSLATION_UNIT:
+        elif cursor.kind == cindex.CursorKind.TRANSLATION_UNIT:
             return ''
         else:
-            res = self.name(node.semantic_parent)
+            res = self.name(cursor.semantic_parent)
             if res != '':
-                return res + '::' + node.spelling
-        return node.spelling
+                return res + '::' + cursor.spelling
+        return cursor.spelling
 
-    def is_class_mappable(self, node):
-        if not node.is_definition():
+    def is_class_mappable(self, cursor):
+        if not cursor.is_definition():
             return False
-        if self.is_excluded(node):
+        if self.is_excluded(cursor):
             return False
         return True
 
-    def is_function_mappable(self, node):
-        if 'operator' in node.spelling:
+    def is_function_mappable(self, cursor):
+        if 'operator' in cursor.spelling:
             return False
-        if self.is_excluded(node):
+        if self.is_excluded(cursor):
             return False
-        for argument in node.get_arguments():
+        for argument in cursor.get_arguments():
             if argument.type.get_canonical().kind == cindex.TypeKind.POINTER:
                 ptr = argument.type.get_canonical().get_pointee().kind
                 if ptr == cindex.TypeKind.FUNCTIONPROTO:
@@ -159,27 +159,27 @@ class GeneratorABC(ABC):
                 return False
         return True
 
-    def is_function_void_return(self, node):
-        result = node.type.get_result()
+    def is_function_void_return(self, cursor):
+        result = cursor.type.get_result()
         return result.kind == cindex.TypeKind.VOID
 
-    def is_property_mappable(self, node):
-        if self.is_excluded(node):
+    def is_property_mappable(self, cursor):
+        if self.is_excluded(cursor):
             return False
         return True
 
-    def is_node_mappable(self, node):
-        if node.location.file:
-            return self.mapped in node.location.file.name
+    def is_cursor_mappable(self, cursor):
+        if cursor.location.file:
+            return self.mapped in cursor.location.file.name
         return False
 
-    def is_property_readonly(self, node):
-        if node.type.kind == cindex.TypeKind.CONSTANTARRAY:
+    def is_property_readonly(self, cursor):
+        if cursor.type.kind == cindex.TypeKind.CONSTANTARRAY:
             return True
         return False
 
-    def is_overloaded(self, node):
-        return self.name(node) in self.overloaded
+    def is_overloaded(self, cursor):
+        return self.name(cursor) in self.overloaded
 
     def arg_type(self, argument):
         if argument.type.kind == cindex.TypeKind.CONSTANTARRAY:
@@ -222,17 +222,17 @@ class GeneratorABC(ABC):
                 default = ' = ' + default
             self.out(f', py::arg("{self.format_attribute(argument.spelling)}"){default}')
 
-    def parse_enum(self, node):
-        self.out(f'py::enum_<{self.name(node)}>({self.module}, "{self.format_type(node.spelling)}", py::arithmetic())')
+    def parse_enum(self, cursor):
+        self.out(f'py::enum_<{self.name(cursor)}>({self.module}, "{self.format_type(cursor.spelling)}", py::arithmetic())')
         self.out.indent += 1
-        for value in node.get_children():
+        for value in cursor.get_children():
             self.out(f'.value("{self.format_enum(value.spelling)}", {value.spelling})')
         self.out('.export_values();')
         self.out.indent -= 1
         self.out('')
 
-    def parse_constructor(self, node, cls):
-        arguments = [a for a in node.get_arguments()]
+    def parse_constructor(self, cursor, cls):
+        arguments = [a for a in cursor.get_arguments()]
         if len(arguments):
             self.out(f'{self.module_(cls)}.def(py::init<{self.arg_types(arguments)}>()')
             self.write_pyargs(arguments)
@@ -240,19 +240,19 @@ class GeneratorABC(ABC):
         else:
             self.out(f'{self.module_(cls)}.def(py::init<>());')
 
-    def parse_field(self, node, cls):
-        pyname = self.format_attribute(node.spelling)
-        cname = self.name(node)
-        if self.is_property_mappable(node):
-            if self.is_property_readonly(node):
+    def parse_field(self, cursor, cls):
+        pyname = self.format_attribute(cursor.spelling)
+        cname = self.name(cursor)
+        if self.is_property_mappable(cursor):
+            if self.is_property_readonly(cursor):
                 self.out(f'{self.module_(cls)}.def_readonly("{pyname}", &{cname});')
             else:
                 self.out(f'{self.module_(cls)}.def_readwrite("{pyname}", &{cname});')
 
-    def should_wrap_function(self, node):
-        if node.type.is_function_variadic():
+    def should_wrap_function(self, cursor):
+        if cursor.type.is_function_variadic():
             return True
-        for arg in node.get_arguments():
+        for arg in cursor.get_arguments():
             if arg.type.kind == cindex.TypeKind.CONSTANTARRAY:
                 return True
             if self.should_return_argument(arg):
@@ -282,9 +282,9 @@ class GeneratorABC(ABC):
                 return True
         return False
 
-    def get_function_return(self, node):
-        returned = [a.spelling for a in node.get_arguments() if self.should_return_argument(a)]
-        if not self.is_function_void_return(node):
+    def get_function_return(self, cursor):
+        returned = [a.spelling for a in cursor.get_arguments() if self.should_return_argument(a)]
+        if not self.is_function_void_return(cursor):
             returned.insert(0, 'ret')
         if len(returned) > 1:
             return 'std::make_tuple({})'.format(', '.join(returned))
@@ -292,69 +292,69 @@ class GeneratorABC(ABC):
             return returned[0]
         return ''
 
-    def get_return_policy(self, node):
-        result = node.type.get_result()
+    def get_return_policy(self, cursor):
+        result = cursor.type.get_result()
         if result.kind == cindex.TypeKind.LVALUEREFERENCE:
             return 'py::return_value_policy::reference'
         else:
             return 'py::return_value_policy::automatic_reference'
 
-    def parse_function(self, node, cls=None):
-        if self.is_function_mappable(node):
+    def parse_function(self, cursor, cls=None):
+        if self.is_function_mappable(cursor):
             mname = self.module_(cls)
-            arguments = [a for a in node.get_arguments()]
-            cname = '&' + self.name(node)
-            pyname = self.format_attribute(node.spelling)
-            if self.is_overloaded(node):
+            arguments = [a for a in cursor.get_arguments()]
+            cname = '&' + self.name(cursor)
+            pyname = self.format_attribute(cursor.spelling)
+            if self.is_overloaded(cursor):
                 cname = f'py::overload_cast<{self.arg_types(arguments)}>({cname})'
-            if self.should_wrap_function(node):
+            if self.should_wrap_function(cursor):
                 self.out(f'{mname}.def("{pyname}", []({self.arg_string(arguments)})')
                 self.out('{')
-                ret = '' if self.is_function_void_return(node) else 'auto ret = '
-                self.out(f'    {ret}{self.name(node)}({self.arg_names(arguments)});')
-                self.out(f'    return {self.get_function_return(node)};')
+                ret = '' if self.is_function_void_return(cursor) else 'auto ret = '
+                self.out(f'    {ret}{self.name(cursor)}({self.arg_names(arguments)});')
+                self.out(f'    return {self.get_function_return(cursor)};')
                 self.out('}')
             else:
                 self.out(f'{mname}.def("{pyname}", {cname}')
             self.write_pyargs(arguments)
-            self.out(f', {self.get_return_policy(node)});')
+            self.out(f', {self.get_return_policy(cursor)});')
 
-    def parse_class(self, node):
-        if self.is_class_mappable(node):
-            clsname = self.name(node)
-            pyname = self.format_type(node.spelling)
+    def parse_class(self, cursor):
+        if self.is_class_mappable(cursor):
+            clsname = self.name(cursor)
+            pyname = self.format_type(cursor.spelling)
             self.out(f'PYCLASS_BEGIN({self.module}, {clsname}, {pyname})')
-            for child in node.get_children():
+            for child in cursor.get_children():
                 if child.kind == cindex.CursorKind.CONSTRUCTOR:
-                    self.parse_constructor(child, node)
+                    self.parse_constructor(child, cursor)
                 elif child.kind == cindex.CursorKind.CXX_METHOD:
-                    self.parse_function(child, node)
+                    self.parse_function(child, cursor)
                 elif child.kind == cindex.CursorKind.FIELD_DECL:
-                    self.parse_field(child, node)
+                    self.parse_field(child, cursor)
             self.out(f'PYCLASS_END({self.module}, {clsname}, {pyname})\n')
 
-    def parse_definitions(self, node):
-        for child in node.get_children():
-            if not self.is_node_mappable(child):
+    def parse_definitions(self, root):
+        for cursor in root.get_children():
+            if not self.is_cursor_mappable(cursor):
                 continue
-            if child.kind == cindex.CursorKind.ENUM_DECL:
-                self.parse_enum(child)
-            elif child.kind == cindex.CursorKind.STRUCT_DECL:
-                self.parse_class(child)
-            elif child.kind == cindex.CursorKind.FUNCTION_DECL:
-                self.parse_function(child)
-            elif child.kind == cindex.CursorKind.NAMESPACE:
-                self.parse_definitions(child)
+            if cursor.kind == cindex.CursorKind.ENUM_DECL:
+                self.parse_enum(cursor)
+            elif cursor.kind == cindex.CursorKind.STRUCT_DECL:
+                self.parse_class(cursor)
+            elif cursor.kind == cindex.CursorKind.FUNCTION_DECL:
+                self.parse_function(cursor)
+            elif cursor.kind == cindex.CursorKind.NAMESPACE:
+                self.parse_definitions(cursor)
 
-    def parse_overloads(self, node):
-        for child in node.get_children():
+    def parse_overloads(self, cursor):
+        for child in cursor.get_children():
             if child.kind in [cindex.CursorKind.CXX_METHOD, cindex.CursorKind.FUNCTION_DECL]:
                 key = self.name(child)
                 if key in self.overloaded.visited:
                     self.overloaded.add(key)
                 else:
                     self.overloaded.visited.add(key)
-            elif self.is_node_mappable(child):
+            elif self.is_cursor_mappable(child):
                 self.parse_overloads(child)
 
     def generate(self):

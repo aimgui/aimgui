@@ -7,7 +7,7 @@
 
 #include <aimgui/bindtools.h>
 
-#include <bgfx/bgfx.h>
+#include <aimgfx/aimgfx.h>
 #include <bx/allocator.h>
 
 using namespace bgfx;
@@ -16,44 +16,224 @@ namespace py = pybind11;
 
 void init_generated(py::module &libaimgfx, Registry &registry) {
 
-    PYCLASS_BEGIN(libaimgfx, bgfx::Fatal, Fatal)
-    PYCLASS_END(libaimgfx, bgfx::Fatal, Fatal)
+    py::enum_<bgfx::Fatal::Enum>(libaimgfx, "Fatal", py::arithmetic())
+        .value("DEBUG_CHECK", bgfx::Fatal::Enum::DebugCheck)
+        .value("INVALID_SHADER", bgfx::Fatal::Enum::InvalidShader)
+        .value("UNABLE_TO_INITIALIZE", bgfx::Fatal::Enum::UnableToInitialize)
+        .value("UNABLE_TO_CREATE_TEXTURE", bgfx::Fatal::Enum::UnableToCreateTexture)
+        .value("DEVICE_LOST", bgfx::Fatal::Enum::DeviceLost)
+        .value("COUNT", bgfx::Fatal::Enum::Count)
+        .export_values();
 
-    PYCLASS_BEGIN(libaimgfx, bgfx::RendererType, RendererType)
-    PYCLASS_END(libaimgfx, bgfx::RendererType, RendererType)
+    py::enum_<bgfx::RendererType::Enum>(libaimgfx, "RendererType", py::arithmetic())
+        .value("NOOP", bgfx::RendererType::Enum::Noop)
+        .value("DIRECT3_D9", bgfx::RendererType::Enum::Direct3D9)
+        .value("DIRECT3_D11", bgfx::RendererType::Enum::Direct3D11)
+        .value("DIRECT3_D12", bgfx::RendererType::Enum::Direct3D12)
+        .value("GNM", bgfx::RendererType::Enum::Gnm)
+        .value("METAL", bgfx::RendererType::Enum::Metal)
+        .value("NVN", bgfx::RendererType::Enum::Nvn)
+        .value("OPEN_GLES", bgfx::RendererType::Enum::OpenGLES)
+        .value("OPEN_GL", bgfx::RendererType::Enum::OpenGL)
+        .value("VULKAN", bgfx::RendererType::Enum::Vulkan)
+        .value("WEB_GPU", bgfx::RendererType::Enum::WebGPU)
+        .value("COUNT", bgfx::RendererType::Enum::Count)
+        .export_values();
 
-    PYCLASS_BEGIN(libaimgfx, bgfx::Access, Access)
-    PYCLASS_END(libaimgfx, bgfx::Access, Access)
+    py::enum_<bgfx::Access::Enum>(libaimgfx, "Access", py::arithmetic())
+        .value("READ", bgfx::Access::Enum::Read)
+        .value("WRITE", bgfx::Access::Enum::Write)
+        .value("READ_WRITE", bgfx::Access::Enum::ReadWrite)
+        .value("COUNT", bgfx::Access::Enum::Count)
+        .export_values();
 
-    PYCLASS_BEGIN(libaimgfx, bgfx::Attrib, Attrib)
-    PYCLASS_END(libaimgfx, bgfx::Attrib, Attrib)
+    py::enum_<bgfx::Attrib::Enum>(libaimgfx, "Attrib", py::arithmetic())
+        .value("POSITION", bgfx::Attrib::Enum::Position)
+        .value("NORMAL", bgfx::Attrib::Enum::Normal)
+        .value("TANGENT", bgfx::Attrib::Enum::Tangent)
+        .value("BITANGENT", bgfx::Attrib::Enum::Bitangent)
+        .value("COLOR0", bgfx::Attrib::Enum::Color0)
+        .value("COLOR1", bgfx::Attrib::Enum::Color1)
+        .value("COLOR2", bgfx::Attrib::Enum::Color2)
+        .value("COLOR3", bgfx::Attrib::Enum::Color3)
+        .value("INDICES", bgfx::Attrib::Enum::Indices)
+        .value("WEIGHT", bgfx::Attrib::Enum::Weight)
+        .value("TEX_COORD0", bgfx::Attrib::Enum::TexCoord0)
+        .value("TEX_COORD1", bgfx::Attrib::Enum::TexCoord1)
+        .value("TEX_COORD2", bgfx::Attrib::Enum::TexCoord2)
+        .value("TEX_COORD3", bgfx::Attrib::Enum::TexCoord3)
+        .value("TEX_COORD4", bgfx::Attrib::Enum::TexCoord4)
+        .value("TEX_COORD5", bgfx::Attrib::Enum::TexCoord5)
+        .value("TEX_COORD6", bgfx::Attrib::Enum::TexCoord6)
+        .value("TEX_COORD7", bgfx::Attrib::Enum::TexCoord7)
+        .value("COUNT", bgfx::Attrib::Enum::Count)
+        .export_values();
 
-    PYCLASS_BEGIN(libaimgfx, bgfx::AttribType, AttribType)
-    PYCLASS_END(libaimgfx, bgfx::AttribType, AttribType)
+    py::enum_<bgfx::AttribType::Enum>(libaimgfx, "AttribType", py::arithmetic())
+        .value("UINT8", bgfx::AttribType::Enum::Uint8)
+        .value("UINT10", bgfx::AttribType::Enum::Uint10)
+        .value("INT16", bgfx::AttribType::Enum::Int16)
+        .value("HALF", bgfx::AttribType::Enum::Half)
+        .value("FLOAT", bgfx::AttribType::Enum::Float)
+        .value("COUNT", bgfx::AttribType::Enum::Count)
+        .export_values();
 
-    PYCLASS_BEGIN(libaimgfx, bgfx::TextureFormat, TextureFormat)
-    PYCLASS_END(libaimgfx, bgfx::TextureFormat, TextureFormat)
+    py::enum_<bgfx::TextureFormat::Enum>(libaimgfx, "TextureFormat", py::arithmetic())
+        .value("BC1", bgfx::TextureFormat::Enum::BC1)
+        .value("BC2", bgfx::TextureFormat::Enum::BC2)
+        .value("BC3", bgfx::TextureFormat::Enum::BC3)
+        .value("BC4", bgfx::TextureFormat::Enum::BC4)
+        .value("BC5", bgfx::TextureFormat::Enum::BC5)
+        .value("BC6_H", bgfx::TextureFormat::Enum::BC6H)
+        .value("BC7", bgfx::TextureFormat::Enum::BC7)
+        .value("ETC1", bgfx::TextureFormat::Enum::ETC1)
+        .value("ETC2", bgfx::TextureFormat::Enum::ETC2)
+        .value("ETC2_A", bgfx::TextureFormat::Enum::ETC2A)
+        .value("ETC2_A1", bgfx::TextureFormat::Enum::ETC2A1)
+        .value("PTC12", bgfx::TextureFormat::Enum::PTC12)
+        .value("PTC14", bgfx::TextureFormat::Enum::PTC14)
+        .value("PTC12_A", bgfx::TextureFormat::Enum::PTC12A)
+        .value("PTC14_A", bgfx::TextureFormat::Enum::PTC14A)
+        .value("PTC22", bgfx::TextureFormat::Enum::PTC22)
+        .value("PTC24", bgfx::TextureFormat::Enum::PTC24)
+        .value("ATC", bgfx::TextureFormat::Enum::ATC)
+        .value("ATCE", bgfx::TextureFormat::Enum::ATCE)
+        .value("ATCI", bgfx::TextureFormat::Enum::ATCI)
+        .value("ASTC4X4", bgfx::TextureFormat::Enum::ASTC4x4)
+        .value("ASTC5X5", bgfx::TextureFormat::Enum::ASTC5x5)
+        .value("ASTC6X6", bgfx::TextureFormat::Enum::ASTC6x6)
+        .value("ASTC8X5", bgfx::TextureFormat::Enum::ASTC8x5)
+        .value("ASTC8X6", bgfx::TextureFormat::Enum::ASTC8x6)
+        .value("ASTC10X5", bgfx::TextureFormat::Enum::ASTC10x5)
+        .value("UNKNOWN", bgfx::TextureFormat::Enum::Unknown)
+        .value("R1", bgfx::TextureFormat::Enum::R1)
+        .value("A8", bgfx::TextureFormat::Enum::A8)
+        .value("R8", bgfx::TextureFormat::Enum::R8)
+        .value("R8_I", bgfx::TextureFormat::Enum::R8I)
+        .value("R8_U", bgfx::TextureFormat::Enum::R8U)
+        .value("R8_S", bgfx::TextureFormat::Enum::R8S)
+        .value("R16", bgfx::TextureFormat::Enum::R16)
+        .value("R16_I", bgfx::TextureFormat::Enum::R16I)
+        .value("R16_U", bgfx::TextureFormat::Enum::R16U)
+        .value("R16_F", bgfx::TextureFormat::Enum::R16F)
+        .value("R16_S", bgfx::TextureFormat::Enum::R16S)
+        .value("R32_I", bgfx::TextureFormat::Enum::R32I)
+        .value("R32_U", bgfx::TextureFormat::Enum::R32U)
+        .value("R32_F", bgfx::TextureFormat::Enum::R32F)
+        .value("RG8", bgfx::TextureFormat::Enum::RG8)
+        .value("RG8_I", bgfx::TextureFormat::Enum::RG8I)
+        .value("RG8_U", bgfx::TextureFormat::Enum::RG8U)
+        .value("RG8_S", bgfx::TextureFormat::Enum::RG8S)
+        .value("RG16", bgfx::TextureFormat::Enum::RG16)
+        .value("RG16_I", bgfx::TextureFormat::Enum::RG16I)
+        .value("RG16_U", bgfx::TextureFormat::Enum::RG16U)
+        .value("RG16_F", bgfx::TextureFormat::Enum::RG16F)
+        .value("RG16_S", bgfx::TextureFormat::Enum::RG16S)
+        .value("RG32_I", bgfx::TextureFormat::Enum::RG32I)
+        .value("RG32_U", bgfx::TextureFormat::Enum::RG32U)
+        .value("RG32_F", bgfx::TextureFormat::Enum::RG32F)
+        .value("RGB8", bgfx::TextureFormat::Enum::RGB8)
+        .value("RGB8_I", bgfx::TextureFormat::Enum::RGB8I)
+        .value("RGB8_U", bgfx::TextureFormat::Enum::RGB8U)
+        .value("RGB8_S", bgfx::TextureFormat::Enum::RGB8S)
+        .value("RGB9_E5_F", bgfx::TextureFormat::Enum::RGB9E5F)
+        .value("BGRA8", bgfx::TextureFormat::Enum::BGRA8)
+        .value("RGBA8", bgfx::TextureFormat::Enum::RGBA8)
+        .value("RGBA8_I", bgfx::TextureFormat::Enum::RGBA8I)
+        .value("RGBA8_U", bgfx::TextureFormat::Enum::RGBA8U)
+        .value("RGBA8_S", bgfx::TextureFormat::Enum::RGBA8S)
+        .value("RGBA16", bgfx::TextureFormat::Enum::RGBA16)
+        .value("RGBA16_I", bgfx::TextureFormat::Enum::RGBA16I)
+        .value("RGBA16_U", bgfx::TextureFormat::Enum::RGBA16U)
+        .value("RGBA16_F", bgfx::TextureFormat::Enum::RGBA16F)
+        .value("RGBA16_S", bgfx::TextureFormat::Enum::RGBA16S)
+        .value("RGBA32_I", bgfx::TextureFormat::Enum::RGBA32I)
+        .value("RGBA32_U", bgfx::TextureFormat::Enum::RGBA32U)
+        .value("RGBA32_F", bgfx::TextureFormat::Enum::RGBA32F)
+        .value("R5_G6_B5", bgfx::TextureFormat::Enum::R5G6B5)
+        .value("RGBA4", bgfx::TextureFormat::Enum::RGBA4)
+        .value("RGB5_A1", bgfx::TextureFormat::Enum::RGB5A1)
+        .value("RGB10_A2", bgfx::TextureFormat::Enum::RGB10A2)
+        .value("RG11_B10_F", bgfx::TextureFormat::Enum::RG11B10F)
+        .value("UNKNOWN_DEPTH", bgfx::TextureFormat::Enum::UnknownDepth)
+        .value("D16", bgfx::TextureFormat::Enum::D16)
+        .value("D24", bgfx::TextureFormat::Enum::D24)
+        .value("D24_S8", bgfx::TextureFormat::Enum::D24S8)
+        .value("D32", bgfx::TextureFormat::Enum::D32)
+        .value("D16_F", bgfx::TextureFormat::Enum::D16F)
+        .value("D24_F", bgfx::TextureFormat::Enum::D24F)
+        .value("D32_F", bgfx::TextureFormat::Enum::D32F)
+        .value("D0_S8", bgfx::TextureFormat::Enum::D0S8)
+        .value("COUNT", bgfx::TextureFormat::Enum::Count)
+        .export_values();
 
-    PYCLASS_BEGIN(libaimgfx, bgfx::UniformType, UniformType)
-    PYCLASS_END(libaimgfx, bgfx::UniformType, UniformType)
+    py::enum_<bgfx::UniformType::Enum>(libaimgfx, "UniformType", py::arithmetic())
+        .value("SAMPLER", bgfx::UniformType::Enum::Sampler)
+        .value("END", bgfx::UniformType::Enum::End)
+        .value("VEC4", bgfx::UniformType::Enum::Vec4)
+        .value("MAT3", bgfx::UniformType::Enum::Mat3)
+        .value("MAT4", bgfx::UniformType::Enum::Mat4)
+        .value("COUNT", bgfx::UniformType::Enum::Count)
+        .export_values();
 
-    PYCLASS_BEGIN(libaimgfx, bgfx::BackbufferRatio, BackbufferRatio)
-    PYCLASS_END(libaimgfx, bgfx::BackbufferRatio, BackbufferRatio)
+    py::enum_<bgfx::BackbufferRatio::Enum>(libaimgfx, "BackbufferRatio", py::arithmetic())
+        .value("EQUAL", bgfx::BackbufferRatio::Enum::Equal)
+        .value("HALF", bgfx::BackbufferRatio::Enum::Half)
+        .value("QUARTER", bgfx::BackbufferRatio::Enum::Quarter)
+        .value("EIGHTH", bgfx::BackbufferRatio::Enum::Eighth)
+        .value("SIXTEENTH", bgfx::BackbufferRatio::Enum::Sixteenth)
+        .value("DOUBLE", bgfx::BackbufferRatio::Enum::Double)
+        .value("COUNT", bgfx::BackbufferRatio::Enum::Count)
+        .export_values();
 
-    PYCLASS_BEGIN(libaimgfx, bgfx::OcclusionQueryResult, OcclusionQueryResult)
-    PYCLASS_END(libaimgfx, bgfx::OcclusionQueryResult, OcclusionQueryResult)
+    py::enum_<bgfx::OcclusionQueryResult::Enum>(libaimgfx, "OcclusionQueryResult", py::arithmetic())
+        .value("INVISIBLE", bgfx::OcclusionQueryResult::Enum::Invisible)
+        .value("VISIBLE", bgfx::OcclusionQueryResult::Enum::Visible)
+        .value("NO_RESULT", bgfx::OcclusionQueryResult::Enum::NoResult)
+        .value("COUNT", bgfx::OcclusionQueryResult::Enum::Count)
+        .export_values();
 
-    PYCLASS_BEGIN(libaimgfx, bgfx::Topology, Topology)
-    PYCLASS_END(libaimgfx, bgfx::Topology, Topology)
+    py::enum_<bgfx::Topology::Enum>(libaimgfx, "Topology", py::arithmetic())
+        .value("TRI_LIST", bgfx::Topology::Enum::TriList)
+        .value("TRI_STRIP", bgfx::Topology::Enum::TriStrip)
+        .value("LINE_LIST", bgfx::Topology::Enum::LineList)
+        .value("LINE_STRIP", bgfx::Topology::Enum::LineStrip)
+        .value("POINT_LIST", bgfx::Topology::Enum::PointList)
+        .value("COUNT", bgfx::Topology::Enum::Count)
+        .export_values();
 
-    PYCLASS_BEGIN(libaimgfx, bgfx::TopologyConvert, TopologyConvert)
-    PYCLASS_END(libaimgfx, bgfx::TopologyConvert, TopologyConvert)
+    py::enum_<bgfx::TopologyConvert::Enum>(libaimgfx, "TopologyConvert", py::arithmetic())
+        .value("TRI_LIST_FLIP_WINDING", bgfx::TopologyConvert::Enum::TriListFlipWinding)
+        .value("TRI_STRIP_FLIP_WINDING", bgfx::TopologyConvert::Enum::TriStripFlipWinding)
+        .value("TRI_LIST_TO_LINE_LIST", bgfx::TopologyConvert::Enum::TriListToLineList)
+        .value("TRI_STRIP_TO_TRI_LIST", bgfx::TopologyConvert::Enum::TriStripToTriList)
+        .value("LINE_STRIP_TO_LINE_LIST", bgfx::TopologyConvert::Enum::LineStripToLineList)
+        .value("COUNT", bgfx::TopologyConvert::Enum::Count)
+        .export_values();
 
-    PYCLASS_BEGIN(libaimgfx, bgfx::TopologySort, TopologySort)
-    PYCLASS_END(libaimgfx, bgfx::TopologySort, TopologySort)
+    py::enum_<bgfx::TopologySort::Enum>(libaimgfx, "TopologySort", py::arithmetic())
+        .value("DIRECTION_FRONT_TO_BACK_MIN", bgfx::TopologySort::Enum::DirectionFrontToBackMin)
+        .value("DIRECTION_FRONT_TO_BACK_AVG", bgfx::TopologySort::Enum::DirectionFrontToBackAvg)
+        .value("DIRECTION_FRONT_TO_BACK_MAX", bgfx::TopologySort::Enum::DirectionFrontToBackMax)
+        .value("DIRECTION_BACK_TO_FRONT_MIN", bgfx::TopologySort::Enum::DirectionBackToFrontMin)
+        .value("DIRECTION_BACK_TO_FRONT_AVG", bgfx::TopologySort::Enum::DirectionBackToFrontAvg)
+        .value("DIRECTION_BACK_TO_FRONT_MAX", bgfx::TopologySort::Enum::DirectionBackToFrontMax)
+        .value("DISTANCE_FRONT_TO_BACK_MIN", bgfx::TopologySort::Enum::DistanceFrontToBackMin)
+        .value("DISTANCE_FRONT_TO_BACK_AVG", bgfx::TopologySort::Enum::DistanceFrontToBackAvg)
+        .value("DISTANCE_FRONT_TO_BACK_MAX", bgfx::TopologySort::Enum::DistanceFrontToBackMax)
+        .value("DISTANCE_BACK_TO_FRONT_MIN", bgfx::TopologySort::Enum::DistanceBackToFrontMin)
+        .value("DISTANCE_BACK_TO_FRONT_AVG", bgfx::TopologySort::Enum::DistanceBackToFrontAvg)
+        .value("DISTANCE_BACK_TO_FRONT_MAX", bgfx::TopologySort::Enum::DistanceBackToFrontMax)
+        .value("COUNT", bgfx::TopologySort::Enum::Count)
+        .export_values();
 
-    PYCLASS_BEGIN(libaimgfx, bgfx::ViewMode, ViewMode)
-    PYCLASS_END(libaimgfx, bgfx::ViewMode, ViewMode)
+    py::enum_<bgfx::ViewMode::Enum>(libaimgfx, "ViewMode", py::arithmetic())
+        .value("DEFAULT", bgfx::ViewMode::Enum::Default)
+        .value("SEQUENTIAL", bgfx::ViewMode::Enum::Sequential)
+        .value("DEPTH_ASCENDING", bgfx::ViewMode::Enum::DepthAscending)
+        .value("DEPTH_DESCENDING", bgfx::ViewMode::Enum::DepthDescending)
+        .value("COUNT", bgfx::ViewMode::Enum::Count)
+        .export_values();
 
     PYCLASS_BEGIN(libaimgfx, bgfx::DynamicIndexBufferHandle, DynamicIndexBufferHandle)
     DynamicIndexBufferHandle.def_readwrite("idx", &bgfx::DynamicIndexBufferHandle::idx);
@@ -226,6 +406,14 @@ void init_generated(py::module &libaimgfx, Registry &registry) {
     Init.def_readwrite("profile", &bgfx::Init::profile);
     Init.def_readwrite("platform_data", &bgfx::Init::platformData);
     Init.def_readwrite("resolution", &bgfx::Init::resolution);
+    PYCLASS_BEGIN(libaimgfx, bgfx::Init::Limits, Limits)
+    Limits.def(py::init<>());
+    Limits.def_readwrite("max_encoders", &bgfx::Init::Limits::maxEncoders);
+    Limits.def_readwrite("min_resource_cb_size", &bgfx::Init::Limits::minResourceCbSize);
+    Limits.def_readwrite("transient_vb_size", &bgfx::Init::Limits::transientVbSize);
+    Limits.def_readwrite("transient_ib_size", &bgfx::Init::Limits::transientIbSize);
+    PYCLASS_END(libaimgfx, bgfx::Init::Limits, Limits)
+
     Init.def_readwrite("limits", &bgfx::Init::limits);
     Init.def_readwrite("callback", &bgfx::Init::callback);
     Init.def_readwrite("allocator", &bgfx::Init::allocator);
@@ -245,7 +433,39 @@ void init_generated(py::module &libaimgfx, Registry &registry) {
     Caps.def_readwrite("homogeneous_depth", &bgfx::Caps::homogeneousDepth);
     Caps.def_readwrite("origin_bottom_left", &bgfx::Caps::originBottomLeft);
     Caps.def_readwrite("num_gp_us", &bgfx::Caps::numGPUs);
+    PYCLASS_BEGIN(libaimgfx, bgfx::Caps::GPU, GPU)
+    GPU.def_readwrite("vendor_id", &bgfx::Caps::GPU::vendorId);
+    GPU.def_readwrite("device_id", &bgfx::Caps::GPU::deviceId);
+    PYCLASS_END(libaimgfx, bgfx::Caps::GPU, GPU)
+
     Caps.def_readonly("gpu", &bgfx::Caps::gpu);
+    PYCLASS_BEGIN(libaimgfx, bgfx::Caps::Limits, Limits)
+    Limits.def_readwrite("max_draw_calls", &bgfx::Caps::Limits::maxDrawCalls);
+    Limits.def_readwrite("max_blits", &bgfx::Caps::Limits::maxBlits);
+    Limits.def_readwrite("max_texture_size", &bgfx::Caps::Limits::maxTextureSize);
+    Limits.def_readwrite("max_texture_layers", &bgfx::Caps::Limits::maxTextureLayers);
+    Limits.def_readwrite("max_views", &bgfx::Caps::Limits::maxViews);
+    Limits.def_readwrite("max_frame_buffers", &bgfx::Caps::Limits::maxFrameBuffers);
+    Limits.def_readwrite("max_fb_attachments", &bgfx::Caps::Limits::maxFBAttachments);
+    Limits.def_readwrite("max_programs", &bgfx::Caps::Limits::maxPrograms);
+    Limits.def_readwrite("max_shaders", &bgfx::Caps::Limits::maxShaders);
+    Limits.def_readwrite("max_textures", &bgfx::Caps::Limits::maxTextures);
+    Limits.def_readwrite("max_texture_samplers", &bgfx::Caps::Limits::maxTextureSamplers);
+    Limits.def_readwrite("max_compute_bindings", &bgfx::Caps::Limits::maxComputeBindings);
+    Limits.def_readwrite("max_vertex_layouts", &bgfx::Caps::Limits::maxVertexLayouts);
+    Limits.def_readwrite("max_vertex_streams", &bgfx::Caps::Limits::maxVertexStreams);
+    Limits.def_readwrite("max_index_buffers", &bgfx::Caps::Limits::maxIndexBuffers);
+    Limits.def_readwrite("max_vertex_buffers", &bgfx::Caps::Limits::maxVertexBuffers);
+    Limits.def_readwrite("max_dynamic_index_buffers", &bgfx::Caps::Limits::maxDynamicIndexBuffers);
+    Limits.def_readwrite("max_dynamic_vertex_buffers", &bgfx::Caps::Limits::maxDynamicVertexBuffers);
+    Limits.def_readwrite("max_uniforms", &bgfx::Caps::Limits::maxUniforms);
+    Limits.def_readwrite("max_occlusion_queries", &bgfx::Caps::Limits::maxOcclusionQueries);
+    Limits.def_readwrite("max_encoders", &bgfx::Caps::Limits::maxEncoders);
+    Limits.def_readwrite("min_resource_cb_size", &bgfx::Caps::Limits::minResourceCbSize);
+    Limits.def_readwrite("transient_vb_size", &bgfx::Caps::Limits::transientVbSize);
+    Limits.def_readwrite("transient_ib_size", &bgfx::Caps::Limits::transientIbSize);
+    PYCLASS_END(libaimgfx, bgfx::Caps::Limits, Limits)
+
     Caps.def_readwrite("limits", &bgfx::Caps::limits);
     Caps.def_readonly("formats", &bgfx::Caps::formats);
     PYCLASS_END(libaimgfx, bgfx::Caps, Caps)
@@ -447,7 +667,7 @@ void init_generated(py::module &libaimgfx, Registry &registry) {
     , py::arg("_handle")
     , py::arg("_start_vertex")
     , py::arg("_num_vertices")
-    , py::arg("_layout_handle") = std::initializer_list<int>(BGFX_INVALID_HANDLE)
+    , py::arg("_layout_handle") = bgfx::VertexLayoutHandle(BGFX_INVALID_HANDLE)
     , py::return_value_policy::automatic_reference);
     Encoder.def("set_vertex_buffer", py::overload_cast<uint8_t, bgfx::DynamicVertexBufferHandle>(&bgfx::Encoder::setVertexBuffer)
     , py::arg("_stream")
@@ -458,7 +678,7 @@ void init_generated(py::module &libaimgfx, Registry &registry) {
     , py::arg("_handle")
     , py::arg("_start_vertex")
     , py::arg("_num_vertices")
-    , py::arg("_layout_handle") = std::initializer_list<int>(BGFX_INVALID_HANDLE)
+    , py::arg("_layout_handle") = bgfx::VertexLayoutHandle(BGFX_INVALID_HANDLE)
     , py::return_value_policy::automatic_reference);
     Encoder.def("set_vertex_buffer", py::overload_cast<uint8_t, const bgfx::TransientVertexBuffer *>(&bgfx::Encoder::setVertexBuffer)
     , py::arg("_stream")
@@ -469,7 +689,7 @@ void init_generated(py::module &libaimgfx, Registry &registry) {
     , py::arg("_tvb")
     , py::arg("_start_vertex")
     , py::arg("_num_vertices")
-    , py::arg("_layout_handle") = std::initializer_list<int>(BGFX_INVALID_HANDLE)
+    , py::arg("_layout_handle") = bgfx::VertexLayoutHandle(BGFX_INVALID_HANDLE)
     , py::return_value_policy::automatic_reference);
     Encoder.def("set_vertex_count", &bgfx::Encoder::setVertexCount
     , py::arg("_num_vertices")
@@ -682,7 +902,7 @@ void init_generated(py::module &libaimgfx, Registry &registry) {
     , py::arg("_type")
     , py::return_value_policy::automatic_reference);
     libaimgfx.def("init", &bgfx::init
-    , py::arg("_init") = std::initializer_list<int>({})
+    , py::arg("_init") = bgfx::Init()
     , py::return_value_policy::automatic_reference);
     libaimgfx.def("shutdown", &bgfx::shutdown
     , py::return_value_policy::automatic_reference);
@@ -1196,7 +1416,7 @@ void init_generated(py::module &libaimgfx, Registry &registry) {
     , py::arg("_handle")
     , py::arg("_start_vertex")
     , py::arg("_num_vertices")
-    , py::arg("_layout_handle") = std::initializer_list<int>(BGFX_INVALID_HANDLE)
+    , py::arg("_layout_handle") = bgfx::VertexLayoutHandle(BGFX_INVALID_HANDLE)
     , py::return_value_policy::automatic_reference);
     libaimgfx.def("set_vertex_buffer", py::overload_cast<uint8_t, bgfx::DynamicVertexBufferHandle>(&bgfx::setVertexBuffer)
     , py::arg("_stream")
@@ -1207,7 +1427,7 @@ void init_generated(py::module &libaimgfx, Registry &registry) {
     , py::arg("_handle")
     , py::arg("_start_vertex")
     , py::arg("_num_vertices")
-    , py::arg("_layout_handle") = std::initializer_list<int>(BGFX_INVALID_HANDLE)
+    , py::arg("_layout_handle") = bgfx::VertexLayoutHandle(BGFX_INVALID_HANDLE)
     , py::return_value_policy::automatic_reference);
     libaimgfx.def("set_vertex_buffer", py::overload_cast<uint8_t, const bgfx::TransientVertexBuffer *>(&bgfx::setVertexBuffer)
     , py::arg("_stream")
@@ -1218,7 +1438,7 @@ void init_generated(py::module &libaimgfx, Registry &registry) {
     , py::arg("_tvb")
     , py::arg("_start_vertex")
     , py::arg("_num_vertices")
-    , py::arg("_layout_handle") = std::initializer_list<int>(BGFX_INVALID_HANDLE)
+    , py::arg("_layout_handle") = bgfx::VertexLayoutHandle(BGFX_INVALID_HANDLE)
     , py::return_value_policy::automatic_reference);
     libaimgfx.def("set_vertex_count", &bgfx::setVertexCount
     , py::arg("_num_vertices")

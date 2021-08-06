@@ -5,3 +5,4 @@ import aimgui
 aimgui.add_plugin(__file__)
 
 from libaimgfx import *
+from .constants import *

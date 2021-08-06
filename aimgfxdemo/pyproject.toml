@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "aimgfxdemo"
+version = "0.1.0"
+description = ""
+authors = ["Kurtis Fields <kurtisfields@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+aimgfx = {path = "../aimgfx",  develop = true}
+
+glfw = "^2.1.0"
+#aimgui = {path = "../aimgui",  develop = true}
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
