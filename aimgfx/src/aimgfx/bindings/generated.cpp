@@ -8,6 +8,7 @@
 #include <aimgui/bindtools.h>
 
 #include <bgfx/bgfx.h>
+#include <bx/allocator.h>
 
 using namespace bgfx;
 
@@ -446,7 +447,7 @@ void init_generated(py::module &libaimgfx, Registry &registry) {
     , py::arg("_handle")
     , py::arg("_start_vertex")
     , py::arg("_num_vertices")
-    , py::arg("_layout_handle") = BGFX_INVALID_HANDLE
+    , py::arg("_layout_handle") = std::initializer_list<int>(BGFX_INVALID_HANDLE)
     , py::return_value_policy::automatic_reference);
     Encoder.def("set_vertex_buffer", py::overload_cast<uint8_t, bgfx::DynamicVertexBufferHandle>(&bgfx::Encoder::setVertexBuffer)
     , py::arg("_stream")
@@ -457,7 +458,7 @@ void init_generated(py::module &libaimgfx, Registry &registry) {
     , py::arg("_handle")
     , py::arg("_start_vertex")
     , py::arg("_num_vertices")
-    , py::arg("_layout_handle") = BGFX_INVALID_HANDLE
+    , py::arg("_layout_handle") = std::initializer_list<int>(BGFX_INVALID_HANDLE)
     , py::return_value_policy::automatic_reference);
     Encoder.def("set_vertex_buffer", py::overload_cast<uint8_t, const bgfx::TransientVertexBuffer *>(&bgfx::Encoder::setVertexBuffer)
     , py::arg("_stream")
@@ -468,7 +469,7 @@ void init_generated(py::module &libaimgfx, Registry &registry) {
     , py::arg("_tvb")
     , py::arg("_start_vertex")
     , py::arg("_num_vertices")
-    , py::arg("_layout_handle") = BGFX_INVALID_HANDLE
+    , py::arg("_layout_handle") = std::initializer_list<int>(BGFX_INVALID_HANDLE)
     , py::return_value_policy::automatic_reference);
     Encoder.def("set_vertex_count", &bgfx::Encoder::setVertexCount
     , py::arg("_num_vertices")
@@ -622,17 +623,6 @@ void init_generated(py::module &libaimgfx, Registry &registry) {
     VertexLayout.def("skip", &bgfx::VertexLayout::skip
     , py::arg("_num")
     , py::return_value_policy::reference);
-    VertexLayout.def("decode", [](Attrib::Enum _attrib, uint8_t & _num, AttribType::Enum & _type, bool & _normalized, bool & _asInt)
-    {
-        bgfx::VertexLayout::decode(_attrib, _num, _type, _normalized, _asInt);
-        return std::make_tuple(_num, _type, _normalized, _asInt);
-    }
-    , py::arg("_attrib")
-    , py::arg("_num")
-    , py::arg("_type")
-    , py::arg("_normalized")
-    , py::arg("_as_int")
-    , py::return_value_policy::automatic_reference);
     VertexLayout.def("has", &bgfx::VertexLayout::has
     , py::arg("_attrib")
     , py::return_value_policy::automatic_reference);
@@ -650,18 +640,6 @@ void init_generated(py::module &libaimgfx, Registry &registry) {
     VertexLayout.def_readonly("m_attributes", &bgfx::VertexLayout::m_attributes);
     PYCLASS_END(libaimgfx, bgfx::VertexLayout, VertexLayout)
 
-    libaimgfx.def("vertex_pack", [](std::array<const float, 4>& _input, bool _inputNormalized, Attrib::Enum _attr, const bgfx::VertexLayout & _layout, void * _data, uint32_t _index)
-    {
-        bgfx::vertexPack(&_input[0], _inputNormalized, _attr, _layout, _data, _index);
-        return _input;
-    }
-    , py::arg("_input")
-    , py::arg("_input_normalized")
-    , py::arg("_attr")
-    , py::arg("_layout")
-    , py::arg("_data")
-    , py::arg("_index") = 0
-    , py::return_value_policy::automatic_reference);
     libaimgfx.def("vertex_unpack", [](std::array<float, 4>& _output, Attrib::Enum _attr, const bgfx::VertexLayout & _layout, const void * _data, uint32_t _index)
     {
         bgfx::vertexUnpack(&_output[0], _attr, _layout, _data, _index);
@@ -696,22 +674,6 @@ void init_generated(py::module &libaimgfx, Registry &registry) {
     , py::arg("_num_indices")
     , py::arg("_index32")
     , py::return_value_policy::automatic_reference);
-    libaimgfx.def("topology_sort_tri_list", [](TopologySort::Enum _sort, void * _dst, uint32_t _dstSize, std::array<const float, 3>& _dir, std::array<const float, 3>& _pos, const void * _vertices, uint32_t _stride, const void * _indices, uint32_t _numIndices, bool _index32)
-    {
-        bgfx::topologySortTriList(_sort, _dst, _dstSize, &_dir[0], &_pos[0], _vertices, _stride, _indices, _numIndices, _index32);
-        return std::make_tuple(_dir, _pos);
-    }
-    , py::arg("_sort")
-    , py::arg("_dst")
-    , py::arg("_dst_size")
-    , py::arg("_dir")
-    , py::arg("_pos")
-    , py::arg("_vertices")
-    , py::arg("_stride")
-    , py::arg("_indices")
-    , py::arg("_num_indices")
-    , py::arg("_index32")
-    , py::return_value_policy::automatic_reference);
     libaimgfx.def("get_supported_renderers", &bgfx::getSupportedRenderers
     , py::arg("_max") = 0
     , py::arg("_enum") = nullptr
@@ -720,7 +682,7 @@ void init_generated(py::module &libaimgfx, Registry &registry) {
     , py::arg("_type")
     , py::return_value_policy::automatic_reference);
     libaimgfx.def("init", &bgfx::init
-    , py::arg("_init") = {}
+    , py::arg("_init") = std::initializer_list<int>({})
     , py::return_value_policy::automatic_reference);
     libaimgfx.def("shutdown", &bgfx::shutdown
     , py::return_value_policy::automatic_reference);
@@ -1094,25 +1056,6 @@ void init_generated(py::module &libaimgfx, Registry &registry) {
     libaimgfx.def("destroy", py::overload_cast<bgfx::OcclusionQueryHandle>(&bgfx::destroy)
     , py::arg("_handle")
     , py::return_value_policy::automatic_reference);
-    libaimgfx.def("set_palette_color", py::overload_cast<uint8_t, uint32_t>(&bgfx::setPaletteColor)
-    , py::arg("_index")
-    , py::arg("_rgba")
-    , py::return_value_policy::automatic_reference);
-    libaimgfx.def("set_palette_color", py::overload_cast<uint8_t, float, float, float, float>(&bgfx::setPaletteColor)
-    , py::arg("_index")
-    , py::arg("_r")
-    , py::arg("_g")
-    , py::arg("_b")
-    , py::arg("_a")
-    , py::return_value_policy::automatic_reference);
-    libaimgfx.def("set_palette_color", [](uint8_t _index, std::array<const float, 4>& _rgba)
-    {
-        bgfx::setPaletteColor(_index, &_rgba[0]);
-        return _rgba;
-    }
-    , py::arg("_index")
-    , py::arg("_rgba")
-    , py::return_value_policy::automatic_reference);
     libaimgfx.def("set_view_name", &bgfx::setViewName
     , py::arg("_id")
     , py::arg("_name")
@@ -1253,7 +1196,7 @@ void init_generated(py::module &libaimgfx, Registry &registry) {
     , py::arg("_handle")
     , py::arg("_start_vertex")
     , py::arg("_num_vertices")
-    , py::arg("_layout_handle") = BGFX_INVALID_HANDLE
+    , py::arg("_layout_handle") = std::initializer_list<int>(BGFX_INVALID_HANDLE)
     , py::return_value_policy::automatic_reference);
     libaimgfx.def("set_vertex_buffer", py::overload_cast<uint8_t, bgfx::DynamicVertexBufferHandle>(&bgfx::setVertexBuffer)
     , py::arg("_stream")
@@ -1264,7 +1207,7 @@ void init_generated(py::module &libaimgfx, Registry &registry) {
     , py::arg("_handle")
     , py::arg("_start_vertex")
     , py::arg("_num_vertices")
-    , py::arg("_layout_handle") = BGFX_INVALID_HANDLE
+    , py::arg("_layout_handle") = std::initializer_list<int>(BGFX_INVALID_HANDLE)
     , py::return_value_policy::automatic_reference);
     libaimgfx.def("set_vertex_buffer", py::overload_cast<uint8_t, const bgfx::TransientVertexBuffer *>(&bgfx::setVertexBuffer)
     , py::arg("_stream")
@@ -1275,7 +1218,7 @@ void init_generated(py::module &libaimgfx, Registry &registry) {
     , py::arg("_tvb")
     , py::arg("_start_vertex")
     , py::arg("_num_vertices")
-    , py::arg("_layout_handle") = BGFX_INVALID_HANDLE
+    , py::arg("_layout_handle") = std::initializer_list<int>(BGFX_INVALID_HANDLE)
     , py::return_value_policy::automatic_reference);
     libaimgfx.def("set_vertex_count", &bgfx::setVertexCount
     , py::arg("_num_vertices")

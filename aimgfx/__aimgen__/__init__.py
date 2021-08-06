@@ -12,6 +12,7 @@ HEADER = """
 #include <aimgui/bindtools.h>
 
 #include <bgfx/bgfx.h>
+#include <bx/allocator.h>
 
 using namespace bgfx;
 
@@ -25,13 +26,8 @@ FOOTER = """
 """
 
 DEFAULTS = {
-    'out_h' : '0',
-    'out_s' : '0',
-    'out_v' : '0',
-    'out_r' : '0',
-    'out_g' : '0',
-    'out_g' : '0',
-    'out_ini_size' : '0',
+    '_layoutHandle' : 'std::initializer_list<int>(BGFX_INVALID_HANDLE)',
+    '_init' : 'std::initializer_list<int>({})'
 }
 
 class Generator(GeneratorABC):

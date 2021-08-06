@@ -15,6 +15,11 @@ flags = [
 ]
 
 excludes = [
+    # Problems
+    'bgfx::VertexLayout::decode',
+    'bgfx::setPaletteColor',
+    'bgfx::topologySortTriList',
+    'bgfx::vertexPack' #deleted function?
     # Wrapped
     # Internal / Ignored
     #Obsolete

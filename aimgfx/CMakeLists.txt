@@ -6,9 +6,20 @@ include(../cmake/Common.cmake)
 
 #find_package(AimGui REQUIRED)
 
-set(BX_DIR ${MONO_DIR}/bx)
 
+set(BX_DIR ${MONO_DIR}/bx)
+set(BX_SRC
+  ${BX_DIR}/src/amalgamated.cpp
+)
 set(BIMG_DIR ${MONO_DIR}/bimg)
+
+set(OPTION_ASTC_TESTS OFF CACHE BOOL "Build all the unit tests" FORCE)
+add_subdirectory(${BIMG_DIR}/3rdparty/astc-codec astc-codec)
+
+set(BIMG_SRC
+  ${BIMG_DIR}/src/image.cpp
+  ${BIMG_DIR}/src/image_gnf.cpp
+)
 
 set(BGFX_DIR ${MONO_DIR}/bgfx)
 
@@ -32,9 +43,9 @@ install(TARGETS aimgfx EXPORT aimgfx-targets
 	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
 	ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
-target_compile_definitions(aimgfx PRIVATE IMGUI_USER_CONFIG=<aimgui/aimconfig.h>)
+target_compile_definitions(aimgfx PRIVATE PRIxPTR="Ix")
 #target_compile_definitions(aimgfx PRIVATE IMGUI_API=PYBIND11_EXPORT)
-target_sources(aimgfx PRIVATE ${BGFX_SRC} ${BGFX_HEADERS})
+target_sources(aimgfx PRIVATE ${BGFX_SRC} ${BGFX_HEADERS} ${BX_SRC} ${BIMG_SRC})
 
 # add include files
 target_sources(aimgfx PRIVATE ${AIMGFX_INCLUDE}) # for intellisense
@@ -47,16 +58,21 @@ target_include_directories(aimgfx
         $<BUILD_INTERFACE:${BGFX_DIR}>
 	PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
-        ${BGFX_DIR}/include
-        ${BX_DIR}/include
         ${BX_DIR}/include/compat/msvc
+        ${BX_DIR}/include
+        ${BX_DIR}/3rdparty
         ${BIMG_DIR}/include
+        ${BIMG_DIR}/3rdparty
+        #${BIMG_DIR}/3rdparty/astc-codec/include
+        #${BIMG_DIR}/3rdparty/astc-codec
+        ${BGFX_DIR}/include
         ${BGFX_DIR}/3rdparty
         ${BGFX_DIR}/3rdparty/khronos
         ${BGFX_DIR}/3rdparty/dxsdk/include
 )
 
 #target_link_libraries(aimgfx PRIVATE Upstream::aimgui)
+target_link_libraries(aimgfx PRIVATE astc-codec)
 
 #
 # INSTALL

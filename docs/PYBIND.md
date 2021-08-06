@@ -1,0 +1,1 @@
+std::initializer_list<int>(BGFX_INVALID_HANDLE)

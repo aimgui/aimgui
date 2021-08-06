@@ -216,6 +216,8 @@ class GeneratorABC(ABC):
                 elif not len(default):
                     default = self.default_from_tokens(child.get_tokens())
             default = self.defaults.get(argument.spelling, default)
+            #print(argument.spelling)
+            #print(default)
             if len(default):
                 default = ' = ' + default
             self.out(f', py::arg("{self.format_attribute(argument.spelling)}"){default}')
