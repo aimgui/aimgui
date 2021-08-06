@@ -6,6 +6,10 @@ include(../cmake/Common.cmake)
 
 #find_package(AimGui REQUIRED)
 
+set(BX_DIR ${MONO_DIR}/bx)
+
+set(BIMG_DIR ${MONO_DIR}/bimg)
+
 set(BGFX_DIR ${MONO_DIR}/bgfx)
 
 set(BGFX_HEADERS
@@ -44,6 +48,12 @@ target_include_directories(aimgfx
 	PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
         ${BGFX_DIR}/include
+        ${BX_DIR}/include
+        ${BX_DIR}/include/compat/msvc
+        ${BIMG_DIR}/include
+        ${BGFX_DIR}/3rdparty
+        ${BGFX_DIR}/3rdparty/khronos
+        ${BGFX_DIR}/3rdparty/dxsdk/include
 )
 
 #target_link_libraries(aimgfx PRIVATE Upstream::aimgui)
