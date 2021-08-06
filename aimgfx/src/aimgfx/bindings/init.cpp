@@ -8,7 +8,7 @@ void init_main(py::module &, Registry& registry);
 void init_generated(py::module &, Registry& registry);
 
 
-PYBIND11_MODULE(libaimnodes, m) {
+PYBIND11_MODULE(libaimgfx, m) {
         Registry r;
         init_main(m, r);
         init_generated(m, r);

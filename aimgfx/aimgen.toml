@@ -1,12 +1,12 @@
-source = '../imnodes/imnodes.h'
+source = '../bgfx/include/bgfx/bgfx.h'
 #TODO: Might want multiple, mappable headers
-mapped = 'imnodes.h'
-target = 'src/aimnodes/bindings/generated.cpp'
+mapped = 'bgfx.h'
+target = 'src/aimgfx/bindings/generated.cpp'
 
-prefix = 'ImNodes'
-short_prefix = 'Im'
+prefix = ''
+short_prefix = ''
 
-module = 'libaimnodes'
+module = 'libaimgfx'
 
 flags = [
     '-std=c++17',
@@ -16,20 +16,7 @@ flags = [
 
 excludes = [
     # Wrapped
-    'ImNodes::CreateContext',
-    'ImNodes::DestroyContext',
-    'ImNodes::GetCurrentContext',
-    'ImNodes::SetCurrentContext',
-
-    'ImNodes::EditorContextCreate',
-    'ImNodes::EditorContextFree',
-    'ImNodes::EditorContextSet',
     # Internal / Ignored
-    'ImNodes::EditorContext',
-    'ImNodes::SaveEditorStateToIniString',
-    'ImNodes::LoadEditorStateFromIniFile',
-    'ImNodes::LoadEditorStateFromIniString',
-    'ImNodes::SaveEditorStateToIniFile',
     #Obsolete
 ]
 
