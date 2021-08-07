@@ -10,7 +10,7 @@ from clang import cindex
 
 from . import UserSet
 
-from .parser import Parser
+from .transpiler import Transpiler
 
 import jinja2
 
@@ -30,7 +30,7 @@ class Overloaded(UserSet):
     def is_overloaded(self, node):
         return self.name(node) in self
 
-class Generator(Parser):
+class Generator(Transpiler):
     def __init__(self, config, **kwargs):
         super().__init__()
         self.config = config
@@ -60,18 +60,18 @@ class Generator(Parser):
         config = toml.load(path)
         config['name'] = name
         instance = Generator(config)
-        instance.import_factories()
+        instance.import_actions()
         return instance
 
-    def import_factories(self):
-        path = Path(os.path.dirname(os.path.abspath(__file__)), 'factories.py')
+    def import_actions(self):
+        path = Path(os.path.dirname(os.path.abspath(__file__)), 'actions.py')
         spec = importlib.util.spec_from_file_location(
-            "factories", path
+            "actions", path
         )
-        __factories__ = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(__factories__)
+        __actions__ = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(__actions__)
 
-        self.factories = __factories__.MAP
+        self.actions = __actions__.MAP
 
     def generate(self):
         if sys.platform == 'darwin':
@@ -83,17 +83,16 @@ class Generator(Parser):
             #cindex.Config.set_library_path('C:/Program Files/LLVM/bin')
 
         tu = cindex.Index.create().parse(self.path, args=self.flags)
-        #self.out.indent = 0
-        #self.out(self.header)
-        self.out.indent = 1
+        self.begin(tu)
+        self.scope.indent = 1
         self.parse_overloads(tu.cursor)
         self.parse_definitions(tu.cursor)
-        self.out.indent = 0
-        #self.out(self.footer)
+        self.scope.indent = 0
+        #self.scope(self.footer)
         #Jinja
         config = self.config
         print(self.config)
-        config['body'] = self.out.string
+        config['body'] = self.scope.text
         self.searchpath = Path('.')  / '__aimgen__'
         loader = jinja2.FileSystemLoader(searchpath=self.searchpath)
         env = jinja2.Environment(loader=loader)
@@ -107,4 +106,4 @@ class Generator(Parser):
 
         #BASE_PATH = Path('.')
         #self.path = BASE_PATH / self.source
-        #self.out = FileOut(open(BASE_PATH / self.target, 'w'))
+        #self.scope = FileOut(open(BASE_PATH / self.target, 'w'))

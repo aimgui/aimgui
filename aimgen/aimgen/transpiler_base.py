@@ -4,42 +4,22 @@ from clang import cindex
 
 from . import UserSet
 
-def snakecase(name):
-    s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
-    return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
-
-class Out:
-    def __init__(self):
+class Scope:
+    def __init__(self, node):
+        self.node = node
         self.indent = 0
-
-class StringOut(Out):
-    def __init__(self, string=''):
-        super().__init__()
-        self.string = string
+        self.text = ''
 
     def __call__(self, line):
         if len(line):
-            self.string += ' ' * self.indent * 4
-            self.string += line.replace('>>', '> >')
-        self.string += '\n'
+            self.text += ' ' * self.indent * 4
+            self.text += line.replace('>>', '> >')
+        self.text += '\n'
 
-class FileOut(Out):
-    def __init__(self, file):
-        super().__init__()
-        self.file = file
 
-    def __call__(self, line):
-        if len(line):
-            self.file.write(' ' * self.indent * 4)
-            self.file.write(line.replace('>>', '> >'))
-        self.file.write('\n')
-
-class Parser:
-    def __init__(self, parent=None):
-        self.parent = parent
-        self.children = []
-        #
-        self.out = StringOut()
+class TranspilerBase:
+    def __init__(self):
+        self.scopes = []
         #
         # Injected members
         # TODO: Validate after injection
@@ -54,29 +34,23 @@ class Parser:
         self.excludes = []
         self.overloaded = []
         self.defaults = {}
-        # End Injected members
-        if self.parent:
-            self.parent.add_child(self)
-            self.config = parent.config
-            for key in self.config:
-                setattr(self, key, self.config[key])
-            self.options = parent.options
-            self.overloaded = parent.overloaded
-            self.excludes = parent.excludes
-            self.defaults = parent.defaults
-            self.out.indent = parent.out.indent
 
+    @property
+    def scope(self):
+        return self.scopes[-1]
+    
+    def begin(self, node):
+        self.scopes.append(Scope(node))
 
-    def add_child(self, child):
-        self.children.append(child)
-
-    def write(self, out):
-        out(self.out.string)
-        for child in self.children:
-            child.write(out)
+    def end(self):
+        return self.scopes.pop()
+        
+    def snake(self, name):
+        s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
+        return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
 
     def format_attribute(self, name):
-        name = snakecase(name)
+        name = self.snake(name)
         name = name.rstrip('_')
         name = name.replace('__', '_')
         return name
@@ -93,7 +67,7 @@ class Parser:
     def format_enum(self, name):
         name = name.replace(self.prefix, '')
         name = name.replace(self.short_prefix, '')
-        name = snakecase(name).upper()
+        name = self.snake(name).upper()
         name = name.replace('__', '_')
         name = name.rstrip('_')
         return name
@@ -204,34 +178,34 @@ class Parser:
             #print(default)
             if len(default):
                 default = ' = ' + default
-            self.out(f', py::arg("{self.format_attribute(argument.spelling)}"){default}')
+            self.scope(f', py::arg("{self.format_attribute(argument.spelling)}"){default}')
 
     def parse_enum(self, node):
-        self.out(f'py::enum_<{self.spell(node)}>({self.module}, "{self.format_type(node.spelling)}", py::arithmetic())')
-        self.out.indent += 1
+        self.scope(f'py::enum_<{self.spell(node)}>({self.module}, "{self.format_type(node.spelling)}", py::arithmetic())')
+        self.scope.indent += 1
         for value in node.get_children():
-            self.out(f'.value("{self.format_enum(value.spelling)}", {value.spelling})')
-        self.out('.export_values();')
-        self.out.indent -= 1
-        self.out('')
+            self.scope(f'.value("{self.format_enum(value.spelling)}", {value.spelling})')
+        self.scope('.export_values();')
+        self.scope.indent -= 1
+        self.scope('')
 
     def parse_constructor(self, node, cls):
         arguments = [a for a in node.get_arguments()]
         if len(arguments):
-            self.out(f'{self.module_(cls)}.def(py::init<{self.arg_types(arguments)}>()')
+            self.scope(f'{self.module_(cls)}.def(py::init<{self.arg_types(arguments)}>()')
             self.write_pyargs(arguments)
-            self.out(');')
+            self.scope(');')
         else:
-            self.out(f'{self.module_(cls)}.def(py::init<>());')
+            self.scope(f'{self.module_(cls)}.def(py::init<>());')
 
     def parse_field(self, node, cls):
         pyname = self.format_attribute(node.spelling)
         cname = self.spell(node)
         if self.is_property_mappable(node):
             if self.is_property_readonly(node):
-                self.out(f'{self.module_(cls)}.def_readonly("{pyname}", &{cname});')
+                self.scope(f'{self.module_(cls)}.def_readonly("{pyname}", &{cname});')
             else:
-                self.out(f'{self.module_(cls)}.def_readwrite("{pyname}", &{cname});')
+                self.scope(f'{self.module_(cls)}.def_readwrite("{pyname}", &{cname});')
 
     def should_wrap_function(self, node):
         if node.type.is_function_variadic():
@@ -292,16 +266,16 @@ class Parser:
             if self.is_overloaded(node):
                 cname = f'py::overload_cast<{self.arg_types(arguments)}>({cname})'
             if self.should_wrap_function(node):
-                self.out(f'{mname}.def("{pyname}", []({self.arg_string(arguments)})')
-                self.out('{')
+                self.scope(f'{mname}.def("{pyname}", []({self.arg_string(arguments)})')
+                self.scope('{')
                 ret = '' if self.is_function_void_return(node) else 'auto ret = '
-                self.out(f'    {ret}{self.spell(node)}({self.arg_names(arguments)});')
-                self.out(f'    return {self.get_function_return(node)};')
-                self.out('}')
+                self.scope(f'    {ret}{self.spell(node)}({self.arg_names(arguments)});')
+                self.scope(f'    return {self.get_function_return(node)};')
+                self.scope('}')
             else:
-                self.out(f'{mname}.def("{pyname}", {cname}')
+                self.scope(f'{mname}.def("{pyname}", {cname}')
             self.write_pyargs(arguments)
-            self.out(f', {self.get_return_policy(node)});')
+            self.scope(f', {self.get_return_policy(node)});')
 
     def parse_var(self, node):
         print(node.spelling)
@@ -309,9 +283,9 @@ class Parser:
             print(child.spelling)
 
     def dispatch(self, node):
-        parser = self.factories[node.kind](self, node)
-        #self.write(parser.out)
-        self.out(parser.out.string)
+        parser = self.actions[node.kind](self, node)
+        #self.write(parser.scope)
+        self.scope(parser.scope.string)
 
     def parse_definitions(self, node):
         for child in node.get_children():
@@ -319,7 +293,7 @@ class Parser:
                 continue
             #print(child.spelling, ':  ', child.kind)
             kind = child.kind
-            if kind in self.factories:
+            if kind in self.actions:
                 self.dispatch(child)
             elif kind == cindex.CursorKind.ENUM_DECL:
                 self.parse_enum(child)

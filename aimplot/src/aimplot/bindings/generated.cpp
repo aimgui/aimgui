@@ -14,7 +14,6 @@
 namespace py = pybind11;
 
 void init_generated(py::module &libaimplot, Registry &registry) {
-
     py::enum_<ImPlotFlags_>(libaimplot, "Flags", py::arithmetic())
         .value("FLAGS_NONE", ImPlotFlags_None)
         .value("FLAGS_NO_TITLE", ImPlotFlags_NoTitle)
@@ -175,7 +174,7 @@ void init_generated(py::module &libaimplot, Registry &registry) {
         .value("BIN_SCOTT", ImPlotBin_Scott)
         .export_values();
 
-        PYCLASS_BEGIN(libaimplot, ImPlotPoint, Point)
+    PYCLASS_BEGIN(libaimplot, ImPlotPoint, Point)
     Point.def_readwrite("x", &ImPlotPoint::x);
     Point.def_readwrite("y", &ImPlotPoint::y);
     Point.def(py::init<>());
@@ -188,8 +187,7 @@ void init_generated(py::module &libaimplot, Registry &registry) {
     );
     PYCLASS_END(libaimplot, ImPlotPoint, Point)
 
-
-        PYCLASS_BEGIN(libaimplot, ImPlotRange, Range)
+    PYCLASS_BEGIN(libaimplot, ImPlotRange, Range)
     Range.def_readwrite("min", &ImPlotRange::Min);
     Range.def_readwrite("max", &ImPlotRange::Max);
     Range.def(py::init<>());
@@ -204,8 +202,7 @@ void init_generated(py::module &libaimplot, Registry &registry) {
     , py::return_value_policy::automatic_reference);
     PYCLASS_END(libaimplot, ImPlotRange, Range)
 
-
-        PYCLASS_BEGIN(libaimplot, ImPlotLimits, Limits)
+    PYCLASS_BEGIN(libaimplot, ImPlotLimits, Limits)
     Limits.def_readwrite("x", &ImPlotLimits::X);
     Limits.def_readwrite("y", &ImPlotLimits::Y);
     Limits.def(py::init<>());
@@ -221,8 +218,7 @@ void init_generated(py::module &libaimplot, Registry &registry) {
     , py::return_value_policy::automatic_reference);
     PYCLASS_END(libaimplot, ImPlotLimits, Limits)
 
-
-        PYCLASS_BEGIN(libaimplot, ImPlotStyle, Style)
+    PYCLASS_BEGIN(libaimplot, ImPlotStyle, Style)
     Style.def_readwrite("line_weight", &ImPlotStyle::LineWeight);
     Style.def_readwrite("marker", &ImPlotStyle::Marker);
     Style.def_readwrite("marker_size", &ImPlotStyle::MarkerSize);
@@ -258,7 +254,6 @@ void init_generated(py::module &libaimplot, Registry &registry) {
     Style.def_readwrite("use24_hour_clock", &ImPlotStyle::Use24HourClock);
     Style.def(py::init<>());
     PYCLASS_END(libaimplot, ImPlotStyle, Style)
-
 
     libaimplot.def("set_im_gui_context", &ImPlot::SetImGuiContext
     , py::arg("ctx")
