@@ -6,8 +6,9 @@ import glfw
 from glfw import _glfw as glfw_native
 
 import aimgfx
+from aimgfx.utils import as_void_ptr
 
-class ExampleWindow(object):
+class Window(object):
     def __init__(self, width, height, title):
         self.title = title
         self.height = height
@@ -78,7 +79,7 @@ class ExampleWindow(object):
 
         data = aimgfx.PlatformData()
         #data.ndt = as_void_ptr(display) if display else cppyy.nullptr
-        #data.nwh = as_void_ptr(handle)
+        data.nwh = as_void_ptr(handle)
         #data.context = cppyy.nullptr
         #data.backBuffer = cppyy.nullptr
         #data.backBufferDS = cppyy.nullptr

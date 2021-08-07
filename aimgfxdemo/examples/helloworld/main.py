@@ -3,10 +3,10 @@ import os
 
 import aimgfx
 
-from example_window import ExampleWindow
+from window import Window
 import python_image
 
-class HelloWorld(ExampleWindow):
+class HelloWorld(Window):
     def __init__(self, width, height, title):
         super().__init__(width, height, title)
 
@@ -77,6 +77,9 @@ class HelloWorld(ExampleWindow):
         )
 
 
-if __name__ == "__main__":
+def main():
     test = HelloWorld(1280, 720, "examples/helloworld")
     test.run()
+
+if __name__ == "__main__":
+    main()
