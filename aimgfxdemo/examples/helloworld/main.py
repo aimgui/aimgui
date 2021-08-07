@@ -2,8 +2,9 @@ import os
 
 
 import aimgfx
+from aimgfx.window import Window
+from aimgfx.constants import *
 
-from window import Window
 import python_image
 
 class HelloWorld(Window):
@@ -14,7 +15,7 @@ class HelloWorld(Window):
         self.init_conf.debug = True
         self.init_conf.resolution.width = self.width
         self.init_conf.resolution.height = self.height
-        self.init_conf.resolution.reset = aimgfx.BGFX_RESET_VSYNC
+        self.init_conf.resolution.reset = BGFX_RESET_VSYNC
 
     def init(self, platform_data):
         aimgfx.render_frame()
@@ -22,7 +23,7 @@ class HelloWorld(Window):
         aimgfx.init(self.init_conf)
 
         aimgfx.set_debug(aimgfx.BGFX_DEBUG_TEXT)
-        aimgfx.set_view_clear(0, aimgfx.BGFX_CLEAR_COLOR | aimgfx.BGFX_CLEAR_DEPTH, 0x443355FF, 1.0, 0)
+        aimgfx.set_view_clear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x443355FF, 1.0, 0)
 
     def shutdown(self):
         aimgfx.shutdown()
@@ -73,7 +74,7 @@ class HelloWorld(Window):
 
     def resize(self, width, height):
         aimgfx.reset(
-            self.width, self.height, aimgfx.BGFX_RESET_VSYNC, self.init_conf.resolution.format
+            self.width, self.height, BGFX_RESET_VSYNC, self.init_conf.resolution.format
         )
 
 

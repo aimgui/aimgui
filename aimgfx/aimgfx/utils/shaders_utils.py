@@ -10,13 +10,12 @@ from typing import List, Optional
 
 from loguru import logger
 
-# noinspection PyUnresolvedReferences
-from pybgfx import bgfx
-from pybgfx.utils import as_void_ptr
+import aimgfx
+from aimgfx.utils import as_void_ptr
 
-logger.disable("pybgfx")
+logger.disable("aimgfx")
 
-_pkg_path = Path(os.path.dirname(__file__)).parent
+_pkg_path = Path(os.path.dirname(__file__)).parent.parent
 _default_bin_path = _pkg_path / "bin"
 _default_include_dir = _pkg_path / "include" / "shaders"
 _os_exe_suffix = ".exe" if platform.system() == "Windows" else ""
@@ -45,7 +44,7 @@ def _get_platform() -> str:
 
 
 def _get_profile(shader_type: ShaderType) -> str:
-    renderer_type = bgfx.getRendererType()
+    renderer_type = aimgfx.get_renderer_type()
     sys_platform = platform.system()
     windows_shader_type = {
         ShaderType.FRAGMENT: "ps_",
@@ -57,13 +56,13 @@ def _get_profile(shader_type: ShaderType) -> str:
         return "metal"
 
     elif sys_platform == "Linux":
-        if renderer_type == bgfx.RendererType.Vulkan:
+        if renderer_type == aimgfx.RendererType.Vulkan:
             return "spirv"
         else:
             return "glsl"
 
     elif sys_platform == "Windows":
-        if renderer_type == bgfx.RendererType.Direct3D9:
+        if renderer_type == aimgfx.RendererType.DIRECT3_D9:
             return windows_shader_type.get(shader_type) + "3_0"
         else:
             return windows_shader_type.get(shader_type) + "5_0"
@@ -72,9 +71,9 @@ def _get_profile(shader_type: ShaderType) -> str:
         raise ValueError("'{}' is not supported!".format(sys_platform))
 
 
-def _load_mem(content: bytes) -> bgfx.Memory:
+def _load_mem(content: bytes) -> aimgfx.Memory:
     size = len(content)
-    memory = bgfx.copy(as_void_ptr(content), size)
+    memory = aimgfx.copy(as_void_ptr(content), size)
     return memory
 
 
@@ -98,16 +97,16 @@ def load_shader(
     shader_type: ShaderType,
     include_dirs: Optional[List[str]] = (),
     root_path: Optional[Path] = None,
-) -> bgfx.ShaderHandle:
+) -> aimgfx.ShaderHandle:
     """
     Compiles the given shader for the platform-specific driver and creates
-    a bgfx::ShaderHandle object.
+    a aimgfx::ShaderHandle object.
 
     :param name: the shader's file name
     :param shader_type: the shader's type (e.g. fragment, vertex, compute)
     :param include_dirs: additional absolute paths to resolve shader's #include directives
     :param root_path: the root path for shaders lookup
-    :return: a bgfx::ShaderHandle for the compiled shader
+    :return: a aimgfx::ShaderHandle for the compiled shader
     """
 
     shaders_root_path = Path(".") if not root_path else root_path
@@ -136,8 +135,8 @@ def load_shader(
 
             os.unlink(compiled_shader)
 
-    handle = bgfx.createShader(memory)
-    bgfx.setName(handle, name)
+    handle = aimgfx.create_shader(memory)
+    aimgfx.set_name(handle, name)
 
     return handle
 
@@ -180,7 +179,7 @@ def compile_shader(
         options.extend(["-O", "1" if shader_type == ShaderType.COMPUTE else "3"])
 
     shaderc_bin = str(_default_bin_path / "shadercRelease{}".format(_os_exe_suffix))
-    os.chmod(shaderc_bin, 0o774)
+    #os.chmod(shaderc_bin, 0o774)
 
     run_args = [shaderc_bin] + options
     run_info = subprocess.run(run_args, capture_output=True, text=True)

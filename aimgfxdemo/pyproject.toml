@@ -9,6 +9,7 @@ python = "^3.9"
 aimgfx = {path = "../aimgfx",  develop = true}
 
 glfw = "^2.1.0"
+loguru = "^0.5.3"
 #aimgui = {path = "../aimgui",  develop = true}
 
 [tool.poetry.dev-dependencies]
