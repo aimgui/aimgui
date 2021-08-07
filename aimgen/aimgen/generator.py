@@ -103,6 +103,6 @@ class GeneratorBase(Parser):
         self.out.indent = 1
         self.parse_overloads(tu.cursor)
         self.parse_definitions(tu.cursor)
-        self.write(self.out)
+        #self.write(self.out)
         self.out.indent = 0
         self.out(self.footer)

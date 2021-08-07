@@ -23,3 +23,4 @@ class ClassParser(Parser):
                 elif child.kind == cindex.CursorKind.FIELD_DECL:
                     self.parse_field(child, node)
             self.out(f'PYCLASS_END({self.module}, {clsname}, {pyname})\n')
+        return self

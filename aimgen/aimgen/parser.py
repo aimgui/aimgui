@@ -308,6 +308,11 @@ class Parser:
         for child in node.get_children():
             print(child.spelling)
 
+    def dispatch(self, node):
+        parser = self.factories[node.kind](self, node)
+        #self.write(parser.out)
+        self.out(parser.out.string)
+
     def parse_definitions(self, node):
         for child in node.get_children():
             if not self.is_node_mappable(child):
@@ -315,7 +320,7 @@ class Parser:
             #print(child.spelling, ':  ', child.kind)
             kind = child.kind
             if kind in self.factories:
-                self.factories[kind](self).parse(child)
+                self.dispatch(child)
             elif kind == cindex.CursorKind.ENUM_DECL:
                 self.parse_enum(child)
             elif kind == cindex.CursorKind.VAR_DECL:
