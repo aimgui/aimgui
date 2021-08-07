@@ -1,5 +1,12 @@
 source = '../imgui/imgui.h'
+#TODO: Might want multiple, mappable headers
+mapped = 'imgui.h'
 target = 'src/aimgui/bindings/generated.cpp'
+
+prefix = 'ImGui'
+short_prefix = 'Im'
+
+module = 'libaimgui'
 
 flags = [
     '-std=c++17',
@@ -70,6 +77,7 @@ excludes = [
     'ImDrawCmd::UserCallback',
     'ImColor::HSV',
     'ImNewDummy',
+    #TODO:Is this causing the link error? ImGuiTextBuffer::EmptyString
     'ImGuiTextBuffer',
     'CustomRect',
     'ImGuiPlatformIO',
@@ -90,3 +98,13 @@ overloaded = [
     'ImGui::SetScrollFromPosX',
     'ImGui::SetScrollFromPosY'
 ]
+
+[defaults]
+    'out_h' = '0'
+    'out_s' = '0'
+    'out_v' = '0'
+    'out_r' = '0'
+    'out_g' = '0'
+    'out_b' = '0'
+    'out_ini_size' = '0'
+

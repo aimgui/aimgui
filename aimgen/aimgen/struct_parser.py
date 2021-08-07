@@ -21,8 +21,12 @@ class StructParser(Parser):
         if self.is_class_mappable(node):
             clsname = self.spell(node)
             pyname = self.format_type(node.spelling)
-            first_child = list(node.get_children())[0]
-            wrapped = first_child.spelling == 'Enum'
+            children = list(node.get_children()) # it's an iterator
+            wrapped = False
+            #Handle the case of a struct with one enum child
+            if len(children) == 1:
+                first_child = children[0]
+                wrapped = first_child.kind == cindex.CursorKind.ENUM_DECL
             if not wrapped:
               self.out(f'PYCLASS_BEGIN({self.module}, {clsname}, {pyname})')
             for child in node.get_children():

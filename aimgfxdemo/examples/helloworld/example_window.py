@@ -45,7 +45,6 @@ class ExampleWindow(object):
             else 0,
         )
 
-    # noinspection PyProtectedMember
     def run(self):
         glfw_native.glfwCreateWindow.argtypes = [
             ctypes.c_int,

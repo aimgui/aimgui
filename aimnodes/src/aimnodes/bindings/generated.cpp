@@ -1,4 +1,3 @@
-
 #include <limits>
 
 #include <pybind11/pybind11.h>
@@ -18,7 +17,6 @@
 namespace py = pybind11;
 
 void init_generated(py::module &libaimnodes, Registry &registry) {
-
     py::enum_<ImNodesCol_>(libaimnodes, "Col", py::arithmetic())
         .value("COL_NODE_BACKGROUND", ImNodesCol_NodeBackground)
         .value("COL_NODE_BACKGROUND_HOVERED", ImNodesCol_NodeBackgroundHovered)
@@ -87,14 +85,15 @@ void init_generated(py::module &libaimnodes, Registry &registry) {
         .value("ATTRIBUTE_FLAGS_ENABLE_LINK_CREATION_ON_SNAP", ImNodesAttributeFlags_EnableLinkCreationOnSnap)
         .export_values();
 
-    PYCLASS_BEGIN(libaimnodes, ImNodesIO, IO)
+        PYCLASS_BEGIN(libaimnodes, ImNodesIO, IO)
     IO.def_readwrite("emulate_three_button_mouse", &ImNodesIO::EmulateThreeButtonMouse);
     IO.def_readwrite("link_detach_with_modifier_click", &ImNodesIO::LinkDetachWithModifierClick);
     IO.def_readwrite("alt_mouse_button", &ImNodesIO::AltMouseButton);
     IO.def(py::init<>());
     PYCLASS_END(libaimnodes, ImNodesIO, IO)
 
-    PYCLASS_BEGIN(libaimnodes, ImNodesStyle, Style)
+
+        PYCLASS_BEGIN(libaimnodes, ImNodesStyle, Style)
     Style.def_readwrite("grid_spacing", &ImNodesStyle::GridSpacing);
     Style.def_readwrite("node_corner_rounding", &ImNodesStyle::NodeCornerRounding);
     Style.def_readwrite("node_padding_horizontal", &ImNodesStyle::NodePaddingHorizontal);
@@ -114,12 +113,17 @@ void init_generated(py::module &libaimnodes, Registry &registry) {
     Style.def(py::init<>());
     PYCLASS_END(libaimnodes, ImNodesStyle, Style)
 
+
     py::enum_<ImNodesMiniMapLocation_>(libaimnodes, "MiniMapLocation", py::arithmetic())
         .value("MINI_MAP_LOCATION_BOTTOM_LEFT", ImNodesMiniMapLocation_BottomLeft)
         .value("MINI_MAP_LOCATION_BOTTOM_RIGHT", ImNodesMiniMapLocation_BottomRight)
         .value("MINI_MAP_LOCATION_TOP_LEFT", ImNodesMiniMapLocation_TopLeft)
         .value("MINI_MAP_LOCATION_TOP_RIGHT", ImNodesMiniMapLocation_TopRight)
         .export_values();
+
+
+
+
 
     libaimnodes.def("set_im_gui_context", &ImNodes::SetImGuiContext
     , py::arg("ctx")
@@ -355,4 +359,3 @@ void init_generated(py::module &libaimnodes, Registry &registry) {
     , py::return_value_policy::automatic_reference);
 
 }
-

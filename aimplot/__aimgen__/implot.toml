@@ -1,5 +1,11 @@
 source = '../implot/implot.h'
+mapped = 'implot.h'
 target = 'src/aimplot/bindings/generated.cpp'
+
+prefix = 'ImPlot'
+short_prefix = 'Im'
+
+module = 'libaimplot'
 
 flags = [
     '-std=c++17',

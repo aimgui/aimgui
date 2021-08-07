@@ -44,15 +44,16 @@ class Parser:
         # Injected members
         # TODO: Validate after injection
         #
-        self.source = None
-        self.mapped = None
-        self.target = None
-        self.prefix = None
-        self.short_prefix = None
-        self.module = None
-        self.flags = None
-        self.excludes = None
-        self.overloaded = None
+        self.source = ''
+        self.mapped = ''
+        self.target = ''
+        self.prefix = ''
+        self.short_prefix = ''
+        self.module = ''
+        self.flags = []
+        self.excludes = []
+        self.overloaded = []
+        self.defaults = {}
         # End Injected members
         if self.parent:
             self.parent.add_child(self)

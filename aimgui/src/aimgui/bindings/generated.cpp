@@ -1,8 +1,8 @@
-
 #include <pybind11/pybind11.h>
 #include <pybind11/functional.h>
 #include <pybind11/stl.h>
 #include <limits>
+
 #include "imgui.h"
 #include "imgui_internal.h"
 
@@ -13,7 +13,37 @@ namespace py = pybind11;
 
 void init_generated(py::module &libaimgui, Registry &registry) {
 
-    PYCLASS_BEGIN(libaimgui, ImVec2, Vec2)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        PYCLASS_BEGIN(libaimgui, ImVec2, Vec2)
     Vec2.def_readwrite("x", &ImVec2::x);
     Vec2.def_readwrite("y", &ImVec2::y);
     Vec2.def(py::init<>());
@@ -23,7 +53,8 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     );
     PYCLASS_END(libaimgui, ImVec2, Vec2)
 
-    PYCLASS_BEGIN(libaimgui, ImVec4, Vec4)
+
+        PYCLASS_BEGIN(libaimgui, ImVec4, Vec4)
     Vec4.def_readwrite("x", &ImVec4::x);
     Vec4.def_readwrite("y", &ImVec4::y);
     Vec4.def_readwrite("z", &ImVec4::z);
@@ -36,6 +67,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("_w")
     );
     PYCLASS_END(libaimgui, ImVec4, Vec4)
+
 
     libaimgui.def("get_io", &ImGui::GetIO
     , py::return_value_policy::reference);
@@ -1438,7 +1470,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("v")
     , py::arg("out_r") = 0
     , py::arg("out_g") = 0
-    , py::arg("out_b")
+    , py::arg("out_b") = 0
     , py::return_value_policy::automatic_reference);
     libaimgui.def("get_key_index", &ImGui::GetKeyIndex
     , py::arg("imgui_key")
@@ -2101,10 +2133,11 @@ void init_generated(py::module &libaimgui, Registry &registry) {
         .value("COND_APPEARING", ImGuiCond_Appearing)
         .export_values();
 
-    PYCLASS_BEGIN(libaimgui, ImNewWrapper, NewWrapper)
+        PYCLASS_BEGIN(libaimgui, ImNewWrapper, NewWrapper)
     PYCLASS_END(libaimgui, ImNewWrapper, NewWrapper)
 
-    PYCLASS_BEGIN(libaimgui, ImGuiStyle, Style)
+
+        PYCLASS_BEGIN(libaimgui, ImGuiStyle, Style)
     Style.def_readwrite("alpha", &ImGuiStyle::Alpha);
     Style.def_readwrite("window_padding", &ImGuiStyle::WindowPadding);
     Style.def_readwrite("window_rounding", &ImGuiStyle::WindowRounding);
@@ -2150,7 +2183,8 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::return_value_policy::automatic_reference);
     PYCLASS_END(libaimgui, ImGuiStyle, Style)
 
-    PYCLASS_BEGIN(libaimgui, ImGuiIO, IO)
+
+        PYCLASS_BEGIN(libaimgui, ImGuiIO, IO)
     IO.def_readwrite("config_flags", &ImGuiIO::ConfigFlags);
     IO.def_readwrite("backend_flags", &ImGuiIO::BackendFlags);
     IO.def_readwrite("display_size", &ImGuiIO::DisplaySize);
@@ -2245,7 +2279,8 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     IO.def(py::init<>());
     PYCLASS_END(libaimgui, ImGuiIO, IO)
 
-    PYCLASS_BEGIN(libaimgui, ImGuiInputTextCallbackData, InputTextCallbackData)
+
+        PYCLASS_BEGIN(libaimgui, ImGuiInputTextCallbackData, InputTextCallbackData)
     InputTextCallbackData.def_readwrite("event_flag", &ImGuiInputTextCallbackData::EventFlag);
     InputTextCallbackData.def_readwrite("flags", &ImGuiInputTextCallbackData::Flags);
     InputTextCallbackData.def_readwrite("user_data", &ImGuiInputTextCallbackData::UserData);
@@ -2276,14 +2311,16 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::return_value_policy::automatic_reference);
     PYCLASS_END(libaimgui, ImGuiInputTextCallbackData, InputTextCallbackData)
 
-    PYCLASS_BEGIN(libaimgui, ImGuiSizeCallbackData, SizeCallbackData)
+
+        PYCLASS_BEGIN(libaimgui, ImGuiSizeCallbackData, SizeCallbackData)
     SizeCallbackData.def_readwrite("user_data", &ImGuiSizeCallbackData::UserData);
     SizeCallbackData.def_readwrite("pos", &ImGuiSizeCallbackData::Pos);
     SizeCallbackData.def_readwrite("current_size", &ImGuiSizeCallbackData::CurrentSize);
     SizeCallbackData.def_readwrite("desired_size", &ImGuiSizeCallbackData::DesiredSize);
     PYCLASS_END(libaimgui, ImGuiSizeCallbackData, SizeCallbackData)
 
-    PYCLASS_BEGIN(libaimgui, ImGuiWindowClass, WindowClass)
+
+        PYCLASS_BEGIN(libaimgui, ImGuiWindowClass, WindowClass)
     WindowClass.def_readwrite("class_id", &ImGuiWindowClass::ClassId);
     WindowClass.def_readwrite("parent_viewport_id", &ImGuiWindowClass::ParentViewportId);
     WindowClass.def_readwrite("viewport_flags_override_set", &ImGuiWindowClass::ViewportFlagsOverrideSet);
@@ -2295,7 +2332,8 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     WindowClass.def(py::init<>());
     PYCLASS_END(libaimgui, ImGuiWindowClass, WindowClass)
 
-    PYCLASS_BEGIN(libaimgui, ImGuiPayload, Payload)
+
+        PYCLASS_BEGIN(libaimgui, ImGuiPayload, Payload)
     Payload.def_readwrite("data", &ImGuiPayload::Data);
     Payload.def_readwrite("data_size", &ImGuiPayload::DataSize);
     Payload.def_readwrite("source_id", &ImGuiPayload::SourceId);
@@ -2316,26 +2354,30 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::return_value_policy::automatic_reference);
     PYCLASS_END(libaimgui, ImGuiPayload, Payload)
 
-    PYCLASS_BEGIN(libaimgui, ImGuiTableColumnSortSpecs, TableColumnSortSpecs)
+
+        PYCLASS_BEGIN(libaimgui, ImGuiTableColumnSortSpecs, TableColumnSortSpecs)
     TableColumnSortSpecs.def_readwrite("column_user_id", &ImGuiTableColumnSortSpecs::ColumnUserID);
     TableColumnSortSpecs.def_readwrite("column_index", &ImGuiTableColumnSortSpecs::ColumnIndex);
     TableColumnSortSpecs.def_readwrite("sort_order", &ImGuiTableColumnSortSpecs::SortOrder);
     TableColumnSortSpecs.def(py::init<>());
     PYCLASS_END(libaimgui, ImGuiTableColumnSortSpecs, TableColumnSortSpecs)
 
-    PYCLASS_BEGIN(libaimgui, ImGuiTableSortSpecs, TableSortSpecs)
+
+        PYCLASS_BEGIN(libaimgui, ImGuiTableSortSpecs, TableSortSpecs)
     TableSortSpecs.def_readwrite("specs", &ImGuiTableSortSpecs::Specs);
     TableSortSpecs.def_readwrite("specs_count", &ImGuiTableSortSpecs::SpecsCount);
     TableSortSpecs.def_readwrite("specs_dirty", &ImGuiTableSortSpecs::SpecsDirty);
     TableSortSpecs.def(py::init<>());
     PYCLASS_END(libaimgui, ImGuiTableSortSpecs, TableSortSpecs)
 
-    PYCLASS_BEGIN(libaimgui, ImGuiOnceUponAFrame, OnceUponAFrame)
+
+        PYCLASS_BEGIN(libaimgui, ImGuiOnceUponAFrame, OnceUponAFrame)
     OnceUponAFrame.def(py::init<>());
     OnceUponAFrame.def_readwrite("ref_frame", &ImGuiOnceUponAFrame::RefFrame);
     PYCLASS_END(libaimgui, ImGuiOnceUponAFrame, OnceUponAFrame)
 
-    PYCLASS_BEGIN(libaimgui, ImGuiTextFilter, TextFilter)
+
+        PYCLASS_BEGIN(libaimgui, ImGuiTextFilter, TextFilter)
     TextFilter.def(py::init<const char *>()
     , py::arg("default_filter") = nullptr
     );
@@ -2357,7 +2399,9 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     TextFilter.def_readwrite("count_grep", &ImGuiTextFilter::CountGrep);
     PYCLASS_END(libaimgui, ImGuiTextFilter, TextFilter)
 
-    PYCLASS_BEGIN(libaimgui, ImGuiStorage, Storage)
+
+
+        PYCLASS_BEGIN(libaimgui, ImGuiStorage, Storage)
     Storage.def("clear", &ImGuiStorage::Clear
     , py::return_value_policy::automatic_reference);
     Storage.def("get_int", &ImGuiStorage::GetInt
@@ -2414,7 +2458,9 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::return_value_policy::automatic_reference);
     PYCLASS_END(libaimgui, ImGuiStorage, Storage)
 
-    PYCLASS_BEGIN(libaimgui, ImColor, Color)
+
+
+        PYCLASS_BEGIN(libaimgui, ImColor, Color)
     Color.def_readwrite("value", &ImColor::Value);
     Color.def(py::init<>());
     Color.def(py::init<int, int, int, int>()
@@ -2443,7 +2489,8 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::return_value_policy::automatic_reference);
     PYCLASS_END(libaimgui, ImColor, Color)
 
-    PYCLASS_BEGIN(libaimgui, ImDrawCmd, DrawCmd)
+
+        PYCLASS_BEGIN(libaimgui, ImDrawCmd, DrawCmd)
     DrawCmd.def_readwrite("clip_rect", &ImDrawCmd::ClipRect);
     DrawCmd.def_readwrite("texture_id", &ImDrawCmd::TextureId);
     DrawCmd.def_readwrite("vtx_offset", &ImDrawCmd::VtxOffset);
@@ -2455,22 +2502,26 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::return_value_policy::automatic_reference);
     PYCLASS_END(libaimgui, ImDrawCmd, DrawCmd)
 
-    PYCLASS_BEGIN(libaimgui, ImDrawVert, DrawVert)
+
+        PYCLASS_BEGIN(libaimgui, ImDrawVert, DrawVert)
     DrawVert.def_readwrite("pos", &ImDrawVert::pos);
     DrawVert.def_readwrite("uv", &ImDrawVert::uv);
     DrawVert.def_readwrite("col", &ImDrawVert::col);
     PYCLASS_END(libaimgui, ImDrawVert, DrawVert)
 
-    PYCLASS_BEGIN(libaimgui, ImDrawCmdHeader, DrawCmdHeader)
+
+        PYCLASS_BEGIN(libaimgui, ImDrawCmdHeader, DrawCmdHeader)
     DrawCmdHeader.def_readwrite("clip_rect", &ImDrawCmdHeader::ClipRect);
     DrawCmdHeader.def_readwrite("texture_id", &ImDrawCmdHeader::TextureId);
     DrawCmdHeader.def_readwrite("vtx_offset", &ImDrawCmdHeader::VtxOffset);
     PYCLASS_END(libaimgui, ImDrawCmdHeader, DrawCmdHeader)
 
-    PYCLASS_BEGIN(libaimgui, ImDrawChannel, DrawChannel)
+
+        PYCLASS_BEGIN(libaimgui, ImDrawChannel, DrawChannel)
     PYCLASS_END(libaimgui, ImDrawChannel, DrawChannel)
 
-    PYCLASS_BEGIN(libaimgui, ImDrawListSplitter, DrawListSplitter)
+
+        PYCLASS_BEGIN(libaimgui, ImDrawListSplitter, DrawListSplitter)
     DrawListSplitter.def(py::init<>());
     DrawListSplitter.def("clear", &ImDrawListSplitter::Clear
     , py::return_value_policy::automatic_reference);
@@ -2488,6 +2539,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("channel_idx")
     , py::return_value_policy::automatic_reference);
     PYCLASS_END(libaimgui, ImDrawListSplitter, DrawListSplitter)
+
 
     py::enum_<ImDrawFlags_>(libaimgui, "DrawFlags", py::arithmetic())
         .value("DRAW_FLAGS_NONE", ImDrawFlags_None)
@@ -2514,7 +2566,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
         .value("DRAW_LIST_FLAGS_ALLOW_VTX_OFFSET", ImDrawListFlags_AllowVtxOffset)
         .export_values();
 
-    PYCLASS_BEGIN(libaimgui, ImDrawList, DrawList)
+        PYCLASS_BEGIN(libaimgui, ImDrawList, DrawList)
     DrawList.def_readwrite("cmd_buffer", &ImDrawList::CmdBuffer);
     DrawList.def_readwrite("idx_buffer", &ImDrawList::IdxBuffer);
     DrawList.def_readwrite("vtx_buffer", &ImDrawList::VtxBuffer);
@@ -2795,7 +2847,8 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::return_value_policy::automatic_reference);
     PYCLASS_END(libaimgui, ImDrawList, DrawList)
 
-    PYCLASS_BEGIN(libaimgui, ImDrawData, DrawData)
+
+        PYCLASS_BEGIN(libaimgui, ImDrawData, DrawData)
     DrawData.def_readwrite("valid", &ImDrawData::Valid);
     DrawData.def_readwrite("cmd_lists_count", &ImDrawData::CmdListsCount);
     DrawData.def_readwrite("total_idx_count", &ImDrawData::TotalIdxCount);
@@ -2814,7 +2867,8 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::return_value_policy::automatic_reference);
     PYCLASS_END(libaimgui, ImDrawData, DrawData)
 
-    PYCLASS_BEGIN(libaimgui, ImFontConfig, FontConfig)
+
+        PYCLASS_BEGIN(libaimgui, ImFontConfig, FontConfig)
     FontConfig.def_readwrite("font_data", &ImFontConfig::FontData);
     FontConfig.def_readwrite("font_data_size", &ImFontConfig::FontDataSize);
     FontConfig.def_readwrite("font_data_owned_by_atlas", &ImFontConfig::FontDataOwnedByAtlas);
@@ -2837,7 +2891,8 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     FontConfig.def(py::init<>());
     PYCLASS_END(libaimgui, ImFontConfig, FontConfig)
 
-    PYCLASS_BEGIN(libaimgui, ImFontGlyph, FontGlyph)
+
+        PYCLASS_BEGIN(libaimgui, ImFontGlyph, FontGlyph)
     FontGlyph.def_readwrite("advance_x", &ImFontGlyph::AdvanceX);
     FontGlyph.def_readwrite("x0", &ImFontGlyph::X0);
     FontGlyph.def_readwrite("y0", &ImFontGlyph::Y0);
@@ -2849,7 +2904,8 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     FontGlyph.def_readwrite("v1", &ImFontGlyph::V1);
     PYCLASS_END(libaimgui, ImFontGlyph, FontGlyph)
 
-    PYCLASS_BEGIN(libaimgui, ImFontGlyphRangesBuilder, FontGlyphRangesBuilder)
+
+        PYCLASS_BEGIN(libaimgui, ImFontGlyphRangesBuilder, FontGlyphRangesBuilder)
     FontGlyphRangesBuilder.def_readwrite("used_chars", &ImFontGlyphRangesBuilder::UsedChars);
     FontGlyphRangesBuilder.def(py::init<>());
     FontGlyphRangesBuilder.def("clear", &ImFontGlyphRangesBuilder::Clear
@@ -2875,7 +2931,8 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::return_value_policy::automatic_reference);
     PYCLASS_END(libaimgui, ImFontGlyphRangesBuilder, FontGlyphRangesBuilder)
 
-    PYCLASS_BEGIN(libaimgui, ImFontAtlasCustomRect, FontAtlasCustomRect)
+
+        PYCLASS_BEGIN(libaimgui, ImFontAtlasCustomRect, FontAtlasCustomRect)
     FontAtlasCustomRect.def_readwrite("width", &ImFontAtlasCustomRect::Width);
     FontAtlasCustomRect.def_readwrite("height", &ImFontAtlasCustomRect::Height);
     FontAtlasCustomRect.def_readwrite("x", &ImFontAtlasCustomRect::X);
@@ -2889,6 +2946,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::return_value_policy::automatic_reference);
     PYCLASS_END(libaimgui, ImFontAtlasCustomRect, FontAtlasCustomRect)
 
+
     py::enum_<ImFontAtlasFlags_>(libaimgui, "FontAtlasFlags", py::arithmetic())
         .value("FONT_ATLAS_FLAGS_NONE", ImFontAtlasFlags_None)
         .value("FONT_ATLAS_FLAGS_NO_POWER_OF_TWO_HEIGHT", ImFontAtlasFlags_NoPowerOfTwoHeight)
@@ -2896,7 +2954,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
         .value("FONT_ATLAS_FLAGS_NO_BAKED_LINES", ImFontAtlasFlags_NoBakedLines)
         .export_values();
 
-    PYCLASS_BEGIN(libaimgui, ImFontAtlas, FontAtlas)
+        PYCLASS_BEGIN(libaimgui, ImFontAtlas, FontAtlas)
     FontAtlas.def(py::init<>());
     FontAtlas.def("add_font", &ImFontAtlas::AddFont
     , py::arg("font_cfg")
@@ -2969,7 +3027,8 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     FontAtlas.def_readwrite("pack_id_lines", &ImFontAtlas::PackIdLines);
     PYCLASS_END(libaimgui, ImFontAtlas, FontAtlas)
 
-    PYCLASS_BEGIN(libaimgui, ImFont, Font)
+
+        PYCLASS_BEGIN(libaimgui, ImFont, Font)
     Font.def_readwrite("index_advance_x", &ImFont::IndexAdvanceX);
     Font.def_readwrite("fallback_advance_x", &ImFont::FallbackAdvanceX);
     Font.def_readwrite("font_size", &ImFont::FontSize);
@@ -3061,6 +3120,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::return_value_policy::automatic_reference);
     PYCLASS_END(libaimgui, ImFont, Font)
 
+
     py::enum_<ImGuiViewportFlags_>(libaimgui, "ViewportFlags", py::arithmetic())
         .value("VIEWPORT_FLAGS_NONE", ImGuiViewportFlags_None)
         .value("VIEWPORT_FLAGS_IS_PLATFORM_WINDOW", ImGuiViewportFlags_IsPlatformWindow)
@@ -3078,7 +3138,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
         .value("VIEWPORT_FLAGS_CAN_HOST_OTHER_WINDOWS", ImGuiViewportFlags_CanHostOtherWindows)
         .export_values();
 
-    PYCLASS_BEGIN(libaimgui, ImGuiViewport, Viewport)
+        PYCLASS_BEGIN(libaimgui, ImGuiViewport, Viewport)
     Viewport.def_readwrite("id", &ImGuiViewport::ID);
     Viewport.def_readwrite("flags", &ImGuiViewport::Flags);
     Viewport.def_readwrite("pos", &ImGuiViewport::Pos);
@@ -3103,5 +3163,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     PYCLASS_END(libaimgui, ImGuiViewport, Viewport)
 
 
-}
 
+
+
+}

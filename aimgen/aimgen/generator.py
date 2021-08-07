@@ -2,6 +2,9 @@ import os
 import re
 import sys
 from pathlib import Path
+import importlib
+
+import toml
 
 from clang import cindex
 
@@ -9,13 +12,7 @@ from . import UserSet
 
 from .parser import Parser
 
-import importlib
-
 import jinja2
-
-def snakecase(name):
-    s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
-    return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
 
 class Options:
     def __init__(self, *options, **kwargs):
@@ -33,12 +30,13 @@ class Overloaded(UserSet):
     def is_overloaded(self, node):
         return self.name(node) in self
 
-class GeneratorBase(Parser):
+class Generator(Parser):
     def __init__(self, config, **kwargs):
         super().__init__()
         self.config = config
         self.options = { 'save': True }
         for key in config:
+            print(config[key])
             setattr(self, key, config[key])
         for key in kwargs:
             if key == 'options':
@@ -54,9 +52,18 @@ class GeneratorBase(Parser):
         BASE_PATH = Path('.')
         self.path = BASE_PATH / self.source
 
+    @classmethod
+    def create(self, name="aimgen"):
+        filename = f'{name}.toml'
+        path = Path(os.getcwd(), '__aimgen__', filename)
+        print(path)
+        config = toml.load(path)
+        config['name'] = name
+        instance = Generator(config)
+        instance.import_factories()
+        return instance
 
     def import_factories(self):
-        #path = Path(os.getcwd(), '__aimgen__', '__init__.py')
         path = Path(os.path.dirname(os.path.abspath(__file__)), 'factories.py')
         spec = importlib.util.spec_from_file_location(
             "factories", path
@@ -65,18 +72,6 @@ class GeneratorBase(Parser):
         spec.loader.exec_module(__factories__)
 
         self.factories = __factories__.MAP
-
-    @property
-    def header(self):
-        pass
-
-    @property
-    def footer(self):
-        pass
-
-    @property
-    def defaults(self):
-        pass
 
     def generate(self):
         if sys.platform == 'darwin':

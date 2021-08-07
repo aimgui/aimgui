@@ -27,3 +27,9 @@ excludes = [
 
 overloaded = [
 ]
+
+[defaults]
+'_layoutHandle' = 'bgfx::VertexLayoutHandle(BGFX_INVALID_HANDLE)'
+'_init' = 'bgfx::Init()'
+
+
