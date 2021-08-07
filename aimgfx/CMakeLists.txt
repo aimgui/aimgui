@@ -29,7 +29,8 @@ set(BGFX_HEADERS
 )
 
 set(BGFX_SRC
-    src/aimgfx/bindings/generated.cpp
+    src/aimgfx/bindings/bgfx.cpp
+    src/aimgfx/bindings/platform.cpp
     src/aimgfx/bindings/main.cpp
     ${BGFX_DIR}/src/amalgamated.cpp
 )

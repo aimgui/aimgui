@@ -3,6 +3,7 @@
 #include <pybind11/pybind11.h>
 
 #include <bgfx/bgfx.h>
+#include <bgfx/platform.h>
 
 namespace py = pybind11;
 

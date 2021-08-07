@@ -7,8 +7,8 @@ class StructParser(Parser):
         super().__init__(parent)
 
     def parse_class_enum(self, node, clsname, pyname):
-        #self.out(f'py::enum_<{self.name(node)}>({self.module}, "{self.format_type(node.spelling)}", py::arithmetic())')
-        self.out(f'py::enum_<{self.name(node)}>({self.module}, "{pyname}", py::arithmetic())')
+        #self.out(f'py::enum_<{self.spell(node)}>({self.module}, "{self.format_type(node.spelling)}", py::arithmetic())')
+        self.out(f'py::enum_<{self.spell(node)}>({self.module}, "{pyname}", py::arithmetic())')
         #print(node.spelling)
         self.out.indent += 1
         for value in node.get_children():
@@ -19,7 +19,7 @@ class StructParser(Parser):
 
     def parse(self, node):
         if self.is_class_mappable(node):
-            clsname = self.name(node)
+            clsname = self.spell(node)
             pyname = self.format_type(node.spelling)
             first_child = list(node.get_children())[0]
             wrapped = first_child.spelling == 'Enum'
@@ -42,7 +42,7 @@ class StructParser(Parser):
     '''
     def parse(self, node):
         if self.is_class_mappable(node):
-            clsname = self.name(node)
+            clsname = self.spell(node)
             print('STRUCT:  ', clsname)
             pyname = self.format_type(node.spelling)
             self.out(f'PYCLASS_BEGIN({self.module}, {clsname}, {pyname})')

@@ -1,7 +1,7 @@
-source = '../bgfx/include/bgfx/bgfx.h'
+source = '../bgfx/include/bgfx/platform.h'
 #TODO: Might want multiple, mappable headers
-mapped = 'bgfx.h'
-target = 'src/aimgfx/bindings/generated.cpp'
+mapped = 'platform.h'
+target = 'src/aimgfx/bindings/platform.cpp'
 
 prefix = ''
 short_prefix = ''
@@ -17,10 +17,6 @@ flags = [
 
 excludes = [
     # Problems
-    'bgfx::VertexLayout::decode',
-    'bgfx::setPaletteColor',
-    'bgfx::topologySortTriList',
-    'bgfx::vertexPack' #deleted function?
     # Wrapped
     # Internal / Ignored
     #Obsolete

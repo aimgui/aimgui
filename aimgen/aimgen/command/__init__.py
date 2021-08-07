@@ -10,5 +10,6 @@ def cli(ctx):
 
 @cli.command()
 @click.pass_context
-def gen(ctx):
-    main()
+@click.argument('name')
+def gen(ctx, name):
+    main(name)

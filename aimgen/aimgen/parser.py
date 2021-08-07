@@ -57,9 +57,8 @@ class Parser:
         if self.parent:
             self.parent.add_child(self)
             self.config = parent.config
-            for dictionary in self.config:
-                for key in dictionary:
-                    setattr(self, key, dictionary[key])
+            for key in self.config:
+                setattr(self, key, self.config[key])
             self.options = parent.options
             self.overloaded = parent.overloaded
             self.excludes = parent.excludes
@@ -105,19 +104,19 @@ class Parser:
             return self.format_type(node.spelling)
 
     def is_excluded(self, node):
-        if self.name(node) in self.excludes:
+        if self.spell(node) in self.excludes:
             return True
         if node.spelling.startswith('_'):
             return True
         return False
 
-    def name(self, node):
+    def spell(self, node):
         if node is None:
             return ''
         elif node.kind == cindex.CursorKind.TRANSLATION_UNIT:
             return ''
         else:
-            res = self.name(node.semantic_parent)
+            res = self.spell(node.semantic_parent)
             if res != '':
                 return res + '::' + node.spelling
         return node.spelling
@@ -163,7 +162,7 @@ class Parser:
         return False
 
     def is_overloaded(self, node):
-        return self.name(node) in self.overloaded
+        return self.spell(node) in self.overloaded
 
     def arg_type(self, argument):
         if argument.type.kind == cindex.TypeKind.CONSTANTARRAY:
@@ -207,7 +206,7 @@ class Parser:
             self.out(f', py::arg("{self.format_attribute(argument.spelling)}"){default}')
 
     def parse_enum(self, node):
-        self.out(f'py::enum_<{self.name(node)}>({self.module}, "{self.format_type(node.spelling)}", py::arithmetic())')
+        self.out(f'py::enum_<{self.spell(node)}>({self.module}, "{self.format_type(node.spelling)}", py::arithmetic())')
         self.out.indent += 1
         for value in node.get_children():
             self.out(f'.value("{self.format_enum(value.spelling)}", {value.spelling})')
@@ -226,7 +225,7 @@ class Parser:
 
     def parse_field(self, node, cls):
         pyname = self.format_attribute(node.spelling)
-        cname = self.name(node)
+        cname = self.spell(node)
         if self.is_property_mappable(node):
             if self.is_property_readonly(node):
                 self.out(f'{self.module_(cls)}.def_readonly("{pyname}", &{cname});')
@@ -287,7 +286,7 @@ class Parser:
         if self.is_function_mappable(node):
             mname = self.module_(cls)
             arguments = [a for a in node.get_arguments()]
-            cname = '&' + self.name(node)
+            cname = '&' + self.spell(node)
             pyname = self.format_attribute(node.spelling)
             if self.is_overloaded(node):
                 cname = f'py::overload_cast<{self.arg_types(arguments)}>({cname})'
@@ -295,7 +294,7 @@ class Parser:
                 self.out(f'{mname}.def("{pyname}", []({self.arg_string(arguments)})')
                 self.out('{')
                 ret = '' if self.is_function_void_return(node) else 'auto ret = '
-                self.out(f'    {ret}{self.name(node)}({self.arg_names(arguments)});')
+                self.out(f'    {ret}{self.spell(node)}({self.arg_names(arguments)});')
                 self.out(f'    return {self.get_function_return(node)};')
                 self.out('}')
             else:
@@ -333,7 +332,7 @@ class Parser:
     def parse_overloads(self, node):
         for child in node.get_children():
             if child.kind in [cindex.CursorKind.CXX_METHOD, cindex.CursorKind.FUNCTION_DECL]:
-                key = self.name(child)
+                key = self.spell(child)
                 if key in self.overloaded.visited:
                     self.overloaded.add(key)
                 else:

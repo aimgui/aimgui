@@ -7,9 +7,11 @@ from clang import cindex
 
 from . import UserSet
 
-from .parser import Parser, FileOut
+from .parser import Parser
 
 import importlib
+
+import jinja2
 
 def snakecase(name):
     s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
@@ -32,13 +34,12 @@ class Overloaded(UserSet):
         return self.name(node) in self
 
 class GeneratorBase(Parser):
-    def __init__(self, *config, **kwargs):
+    def __init__(self, config, **kwargs):
         super().__init__()
         self.config = config
         self.options = { 'save': True }
-        for dictionary in config:
-            for key in dictionary:
-                setattr(self, key, dictionary[key])
+        for key in config:
+            setattr(self, key, config[key])
         for key in kwargs:
             if key == 'options':
                 options = kwargs[key]
@@ -52,7 +53,7 @@ class GeneratorBase(Parser):
 
         BASE_PATH = Path('.')
         self.path = BASE_PATH / self.source
-        self.out = FileOut(open(BASE_PATH / self.target, 'w'))
+
 
     def import_factories(self):
         #path = Path(os.getcwd(), '__aimgen__', '__init__.py')
@@ -77,10 +78,6 @@ class GeneratorBase(Parser):
     def defaults(self):
         pass
 
-    def write(self, out):
-        for child in self.children:
-            child.write(out)
-
     def generate(self):
         if sys.platform == 'darwin':
             cindex.Config.set_library_path('/usr/local/opt/llvm@6/lib')
@@ -88,21 +85,31 @@ class GeneratorBase(Parser):
             cindex.Config.set_library_file('libclang-10.so')
         else:
             cindex.Config.set_library_file('C:/Program Files/LLVM/bin/libclang.dll')
-        '''
-        if sys.platform == 'darwin':
-            cindex.Config.set_library_path('/usr/local/opt/llvm@6/lib')
-        elif sys.platform == 'win32':
-            #cindex.Config.set_library_file('libclang.dll')
-            cindex.Config.set_library_path('C:/Program Files/LLVM/bin')
-        else:
-            cindex.Config.set_library_file('libclang-10.so')
-        '''
+            #cindex.Config.set_library_path('C:/Program Files/LLVM/bin')
+
         tu = cindex.Index.create().parse(self.path, args=self.flags)
-        self.out.indent = 0
-        self.out(self.header)
+        #self.out.indent = 0
+        #self.out(self.header)
         self.out.indent = 1
         self.parse_overloads(tu.cursor)
         self.parse_definitions(tu.cursor)
-        #self.write(self.out)
         self.out.indent = 0
-        self.out(self.footer)
+        #self.out(self.footer)
+        #Jinja
+        config = self.config
+        print(self.config)
+        config['body'] = self.out.string
+        self.searchpath = Path('.')  / '__aimgen__'
+        loader = jinja2.FileSystemLoader(searchpath=self.searchpath)
+        env = jinja2.Environment(loader=loader)
+
+        template = env.get_template(f'{self.name}.cpp')
+        rendered = template.render(config)
+        #print(rendered)
+        filename = self.target
+        with open(filename,'w') as fh:
+            fh.write(rendered)
+
+        #BASE_PATH = Path('.')
+        #self.path = BASE_PATH / self.source
+        #self.out = FileOut(open(BASE_PATH / self.target, 'w'))

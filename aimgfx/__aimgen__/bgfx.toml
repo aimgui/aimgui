@@ -1,7 +1,6 @@
 source = '../bgfx/include/bgfx/bgfx.h'
-#TODO: Might want multiple, mappable headers
 mapped = 'bgfx.h'
-target = 'src/aimgfx/bindings/generated.cpp'
+target = 'src/aimgfx/bindings/bgfx.cpp'
 
 prefix = ''
 short_prefix = ''
