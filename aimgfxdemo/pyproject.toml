@@ -7,10 +7,10 @@ authors = ["Kurtis Fields <kurtisfields@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.9"
 aimgfx = {path = "../aimgfx",  develop = true}
-
+aimgui = {path = "../aimgui",  develop = true}
 glfw = "^2.1.0"
 loguru = "^0.5.3"
-#aimgui = {path = "../aimgui",  develop = true}
+openmesh = "^1.1.6"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

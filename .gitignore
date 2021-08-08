@@ -11,7 +11,11 @@ build
 _build
 _skbuild
 tmp
-
+temp
 
 imgui.ini
 NodeEditor.json
+
+shaders_cache.bak
+shaders_cache.dat
+shaders_cache.dir

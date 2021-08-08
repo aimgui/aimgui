@@ -24,15 +24,21 @@ set(BIMG_SRC
 set(BGFX_DIR ${MONO_DIR}/bgfx)
 
 set(BGFX_HEADERS
-    ${AIMGFX_DIR}/include/aimgfx/aimgfx.h
     ${BGFX_DIR}/include/bgfx/bgfx.h
 )
 
 set(BGFX_SRC
+    ${BGFX_DIR}/src/amalgamated.cpp
+)
+
+set(AIMGFX_HEADERS
+    ${AIMGFX_DIR}/include/aimgfx/aimgfx.h
+)
+
+set(AIMGFX_SRC
     src/aimgfx/bindings/bgfx.cpp
     src/aimgfx/bindings/platform.cpp
     src/aimgfx/bindings/main.cpp
-    ${BGFX_DIR}/src/amalgamated.cpp
 )
 
 pybind11_add_module(aimgfx MODULE
@@ -45,9 +51,13 @@ install(TARGETS aimgfx EXPORT aimgfx-targets
 	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
 	ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
+#TODO:PRIxPTR???
 target_compile_definitions(aimgfx PRIVATE PRIxPTR="Ix")
-#target_compile_definitions(aimgfx PRIVATE IMGUI_API=PYBIND11_EXPORT)
-target_sources(aimgfx PRIVATE ${BGFX_SRC} ${BGFX_HEADERS} ${BX_SRC} ${BIMG_SRC})
+target_sources(aimgfx PRIVATE
+    ${AIMGFX_SRC} ${AIMGFX_HEADERS}
+    ${BGFX_SRC} ${BGFX_HEADERS}
+    ${BX_SRC} ${BIMG_SRC}
+)
 
 # add include files
 target_sources(aimgfx PRIVATE ${AIMGFX_INCLUDE}) # for intellisense
