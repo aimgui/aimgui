@@ -35,12 +35,12 @@ class Bunnies(Window):
         self.init_conf.resolution.height = self.height
         self.init_conf.resolution.reset = BGFX_RESET_VSYNC
 
-        bunny_path = Path(__file__).parent.parent / "assets" / "meshes" / "column.obj"
+        bunny_path = Path(__file__).parent.parent / "assets" / "meshes" / "bunny.obj"
         bunny_mesh = om.read_trimesh(str(bunny_path))
         self.bunny_mesh = bunny_mesh
 
         #Vertices
-        vertices = self.vertices = bunny_mesh.points().astype(np.float32) * .1
+        vertices = self.vertices = bunny_mesh.points().astype(np.float32)
         self.vertices_p = as_void_ptr(vertices)
         logger.debug(f'vertices:  {vertices}')
 
@@ -113,6 +113,8 @@ class Bunnies(Window):
         aimgfx.set_view_transform(0, as_void_ptr(view), as_void_ptr(projection))
         aimgfx.set_view_rect(0, 0, 0, self.width, self.height)
 
+        # This dummy draw call is here to make sure that view 0 is cleared
+        # if no other draw calls are submitted to view 0.
         aimgfx.touch(0)
 
         mtx = rotate_xy(0, self.elapsed_time * 0.37)
@@ -127,10 +129,17 @@ class Bunnies(Window):
         aimgfx.set_vertex_buffer(0, self.vertex_buffer)
         aimgfx.set_index_buffer(self.index_buffer)
 
-        #aimgfx.set_state(BGFX_STATE_DEFAULT)
+        aimgfx.set_state(
+            0
+            | BGFX_STATE_WRITE_RGB
+            | BGFX_STATE_WRITE_A
+            | BGFX_STATE_WRITE_Z
+            | BGFX_STATE_DEPTH_TEST_LESS
+            | BGFX_STATE_MSAA,
+            0,
+        )
         
         aimgfx.submit(0, self.main_program, 0)
-        #self.mesh.submit(0, self.main_program, mtx)
 
         aimgfx.frame()
 

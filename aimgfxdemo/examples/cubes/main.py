@@ -181,6 +181,8 @@ class Cubes(Window):
         aimgfx.set_view_transform(0, as_void_ptr(view), as_void_ptr(projection))
         aimgfx.set_view_rect(0, 0, 0, self.width, self.height)
 
+        # This dummy draw call is here to make sure that view 0 is cleared
+        # if no other draw calls are submitted to view 0.
         aimgfx.touch(0)
 
         for yy in range(0, 11):
