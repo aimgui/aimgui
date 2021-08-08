@@ -1,6 +1,4 @@
 source = '../imgui/imgui.h'
-#TODO: Might want multiple, mappable headers
-mapped = 'imgui.h'
 target = 'src/aimgui/bindings/generated.cpp'
 
 prefix = 'ImGui'

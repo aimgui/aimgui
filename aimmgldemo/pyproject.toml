@@ -5,10 +5,10 @@ description = ""
 authors = ["Kurtis Fields <kurtisfields@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.9"
 aimgui = {path = "../aimgui",  develop = true}
-moderngl = "^5.6.2"
-moderngl-window = "^2.2.3"
+moderngl = "^5.6.4"
+moderngl-window = "^2.4.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

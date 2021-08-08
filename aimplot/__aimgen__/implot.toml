@@ -1,5 +1,4 @@
 source = '../implot/implot.h'
-mapped = 'implot.h'
 target = 'src/aimplot/bindings/generated.cpp'
 
 prefix = 'ImPlot'

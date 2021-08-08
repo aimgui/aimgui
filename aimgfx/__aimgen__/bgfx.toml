@@ -1,22 +1,17 @@
 source = '../bgfx/include/bgfx/bgfx.h'
-mapped = 'bgfx.h'
 target = 'src/aimgfx/bindings/bgfx.cpp'
-
-prefix = ''
-short_prefix = ''
 
 module = 'libaimgfx'
 
 # Flags that get passed to LLVM to parse the headers
 flags = [
     '-std=c++17',
-    #'-DIMGUI_DISABLE_OBSOLETE_FUNCTIONS=1',
     '-I../bgfx/include'
 ]
 
 excludes = [
     # Problems
-    'bgfx::VertexLayout::decode',
+    'bgfx::VertexLayout::decode', # error C2352: 'bgfx::VertexLayout::decode': illegal call of non-static member function
     'bgfx::setPaletteColor',
     'bgfx::topologySortTriList',
     'bgfx::vertexPack' #deleted function?

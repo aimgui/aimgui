@@ -1,5 +1,5 @@
-source = '../bgfx/include/bgfx/platform.h'
-target = 'src/aimgfx/bindings/platform.cpp'
+source = '../bgfx/include/bgfx/embedded_shader.h'
+target = 'src/aimgfx/bindings/embedded_shader.cpp'
 
 module = 'libaimgfx'
 

@@ -1,6 +1,4 @@
 source = '../imnodes/imnodes.h'
-#TODO: Might want multiple, mappable headers
-mapped = 'imnodes.h'
 target = 'src/aimnodes/bindings/generated.cpp'
 
 prefix = 'ImNodes'

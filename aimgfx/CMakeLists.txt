@@ -38,6 +38,7 @@ set(AIMGFX_HEADERS
 set(AIMGFX_SRC
     src/aimgfx/bindings/bgfx.cpp
     src/aimgfx/bindings/platform.cpp
+    src/aimgfx/bindings/embedded_shader.cpp
     src/aimgfx/bindings/main.cpp
 )
 

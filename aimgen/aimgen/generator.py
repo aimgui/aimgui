@@ -36,7 +36,7 @@ class Generator(Transpiler):
         self.config = config
         self.options = { 'save': True }
         for key in config:
-            print(config[key])
+            #print(config[key])
             setattr(self, key, config[key])
         for key in kwargs:
             if key == 'options':
@@ -51,12 +51,13 @@ class Generator(Transpiler):
 
         BASE_PATH = Path('.')
         self.path = BASE_PATH / self.source
+        self.mapped.append(self.path.name)
 
     @classmethod
     def create(self, name="aimgen"):
         filename = f'{name}.toml'
         path = Path(os.getcwd(), '__aimgen__', filename)
-        print(path)
+        #print(path)
         config = toml.load(path)
         config['name'] = name
         instance = Generator(config)
@@ -91,7 +92,7 @@ class Generator(Transpiler):
         #self.scope(self.footer)
         #Jinja
         config = self.config
-        print(self.config)
+        #print(self.config)
         config['body'] = self.scope.text
         self.searchpath = Path('.')  / '__aimgen__'
         loader = jinja2.FileSystemLoader(searchpath=self.searchpath)
@@ -99,11 +100,6 @@ class Generator(Transpiler):
 
         template = env.get_template(f'{self.name}.cpp')
         rendered = template.render(config)
-        #print(rendered)
         filename = self.target
         with open(filename,'w') as fh:
             fh.write(rendered)
-
-        #BASE_PATH = Path('.')
-        #self.path = BASE_PATH / self.source
-        #self.scope = FileOut(open(BASE_PATH / self.target, 'w'))

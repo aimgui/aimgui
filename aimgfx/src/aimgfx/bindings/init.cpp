@@ -7,6 +7,7 @@ namespace py = pybind11;
 void init_main(py::module &, Registry& registry);
 void init_bgfx(py::module &, Registry& registry);
 void init_platform(py::module&, Registry& registry);
+void init_embedded_shader(py::module&, Registry& registry);
 
 
 PYBIND11_MODULE(libaimgfx, m) {

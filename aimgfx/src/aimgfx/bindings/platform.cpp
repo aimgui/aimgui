@@ -14,7 +14,7 @@ using namespace bgfx;
 namespace py = pybind11;
 
 void init_platform(py::module &libaimgfx, Registry &registry) {
-        py::enum_<bgfx::RenderFrame::Enum>(libaimgfx, "RenderFrame", py::arithmetic())
+    py::enum_<bgfx::RenderFrame::Enum>(libaimgfx, "RenderFrame", py::arithmetic())
         .value("NO_CONTEXT", bgfx::RenderFrame::Enum::NoContext)
         .value("RENDER", bgfx::RenderFrame::Enum::Render)
         .value("TIMEOUT", bgfx::RenderFrame::Enum::Timeout)
@@ -22,18 +22,16 @@ void init_platform(py::module &libaimgfx, Registry &registry) {
         .value("COUNT", bgfx::RenderFrame::Enum::Count)
         .export_values();
 
-
     libaimgfx.def("render_frame", &bgfx::renderFrame
     , py::arg("_msecs") = -1
     , py::return_value_policy::automatic_reference);
     libaimgfx.def("set_platform_data", &bgfx::setPlatformData
     , py::arg("_data")
     , py::return_value_policy::automatic_reference);
-        PYCLASS_BEGIN(libaimgfx, bgfx::InternalData, InternalData)
+    PYCLASS_BEGIN(libaimgfx, bgfx::InternalData, InternalData)
     InternalData.def_readwrite("caps", &bgfx::InternalData::caps);
     InternalData.def_readwrite("context", &bgfx::InternalData::context);
     PYCLASS_END(libaimgfx, bgfx::InternalData, InternalData)
-
 
     libaimgfx.def("get_internal_data", &bgfx::getInternalData
     , py::return_value_policy::automatic_reference);

@@ -158,9 +158,7 @@ class Transpiler(TranspilerBase):
             self.scope(f'PYCLASS_END({self.module}, {clsname}, {pyname})\n')
 
     def parse_var(self, node):
-        print(node.spelling)
-        for child in node.get_children():
-            print(child.spelling)
+        print(f'Not implemented:  parse_var: {node.spelling}')
 
     def dispatch(self, node):
         self.actions[node.kind](self, node)
