@@ -1,5 +1,6 @@
 import os
-from ctypes import Structure, c_float, c_uint32, sizeof, c_bool, c_int
+import ctypes
+from ctypes import Structure, c_float, c_uint32, sizeof, c_bool, c_int, c_void_p
 from pathlib import Path
 
 from loguru import logger
@@ -16,22 +17,6 @@ from aimgfx.utils.matrix_utils import look_at, proj, rotate_xy
 
 logger.enable("bunnies")
 
-
-
-bunny_path = Path(__file__).parent.parent / "assets" / "meshes" / "bunny.obj"
-bunny_mesh = om.read_trimesh(str(bunny_path))
-
-num_vertices = bunny_mesh.n_vertices()
-bunny_vertices = bunny_mesh.points()
-
-aimgfx_states = (
-    0,
-    BGFX_STATE_PT_TRISTRIP,
-    BGFX_STATE_PT_LINES,
-    BGFX_STATE_PT_LINESTRIP,
-    BGFX_STATE_PT_POINTS,
-)
-
 root_path = Path(__file__).parent.parent / "assets" / "shaders"
 
 class Bunnies(Window):
@@ -43,7 +28,6 @@ class Bunnies(Window):
         self.write_g = c_bool(True)
         self.write_b = c_bool(True)
         self.write_a = c_bool(True)
-        self.primitive_geometry = c_int(0)
 
         self.init_conf = aimgfx.Init()
         self.init_conf.debug = True
@@ -51,7 +35,26 @@ class Bunnies(Window):
         self.init_conf.resolution.height = self.height
         self.init_conf.resolution.reset = BGFX_RESET_VSYNC
 
+        bunny_path = Path(__file__).parent.parent / "assets" / "meshes" / "column.obj"
+        bunny_mesh = om.read_trimesh(str(bunny_path))
         self.bunny_mesh = bunny_mesh
+
+        #Vertices
+        vertices = self.vertices = bunny_mesh.points().astype(np.float32) * .1
+        self.vertices_p = as_void_ptr(vertices)
+        logger.debug(f'vertices:  {vertices}')
+
+        n_vertices = self.n_vertices = bunny_mesh.n_vertices()
+        logger.debug(f'n_vertices:  {n_vertices}')
+
+        #Indices
+        indices = self.indices = self.bunny_mesh.fv_indices().astype(np.uint16)
+        self.indices_p = as_void_ptr(indices)
+        
+        logger.debug(f'indices:  {indices}')
+        n_indices = self.n_indices = self.bunny_mesh.n_faces()
+        logger.debug(f'n_indices:  {n_indices}')
+
 
     def init(self, platform_data):
         aimgfx.set_platform_data(platform_data)
@@ -67,35 +70,31 @@ class Bunnies(Window):
         # Create time uniform
         self.time_uniform = aimgfx.create_uniform("u_time", aimgfx.UniformType.VEC4)
 
+        # Create Vertex Buffer
         self.vertex_layout = aimgfx.VertexLayout()
-        #self.vertex_layout.begin().add(aimgfx.Attrib.POSITION, 3, aimgfx.AttribType.FLOAT).add(aimgfx.Attrib.COLOR0, 4, aimgfx.AttribType.UINT8, True).end()
         self.vertex_layout.begin().add(aimgfx.Attrib.POSITION, 3, aimgfx.AttribType.FLOAT).end()
-        # Create static vertex buffer
-        vb_memory = aimgfx.copy(as_void_ptr(bunny_vertices), num_vertices)
+
+        vb_memory = aimgfx.copy(self.vertices_p, self.n_vertices * sizeof(c_float) * 3)
         
         self.vertex_buffer = aimgfx.create_vertex_buffer(vb_memory, self.vertex_layout)
 
-        self.index_buffers = []
-
-        ib_memory = aimgfx.copy(as_void_ptr(bunny_mesh.face_vertex_indices()), bunny_mesh.n_faces())
+        # Create Index Buffer
+        ib_memory = aimgfx.copy(self.indices_p, self.n_indices * sizeof(c_uint16) * 3)
         self.index_buffer = aimgfx.create_index_buffer(ib_memory)
-        #ib_memory = aimgfx.copy(as_void_ptr(primitives[i]), primitives[i].nbytes)
-        #self.index_buffers.append(aimgfx.create_index_buffer(ib_memory))
 
         # Create program from shaders.
         self.main_program = aimgfx.create_program(
             load_shader(
-                "mesh.VertexShader.vert", ShaderType.VERTEX, root_path=root_path
+                "textures.VertexShader.vert", ShaderType.VERTEX, root_path=root_path
             ),
             load_shader(
-                "mesh.FragmentShader.frag", ShaderType.FRAGMENT, root_path=root_path
+                "textures.FragmentShader.frag", ShaderType.FRAGMENT, root_path=root_path
             ),
             True,
         )
 
     def shutdown(self):
-        for index_buffer in self.index_buffers:
-            aimgfx.destroy(index_buffer)
+        aimgfx.destroy(self.index_buffer)
         aimgfx.destroy(self.vertex_buffer)
         aimgfx.destroy(self.main_program)
         aimgfx.shutdown()
@@ -111,22 +110,25 @@ class Bunnies(Window):
         view = look_at(eye, at, up)
         projection = proj(60.0, self.width / self.height, 0.1, 100.0)
 
-        #aimgfx.set_view_transform(0, as_void_ptr(view), as_void_ptr(projection))
+        aimgfx.set_view_transform(0, as_void_ptr(view), as_void_ptr(projection))
         aimgfx.set_view_rect(0, 0, 0, self.width, self.height)
 
         aimgfx.touch(0)
 
         mtx = rotate_xy(0, self.elapsed_time * 0.37)
-
+    
         aimgfx.set_uniform(
             self.time_uniform,
             as_void_ptr((c_float * 4)(self.elapsed_time, 0.0, 0.0, 0.0)),
         )
 
         # Set vertex and index buffer.
-        aimgfx.set_vertex_buffer(0, self.vertex_buffer, 0, num_vertices)
+        #aimgfx.set_vertex_buffer(0, self.vertex_buffer, 0, self.n_vertices)
+        aimgfx.set_vertex_buffer(0, self.vertex_buffer)
         aimgfx.set_index_buffer(self.index_buffer)
 
+        #aimgfx.set_state(BGFX_STATE_DEFAULT)
+        
         aimgfx.submit(0, self.main_program, 0)
         #self.mesh.submit(0, self.main_program, mtx)
 
