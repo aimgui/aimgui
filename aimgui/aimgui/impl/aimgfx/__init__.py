@@ -1,10 +1,10 @@
-
+import glfw as key
 import aimgui
 from aimgui.renderer import compute_framebuffer_scale
-from aimgui.renderer.base import BaseOpenGLRenderer
+from aimgui.renderer.bgfx_base import BgfxRendererBase
 
 
-class AimGfxRenderer(BaseOpenGLRenderer):
+class AimGfxRenderer(BgfxRendererBase):
     """
     A renderer using AimGfx
     """
@@ -137,26 +137,26 @@ class AimGfxRenderer(BaseOpenGLRenderer):
 
 class AimGfxGuiBase:
     REVERSE_KEY_MAP = {
-        key.TAB: aimgui.KEY_TAB,
-        key.LEFT: aimgui.KEY_LEFT_ARROW,
-        key.RIGHT: aimgui.KEY_RIGHT_ARROW,
-        key.UP: aimgui.KEY_UP_ARROW,
-        key.DOWN: aimgui.KEY_DOWN_ARROW,
-        key.PAGEUP: aimgui.KEY_PAGE_UP,
-        key.PAGEDOWN: aimgui.KEY_PAGE_DOWN,
-        key.HOME: aimgui.KEY_HOME,
-        key.END: aimgui.KEY_END,
-        key.DELETE: aimgui.KEY_DELETE,
-        key.SPACE: aimgui.KEY_SPACE,
-        key.BACKSPACE: aimgui.KEY_BACKSPACE,
-        key.RETURN: aimgui.KEY_ENTER,
-        key.ESCAPE: aimgui.KEY_ESCAPE,
-        key.A: aimgui.KEY_A,
-        key.C: aimgui.KEY_C,
-        key.V: aimgui.KEY_V,
-        key.X: aimgui.KEY_X,
-        key.Y: aimgui.KEY_Y,
-        key.Z: aimgui.KEY_Z,
+        key.KEY_TAB: aimgui.KEY_TAB,
+        key.KEY_LEFT: aimgui.KEY_LEFT_ARROW,
+        key.KEY_RIGHT: aimgui.KEY_RIGHT_ARROW,
+        key.KEY_UP: aimgui.KEY_UP_ARROW,
+        key.KEY_DOWN: aimgui.KEY_DOWN_ARROW,
+        key.KEY_PAGE_UP: aimgui.KEY_PAGE_UP,
+        key.KEY_PAGE_UP: aimgui.KEY_PAGE_UP,
+        key.KEY_HOME: aimgui.KEY_HOME,
+        key.KEY_END: aimgui.KEY_END,
+        key.KEY_DELETE: aimgui.KEY_DELETE,
+        key.KEY_SPACE: aimgui.KEY_SPACE,
+        key.KEY_BACKSPACE: aimgui.KEY_BACKSPACE,
+        key.KEY_ENTER: aimgui.KEY_ENTER,
+        key.KEY_ESCAPE: aimgui.KEY_ESCAPE,
+        key.KEY_A: aimgui.KEY_A,
+        key.KEY_C: aimgui.KEY_C,
+        key.KEY_V: aimgui.KEY_V,
+        key.KEY_X: aimgui.KEY_X,
+        key.KEY_Y: aimgui.KEY_Y,
+        key.KEY_Z: aimgui.KEY_Z,
     }
 
     def _set_pixel_ratio(self, window):

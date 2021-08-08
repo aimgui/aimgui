@@ -5,7 +5,7 @@ import subprocess
 from pathlib import Path                                                        
 from subprocess import check_call          
 
-def vscode():
+def main():
     venv_path = subprocess.check_output("poetry env info --path".split())
     venv_path = venv_path.decode("UTF-8")
 
@@ -23,3 +23,6 @@ def vscode():
 
     with open(".vscode/settings.json", "w") as f:
         json.dump(settings, f, sort_keys=True, indent=4)
+
+if __name__ == "__main__":
+    main()

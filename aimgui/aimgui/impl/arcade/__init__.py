@@ -5,10 +5,10 @@ import arcade
 
 import aimgui
 from aimgui.renderer import compute_framebuffer_scale
-from aimgui.renderer.base import BaseOpenGLRenderer
+from aimgui.renderer.gl_base import OpenGLRendererBase
 
 
-class ArcadeRenderer(BaseOpenGLRenderer):
+class ArcadeRenderer(OpenGLRendererBase):
     """
     A renderer using the arcade.gl module instead of PyOpenGL.
     This is using pyglet's OpenGL bindings instead.

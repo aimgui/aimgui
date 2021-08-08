@@ -7,10 +7,10 @@ import moderngl
 
 import aimgui
 from aimgui.renderer import compute_framebuffer_scale
-from aimgui.renderer.base import BaseOpenGLRenderer
+from aimgui.renderer.gl_base import OpenGLRendererBase
 
 
-class ModernGLRenderer(BaseOpenGLRenderer):
+class ModernGLRenderer(OpenGLRendererBase):
 
     VERTEX_SHADER_SRC = """
         #version 330

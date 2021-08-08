@@ -1,7 +1,6 @@
 import aimgui
 
-
-class BaseOpenGLRenderer(object):
+class BgfxRendererBase(object):
     def __init__(self):
         if not aimgui.get_current_context():
             raise RuntimeError(
