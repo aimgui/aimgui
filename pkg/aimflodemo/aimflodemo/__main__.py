@@ -1,6 +1,6 @@
-import sys
+import os, sys
 
-sys.path.append('.')
+sys.path.append(os.getcwd())
 
 from aimflodemo import App
 

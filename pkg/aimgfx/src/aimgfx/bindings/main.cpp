@@ -6,7 +6,7 @@
 #include <pybind11/stl.h>
 #include <pybind11/numpy.h>
 
-#include <aimgui/bindtools.h>
+#include <aim/bindtools.h>
 
 #include <bgfx/bgfx.h>
 

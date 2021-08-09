@@ -1,3 +1,7 @@
+import os, sys
+
+sys.path.append(os.getcwd())
+
 from aimplotdemo import App
 
 app = App()

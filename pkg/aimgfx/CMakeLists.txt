@@ -2,37 +2,39 @@ cmake_minimum_required(VERSION 3.4)
 
 project(aimgfx VERSION "0.1")
 
-include(../cmake/Common.cmake)
+set(THIS ${PROJECT_NAME})
+
+include(../../cmake/Aim.cmake)
 
 #find_package(AimGui REQUIRED)
-set(AIMGFX_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+set(AIMGFX_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
 
-set(BX_DIR ${MONO_DIR}/bx)
+set(BX_ROOT ${AIM_ROOT}/lib/bx)
 set(BX_SRC
-  ${BX_DIR}/src/amalgamated.cpp
+  ${BX_ROOT}/src/amalgamated.cpp
 )
-set(BIMG_DIR ${MONO_DIR}/bimg)
+set(BIMG_ROOT ${AIM_ROOT}/lib/bimg)
 
 set(OPTION_ASTC_TESTS OFF CACHE BOOL "Build all the unit tests" FORCE)
-add_subdirectory(${BIMG_DIR}/3rdparty/astc-codec astc-codec)
+add_subdirectory(${BIMG_ROOT}/3rdparty/astc-codec astc-codec)
 
 set(BIMG_SRC
-  ${BIMG_DIR}/src/image.cpp
-  ${BIMG_DIR}/src/image_gnf.cpp
+  ${BIMG_ROOT}/src/image.cpp
+  ${BIMG_ROOT}/src/image_gnf.cpp
 )
 
-set(BGFX_DIR ${MONO_DIR}/bgfx)
+set(BGFX_ROOT ${AIM_ROOT}/lib/bgfx)
 
 set(BGFX_HEADERS
-    ${BGFX_DIR}/include/bgfx/bgfx.h
+    ${BGFX_ROOT}/include/bgfx/bgfx.h
 )
 
 set(BGFX_SRC
-    ${BGFX_DIR}/src/amalgamated.cpp
+    ${BGFX_ROOT}/src/amalgamated.cpp
 )
 
 set(AIMGFX_HEADERS
-    ${AIMGFX_DIR}/include/aimgfx/aimgfx.h
+    ${AIMGFX_ROOT}/include/aimgfx/aimgfx.h
 )
 
 set(AIMGFX_SRC
@@ -42,50 +44,49 @@ set(AIMGFX_SRC
     src/aimgfx/bindings/main.cpp
 )
 
-pybind11_add_module(aimgfx SHARED
+pybind11_add_module(${THIS} SHARED
     src/aimgfx/bindings/init.cpp
 )
-
+USES_AIM(${THIS})
 configure_project(${PROJECT_NAME})
 
-install(TARGETS aimgfx EXPORT AimGfxTargets
+install(TARGETS ${THIS} EXPORT AimGfxTargets
 	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
 	ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
 #TODO:PRIxPTR???
 target_compile_definitions(aimgfx PRIVATE PRIxPTR="Ix")
-target_sources(aimgfx PRIVATE
+target_sources(${THIS} PRIVATE
     ${AIMGFX_SRC} ${AIMGFX_HEADERS}
     ${BGFX_SRC} ${BGFX_HEADERS}
     ${BX_SRC} ${BIMG_SRC}
 )
 
 # add include files
-target_sources(aimgfx PRIVATE ${AIMGFX_INCLUDE}) # for intellisense
-target_include_directories(aimgfx
+target_sources(${THIS} PRIVATE ${AIMGFX_INCLUDE}) # for intellisense
+target_include_directories(${THIS}
 	PUBLIC
 		$<INSTALL_INTERFACE:include>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<BUILD_INTERFACE:${AIMGUI_DIR}/include>
         $<BUILD_INTERFACE:${IMGUI_DIR}>
-        $<BUILD_INTERFACE:${BGFX_DIR}>
+        $<BUILD_INTERFACE:${BGFX_ROOT}>
 	PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
-        ${BX_DIR}/include/compat/msvc
-        ${BX_DIR}/include
-        ${BX_DIR}/3rdparty
-        ${BIMG_DIR}/include
-        ${BIMG_DIR}/3rdparty
-        #${BIMG_DIR}/3rdparty/astc-codec/include
-        #${BIMG_DIR}/3rdparty/astc-codec
-        ${BGFX_DIR}/include
-        ${BGFX_DIR}/3rdparty
-        ${BGFX_DIR}/3rdparty/khronos
-        ${BGFX_DIR}/3rdparty/dxsdk/include
+        ${BX_ROOT}/include/compat/msvc
+        ${BX_ROOT}/include
+        ${BX_ROOT}/3rdparty
+        ${BIMG_ROOT}/include
+        ${BIMG_ROOT}/3rdparty
+        #${BIMG_ROOT}/3rdparty/astc-codec/include
+        #${BIMG_ROOT}/3rdparty/astc-codec
+        ${BGFX_ROOT}/include
+        ${BGFX_ROOT}/3rdparty
+        ${BGFX_ROOT}/3rdparty/khronos
+        ${BGFX_ROOT}/3rdparty/dxsdk/include
 )
 
-#target_link_libraries(aimgfx PRIVATE Upstream::aimgui)
-target_link_libraries(aimgfx PRIVATE astc-codec)
+target_link_libraries(${THIS} PRIVATE astc-codec)
 
 #
 # INSTALL

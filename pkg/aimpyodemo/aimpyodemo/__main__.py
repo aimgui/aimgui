@@ -1,4 +1,6 @@
-import sys
+import os, sys
+
+sys.path.append(os.getcwd())
 
 from aimpyodemo import App
 

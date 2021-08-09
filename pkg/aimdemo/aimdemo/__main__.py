@@ -1,7 +1,8 @@
-import sys
+import os, sys
+
+sys.path.append(os.getcwd())
 
 from aimdemo import App
-
 
 app = App()
 

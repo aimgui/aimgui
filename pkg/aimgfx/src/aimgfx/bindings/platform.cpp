@@ -4,7 +4,7 @@
 #include <pybind11/functional.h>
 #include <pybind11/stl.h>
 
-#include <aimgui/bindtools.h>
+#include <aim/bindtools.h>
 
 #include <aimgfx/aimgfx.h>
 #include <bx/allocator.h>

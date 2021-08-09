@@ -2,16 +2,18 @@ cmake_minimum_required(VERSION 3.4)
 
 project(aimgui VERSION "0.1")
 
-include(../cmake/Common.cmake)
+set(THIS ${PROJECT_NAME})
+
+include(../../cmake/Common.cmake)
 
 set(IMGUI_SRC
     src/aimgui/bindings/generated.cpp
     src/aimgui/bindings/main.cpp
-    ${IMGUI_DIR}/imgui_demo.cpp
-    ${IMGUI_DIR}/imgui_draw.cpp
-    ${IMGUI_DIR}/imgui_tables.cpp
-    ${IMGUI_DIR}/imgui_widgets.cpp
-    ${IMGUI_DIR}/imgui.cpp
+    ${IMGUI_ROOT}/imgui_demo.cpp
+    ${IMGUI_ROOT}/imgui_draw.cpp
+    ${IMGUI_ROOT}/imgui_tables.cpp
+    ${IMGUI_ROOT}/imgui_widgets.cpp
+    ${IMGUI_ROOT}/imgui.cpp
 )
 
 pybind11_add_module(aimgui SHARED
@@ -19,8 +21,7 @@ pybind11_add_module(aimgui SHARED
 )
 
 configure_project(aimgui)
-
-target_compile_definitions(aimgui PRIVATE AIMGUI_DLL)
+target_compile_definitions(aimgui PRIVATE AIMGUI_DLL IMGUI_USER_CONFIG=<aimgui/aimconfig.h>)
 
 install(TARGETS aimgui EXPORT AimGuiTargets
 	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
@@ -35,7 +36,7 @@ target_include_directories(aimgui
 	PUBLIC
 		$<INSTALL_INTERFACE:include>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-        $<BUILD_INTERFACE:${IMGUI_DIR}>
+        $<BUILD_INTERFACE:${IMGUI_ROOT}>
 	PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
 )

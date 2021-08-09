@@ -1,4 +1,4 @@
-source = '../bgfx/include/bgfx/embedded_shader.h'
+source = '../../lib/bgfx/include/bgfx/embedded_shader.h'
 target = 'src/aimgfx/bindings/embedded_shader.cpp'
 
 module = 'libaimgfx'
@@ -6,7 +6,7 @@ module = 'libaimgfx'
 # Flags that get passed to LLVM to parse the headers
 flags = [
     '-std=c++17',
-    '-I../bgfx/include'
+    '-I../../lib/bgfx/include'
 ]
 
 excludes = [

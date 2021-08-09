@@ -2,51 +2,47 @@ cmake_minimum_required(VERSION 3.4)
 
 project(aimnodes VERSION "0.1")
 
-include(../cmake/Common.cmake)
+set(THIS ${PROJECT_NAME})
 
-find_package(AimGui REQUIRED)
+include(../../cmake/ImGui.cmake)
 
-set(IMNODES_DIR ${MONO_DIR}/imnodes)
+set(IMNODES_ROOT ${AIM_ROOT}/lib/imnodes)
 
 set(IMNODES_HEADERS
-    ${IMNODES_DIR}/imnodes.h
-    ${IMNODES_DIR}/imnodes_internal.h
+    ${IMNODES_ROOT}/imnodes.h
+    ${IMNODES_ROOT}/imnodes_internal.h
 )
 
 set(IMNODES_SRC
     src/aimnodes/bindings/generated.cpp
     src/aimnodes/bindings/main.cpp
-    ${IMNODES_DIR}/imnodes.cpp
+    ${IMNODES_ROOT}/imnodes.cpp
 )
 
 pybind11_add_module(aimnodes MODULE
     src/aimnodes/bindings/init.cpp
 )
-
+USES_IMGUI(${THIS})
 configure_project(${PROJECT_NAME})
 
-install(TARGETS aimnodes EXPORT aimnodes-targets
+install(TARGETS aimnodes EXPORT AimNodesTargets
 	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
 	ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
-target_compile_definitions(aimnodes PRIVATE IMGUI_USER_CONFIG=<aimgui/aimconfig.h>)
-#target_compile_definitions(aimnodes PRIVATE IMGUI_API=PYBIND11_EXPORT)
-target_sources(aimnodes PRIVATE ${IMNODES_SRC} ${IMNODES_HEADERS})
+target_sources(${THIS} PRIVATE ${IMNODES_SRC} ${IMNODES_HEADERS})
 
 # add include files
-target_sources(aimnodes PRIVATE ${AIMNODES_INCLUDE}) # for intellisense
-target_include_directories(aimnodes
+target_sources(${THIS} PRIVATE ${AIMNODES_INCLUDE}) # for intellisense
+target_include_directories(${THIS}
 	PUBLIC
 		$<INSTALL_INTERFACE:include>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-        $<BUILD_INTERFACE:${AIMGUI_DIR}/include>
-        $<BUILD_INTERFACE:${IMGUI_DIR}>
-        $<BUILD_INTERFACE:${IMNODES_DIR}>
+        $<BUILD_INTERFACE:${AIMGUI_ROOT}/include>
+        $<BUILD_INTERFACE:${IMGUI_ROOT}>
+        $<BUILD_INTERFACE:${IMNODES_ROOT}>
 	PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
-
-target_link_libraries(aimnodes PRIVATE Upstream::aimgui)
 
 #
 # INSTALL
