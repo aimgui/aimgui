@@ -20,7 +20,7 @@ pybind11_add_module(aimgui SHARED
 
 configure_project(aimgui)
 
-add_compile_definitions(AIMGUI_DLL)
+target_compile_definitions(aimgui PRIVATE AIMGUI_DLL)
 
 install(TARGETS aimgui EXPORT AimGuiTargets
 	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}

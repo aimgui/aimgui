@@ -84,6 +84,7 @@ class Transpiler(TranspilerBase):
             return 'py::return_value_policy::automatic_reference'
 
     def parse_function(self, node, cls=None):
+        #print(node.spelling)
         if self.is_function_mappable(node):
             mname = self.module_(cls)
             arguments = [a for a in node.get_arguments()]
@@ -178,6 +179,8 @@ class Transpiler(TranspilerBase):
             elif kind == cindex.CursorKind.FUNCTION_DECL:
                 self.parse_function(child)
             elif kind == cindex.CursorKind.NAMESPACE:
+                self.parse_definitions(child)
+            elif kind == cindex.CursorKind.UNEXPOSED_DECL:
                 self.parse_definitions(child)
 
     def parse_overloads(self, node):

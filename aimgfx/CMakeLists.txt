@@ -42,13 +42,13 @@ set(AIMGFX_SRC
     src/aimgfx/bindings/main.cpp
 )
 
-pybind11_add_module(aimgfx MODULE
+pybind11_add_module(aimgfx SHARED
     src/aimgfx/bindings/init.cpp
 )
 
 configure_project(${PROJECT_NAME})
 
-install(TARGETS aimgfx EXPORT aimgfx-targets
+install(TARGETS aimgfx EXPORT AimGfxTargets
 	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
 	ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
@@ -104,3 +104,42 @@ set(ignoreMe "${SKBUILD}")
 #          #COMMAND ${CMAKE_COMMAND} -E make_directory ${PROJECT_BINARY_DIR}
 #          COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_INSTALL_LIBDIR}/libaimgfx.so ./
 #)
+
+#
+# Generate a configuration for use by plugins
+#
+message(Build ${BUILD_DIR})
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(
+  "${BUILD_DIR}/aimgfx/AimGfxConfigVersion.cmake"
+  VERSION ${Upstream_VERSION}
+  COMPATIBILITY AnyNewerVersion
+)
+
+export(EXPORT AimGfxTargets
+  FILE "${BUILD_DIR}/aimgfx/AimGfxTargets.cmake"
+  NAMESPACE Upstream::
+)
+configure_file(cmake_config/AimGfxConfig.cmake
+  "${BUILD_DIR}/aimgfx/AimGfxConfig.cmake"
+  COPYONLY
+)
+
+set(ConfigPackageLocation lib/cmake/AimGfx)
+install(EXPORT AimGfxTargets
+  FILE
+  AimGfxTargets.cmake
+  NAMESPACE
+    Upstream::
+  DESTINATION
+    ${ConfigPackageLocation}
+)
+install(
+  FILES
+    cmake_config/AimGfxConfig.cmake
+    "${BUILD_DIR}/aimgfx/AimGfxConfig.cmake"
+  DESTINATION
+    ${ConfigPackageLocation}
+  COMPONENT
+    Devel
+)
