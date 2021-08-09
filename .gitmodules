@@ -1,28 +1,28 @@
-[submodule "imgui"]
-	path = imgui
+[submodule "lib/imgui"]
+	path = lib/imgui
 	url = https://github.com/ocornut/imgui
 	branch = docking
-[submodule "implot"]
-	path = implot
+[submodule "lib/implot"]
+	path = lib/implot
 	url = https://github.com/epezent/implot
-[submodule "pyo"]
-	path = pyo
-	url = https://github.com/aimgui/pyo
-[submodule "imnodes"]
-	path = imnodes
+[submodule "lib/pyo"]
+	path = lib/pyo
+	url = https://github.com/belangeo/pyo
+[submodule "lib/imnodes"]
+	path = lib/imnodes
 	url = https://github.com/Nelarius/imnodes
-[submodule "bgfx"]
-	path = bgfx
+[submodule "lib/bgfx"]
+	path = lib/bgfx
 	url = https://github.com/bkaradzic/bgfx
-[submodule "bx"]
-	path = bx
+[submodule "lib/bx"]
+	path = lib/bx
 	url = https://github.com/bkaradzic/bx
-[submodule "bimg"]
-	path = bimg
+[submodule "lib/bimg"]
+	path = lib/bimg
 	url = https://github.com/bkaradzic/bimg
-[submodule "pybind11"]
-	path = pybind11
+[submodule "lib/pybind11"]
+	path = lib/pybind11
 	url = https://github.com/pybind/pybind11
-[submodule "glfw"]
-	path = glfw
+[submodule "lib/glfw"]
+	path = lib/glfw
 	url = https://github.com/glfw/glfw
