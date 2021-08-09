@@ -1,3 +1,7 @@
+include_guard()
+
+include(${CMAKE_CURRENT_LIST_DIR}/Config.cmake)
+
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_CXX_STANDARD 17)
 # Set default compile flags for GCC

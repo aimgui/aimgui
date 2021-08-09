@@ -5,7 +5,7 @@ function(USES_IMGUI THIS)
   target_include_directories(${THIS} PRIVATE
     ${IMGUI_ROOT}
     ${IMGUI_EX}
-    ${FAUSTY_ROOT}/src
+    ${AIM_ROOT}/src
   )
   target_link_libraries(${THIS} ImGui)
 

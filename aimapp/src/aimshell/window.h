@@ -3,8 +3,6 @@
 #include <string>
 #include <thread>
 
-#include "imgui.h"
-
 class WindowBase {
 public:
   struct Point {
@@ -94,6 +92,5 @@ public:
   virtual void OnWindowFocus(int focused) {}
 
   // Data members
-  std::thread paint_thread_;
-  ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+  //std::thread paint_thread_;
 };

@@ -1,11 +1,10 @@
+#include <cassert>
 #include <GLFW/glfw3.h>
 
 #define GLFW_EXPOSE_NATIVE_WIN32
 #include <GLFW/glfw3native.h>
 
 #include "win32_window.h"
-
-#include "resource.h"
 
 Win32Window::Win32Window() {
 }
@@ -45,14 +44,14 @@ int Win32Window::AttachTo(HWND hParent) {
 
 bool Win32Window::PostCreate(WindowBase::CreateParams params) {
   HWND hwnd = GetHandle();
-  paint_thread_ = std::thread([hwnd]() {
+  /*paint_thread_ = std::thread([hwnd]() {
     RECT rc;
     GetClientRect(hwnd, &rc);
     while (true) {
       std::this_thread::sleep_for(std::chrono::milliseconds(16));
       InvalidateRect(hwnd, &rc, true);
     }
-    });
+    });*/
 
   return GlfwWindow::PostCreate(params);
 }

@@ -1,0 +1,17 @@
+include_guard()
+
+set(SHELL_PLATFORM Windows)
+
+set(AIM_ROOT ${CMAKE_CURRENT_LIST_DIR}/..)
+set(FMT_ROOT ${AIM_ROOT}/libs/fmt)
+set(RTTR_ROOT ${AIM_ROOT}/libs/rttr)
+set(RXCPP_ROOT ${AIM_ROOT}/libs/rxcpp)
+set(RTAUDIO_ROOT ${AIM_ROOT}/libs/rtaudio)
+set(XTENSOR_ROOT ${AIM_ROOT}/libs/xtensor)
+set(XTL_ROOT ${AIM_ROOT}/libs/xtl)
+set(IMGUI_ROOT ${AIM_ROOT}/imgui)
+set(IMGUI_EX ${AIM_ROOT}/libs/imgui/backends)
+set(IMPLOT_ROOT ${AIM_ROOT}/libs/implot)
+set(IMNODES_ROOT ${AIM_ROOT}/libs/imnodes)
+set(GLAD_ROOT ${AIM_ROOT}/libs/glad)
+set(GLFW_ROOT ${AIM_ROOT}/libs/glfw)

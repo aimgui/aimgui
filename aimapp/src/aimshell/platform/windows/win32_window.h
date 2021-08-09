@@ -6,7 +6,7 @@
 
 #include <windows.h>
 
-#include <faustyshell/glfw_window.h>
+#include <aimshell/glfw_window.h>
 
 class Win32Window : public GlfwWindow {
  public:

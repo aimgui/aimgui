@@ -1,3 +1,5 @@
+#include <cassert>
+
 #include <GLFW/glfw3.h>
 
 #include "glfw_window.h"

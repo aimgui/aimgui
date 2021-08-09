@@ -5,9 +5,9 @@
 #include <memory>
 #include <string>
 
-#include <faustyshell/window.h>
+#include <aimshell/window.h>
 
-class GLFWwindow;
+struct GLFWwindow;
 
 class GlfwWindow : public WindowBase {
  public:

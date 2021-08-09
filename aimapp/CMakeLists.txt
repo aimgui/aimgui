@@ -11,6 +11,8 @@ set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 add_subdirectory(${MONO_DIR}/glfw glfw)
 #GLFW END
 
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/aimshell)
+
 find_package(AimGui REQUIRED)
 find_package(AimGfx REQUIRED)
 
