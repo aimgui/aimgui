@@ -8,6 +8,7 @@
 [submodule "lib/imnodes"]
 	path = lib/imnodes
 	url = https://github.com/aimgui/imnodes
+    branch = user_config
 [submodule "lib/bgfx"]
 	path = lib/bgfx
 	url = https://github.com/bkaradzic/bgfx
