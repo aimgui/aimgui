@@ -56,6 +56,7 @@ class Generator(Transpiler):
     @classmethod
     def create(self, name="aimgen"):
         filename = f'{name}.toml'
+        print(f'processing:  {filename}')
         path = Path(os.getcwd(), '__aimgen__', filename)
         #print(path)
         config = toml.load(path)
@@ -75,14 +76,6 @@ class Generator(Transpiler):
         self.actions = __actions__.MAP
 
     def generate(self):
-        if sys.platform == 'darwin':
-            cindex.Config.set_library_path('/usr/local/opt/llvm@6/lib')
-        elif sys.platform == 'linux':
-            cindex.Config.set_library_file('libclang-10.so')
-        else:
-            cindex.Config.set_library_file('C:/Program Files/LLVM/bin/libclang.dll')
-            #cindex.Config.set_library_path('C:/Program Files/LLVM/bin')
-
         tu = cindex.Index.create().parse(self.path, args=self.flags)
         self.begin(tu)
         self.scope.indent = 1

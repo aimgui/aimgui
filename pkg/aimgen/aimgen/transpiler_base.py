@@ -79,7 +79,7 @@ class TranspilerBase:
             return self.format_type(node.spelling)
 
     def is_excluded(self, node):
-        print(self.spell(node))
+        #print(self.spell(node))
         if self.spell(node) in self.excludes:
             return True
         if node.spelling.startswith('_'):

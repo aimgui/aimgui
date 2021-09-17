@@ -7,7 +7,7 @@
 	url = https://github.com/epezent/implot
 [submodule "lib/imnodes"]
 	path = lib/imnodes
-	url = https://github.com/Nelarius/imnodes
+	url = https://github.com/aimgui/imnodes
 [submodule "lib/bgfx"]
 	path = lib/bgfx
 	url = https://github.com/bkaradzic/bgfx
