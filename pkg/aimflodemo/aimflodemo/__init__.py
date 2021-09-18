@@ -14,6 +14,9 @@ class App(arcade.Window):
         self.gui = ArcadeGui(self)
         self.pages = {}
         self.show_metrics = False
+        print(dir(aimnodes))
+        print(aimnodes.create_context)
+        print(aimnodes.push_attribute_flag)
         aimnodes.create_context()
         aimnodes.push_attribute_flag(aimnodes.ATTRIBUTE_FLAGS_ENABLE_LINK_DETACH_WITH_DRAG_CLICK)
         io = aimnodes.get_io()

@@ -1,4 +1,4 @@
-source = '../imgui/imgui.h'
+source = '../../lib/imgui/imgui.h'
 target = 'src/aimgui/bindings/generated.cpp'
 
 prefix = 'ImGui'

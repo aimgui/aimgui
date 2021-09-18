@@ -1,4 +1,4 @@
-source = '../imnodes/imnodes.h'
+source = '../../lib/imnodes/imnodes.h'
 target = 'src/aimnodes/bindings/generated.cpp'
 
 prefix = 'ImNodes'
@@ -9,7 +9,8 @@ module = 'libaimnodes'
 flags = [
     '-std=c++17',
     '-DIMGUI_DISABLE_OBSOLETE_FUNCTIONS=1',
-    '-I../imgui'
+    '-I../../lib/imgui',
+    '-I./src'
 ]
 
 excludes = [
@@ -22,6 +23,7 @@ excludes = [
     'ImNodes::EditorContextCreate',
     'ImNodes::EditorContextFree',
     'ImNodes::EditorContextSet',
+    'ImNodes::MiniMap',
     # Internal / Ignored
     'ImNodes::EditorContext',
     'ImNodes::SaveEditorStateToIniString',

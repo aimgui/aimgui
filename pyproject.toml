@@ -10,7 +10,7 @@ python = "^3.9"
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
 aimgen = {path = "./pkg/aimgen",  develop = true}
-scikit-build = "^0.11.1"
+scikit-build = "^0.12.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0", "setuptools", "wheel", "scikit-build", "cmake", "ninja"]

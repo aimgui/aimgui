@@ -89,6 +89,7 @@ void init_generated(py::module &libaimnodes, Registry &registry) {
     IO.def_readwrite("emulate_three_button_mouse", &ImNodesIO::EmulateThreeButtonMouse);
     IO.def_readwrite("link_detach_with_modifier_click", &ImNodesIO::LinkDetachWithModifierClick);
     IO.def_readwrite("alt_mouse_button", &ImNodesIO::AltMouseButton);
+    IO.def_readwrite("auto_panning_speed", &ImNodesIO::AutoPanningSpeed);
     IO.def(py::init<>());
     PYCLASS_END(libaimnodes, ImNodesIO, IO)
 

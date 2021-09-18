@@ -1,4 +1,4 @@
-source = '../implot/implot.h'
+source = '../../lib/implot/implot.h'
 target = 'src/aimplot/bindings/generated.cpp'
 
 prefix = 'ImPlot'
@@ -9,7 +9,7 @@ module = 'libaimplot'
 flags = [
     '-std=c++17',
     '-DIMGUI_DISABLE_OBSOLETE_FUNCTIONS=1',
-    '-I../imgui'
+    '-I../../lib/imgui'
 ]
 
 excludes = [

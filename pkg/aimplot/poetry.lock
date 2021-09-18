@@ -95,7 +95,7 @@ python-versions = ">=3.6"
 
 [[package]]
 name = "more-itertools"
-version = "8.8.0"
+version = "8.10.0"
 description = "More routines for operating on iterables, beyond itertools"
 category = "dev"
 optional = false
@@ -163,7 +163,7 @@ testing = ["argcomplete", "hypothesis (>=3.56)", "mock", "nose", "requests", "xm
 
 [[package]]
 name = "scikit-build"
-version = "0.11.1"
+version = "0.12.0"
 description = "Improved build system generator for Python C/C++/Fortran/Cython extensions"
 category = "dev"
 optional = false
@@ -172,6 +172,9 @@ python-versions = "*"
 [package.dependencies]
 distro = "*"
 packaging = "*"
+
+[package.extras]
+test = ["codecov (>=2.0.5)", "coverage (>=4.2)", "cython (>=0.25.1)", "flake8 (>=3.0.4)", "path.py (>=11.5.0)", "pytest (>=4.5.0)", "pytest-cov (>=2.7.1)", "pytest-mock (>=1.10.4)", "pytest-runner (>=5.1)", "pytest-virtualenv (>=1.2.5)", "requests", "six (>=1.10.0)", "virtualenv", "pathlib2"]
 
 [[package]]
 name = "toml"
@@ -192,7 +195,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "576da162e32938eed32c3d9549c42cf8cc1249f23ba7b6a1746f5f0be5aecf3e"
+content-hash = "1b037552490d7d18c073f801ea60a72928191e74593872aa9fc2208fff09a7b7"
 
 [metadata.files]
 aimgen = []
@@ -261,8 +264,8 @@ markupsafe = [
     {file = "MarkupSafe-2.0.1.tar.gz", hash = "sha256:594c67807fb16238b30c44bdf74f36c02cdf22d1c8cda91ef8a0ed8dabf5620a"},
 ]
 more-itertools = [
-    {file = "more-itertools-8.8.0.tar.gz", hash = "sha256:83f0308e05477c68f56ea3a888172c78ed5d5b3c282addb67508e7ba6c8f813a"},
-    {file = "more_itertools-8.8.0-py3-none-any.whl", hash = "sha256:2cf89ec599962f2ddc4d568a05defc40e0a587fbc10d5989713638864c36be4d"},
+    {file = "more-itertools-8.10.0.tar.gz", hash = "sha256:1debcabeb1df793814859d64a81ad7cb10504c24349368ccf214c664c474f41f"},
+    {file = "more_itertools-8.10.0-py3-none-any.whl", hash = "sha256:56ddac45541718ba332db05f464bebfb0768110111affd27f66e0051f276fa43"},
 ]
 packaging = [
     {file = "packaging-21.0-py3-none-any.whl", hash = "sha256:c86254f9220d55e31cc94d69bade760f0847da8000def4dfe1c6b872fd14ff14"},
@@ -285,8 +288,8 @@ pytest = [
     {file = "pytest-5.4.3.tar.gz", hash = "sha256:7979331bfcba207414f5e1263b5a0f8f521d0f457318836a7355531ed1a4c7d8"},
 ]
 scikit-build = [
-    {file = "scikit-build-0.11.1.tar.gz", hash = "sha256:da40dfd69b2456fad1349a894b90180b43712152b8a85d2a00f4ae2ce8ac9a5c"},
-    {file = "scikit_build-0.11.1-py2.py3-none-any.whl", hash = "sha256:dd236b60330f243e79a9795952c6efeb6e28fd0bd7a35fd92eb490456ae29356"},
+    {file = "scikit-build-0.12.0.tar.gz", hash = "sha256:f851382c469bcd9a8c98b1878bcfdd13b68556279d2fd9a329be41956ae5a7fe"},
+    {file = "scikit_build-0.12.0-py2.py3-none-any.whl", hash = "sha256:60784b9c02b06ad263c673988ebb6faa269a2acc261bc4233a7cf7655c0213e0"},
 ]
 toml = [
     {file = "toml-0.10.2-py2.py3-none-any.whl", hash = "sha256:806143ae5bfb6a3c6e736a764057db0e6a0e05e338b5630894a5f779cabb4f9b"},

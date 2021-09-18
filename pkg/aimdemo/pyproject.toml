@@ -10,7 +10,7 @@ vscode = "scripts:vscode"
 [tool.poetry.dependencies]
 python = "^3.9"
 aimgui = {path = "../aimgui",  develop = true}
-arcade = "^2.5.7"
+arcade = "^2.6.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

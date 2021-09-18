@@ -51,6 +51,21 @@ void init_generated(py::module &libaimplot, Registry &registry) {
         .value("AXIS_FLAGS_NO_DECORATIONS", ImPlotAxisFlags_NoDecorations)
         .export_values();
 
+    py::enum_<ImPlotSubplotFlags_>(libaimplot, "SubplotFlags", py::arithmetic())
+        .value("SUBPLOT_FLAGS_NONE", ImPlotSubplotFlags_None)
+        .value("SUBPLOT_FLAGS_NO_TITLE", ImPlotSubplotFlags_NoTitle)
+        .value("SUBPLOT_FLAGS_NO_LEGEND", ImPlotSubplotFlags_NoLegend)
+        .value("SUBPLOT_FLAGS_NO_MENUS", ImPlotSubplotFlags_NoMenus)
+        .value("SUBPLOT_FLAGS_NO_RESIZE", ImPlotSubplotFlags_NoResize)
+        .value("SUBPLOT_FLAGS_NO_ALIGN", ImPlotSubplotFlags_NoAlign)
+        .value("SUBPLOT_FLAGS_SHARE_ITEMS", ImPlotSubplotFlags_ShareItems)
+        .value("SUBPLOT_FLAGS_LINK_ROWS", ImPlotSubplotFlags_LinkRows)
+        .value("SUBPLOT_FLAGS_LINK_COLS", ImPlotSubplotFlags_LinkCols)
+        .value("SUBPLOT_FLAGS_LINK_ALL_X", ImPlotSubplotFlags_LinkAllX)
+        .value("SUBPLOT_FLAGS_LINK_ALL_Y", ImPlotSubplotFlags_LinkAllY)
+        .value("SUBPLOT_FLAGS_COL_MAJOR", ImPlotSubplotFlags_ColMajor)
+        .export_values();
+
     py::enum_<ImPlotCol_>(libaimplot, "Col", py::arithmetic())
         .value("COL_LINE", ImPlotCol_Line)
         .value("COL_FILL", ImPlotCol_Fill)
@@ -273,6 +288,21 @@ void init_generated(py::module &libaimplot, Registry &registry) {
     , py::return_value_policy::automatic_reference);
     libaimplot.def("end_plot", &ImPlot::EndPlot
     , py::return_value_policy::automatic_reference);
+    libaimplot.def("begin_subplots", [](const char * title_id, int rows, int cols, const ImVec2 & size, ImPlotSubplotFlags flags, float * row_ratios, float * col_ratios)
+    {
+        auto ret = ImPlot::BeginSubplots(title_id, rows, cols, size, flags, row_ratios, col_ratios);
+        return std::make_tuple(ret, row_ratios, col_ratios);
+    }
+    , py::arg("title_id")
+    , py::arg("rows")
+    , py::arg("cols")
+    , py::arg("size")
+    , py::arg("flags") = ImPlotSubplotFlags_None
+    , py::arg("row_ratios") = nullptr
+    , py::arg("col_ratios") = nullptr
+    , py::return_value_policy::automatic_reference);
+    libaimplot.def("end_subplots", &ImPlot::EndSubplots
+    , py::return_value_policy::automatic_reference);
     libaimplot.def("plot_image", &ImPlot::PlotImage
     , py::arg("label_id")
     , py::arg("user_texture_id")
@@ -383,6 +413,14 @@ void init_generated(py::module &libaimplot, Registry &registry) {
     libaimplot.def("set_plot_query", &ImPlot::SetPlotQuery
     , py::arg("query")
     , py::arg("y_axis") = IMPLOT_AUTO
+    , py::return_value_policy::automatic_reference);
+    libaimplot.def("is_subplots_hovered", &ImPlot::IsSubplotsHovered
+    , py::return_value_policy::automatic_reference);
+    libaimplot.def("begin_aligned_plots", &ImPlot::BeginAlignedPlots
+    , py::arg("group_id")
+    , py::arg("orientation") = ImPlotOrientation_Vertical
+    , py::return_value_policy::automatic_reference);
+    libaimplot.def("end_aligned_plots", &ImPlot::EndAlignedPlots
     , py::return_value_policy::automatic_reference);
     libaimplot.def("annotate", [](double x, double y, const ImVec2 & pix_offset, const char * fmt)
     {

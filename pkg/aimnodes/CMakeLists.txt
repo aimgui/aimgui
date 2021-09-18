@@ -11,6 +11,7 @@ set(IMNODES_ROOT ${AIM_ROOT}/lib/imnodes)
 set(IMNODES_HEADERS
     ${IMNODES_ROOT}/imnodes.h
     ${IMNODES_ROOT}/imnodes_internal.h
+    src/aimnodes/aimnodes_config.h
 )
 
 set(IMNODES_SRC
@@ -23,7 +24,9 @@ pybind11_add_module(aimnodes MODULE
     src/aimnodes/bindings/init.cpp
 )
 USES_IMGUI(${THIS})
-configure_project(${PROJECT_NAME})
+configure_project(${THIS})
+
+target_compile_definitions(${THIS} PRIVATE IMNODES_USER_CONFIG=<aimnodes/aimnodes_config.h>)
 
 install(TARGETS aimnodes EXPORT AimNodesTargets
 	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}

@@ -90,8 +90,8 @@ void MiniMap(
     libaimnodes.def("mini_map",
       [](const float                              minimap_size_fraction = 0.2f,
         const ImNodesMiniMapLocation             location = ImNodesMiniMapLocation_TopLeft,
-        const ImNodesMiniMapNodeHoveringCallback node_hovering_callback = NULL,
-        void* node_hovering_callback_data = NULL) {
+        const ImNodesMiniMapNodeHoveringCallback node_hovering_callback = ImNodesMiniMapNodeHoveringCallbackDefault,
+        const ImNodesMiniMapNodeHoveringCallbackUserData node_hovering_callback_data = ImNodesMiniMapNodeHoveringCallbackUserDataDefault) {
           return ImNodes::MiniMap(minimap_size_fraction, location, node_hovering_callback, node_hovering_callback_data);
       }
       , py::arg("size_fraction")

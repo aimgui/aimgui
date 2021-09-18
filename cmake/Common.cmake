@@ -2,15 +2,6 @@ include_guard()
 
 include(${CMAKE_CURRENT_LIST_DIR}/Standard.cmake)
 
-#set(CMAKE_C_STANDARD 99)
-#set(CMAKE_CXX_STANDARD 17)
-# Set default compile flags for GCC
-#if(CMAKE_COMPILER_IS_GNUCXX)
-#    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-format-security")
-#endif(CMAKE_COMPILER_IS_GNUCXX)
-
-#add_compile_definitions(IMGUI_USER_CONFIG=<aimgui/aimconfig.h>)
-
 # Define CMAKE_INSTALL_xxx: LIBDIR, INCLUDEDIR
 include(GNUInstallDirs)
 

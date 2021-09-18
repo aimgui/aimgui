@@ -283,7 +283,11 @@ class ArcadeGui(ArcadeGuiBase):
         self.renderer = ArcadeRenderer(window)
 
         window_size = window.get_size()
-        viewport_size = window.get_viewport_size()
+        #viewport_size = window.get_viewport_size()
+        #(left, right, bottom, top)
+        viewport = window.get_viewport()
+        viewport_size = viewport[1] - viewport[0], viewport[3] - viewport[2]
+        
 
         self.io.display_size = window_size
         self.io.display_framebuffer_scale = compute_framebuffer_scale(window_size, viewport_size)
