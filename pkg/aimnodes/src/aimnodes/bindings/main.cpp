@@ -88,25 +88,30 @@ void MiniMap(
     void*                                    node_hovering_callback_data = NULL);
 */
     libaimnodes.def("mini_map",
-      [](const float                              minimap_size_fraction = 0.2f,
-        const ImNodesMiniMapLocation             location = ImNodesMiniMapLocation_TopLeft,
-        const ImNodesMiniMapNodeHoveringCallback node_hovering_callback = ImNodesMiniMapNodeHoveringCallbackDefault,
-        const ImNodesMiniMapNodeHoveringCallbackUserData node_hovering_callback_data = ImNodesMiniMapNodeHoveringCallbackUserDataDefault) {
-          return ImNodes::MiniMap(minimap_size_fraction, location, node_hovering_callback, node_hovering_callback_data);
+      [](const float minimap_size_fraction,
+        const ImNodesMiniMapLocation location,
+        const ImNodesMiniMapNodeHoveringCallback node_hovering_callback,
+        const ImNodesMiniMapNodeHoveringCallbackUserData node_hovering_callback_data) {
+            return ImNodes::MiniMap(minimap_size_fraction, location, node_hovering_callback, node_hovering_callback_data);
+            /*if (node_hovering_callback.is_none())
+                return ImNodes::MiniMap(minimap_size_fraction, location, py::function(), node_hovering_callback_data);
+            else
+                return ImNodes::MiniMap(minimap_size_fraction, location, py::function(node_hovering_callback), node_hovering_callback_data);*/
+                
       }
-      , py::arg("size_fraction")
-      , py::arg("location")
-      , py::arg("hovering_callback")
-      , py::arg("hovering_callback_data")
+      , py::arg("size_fraction") = 0.2f
+      , py::arg("location") = int(ImNodesMiniMapLocation_TopLeft)
+      , py::arg("hovering_callback") = nullptr
+      , py::arg("hovering_callback_data") = nullptr
       , py::return_value_policy::automatic_reference);
 
     /*libaimnodes.def("mini_map",
-    [](ImDrawList &self ,ImDrawCallback callback, py::object callback_data) {
-        return self.AddCallback(callback, callback_data.ptr());
-    }
-    , py::arg("callback")
-    , py::arg("callback_data")
-    , py::return_value_policy::automatic_reference);
-    */
+      [](const float                              minimap_size_fraction = 0.2f,
+        const ImNodesMiniMapLocation             location = ImNodesMiniMapLocation_TopLeft) {
+          return ImNodes::MiniMap(minimap_size_fraction, location);
+      }
+      , py::arg("size_fraction")
+      , py::arg("location")
+      , py::return_value_policy::automatic_reference);*/
 }
 

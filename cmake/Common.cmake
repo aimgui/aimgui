@@ -5,8 +5,9 @@ include(${CMAKE_CURRENT_LIST_DIR}/Standard.cmake)
 # Define CMAKE_INSTALL_xxx: LIBDIR, INCLUDEDIR
 include(GNUInstallDirs)
 
-cmake_path(SET BUILD_DIR "$ENV{VIRTUAL_ENV}/Build/cmake")
-#list(APPEND CMAKE_MODULE_PATH ${BUILD_DIR})
+#TODO:Need CMake 3.20 to use cmake_path
+#cmake_path(SET BUILD_DIR "$ENV{VIRTUAL_ENV}/Build/cmake")
+set(BUILD_DIR "$ENV{VIRTUAL_ENV}/Build/cmake")
 list(APPEND CMAKE_PREFIX_PATH ${BUILD_DIR})
 
 #set(MONO_DIR ${CMAKE_CURRENT_SOURCE_DIR}/..)

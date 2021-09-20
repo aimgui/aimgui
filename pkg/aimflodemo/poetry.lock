@@ -8,8 +8,8 @@ python-versions = ">=3.9,<3.10"
 develop = true
 
 [package.dependencies]
-aimgui = "0.1.0"
-aimnodes = "0.1.0"
+aimgui = {path = "../aimgui", develop = true}
+aimnodes = {path = "../aimnodes", develop = true}
 arcade = "^2.6.1"
 rx = "^3.2.0"
 scipy = "^1.7.1"
