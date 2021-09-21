@@ -28,13 +28,17 @@ namespace py = pybind11;
 #define IMGUI_API PYBIND11_EXPORT
 struct ImGuiContext;
 
-/*#ifdef AIMGUI_DLL
+#ifdef _WIN32
+#ifdef AIMGUI_DLL
 #define AIMGUI_GLOBAL extern "C" __declspec(dllexport)
 #else
 #define AIMGUI_GLOBAL extern "C" __declspec(dllimport)
-#endif*/
+#endif
+#else
+#define AIMGUI_GLOBAL extern
+#endif
 
-extern IMGUI_API ImGuiContext* TImGui;  // Current implicit context pointer
+AIMGUI_GLOBAL ImGuiContext* TImGui;  // Current implicit context pointer
 #define GImGui TImGui
 
 /*#ifdef IMGUI_IMPLEMENTATION
