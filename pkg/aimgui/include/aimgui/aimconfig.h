@@ -40,8 +40,8 @@ struct ImGuiContext;
 #define AIMGUI_GLOBAL extern "C" __declspec(dllimport)
 #endif
 
-//AIMGUI_GLOBAL ImGuiContext* TImGui;  // Current implicit context pointer
-//#define GImGui TImGui
+AIMGUI_GLOBAL ImGuiContext* TImGui;  // Current implicit context pointer
+#define GImGui TImGui
 
 /*#ifdef IMGUI_IMPLEMENTATION
   struct ImGuiContext;
