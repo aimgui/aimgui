@@ -44,14 +44,15 @@ void init_generated(py::module &libaimnodes, Registry &registry) {
         .value("COL_MINI_MAP_NODE_OUTLINE", ImNodesCol_MiniMapNodeOutline)
         .value("COL_MINI_MAP_LINK", ImNodesCol_MiniMapLink)
         .value("COL_MINI_MAP_LINK_SELECTED", ImNodesCol_MiniMapLinkSelected)
+        .value("COL_MINI_MAP_CANVAS", ImNodesCol_MiniMapCanvas)
+        .value("COL_MINI_MAP_CANVAS_OUTLINE", ImNodesCol_MiniMapCanvasOutline)
         .value("COL_COUNT", ImNodesCol_COUNT)
         .export_values();
 
     py::enum_<ImNodesStyleVar_>(libaimnodes, "StyleVar", py::arithmetic())
         .value("STYLE_VAR_GRID_SPACING", ImNodesStyleVar_GridSpacing)
         .value("STYLE_VAR_NODE_CORNER_ROUNDING", ImNodesStyleVar_NodeCornerRounding)
-        .value("STYLE_VAR_NODE_PADDING_HORIZONTAL", ImNodesStyleVar_NodePaddingHorizontal)
-        .value("STYLE_VAR_NODE_PADDING_VERTICAL", ImNodesStyleVar_NodePaddingVertical)
+        .value("STYLE_VAR_NODE_PADDING", ImNodesStyleVar_NodePadding)
         .value("STYLE_VAR_NODE_BORDER_THICKNESS", ImNodesStyleVar_NodeBorderThickness)
         .value("STYLE_VAR_LINK_THICKNESS", ImNodesStyleVar_LinkThickness)
         .value("STYLE_VAR_LINK_LINE_SEGMENTS_PER_LENGTH", ImNodesStyleVar_LinkLineSegmentsPerLength)
@@ -62,6 +63,9 @@ void init_generated(py::module &libaimnodes, Registry &registry) {
         .value("STYLE_VAR_PIN_LINE_THICKNESS", ImNodesStyleVar_PinLineThickness)
         .value("STYLE_VAR_PIN_HOVER_RADIUS", ImNodesStyleVar_PinHoverRadius)
         .value("STYLE_VAR_PIN_OFFSET", ImNodesStyleVar_PinOffset)
+        .value("STYLE_VAR_MINI_MAP_PADDING", ImNodesStyleVar_MiniMapPadding)
+        .value("STYLE_VAR_MINI_MAP_OFFSET", ImNodesStyleVar_MiniMapOffset)
+        .value("STYLE_VAR_COUNT", ImNodesStyleVar_COUNT)
         .export_values();
 
     py::enum_<ImNodesStyleFlags_>(libaimnodes, "StyleFlags", py::arithmetic())
@@ -96,8 +100,7 @@ void init_generated(py::module &libaimnodes, Registry &registry) {
     PYCLASS_BEGIN(libaimnodes, ImNodesStyle, Style)
     Style.def_readwrite("grid_spacing", &ImNodesStyle::GridSpacing);
     Style.def_readwrite("node_corner_rounding", &ImNodesStyle::NodeCornerRounding);
-    Style.def_readwrite("node_padding_horizontal", &ImNodesStyle::NodePaddingHorizontal);
-    Style.def_readwrite("node_padding_vertical", &ImNodesStyle::NodePaddingVertical);
+    Style.def_readwrite("node_padding", &ImNodesStyle::NodePadding);
     Style.def_readwrite("node_border_thickness", &ImNodesStyle::NodeBorderThickness);
     Style.def_readwrite("link_thickness", &ImNodesStyle::LinkThickness);
     Style.def_readwrite("link_line_segments_per_length", &ImNodesStyle::LinkLineSegmentsPerLength);
@@ -108,6 +111,8 @@ void init_generated(py::module &libaimnodes, Registry &registry) {
     Style.def_readwrite("pin_line_thickness", &ImNodesStyle::PinLineThickness);
     Style.def_readwrite("pin_hover_radius", &ImNodesStyle::PinHoverRadius);
     Style.def_readwrite("pin_offset", &ImNodesStyle::PinOffset);
+    Style.def_readwrite("mini_map_padding", &ImNodesStyle::MiniMapPadding);
+    Style.def_readwrite("mini_map_offset", &ImNodesStyle::MiniMapOffset);
     Style.def_readwrite("flags", &ImNodesStyle::Flags);
     Style.def_readonly("colors", &ImNodesStyle::Colors);
     Style.def(py::init<>());
@@ -151,11 +156,16 @@ void init_generated(py::module &libaimnodes, Registry &registry) {
     , py::return_value_policy::automatic_reference);
     libaimnodes.def("pop_color_style", &ImNodes::PopColorStyle
     , py::return_value_policy::automatic_reference);
-    libaimnodes.def("push_style_var", &ImNodes::PushStyleVar
+    libaimnodes.def("push_style_var", py::overload_cast<ImNodesStyleVar, float>(&ImNodes::PushStyleVar)
+    , py::arg("style_item")
+    , py::arg("value")
+    , py::return_value_policy::automatic_reference);
+    libaimnodes.def("push_style_var", py::overload_cast<ImNodesStyleVar, const ImVec2 &>(&ImNodes::PushStyleVar)
     , py::arg("style_item")
     , py::arg("value")
     , py::return_value_policy::automatic_reference);
     libaimnodes.def("pop_style_var", &ImNodes::PopStyleVar
+    , py::arg("count") = 1
     , py::return_value_policy::automatic_reference);
     libaimnodes.def("begin_node", &ImNodes::BeginNode
     , py::arg("id")
