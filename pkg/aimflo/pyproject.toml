@@ -8,7 +8,7 @@ authors = ["Kurtis Fields <kurtisfields@gmail.com>"]
 python = ">=3.9,<3.10"
 aimgui = {path = "../aimgui",  develop = true}
 aimnodes = {path = "../aimnodes",  develop = true}
-arcade = "^2.6.1"
+arcade = "^2.6.13"
 rx = "^3.2.0"
 scipy = "^1.7.1"
 

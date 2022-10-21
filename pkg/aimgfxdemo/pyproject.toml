@@ -5,7 +5,7 @@ description = ""
 authors = ["Kurtis Fields <kurtisfields@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = ">=3.10.0,<3.12"
 aimgfx = {path = "../aimgfx",  develop = true}
 aimgui = {path = "../aimgui",  develop = true}
 glfw = "^2.1.0"

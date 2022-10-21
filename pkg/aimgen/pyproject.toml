@@ -5,7 +5,7 @@ description = ""
 authors = ["Kurtis Fields <kurtisfields@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = ">=3.10.0,<3.12"
 toml = "^0.10.1"
 click = "^7.1.2"
 clang = "^11.0"
