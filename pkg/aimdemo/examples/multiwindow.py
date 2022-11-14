@@ -1,3 +1,6 @@
+import pyglet
+pyglet.options['shadow_window']=False
+
 import aimgui
 from aimgui.impl.arcade import ArcadeGui
 
@@ -98,9 +101,9 @@ class App(arcade.Window):
         self.gui.render()
 
 
-app = ChildApp()
+#app = ChildApp()
 app = App()
 
 arcade.run()
-import pyglet
+
 #pyglet.app.run()

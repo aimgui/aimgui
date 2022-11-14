@@ -172,13 +172,13 @@ class ArcadeGuiBase:
         # minor introspection here to check.
         if hasattr(window, 'get_viewport_size'):
             viewport_size = window.get_viewport_size()
-            self.io.display_fb_scale = compute_framebuffer_scale(window_size, viewport_size)
+            self.io.display_framebuffer_scale = compute_framebuffer_scale(window_size, viewport_size)
         elif hasattr(window, 'get_pixel_ratio'):
-            self.io.display_fb_scale = (window.get_pixel_ratio(),
+            self.io.display_framebuffer_scale = (window.get_pixel_ratio(),
                                         window.get_pixel_ratio())
         else:
             # Default to 1.0 in this unlikely circumstance
-            self.io.display_fb_scale = (1.0, 1.0)
+            self.io.display_framebuffer_scale = (1.0, 1.0)
 
     def _attach_callbacks(self, window):
         window.push_handlers(

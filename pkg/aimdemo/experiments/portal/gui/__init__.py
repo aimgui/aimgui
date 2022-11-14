@@ -5,10 +5,10 @@ import arcade
 
 import aimgui
 from aimgui.renderer import compute_framebuffer_scale
-from aimgui.renderer.base import BaseOpenGLRenderer
+from aimgui.renderer.gl_base import OpenGLRendererBase
 
 
-class ArcadeRenderer(BaseOpenGLRenderer):
+class ArcadeRenderer(OpenGLRendererBase):
     """
     A renderer using the arcade.gl module instead of PyOpenGL.
     This is using pyglet's OpenGL bindings instead.
@@ -188,13 +188,13 @@ class ArcadeGuiBase:
         # minor introspection here to check.
         if hasattr(window, 'get_viewport_size'):
             viewport_size = window.get_viewport_size()
-            self.io.display_fb_scale = compute_framebuffer_scale(window_size, viewport_size)
+            self.io.display_framebuffer_scale = compute_framebuffer_scale(window_size, viewport_size)
         elif hasattr(window, 'get_pixel_ratio'):
-            self.io.display_fb_scale = (window.get_pixel_ratio(),
+            self.io.display_framebuffer_scale = (window.get_pixel_ratio(),
                                         window.get_pixel_ratio())
         else:
             # Default to 1.0 in this unlikely circumstance
-            self.io.display_fb_scale = (1.0, 1.0)
+            self.io.display_framebuffer_scale = (1.0, 1.0)
 
     def _attach_callbacks(self, window):
         window.push_handlers(
@@ -208,15 +208,6 @@ class ArcadeGuiBase:
             self.on_mouse_scroll,
             self.on_resize,
         )
-
-    def _map_keys(self):
-        key_map = self.io.key_map
-
-        # note: we cannot use default mechanism of mapping keys
-        #       because pyglet uses weird key translation scheme
-        for value in self.REVERSE_KEY_MAP.values():
-            #key_map[value] = value
-            self.io.set_key_map(value, value)
 
     def _on_mods_change(self, mods):
         self.io.key_ctrl = mods & key.MOD_CTRL
@@ -300,14 +291,14 @@ class ArcadeGui(ArcadeGuiBase):
         self.io = aimgui.get_io()
 
         self.renderer = ArcadeRenderer(window)
-
+        '''
         window_size = window.get_size()
         viewport_size = window.get_viewport_size()
 
         self.io.display_size = window_size
         self.io.display_framebuffer_scale = compute_framebuffer_scale(window_size, viewport_size)
-
-        self._map_keys()
+        '''
+        self._set_pixel_ratio(window)
 
         if attach_callbacks:
             window.push_handlers(

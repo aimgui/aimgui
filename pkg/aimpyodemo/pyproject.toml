@@ -5,10 +5,10 @@ description = ""
 authors = ["Kurtis Fields <kurtisfields@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = ">=3.9,<3.11"
+python = ">=3.8,<3.12"
 pyo = "^1.0.4"
 arcade = "^2.6.16"
-numpy = "^1.21.2"
+numpy = "^1.23.4"
 aimgui = {path = "../aimgui",  develop = true}
 aimplot = {path = "../aimplot",  develop = true}
 mido = "^1.2.10"
