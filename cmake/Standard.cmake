@@ -13,5 +13,8 @@ function(USES_STANDARD THIS)
   if ((MSVC) AND (MSVC_VERSION GREATER_EQUAL 1914))
     target_compile_options(${THIS} PRIVATE "/Zc:__cplusplus")
   endif()
+  if (MSVC)
+    target_compile_options(${THIS} PRIVATE /bigobj)
+  endif ()
 endfunction()
 

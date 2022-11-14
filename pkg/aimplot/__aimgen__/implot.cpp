@@ -13,6 +13,6 @@
 
 namespace py = pybind11;
 
-void init_generated(py::module &libaimplot, Registry &registry) {
+void init_generated(py::module &_aimplot, Registry &registry) {
 {{body}}
 }

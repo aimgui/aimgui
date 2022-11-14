@@ -4,4 +4,4 @@ import aimgui
 
 aimgui.add_plugin(__file__)
 
-from libaimplot import *
+from ._aimplot import *

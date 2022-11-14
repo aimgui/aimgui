@@ -4,7 +4,7 @@ target = 'src/aimplot/bindings/generated.cpp'
 prefix = 'ImPlot'
 short_prefix = 'Im'
 
-module = 'libaimplot'
+module = '_aimplot'
 
 flags = [
     '-std=c++17',
@@ -26,7 +26,7 @@ excludes = [
     'ImPlot::SetNextPlotTicksY',
     'ImPlotRect::Contains', #TODO: overload problems
     'ImPlot::SetupAxisTicks' #TODO: generator problem:
-        #libaimplot.def("setup_axis_ticks", py::overload_cast<ImAxis, double, double, int, const char *const [], bool>(&ImPlot::SetupAxisTicks)
+        #_aimplot.def("setup_axis_ticks", py::overload_cast<ImAxis, double, double, int, const char *const [], bool>(&ImPlot::SetupAxisTicks)
     #Obsolete
 ]
 

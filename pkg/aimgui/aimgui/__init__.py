@@ -5,6 +5,7 @@ import platform
 from pathlib import Path
 
 def add_plugin(location):
+  '''
   version = platform.python_version_tuple()
   os = platform.system().lower()
   build_dir = "cmake-build"
@@ -17,6 +18,9 @@ def add_plugin(location):
 
   sys.path.insert(0, str(LIB_PATH))
   #print('SYS_PATH:  ',sys.path)
+  '''
+  LIB_PATH = Path(location).parent
+  sys.path.insert(0, LIB_PATH)
 
 add_plugin(__file__)
 

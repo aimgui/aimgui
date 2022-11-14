@@ -1,14 +1,22 @@
 include_guard()
 
-include(${CMAKE_CURRENT_LIST_DIR}/Common.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/Standard.cmake)
 
-function(USES_IMGUI THIS)
-  target_compile_definitions(${THIS} PRIVATE IMGUI_USER_CONFIG=<aimgui/aimconfig.h>)
+function(USES_PYBIND11 THIS)
+  USES_STANDARD(${THIS})
   target_include_directories(${THIS} PRIVATE
-    ${IMGUI_ROOT}
-    ${IMGUI_EX}
-    ${AIM_ROOT}/src
+    ${PYBIND11_ROOT}/include()
   )
-  target_link_libraries(${THIS} ImGui)
+endfunction()
+
+function(configure_project project)
+
+set_target_properties(${project} PROPERTIES PREFIX "_")
+
+if(CMAKE_COMPILER_IS_GNUCXX)
+  set_target_properties(${project} PROPERTIES SUFFIX ".so")
+else()
+  set_target_properties(${project} PROPERTIES SUFFIX ".pyd")
+endif(CMAKE_COMPILER_IS_GNUCXX)
 
 endfunction()

@@ -6,8 +6,6 @@ set(THIS ${PROJECT_NAME})
 
 include(../../cmake/ImGui.cmake)
 
-set(IMPLOT_ROOT ${AIM_ROOT}/lib/implot)
-
 set(IMPLOT_HEADERS
     ${IMPLOT_ROOT}/implot.h
     ${IMPLOT_ROOT}/implot_internal.h
@@ -65,5 +63,14 @@ set(ignoreMe "${SKBUILD}")
 #ADD_CUSTOM_COMMAND(TARGET aimplot
 #          POST_BUILD
 #          #COMMAND ${CMAKE_COMMAND} -E make_directory ${PROJECT_BINARY_DIR}
-#          COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_INSTALL_LIBDIR}/libaimplot.so ./
+#          COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_INSTALL_LIBDIR}/_aimplot.so ./
 #)
+
+get_target_property(_RUNTIME_OUTPUT_DIRECTORY ${THIS} RUNTIME_OUTPUT_DIRECTORY)
+
+add_custom_command(
+        TARGET ${THIS} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+                ${_RUNTIME_OUTPUT_DIRECTORY}/Debug/_aimplot.pyd
+                ${CMAKE_CURRENT_SOURCE_DIR}/aimplot/_aimplot.pyd
+                )

@@ -1,10 +1,20 @@
 cmake_minimum_required(VERSION 3.4)
 
+include(../../cmake/Pybind11.cmake)
+
 project(aimgui VERSION "0.1")
-
 set(THIS ${PROJECT_NAME})
+#set(THIS _aimgui)
+find_package(PythonExtensions REQUIRED)
 
-include(../../cmake/Common.cmake)
+set(IMGUI_HEADERS
+    ${IMGUI_ROOT}/imconfig.h
+    ${IMGUI_ROOT}/imgui_internal.h
+    ${IMGUI_ROOT}/imgui.h
+    ${IMGUI_ROOT}/imstb_rectpack.h
+    ${IMGUI_ROOT}/imstb_textedit.h
+    ${IMGUI_ROOT}/imstb_truetype.h
+)
 
 set(IMGUI_SRC
     src/aimgui/bindings/generated.cpp
@@ -16,12 +26,16 @@ set(IMGUI_SRC
     ${IMGUI_ROOT}/imgui.cpp
 )
 
-pybind11_add_module(aimgui SHARED
-    src/aimgui/bindings/init.cpp
-)
+#pybind11_add_module(aimgui SHARED
+#    src/aimgui/bindings/init.cpp
+#)
+
+add_library(${THIS} SHARED src/aimgui/bindings/init.cpp)
+python_extension_module(${THIS})
+install(TARGETS ${THIS} LIBRARY DESTINATION aimgui)
 
 configure_project(${THIS})
-USES_STANDARD(${THIS})
+USES_PYBIND11(${THIS})
 
 #set_target_properties(${THIS}
 #    PROPERTIES
@@ -29,18 +43,18 @@ USES_STANDARD(${THIS})
 #        RUNTIME_OUTPUT_DIRECTORY ${AIM_ROOT}/pkg/aimgui/aimgui
 #)
 
-install(TARGETS ${THIS}
-  COMPONENT python
-  LIBRARY DESTINATION "${AIM_ROOT}/pkg/aimgui/aimgui"
-  )
+#install(TARGETS ${THIS}
+#  COMPONENT python
+#  LIBRARY DESTINATION "${AIM_ROOT}/pkg/aimgui/aimgui"
+#  )
 
-target_compile_definitions(aimgui PRIVATE AIMGUI_DLL IMGUI_USER_CONFIG=<aimgui/aimconfig.h>)
+target_compile_definitions(${THIS} PRIVATE AIMGUI_DLL IMGUI_USER_CONFIG=<aimgui/aimconfig.h>)
 
-target_sources(aimgui PRIVATE ${IMGUI_SRC} ${IMGUI_HEADERS})
+target_sources(${THIS} PRIVATE ${IMGUI_SRC} ${IMGUI_HEADERS})
 
 # add include files
-target_sources(aimgui PRIVATE ${AIMGUI_INCLUDE}) # for intellisense
-target_include_directories(aimgui
+target_sources(${THIS} PRIVATE ${AIMGUI_INCLUDE}) # for intellisense
+target_include_directories(${THIS}
 	PUBLIC
 		$<INSTALL_INTERFACE:include>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -55,7 +69,8 @@ target_include_directories(aimgui
 install(FILES ${IMGUI_HEADERS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 
-install(TARGETS aimgui LIBRARY DESTINATION .)
+#install(TARGETS aimgui LIBRARY DESTINATION .)
+#install(TARGETS aimgui LIBRARY DESTINATION ${PYTHON_RELATIVE_SITE_PACKAGES_DIR})
 # Quiet a warning, since this project is only valid with SKBUILD
 set(ignoreMe "${SKBUILD}")
 

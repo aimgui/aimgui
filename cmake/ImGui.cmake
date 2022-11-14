@@ -1,6 +1,6 @@
 include_guard()
 
-include(${CMAKE_CURRENT_LIST_DIR}/Common.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/Standard.cmake)
 
 function(USES_IMGUI THIS)
   USES_STANDARD(${THIS})
