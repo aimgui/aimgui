@@ -9,18 +9,6 @@
 	path = lib/imnodes
 	url = https://github.com/aimgui/imnodes
     branch = user_config
-[submodule "lib/bgfx"]
-	path = lib/bgfx
-	url = https://github.com/bkaradzic/bgfx
-[submodule "lib/bx"]
-	path = lib/bx
-	url = https://github.com/bkaradzic/bx
-[submodule "lib/bimg"]
-	path = lib/bimg
-	url = https://github.com/bkaradzic/bimg
 [submodule "lib/pybind11"]
 	path = lib/pybind11
 	url = https://github.com/pybind/pybind11
-[submodule "lib/glfw"]
-	path = lib/glfw
-	url = https://github.com/glfw/glfw
