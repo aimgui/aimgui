@@ -16,6 +16,6 @@
 
 namespace py = pybind11;
 
-void init_generated(py::module &libaimnodes, Registry &registry) {
+void init_generated(py::module &_aimnodes, Registry &registry) {
 {{body}}
 }

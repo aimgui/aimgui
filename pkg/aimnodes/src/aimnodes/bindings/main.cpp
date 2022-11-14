@@ -21,20 +21,20 @@ char ImGuiTextBuffer::EmptyString[1] = { 0 };
 
 namespace py = pybind11;
 
-void init_main(py::module &libaimnodes, Registry &registry) {
+void init_main(py::module &_aimnodes, Registry &registry) {
 
     /*
         ImNodesContext needs to be an opaque type.  Wrap it with PyCapsule
     */
     //ImNodesContext* CreateContext();
-    libaimnodes.def("create_context", []()
+    _aimnodes.def("create_context", []()
     {
         return py::capsule(ImNodes::CreateContext(), "ImNodesContext");
     }
     , py::return_value_policy::automatic_reference);
 
     //void            DestroyContext(ImNodesContext* ctx = NULL); // NULL = destroy current context
-    libaimnodes.def("destroy_context", [](py::capsule& ctx)
+    _aimnodes.def("destroy_context", [](py::capsule& ctx)
     {
         ImNodes::DestroyContext(ctx);
     }
@@ -42,14 +42,14 @@ void init_main(py::module &libaimnodes, Registry &registry) {
     , py::return_value_policy::automatic_reference);
 
     //ImNodesContext* GetCurrentContext();
-    libaimnodes.def("get_current_context", []()
+    _aimnodes.def("get_current_context", []()
     {
         return (void*)ImNodes::GetCurrentContext();
     }
     , py::return_value_policy::automatic_reference);
 
     //void            SetCurrentContext(ImNodesContext* ctx);
-    libaimnodes.def("set_current_context", [](py::capsule& ctx)
+    _aimnodes.def("set_current_context", [](py::capsule& ctx)
     {
         ImNodes::SetCurrentContext(ctx);
     }
@@ -58,14 +58,14 @@ void init_main(py::module &libaimnodes, Registry &registry) {
 
     //EditorContext needs to be an opaque type.  Wrap it with PyCapsule
     //EditorContext* EditorContextCreate()
-    libaimnodes.def("editor_context_create", []()
+    _aimnodes.def("editor_context_create", []()
     {
         return py::capsule(ImNodes::EditorContextCreate(), "ImNodesEditorContext");
     }
     , py::return_value_policy::automatic_reference);
 
     //void EditorContextFree(EditorContext* ctx)
-    libaimnodes.def("editor_context_free", [](py::capsule& ctx)
+    _aimnodes.def("editor_context_free", [](py::capsule& ctx)
     {
         ImNodes::EditorContextFree(ctx);
     }
@@ -73,7 +73,7 @@ void init_main(py::module &libaimnodes, Registry &registry) {
     , py::return_value_policy::automatic_reference);
 
     //void EditorContextSet(EditorContext*);
-    libaimnodes.def("editor_context_set", [](py::capsule& ctx)
+    _aimnodes.def("editor_context_set", [](py::capsule& ctx)
     {
         ImNodes::EditorContextSet(ctx);
     }
@@ -87,7 +87,7 @@ void MiniMap(
     const ImNodesMiniMapNodeHoveringCallback node_hovering_callback = NULL,
     void*                                    node_hovering_callback_data = NULL);
 */
-    libaimnodes.def("mini_map",
+    _aimnodes.def("mini_map",
       [](const float minimap_size_fraction,
         const ImNodesMiniMapLocation location,
         const ImNodesMiniMapNodeHoveringCallback node_hovering_callback,
@@ -105,7 +105,7 @@ void MiniMap(
       , py::arg("hovering_callback_data") = nullptr
       , py::return_value_policy::automatic_reference);
 
-    /*libaimnodes.def("mini_map",
+    /*_aimnodes.def("mini_map",
       [](const float                              minimap_size_fraction = 0.2f,
         const ImNodesMiniMapLocation             location = ImNodesMiniMapLocation_TopLeft) {
           return ImNodes::MiniMap(minimap_size_fraction, location);

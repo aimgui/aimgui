@@ -4,7 +4,7 @@ target = 'src/aimnodes/bindings/generated.cpp'
 prefix = 'ImNodes'
 short_prefix = 'Im'
 
-module = 'libaimnodes'
+module = '_aimnodes'
 
 flags = [
     '-std=c++17',

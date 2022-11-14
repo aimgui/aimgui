@@ -62,5 +62,14 @@ set(ignoreMe "${SKBUILD}")
 #ADD_CUSTOM_COMMAND(TARGET aimnodes
 #          POST_BUILD
 #          #COMMAND ${CMAKE_COMMAND} -E make_directory ${PROJECT_BINARY_DIR}
-#          COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_INSTALL_LIBDIR}/libaimnodes.so ./
+#          COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_INSTALL_LIBDIR}/_aimnodes.so ./
 #)
+
+get_target_property(_RUNTIME_OUTPUT_DIRECTORY ${THIS} RUNTIME_OUTPUT_DIRECTORY)
+
+add_custom_command(
+        TARGET ${THIS} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+                ${_RUNTIME_OUTPUT_DIRECTORY}/Debug/_aimnodes.pyd
+                ${CMAKE_CURRENT_SOURCE_DIR}/aimnodes/_aimnodes.pyd
+                )

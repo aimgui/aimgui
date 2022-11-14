@@ -4,4 +4,4 @@ import aimgui
 
 aimgui.add_plugin(__file__)
 
-from libaimnodes import *
+from ._aimnodes import *
