@@ -1,5 +1,12 @@
+# Editors
 .idea
 .vscode
+
+# C extensions
+*.so
+*.pyd
+
+# Python
 __pycache__
 .pyc
 .env
@@ -15,7 +22,3 @@ temp
 
 imgui.ini
 NodeEditor.json
-
-shaders_cache.bak
-shaders_cache.dat
-shaders_cache.dir

@@ -184,9 +184,7 @@ class ArcadeGuiBase:
     def _set_pixel_ratio(self, window):
         window_size = window.get_size()
         self.io.display_size = window_size
-        # It is conceivable that the pyglet version will not be solely
-        # determinant of whether we use the fixed or programmable, so do some
-        # minor introspection here to check.
+        
         if hasattr(window, 'get_viewport_size'):
             viewport_size = window.get_viewport_size()
             self.io.display_framebuffer_scale = compute_framebuffer_scale(window_size, viewport_size)

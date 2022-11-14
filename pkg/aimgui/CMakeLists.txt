@@ -55,7 +55,7 @@ target_include_directories(aimgui
 install(FILES ${IMGUI_HEADERS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 
-install(TARGETS aimgui DESTINATION .)
+install(TARGETS aimgui LIBRARY DESTINATION .)
 # Quiet a warning, since this project is only valid with SKBUILD
 set(ignoreMe "${SKBUILD}")
 
