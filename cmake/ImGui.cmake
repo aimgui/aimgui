@@ -2,8 +2,6 @@ include_guard()
 
 include(${CMAKE_CURRENT_LIST_DIR}/Common.cmake)
 
-find_package(AimGui REQUIRED)
-
 function(USES_IMGUI THIS)
   USES_STANDARD(${THIS})
   target_compile_definitions(${THIS} PRIVATE IMGUI_USER_CONFIG=<aimgui/aimconfig.h>)

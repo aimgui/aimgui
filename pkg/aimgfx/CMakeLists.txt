@@ -6,7 +6,6 @@ set(THIS ${PROJECT_NAME})
 
 include(../../cmake/Aim.cmake)
 
-#find_package(AimGui REQUIRED)
 set(AIMGFX_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
 
 set(BX_ROOT ${AIM_ROOT}/lib/bx)
@@ -16,7 +15,8 @@ set(BX_SRC
 set(BIMG_ROOT ${AIM_ROOT}/lib/bimg)
 
 set(OPTION_ASTC_TESTS OFF CACHE BOOL "Build all the unit tests" FORCE)
-add_subdirectory(${BIMG_ROOT}/3rdparty/astc-codec astc-codec)
+#add_subdirectory(${BIMG_ROOT}/3rdparty/astc-codec astc-codec)
+add_subdirectory(${AIM_ROOT}/src/bimg)
 
 set(BIMG_SRC
   ${BIMG_ROOT}/src/image.cpp
