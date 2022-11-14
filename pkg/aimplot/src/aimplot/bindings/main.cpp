@@ -15,6 +15,9 @@
 
 namespace py = pybind11;
 
+//TODO:Why did I have to put this here?  Getting an external reference error
+char ImGuiTextBuffer::EmptyString[1] = { 0 };
+
 void init_main(py::module &libaimplot, Registry &registry) {
     /*
         ImPlotContext needs to be an opaque type.  Wrap it with PyCapsule
@@ -101,14 +104,14 @@ void init_main(py::module &libaimplot, Registry &registry) {
     , py::return_value_policy::automatic_reference);
 
     //template <typename T> IMPLOT_API void PlotBarsH(const char* label_id, const T* values, int count, double height=0.67, double shift=0, int offset=0, int stride=sizeof(T));
-    libaimplot.def("plot_bars_h", [](const char* label_id, const py::array_t<double>& values, int count)
+    /*libaimplot.def("plot_bars_h", [](const char* label_id, const py::array_t<double>& values, int count)
     {
         ImPlot::PlotBarsH<double>(label_id, (double*)values.unchecked().data(), count);
     }
     , py::arg("label_id")
     , py::arg("values")
     , py::arg("count")
-    , py::return_value_policy::automatic_reference);
+    , py::return_value_policy::automatic_reference);*/
 
     //template <typename T> IMPLOT_API void PlotErrorBars(const char* label_id, const T* xs, const T* ys, const T* err, int count, int offset=0, int stride=sizeof(T));
     /* TODO: Put this one off until I understand it!

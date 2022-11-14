@@ -9,6 +9,7 @@ module = 'libaimplot'
 flags = [
     '-std=c++17',
     '-DIMGUI_DISABLE_OBSOLETE_FUNCTIONS=1',
+    '-DIMPLOT_DISABLE_OBSOLETE_FUNCTIONS=1',
     '-I../../lib/imgui'
 ]
 
@@ -23,6 +24,9 @@ excludes = [
     'ImPlot::PixelsToPlot',
     'ImPlot::SetNextPlotTicksX',
     'ImPlot::SetNextPlotTicksY',
+    'ImPlotRect::Contains', #TODO: overload problems
+    'ImPlot::SetupAxisTicks' #TODO: generator problem:
+        #libaimplot.def("setup_axis_ticks", py::overload_cast<ImAxis, double, double, int, const char *const [], bool>(&ImPlot::SetupAxisTicks)
     #Obsolete
 ]
 

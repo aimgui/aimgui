@@ -94,7 +94,13 @@ overloaded = [
     'ImGui::SetScrollX',
     'ImGui::SetScrollY',
     'ImGui::SetScrollFromPosX',
-    'ImGui::SetScrollFromPosY'
+    'ImGui::SetScrollFromPosY',
+    'ImGui::IsKeyDown',
+    'ImGui::IsKeyPressed',
+    'ImGui::IsKeyReleased',
+    'ImGui::IsMouseDown',
+    'ImGui::IsMouseClicked',
+    'ImGui::IsMouseReleased'
 ]
 
 [defaults]

@@ -20,7 +20,9 @@ pybind11_add_module(aimgui SHARED
     src/aimgui/bindings/init.cpp
 )
 
-configure_project(aimgui)
+configure_project(${THIS})
+USES_STANDARD(${THIS})
+
 target_compile_definitions(aimgui PRIVATE AIMGUI_DLL IMGUI_USER_CONFIG=<aimgui/aimconfig.h>)
 
 install(TARGETS aimgui EXPORT AimGuiTargets

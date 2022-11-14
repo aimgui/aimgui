@@ -26,6 +26,7 @@ pybind11_add_module(${THIS} MODULE
 )
 USES_IMGUI(${THIS})
 configure_project(${PROJECT_NAME})
+target_compile_definitions(${THIS} PRIVATE IMPLOT_DISABLE_OBSOLETE_FUNCTIONS)
 
 install(TARGETS aimplot EXPORT AimPlotTargets
 	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}

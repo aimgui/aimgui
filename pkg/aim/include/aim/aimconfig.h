@@ -23,7 +23,8 @@ namespace py = pybind11;
 #define ImTextureID unsigned int
 #define ImDrawIdx  unsigned int
 
-#define ImDrawCallback py::function
+//#define ImDrawCallback py::function
+#define ImDrawCallback py::cpp_function
 
 //#define IMGUI_API __declspec( dllexport )
 #define IMGUI_API PYBIND11_EXPORT

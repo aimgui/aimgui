@@ -9,5 +9,5 @@ function(USES_IMGUI THIS)
     ${IMGUI_ROOT}
   )
   #target_link_libraries(${THIS} ImGui)
-  target_link_libraries(${THIS} PRIVATE Upstream::aimgui)
+  target_link_libraries(${THIS} PRIVATE aimgui)
 endfunction()
