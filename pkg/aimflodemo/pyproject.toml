@@ -6,13 +6,13 @@ authors = ["Kurtis Fields <kurtisfields@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = ">=3.9,<3.10"
-arcade = "^2.6.13"
+arcade = "^2.6.16"
 aimgui = {path = "../aimgui",  develop = true}
 aimnodes = {path = "../aimnodes",  develop = true}
 aimflo = {path = "../aimflo",  develop = true}
 
 [tool.poetry.dev-dependencies]
-pytest = "^5.2"
+pytest = "^7.2.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

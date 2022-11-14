@@ -11,7 +11,7 @@ try:
 except ImportError:
     from itertools import zip_longest as izip_longest
 
-import libaimgui as core
+from . import _aimgui as core
 
 
 __all__ = (

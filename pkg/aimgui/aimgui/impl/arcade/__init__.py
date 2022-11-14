@@ -193,14 +193,6 @@ class ArcadeGuiBase:
             self.on_resize,
         )
 
-    def _map_keys(self):
-        key_map = self.io.key_map
-
-        # note: we cannot use default mechanism of mapping keys
-        #       because pyglet uses weird key translation scheme
-        for value in self.REVERSE_KEY_MAP.values():
-            self.io.set_key_map(value, value)
-
     def _on_mods_change(self, mods):
         self.io.key_ctrl = mods & key.MOD_CTRL
         self.io.key_super = mods & key.MOD_COMMAND
@@ -212,12 +204,12 @@ class ArcadeGuiBase:
 
     def on_key_press(self, key_pressed, mods):
         if key_pressed in self.REVERSE_KEY_MAP:
-            self.io.set_key_down(self.REVERSE_KEY_MAP[key_pressed], True)
+            self.io.add_key_event(self.REVERSE_KEY_MAP[key_pressed], True)
         self._on_mods_change(mods)
 
     def on_key_release(self, key_released, mods):
         if key_released in self.REVERSE_KEY_MAP:
-            self.io.set_key_down(self.REVERSE_KEY_MAP[key_released], False)
+            self.io.add_key_event(self.REVERSE_KEY_MAP[key_released], False)
         self._on_mods_change(mods)
 
     def on_text(self, text):
@@ -283,16 +275,12 @@ class ArcadeGui(ArcadeGuiBase):
         self.renderer = ArcadeRenderer(window)
 
         window_size = window.get_size()
-        #viewport_size = window.get_viewport_size()
-        #(left, right, bottom, top)
         viewport = window.get_viewport()
         viewport_size = viewport[1] - viewport[0], viewport[3] - viewport[2]
         
 
         self.io.display_size = window_size
         self.io.display_framebuffer_scale = compute_framebuffer_scale(window_size, viewport_size)
-
-        self._map_keys()
 
         if attach_callbacks:
             window.push_handlers(

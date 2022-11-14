@@ -23,12 +23,18 @@ pybind11_add_module(aimgui SHARED
 configure_project(${THIS})
 USES_STANDARD(${THIS})
 
-target_compile_definitions(aimgui PRIVATE AIMGUI_DLL IMGUI_USER_CONFIG=<aimgui/aimconfig.h>)
+#set_target_properties(${THIS}
+#    PROPERTIES
+#        LIBRARY_OUTPUT_DIRECTORY ${AIM_ROOT}/pkg/aimgui/aimgui
+#        RUNTIME_OUTPUT_DIRECTORY ${AIM_ROOT}/pkg/aimgui/aimgui
+#)
 
-install(TARGETS aimgui EXPORT AimGuiTargets
-	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-	ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-)
+install(TARGETS ${THIS}
+  COMPONENT python
+  LIBRARY DESTINATION "${AIM_ROOT}/pkg/aimgui/aimgui"
+  )
+
+target_compile_definitions(aimgui PRIVATE AIMGUI_DLL IMGUI_USER_CONFIG=<aimgui/aimconfig.h>)
 
 target_sources(aimgui PRIVATE ${IMGUI_SRC} ${IMGUI_HEADERS})
 
@@ -53,12 +59,14 @@ install(TARGETS aimgui DESTINATION .)
 # Quiet a warning, since this project is only valid with SKBUILD
 set(ignoreMe "${SKBUILD}")
 
-#ADD_CUSTOM_COMMAND(TARGET aimgui
-#          POST_BUILD
-#          #COMMAND ${CMAKE_COMMAND} -E make_directory ${PROJECT_BINARY_DIR}
-#          COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_INSTALL_LIBDIR}/libaimgui.so ./
-#)
+get_target_property(_RUNTIME_OUTPUT_DIRECTORY ${THIS} RUNTIME_OUTPUT_DIRECTORY)
 
+add_custom_command(
+        TARGET ${THIS} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+                ${_RUNTIME_OUTPUT_DIRECTORY}/Debug/_aimgui.pyd
+                ${CMAKE_CURRENT_SOURCE_DIR}/aimgui/_aimgui.pyd
+                )
 #
 # Generate a configuration for use by plugins
 #
@@ -70,24 +78,26 @@ write_basic_package_version_file(
   COMPATIBILITY AnyNewerVersion
 )
 
-export(EXPORT AimGuiTargets
-  FILE "${BUILD_DIR}/aimgui/AimGuiTargets.cmake"
-  NAMESPACE Upstream::
-)
+#export(EXPORT AimGuiTargets
+#  FILE "${BUILD_DIR}/aimgui/AimGuiTargets.cmake"
+#  NAMESPACE Upstream::
+#)
+
 configure_file(cmake_config/AimGuiConfig.cmake
   "${BUILD_DIR}/aimgui/AimGuiConfig.cmake"
   COPYONLY
 )
 
 set(ConfigPackageLocation lib/cmake/AimGui)
-install(EXPORT AimGuiTargets
-  FILE
-  AimGuiTargets.cmake
-  NAMESPACE
-    Upstream::
-  DESTINATION
-    ${ConfigPackageLocation}
-)
+#install(EXPORT AimGuiTargets
+#  FILE
+#  AimGuiTargets.cmake
+#  NAMESPACE
+#    Upstream::
+#  DESTINATION
+#    ${ConfigPackageLocation}
+#)
+
 install(
   FILES
     cmake_config/AimGuiConfig.cmake

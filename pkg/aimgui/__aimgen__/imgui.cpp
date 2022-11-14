@@ -11,6 +11,6 @@
 
 namespace py = pybind11;
 
-void init_generated(py::module &libaimgui, Registry &registry) {
+void init_generated(py::module &_aimgui, Registry &registry) {
 {{body}}
 }

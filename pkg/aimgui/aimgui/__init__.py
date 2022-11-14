@@ -20,8 +20,8 @@ def add_plugin(location):
 
 add_plugin(__file__)
 
-import libaimgui as core 
-from libaimgui import *
+from . import _aimgui as core 
+from ._aimgui import *
 
 from aimgui.extra import *
 

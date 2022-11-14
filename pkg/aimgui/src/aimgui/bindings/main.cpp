@@ -19,20 +19,20 @@ ImGuiContext* GetGImGui() {
 }*/
 ImGuiContext* TImGui;  // Current implicit context pointer
 
-void init_main(py::module &libaimgui, Registry &registry) {
-    template_ImVector<char>(libaimgui, "Vector_char");
-    template_ImVector<float>(libaimgui, "Vector_float");
-    template_ImVector<unsigned char>(libaimgui, "Vector_unsignedchar");
-    template_ImVector<unsigned short>(libaimgui, "Vector_unsignedshort");
-    template_ImVector<ImDrawCmd>(libaimgui, "Vector_DrawCmd");
-    template_ImVector<ImDrawVert>(libaimgui, "Vector_DrawVert");
-    template_ImVector<ImFontGlyph>(libaimgui, "Vector_FontGlyph");
+void init_main(py::module &_aimgui, Registry &registry) {
+    template_ImVector<char>(_aimgui, "Vector_char");
+    template_ImVector<float>(_aimgui, "Vector_float");
+    template_ImVector<unsigned char>(_aimgui, "Vector_unsignedchar");
+    template_ImVector<unsigned short>(_aimgui, "Vector_unsignedshort");
+    template_ImVector<ImDrawCmd>(_aimgui, "Vector_DrawCmd");
+    template_ImVector<ImDrawVert>(_aimgui, "Vector_DrawVert");
+    template_ImVector<ImFontGlyph>(_aimgui, "Vector_FontGlyph");
 
     /*
         ImGuiContext needs to be an opaque type.  Wrap it with PyCapsule
     */
     //ImGuiContext* ImGui::CreateContext(ImFontAtlas* shared_font_atlas)
-    libaimgui.def("create_context", [](ImFontAtlas* shared_font_atlas)
+    _aimgui.def("create_context", [](ImFontAtlas* shared_font_atlas)
     {
         return py::capsule(ImGui::CreateContext(shared_font_atlas), "ImGuiContext");
     }
@@ -40,7 +40,7 @@ void init_main(py::module &libaimgui, Registry &registry) {
     , py::return_value_policy::automatic_reference);
 
     //void ImGui::DestroyContext(ImGuiContext* ctx)
-    libaimgui.def("destroy_context", [](py::capsule& ctx)
+    _aimgui.def("destroy_context", [](py::capsule& ctx)
     {
         ImGui::DestroyContext(ctx);
     }
@@ -48,14 +48,14 @@ void init_main(py::module &libaimgui, Registry &registry) {
     , py::return_value_policy::automatic_reference);
 
     //ImGuiContext* ImGui::GetCurrentContext()
-    libaimgui.def("get_current_context", []()
+    _aimgui.def("get_current_context", []()
     {
         return (void*)ImGui::GetCurrentContext();
     }
     , py::return_value_policy::automatic_reference);
 
     //void ImGui::SetCurrentContext(ImGuiContext* ctx)
-    libaimgui.def("set_current_context", [](py::capsule& ctx)
+    _aimgui.def("set_current_context", [](py::capsule& ctx)
     {
         ImGui::SetCurrentContext(ctx);
     }
@@ -63,7 +63,7 @@ void init_main(py::module &libaimgui, Registry &registry) {
     , py::return_value_policy::automatic_reference);
 
     //bool ImGui::SetDragDropPayload(const char* type, const void* data, size_t data_size, ImGuiCond cond)
-    libaimgui.def("set_drag_drop_payload", [](std::string type, std::string data, ImGuiCond cond)
+    _aimgui.def("set_drag_drop_payload", [](std::string type, std::string data, ImGuiCond cond)
     {
         return ImGui::SetDragDropPayload(type.c_str(), data.c_str(), data.length(), cond);
     }
@@ -72,27 +72,27 @@ void init_main(py::module &libaimgui, Registry &registry) {
     , py::arg("cond") = 0
     , py::return_value_policy::automatic_reference);
 
-    libaimgui.def("get_vertex_buffer_vertex_pos_offset", []()
+    _aimgui.def("get_vertex_buffer_vertex_pos_offset", []()
     {
         return offsetof(ImDrawVert, pos);
     }
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_vertex_buffer_vertex_uv_offset", []()
+    _aimgui.def("get_vertex_buffer_vertex_uv_offset", []()
     {
         return offsetof(ImDrawVert, uv);
     }
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_vertex_buffer_vertex_col_offset", []()
+    _aimgui.def("get_vertex_buffer_vertex_col_offset", []()
     {
         return offsetof(ImDrawVert, col);
     }
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_vertex_buffer_vertex_size", []()
+    _aimgui.def("get_vertex_buffer_vertex_size", []()
     {
         return AimDrawList::VERTEX_SIZE;
     }
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_index_buffer_index_size", []() {
+    _aimgui.def("get_index_buffer_index_size", []() {
         return AimDrawList::INDEX_SIZE;
     }
     , py::return_value_policy::automatic_reference);
@@ -129,14 +129,14 @@ void init_main(py::module &libaimgui, Registry &registry) {
         self.MouseDown[button] = down;
     }, py::arg("button"), py::arg("down"));
 
-    IO.def("set_key_down", [](ImGuiIO& self, int key, bool down)
+    /*IO.def("set_key_down", [](ImGuiIO& self, int key, bool down)
     {
         if (key < 0) throw py::index_error();
         if (key >= IM_ARRAYSIZE(self.KeysDown)) throw py::index_error();
         self.KeysDown[key] = down;
-    }, py::arg("key"), py::arg("down"));
+    }, py::arg("key"), py::arg("down"));*/
 
-    IO.def_property_readonly("key_map", [](const ImGuiIO &io) {
+    /*IO.def_property_readonly("key_map", [](const ImGuiIO &io) {
         auto result = PyList_New(ImGuiKey_COUNT);
         //auto keymap = ImGui::GetIO().KeyMap;
         auto keymap = io.KeyMap;
@@ -145,14 +145,14 @@ void init_main(py::module &libaimgui, Registry &registry) {
         }
         //return list;
         return py::reinterpret_steal<py::object>(result);
-    });
+    });*/
 
-    IO.def("set_key_map", [](ImGuiIO& self, int key, int value)
+    /*IO.def("set_key_map", [](ImGuiIO& self, int key, int value)
     {
         if (key < 0) throw py::index_error();
         if (key >= IM_ARRAYSIZE(self.KeyMap)) throw py::index_error();
         self.KeyMap[key] = value;
-    }, py::arg("key"), py::arg("value"));
+    }, py::arg("key"), py::arg("value"));*/
     PYEXTEND_END
 
     PYEXTEND_BEGIN(ImDrawCmd, DrawCmd)
@@ -305,7 +305,7 @@ void init_main(py::module &libaimgui, Registry &registry) {
     });
     PYEXTEND_END
 
-    libaimgui.def("init", []()
+    _aimgui.def("init", []()
     {
         ImGui::CreateContext();
         ImGuiIO& io = ImGui::GetIO();
@@ -315,7 +315,7 @@ void init_main(py::module &libaimgui, Registry &registry) {
         io.Fonts->GetTexDataAsAlpha8(&pixels, &w, &h, nullptr);
     });
 
-    libaimgui.def("input_text", [](const char* label, char* data, size_t max_size, ImGuiInputTextFlags flags)
+    _aimgui.def("input_text", [](const char* label, char* data, size_t max_size, ImGuiInputTextFlags flags)
     {
         max_size++;
         char* text = (char*)malloc(max_size * sizeof(char));
@@ -330,7 +330,7 @@ void init_main(py::module &libaimgui, Registry &registry) {
     , py::arg("max_size")
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("input_text_multiline", [](const char* label, char* data, size_t max_size, const ImVec2& size, ImGuiInputTextFlags flags)
+    _aimgui.def("input_text_multiline", [](const char* label, char* data, size_t max_size, const ImVec2& size, ImGuiInputTextFlags flags)
     {
         max_size++;
         char* text = (char*)malloc(max_size * sizeof(char));
@@ -346,7 +346,7 @@ void init_main(py::module &libaimgui, Registry &registry) {
     , py::arg("size") = ImVec2(0,0)
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("menu_item", [](const char * label, const char * shortcut, bool * p_selected, bool enabled)
+    _aimgui.def("menu_item", [](const char * label, const char * shortcut, bool * p_selected, bool enabled)
     {
         auto ret = ImGui::MenuItem(label, shortcut, p_selected, enabled);
         return std::make_tuple(ret, p_selected);
@@ -356,7 +356,7 @@ void init_main(py::module &libaimgui, Registry &registry) {
     , py::arg("p_selected")
     , py::arg("enabled") = true
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("combo", [](const char* label, int * current_item, std::vector<std::string> items, int popup_max_height_in_items)
+    _aimgui.def("combo", [](const char* label, int * current_item, std::vector<std::string> items, int popup_max_height_in_items)
     {
         std::vector<const char*> ptrs;
         for (const std::string& s : items)
@@ -372,7 +372,7 @@ void init_main(py::module &libaimgui, Registry &registry) {
     , py::arg("popup_max_height_in_items") = -1
     , py::return_value_policy::automatic_reference);
 
-    libaimgui.def("selectable", [](const char * label, bool * p_selected, ImGuiSelectableFlags flags, const ImVec2 & size)
+    _aimgui.def("selectable", [](const char * label, bool * p_selected, ImGuiSelectableFlags flags, const ImVec2 & size)
     {
         auto ret = ImGui::Selectable(label, p_selected, flags, size);
         return std::make_tuple(ret, p_selected);
@@ -383,7 +383,7 @@ void init_main(py::module &libaimgui, Registry &registry) {
     , py::arg("size") = ImVec2(0,0)
     , py::return_value_policy::automatic_reference);
 
-    libaimgui.def("list_box", [](const char* label, int * current_item, std::vector<std::string> items, int height_in_items)
+    _aimgui.def("list_box", [](const char* label, int * current_item, std::vector<std::string> items, int height_in_items)
     {
         std::vector<const char*> ptrs;
         for (const std::string& s : items)
@@ -399,7 +399,7 @@ void init_main(py::module &libaimgui, Registry &registry) {
     , py::arg("height_in_items") = -1
     , py::return_value_policy::automatic_reference);
 
-    libaimgui.def("collapsing_header", [](const char * label, bool * p_open, ImGuiTreeNodeFlags flags)
+    _aimgui.def("collapsing_header", [](const char * label, bool * p_open, ImGuiTreeNodeFlags flags)
     {
         auto ret = ImGui::CollapsingHeader(label, p_open, flags);
         return std::make_tuple(ret, p_open);
@@ -409,7 +409,7 @@ void init_main(py::module &libaimgui, Registry &registry) {
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
 
-    libaimgui.def("plot_lines", [](const char* label, std::vector<float> values, int values_offset, const char* overlay_text, float scale_min, float scale_max, ImVec2 graph_size)
+    _aimgui.def("plot_lines", [](const char* label, std::vector<float> values, int values_offset, const char* overlay_text, float scale_min, float scale_max, ImVec2 graph_size)
     {
         ImGui::PlotLines(label, values.data(), values.size(), values_offset, overlay_text, scale_min, scale_max, graph_size, sizeof(float));
     }
@@ -421,7 +421,7 @@ void init_main(py::module &libaimgui, Registry &registry) {
     , py::arg("scale_max") = FLT_MAX
     , py::arg("graph_size") = ImVec2(0,0)
     );
-    libaimgui.def("plot_histogram", [](const char* label, std::vector<float> values, int values_offset, const char* overlay_text, float scale_min, float scale_max, ImVec2 graph_size)
+    _aimgui.def("plot_histogram", [](const char* label, std::vector<float> values, int values_offset, const char* overlay_text, float scale_min, float scale_max, ImVec2 graph_size)
     {
         ImGui::PlotHistogram(label, values.data(), values.size(), values_offset, overlay_text, scale_min, scale_max, graph_size, sizeof(float));
     }

@@ -11,11 +11,11 @@
 
 namespace py = pybind11;
 
-void init_generated(py::module &libaimgui, Registry &registry) {
-    py::enum_<ImGuiKey>(libaimgui, "Key", py::arithmetic())
-        .export_values();
+void init_generated(py::module &_aimgui, Registry &registry) {
+    /*py::enum_<ImGuiKey>(_aimgui, "Key", py::arithmetic())
+        .export_values();*/
 
-    PYCLASS_BEGIN(libaimgui, ImVec2, Vec2)
+    PYCLASS_BEGIN(_aimgui, ImVec2, Vec2)
     Vec2.def_readwrite("x", &ImVec2::x);
     Vec2.def_readwrite("y", &ImVec2::y);
     Vec2.def(py::init<>());
@@ -23,9 +23,9 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("_x")
     , py::arg("_y")
     );
-    PYCLASS_END(libaimgui, ImVec2, Vec2)
+    PYCLASS_END(_aimgui, ImVec2, Vec2)
 
-    PYCLASS_BEGIN(libaimgui, ImVec4, Vec4)
+    PYCLASS_BEGIN(_aimgui, ImVec4, Vec4)
     Vec4.def_readwrite("x", &ImVec4::x);
     Vec4.def_readwrite("y", &ImVec4::y);
     Vec4.def_readwrite("z", &ImVec4::z);
@@ -37,78 +37,78 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("_z")
     , py::arg("_w")
     );
-    PYCLASS_END(libaimgui, ImVec4, Vec4)
+    PYCLASS_END(_aimgui, ImVec4, Vec4)
 
-    libaimgui.def("get_io", &ImGui::GetIO
+    _aimgui.def("get_io", &ImGui::GetIO
     , py::return_value_policy::reference);
-    libaimgui.def("get_style", &ImGui::GetStyle
+    _aimgui.def("get_style", &ImGui::GetStyle
     , py::return_value_policy::reference);
-    libaimgui.def("new_frame", &ImGui::NewFrame
+    _aimgui.def("new_frame", &ImGui::NewFrame
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("end_frame", &ImGui::EndFrame
+    _aimgui.def("end_frame", &ImGui::EndFrame
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("render", &ImGui::Render
+    _aimgui.def("render", &ImGui::Render
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_draw_data", &ImGui::GetDrawData
+    _aimgui.def("get_draw_data", &ImGui::GetDrawData
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("show_demo_window", [](bool * p_open)
+    _aimgui.def("show_demo_window", [](bool * p_open)
     {
         ImGui::ShowDemoWindow(p_open);
         return p_open;
     }
     , py::arg("p_open") = nullptr
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("show_metrics_window", [](bool * p_open)
+    _aimgui.def("show_metrics_window", [](bool * p_open)
     {
         ImGui::ShowMetricsWindow(p_open);
         return p_open;
     }
     , py::arg("p_open") = nullptr
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("show_debug_log_window", [](bool * p_open)
+    _aimgui.def("show_debug_log_window", [](bool * p_open)
     {
         ImGui::ShowDebugLogWindow(p_open);
         return p_open;
     }
     , py::arg("p_open") = nullptr
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("show_stack_tool_window", [](bool * p_open)
+    _aimgui.def("show_stack_tool_window", [](bool * p_open)
     {
         ImGui::ShowStackToolWindow(p_open);
         return p_open;
     }
     , py::arg("p_open") = nullptr
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("show_about_window", [](bool * p_open)
+    _aimgui.def("show_about_window", [](bool * p_open)
     {
         ImGui::ShowAboutWindow(p_open);
         return p_open;
     }
     , py::arg("p_open") = nullptr
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("show_style_editor", &ImGui::ShowStyleEditor
+    _aimgui.def("show_style_editor", &ImGui::ShowStyleEditor
     , py::arg("ref") = nullptr
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("show_style_selector", &ImGui::ShowStyleSelector
+    _aimgui.def("show_style_selector", &ImGui::ShowStyleSelector
     , py::arg("label")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("show_font_selector", &ImGui::ShowFontSelector
+    _aimgui.def("show_font_selector", &ImGui::ShowFontSelector
     , py::arg("label")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("show_user_guide", &ImGui::ShowUserGuide
+    _aimgui.def("show_user_guide", &ImGui::ShowUserGuide
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_version", &ImGui::GetVersion
+    _aimgui.def("get_version", &ImGui::GetVersion
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("style_colors_dark", &ImGui::StyleColorsDark
+    _aimgui.def("style_colors_dark", &ImGui::StyleColorsDark
     , py::arg("dst") = nullptr
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("style_colors_light", &ImGui::StyleColorsLight
+    _aimgui.def("style_colors_light", &ImGui::StyleColorsLight
     , py::arg("dst") = nullptr
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("style_colors_classic", &ImGui::StyleColorsClassic
+    _aimgui.def("style_colors_classic", &ImGui::StyleColorsClassic
     , py::arg("dst") = nullptr
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("begin", [](const char * name, bool * p_open, ImGuiWindowFlags flags)
+    _aimgui.def("begin", [](const char * name, bool * p_open, ImGuiWindowFlags flags)
     {
         auto ret = ImGui::Begin(name, p_open, flags);
         return std::make_tuple(ret, p_open);
@@ -117,304 +117,304 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("p_open") = nullptr
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("end", &ImGui::End
+    _aimgui.def("end", &ImGui::End
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("begin_child", py::overload_cast<const char *, const ImVec2 &, bool, ImGuiWindowFlags>(&ImGui::BeginChild)
+    _aimgui.def("begin_child", py::overload_cast<const char *, const ImVec2 &, bool, ImGuiWindowFlags>(&ImGui::BeginChild)
     , py::arg("str_id")
     , py::arg("size") = ImVec2(0,0)
     , py::arg("border") = false
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("begin_child", py::overload_cast<ImGuiID, const ImVec2 &, bool, ImGuiWindowFlags>(&ImGui::BeginChild)
+    _aimgui.def("begin_child", py::overload_cast<ImGuiID, const ImVec2 &, bool, ImGuiWindowFlags>(&ImGui::BeginChild)
     , py::arg("id")
     , py::arg("size") = ImVec2(0,0)
     , py::arg("border") = false
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("end_child", &ImGui::EndChild
+    _aimgui.def("end_child", &ImGui::EndChild
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("is_window_appearing", &ImGui::IsWindowAppearing
+    _aimgui.def("is_window_appearing", &ImGui::IsWindowAppearing
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("is_window_collapsed", &ImGui::IsWindowCollapsed
+    _aimgui.def("is_window_collapsed", &ImGui::IsWindowCollapsed
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("is_window_focused", &ImGui::IsWindowFocused
+    _aimgui.def("is_window_focused", &ImGui::IsWindowFocused
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("is_window_hovered", &ImGui::IsWindowHovered
+    _aimgui.def("is_window_hovered", &ImGui::IsWindowHovered
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_window_draw_list", &ImGui::GetWindowDrawList
+    _aimgui.def("get_window_draw_list", &ImGui::GetWindowDrawList
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_window_dpi_scale", &ImGui::GetWindowDpiScale
+    _aimgui.def("get_window_dpi_scale", &ImGui::GetWindowDpiScale
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_window_pos", &ImGui::GetWindowPos
+    _aimgui.def("get_window_pos", &ImGui::GetWindowPos
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_window_size", &ImGui::GetWindowSize
+    _aimgui.def("get_window_size", &ImGui::GetWindowSize
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_window_width", &ImGui::GetWindowWidth
+    _aimgui.def("get_window_width", &ImGui::GetWindowWidth
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_window_height", &ImGui::GetWindowHeight
+    _aimgui.def("get_window_height", &ImGui::GetWindowHeight
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_window_viewport", &ImGui::GetWindowViewport
+    _aimgui.def("get_window_viewport", &ImGui::GetWindowViewport
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_next_window_pos", &ImGui::SetNextWindowPos
+    _aimgui.def("set_next_window_pos", &ImGui::SetNextWindowPos
     , py::arg("pos")
     , py::arg("cond") = 0
     , py::arg("pivot") = ImVec2(0,0)
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_next_window_size", &ImGui::SetNextWindowSize
+    _aimgui.def("set_next_window_size", &ImGui::SetNextWindowSize
     , py::arg("size")
     , py::arg("cond") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_next_window_content_size", &ImGui::SetNextWindowContentSize
+    _aimgui.def("set_next_window_content_size", &ImGui::SetNextWindowContentSize
     , py::arg("size")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_next_window_collapsed", &ImGui::SetNextWindowCollapsed
+    _aimgui.def("set_next_window_collapsed", &ImGui::SetNextWindowCollapsed
     , py::arg("collapsed")
     , py::arg("cond") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_next_window_focus", &ImGui::SetNextWindowFocus
+    _aimgui.def("set_next_window_focus", &ImGui::SetNextWindowFocus
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_next_window_bg_alpha", &ImGui::SetNextWindowBgAlpha
+    _aimgui.def("set_next_window_bg_alpha", &ImGui::SetNextWindowBgAlpha
     , py::arg("alpha")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_next_window_viewport", &ImGui::SetNextWindowViewport
+    _aimgui.def("set_next_window_viewport", &ImGui::SetNextWindowViewport
     , py::arg("viewport_id")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_window_pos", py::overload_cast<const ImVec2 &, ImGuiCond>(&ImGui::SetWindowPos)
+    _aimgui.def("set_window_pos", py::overload_cast<const ImVec2 &, ImGuiCond>(&ImGui::SetWindowPos)
     , py::arg("pos")
     , py::arg("cond") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_window_size", py::overload_cast<const ImVec2 &, ImGuiCond>(&ImGui::SetWindowSize)
+    _aimgui.def("set_window_size", py::overload_cast<const ImVec2 &, ImGuiCond>(&ImGui::SetWindowSize)
     , py::arg("size")
     , py::arg("cond") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_window_collapsed", py::overload_cast<bool, ImGuiCond>(&ImGui::SetWindowCollapsed)
+    _aimgui.def("set_window_collapsed", py::overload_cast<bool, ImGuiCond>(&ImGui::SetWindowCollapsed)
     , py::arg("collapsed")
     , py::arg("cond") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_window_focus", py::overload_cast<>(&ImGui::SetWindowFocus)
+    _aimgui.def("set_window_focus", py::overload_cast<>(&ImGui::SetWindowFocus)
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_window_font_scale", &ImGui::SetWindowFontScale
+    _aimgui.def("set_window_font_scale", &ImGui::SetWindowFontScale
     , py::arg("scale")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_window_pos", py::overload_cast<const char *, const ImVec2 &, ImGuiCond>(&ImGui::SetWindowPos)
+    _aimgui.def("set_window_pos", py::overload_cast<const char *, const ImVec2 &, ImGuiCond>(&ImGui::SetWindowPos)
     , py::arg("name")
     , py::arg("pos")
     , py::arg("cond") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_window_size", py::overload_cast<const char *, const ImVec2 &, ImGuiCond>(&ImGui::SetWindowSize)
+    _aimgui.def("set_window_size", py::overload_cast<const char *, const ImVec2 &, ImGuiCond>(&ImGui::SetWindowSize)
     , py::arg("name")
     , py::arg("size")
     , py::arg("cond") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_window_collapsed", py::overload_cast<const char *, bool, ImGuiCond>(&ImGui::SetWindowCollapsed)
+    _aimgui.def("set_window_collapsed", py::overload_cast<const char *, bool, ImGuiCond>(&ImGui::SetWindowCollapsed)
     , py::arg("name")
     , py::arg("collapsed")
     , py::arg("cond") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_window_focus", py::overload_cast<const char *>(&ImGui::SetWindowFocus)
+    _aimgui.def("set_window_focus", py::overload_cast<const char *>(&ImGui::SetWindowFocus)
     , py::arg("name")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_content_region_avail", &ImGui::GetContentRegionAvail
+    _aimgui.def("get_content_region_avail", &ImGui::GetContentRegionAvail
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_content_region_max", &ImGui::GetContentRegionMax
+    _aimgui.def("get_content_region_max", &ImGui::GetContentRegionMax
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_window_content_region_min", &ImGui::GetWindowContentRegionMin
+    _aimgui.def("get_window_content_region_min", &ImGui::GetWindowContentRegionMin
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_window_content_region_max", &ImGui::GetWindowContentRegionMax
+    _aimgui.def("get_window_content_region_max", &ImGui::GetWindowContentRegionMax
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_scroll_x", &ImGui::GetScrollX
+    _aimgui.def("get_scroll_x", &ImGui::GetScrollX
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_scroll_y", &ImGui::GetScrollY
+    _aimgui.def("get_scroll_y", &ImGui::GetScrollY
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_scroll_x", py::overload_cast<float>(&ImGui::SetScrollX)
+    _aimgui.def("set_scroll_x", py::overload_cast<float>(&ImGui::SetScrollX)
     , py::arg("scroll_x")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_scroll_y", py::overload_cast<float>(&ImGui::SetScrollY)
+    _aimgui.def("set_scroll_y", py::overload_cast<float>(&ImGui::SetScrollY)
     , py::arg("scroll_y")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_scroll_max_x", &ImGui::GetScrollMaxX
+    _aimgui.def("get_scroll_max_x", &ImGui::GetScrollMaxX
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_scroll_max_y", &ImGui::GetScrollMaxY
+    _aimgui.def("get_scroll_max_y", &ImGui::GetScrollMaxY
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_scroll_here_x", &ImGui::SetScrollHereX
+    _aimgui.def("set_scroll_here_x", &ImGui::SetScrollHereX
     , py::arg("center_x_ratio") = 0.5f
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_scroll_here_y", &ImGui::SetScrollHereY
+    _aimgui.def("set_scroll_here_y", &ImGui::SetScrollHereY
     , py::arg("center_y_ratio") = 0.5f
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_scroll_from_pos_x", py::overload_cast<float, float>(&ImGui::SetScrollFromPosX)
+    _aimgui.def("set_scroll_from_pos_x", py::overload_cast<float, float>(&ImGui::SetScrollFromPosX)
     , py::arg("local_x")
     , py::arg("center_x_ratio") = 0.5f
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_scroll_from_pos_y", py::overload_cast<float, float>(&ImGui::SetScrollFromPosY)
+    _aimgui.def("set_scroll_from_pos_y", py::overload_cast<float, float>(&ImGui::SetScrollFromPosY)
     , py::arg("local_y")
     , py::arg("center_y_ratio") = 0.5f
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("push_font", &ImGui::PushFont
+    _aimgui.def("push_font", &ImGui::PushFont
     , py::arg("font")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("pop_font", &ImGui::PopFont
+    _aimgui.def("pop_font", &ImGui::PopFont
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("push_style_color", py::overload_cast<ImGuiCol, ImU32>(&ImGui::PushStyleColor)
+    _aimgui.def("push_style_color", py::overload_cast<ImGuiCol, ImU32>(&ImGui::PushStyleColor)
     , py::arg("idx")
     , py::arg("col")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("push_style_color", py::overload_cast<ImGuiCol, const ImVec4 &>(&ImGui::PushStyleColor)
+    _aimgui.def("push_style_color", py::overload_cast<ImGuiCol, const ImVec4 &>(&ImGui::PushStyleColor)
     , py::arg("idx")
     , py::arg("col")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("pop_style_color", &ImGui::PopStyleColor
+    _aimgui.def("pop_style_color", &ImGui::PopStyleColor
     , py::arg("count") = 1
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("push_style_var", py::overload_cast<ImGuiStyleVar, float>(&ImGui::PushStyleVar)
+    _aimgui.def("push_style_var", py::overload_cast<ImGuiStyleVar, float>(&ImGui::PushStyleVar)
     , py::arg("idx")
     , py::arg("val")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("push_style_var", py::overload_cast<ImGuiStyleVar, const ImVec2 &>(&ImGui::PushStyleVar)
+    _aimgui.def("push_style_var", py::overload_cast<ImGuiStyleVar, const ImVec2 &>(&ImGui::PushStyleVar)
     , py::arg("idx")
     , py::arg("val")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("pop_style_var", &ImGui::PopStyleVar
+    _aimgui.def("pop_style_var", &ImGui::PopStyleVar
     , py::arg("count") = 1
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("push_allow_keyboard_focus", &ImGui::PushAllowKeyboardFocus
+    _aimgui.def("push_allow_keyboard_focus", &ImGui::PushAllowKeyboardFocus
     , py::arg("allow_keyboard_focus")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("pop_allow_keyboard_focus", &ImGui::PopAllowKeyboardFocus
+    _aimgui.def("pop_allow_keyboard_focus", &ImGui::PopAllowKeyboardFocus
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("push_button_repeat", &ImGui::PushButtonRepeat
+    _aimgui.def("push_button_repeat", &ImGui::PushButtonRepeat
     , py::arg("repeat")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("pop_button_repeat", &ImGui::PopButtonRepeat
+    _aimgui.def("pop_button_repeat", &ImGui::PopButtonRepeat
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("push_item_width", &ImGui::PushItemWidth
+    _aimgui.def("push_item_width", &ImGui::PushItemWidth
     , py::arg("item_width")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("pop_item_width", &ImGui::PopItemWidth
+    _aimgui.def("pop_item_width", &ImGui::PopItemWidth
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_next_item_width", &ImGui::SetNextItemWidth
+    _aimgui.def("set_next_item_width", &ImGui::SetNextItemWidth
     , py::arg("item_width")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("calc_item_width", &ImGui::CalcItemWidth
+    _aimgui.def("calc_item_width", &ImGui::CalcItemWidth
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("push_text_wrap_pos", &ImGui::PushTextWrapPos
+    _aimgui.def("push_text_wrap_pos", &ImGui::PushTextWrapPos
     , py::arg("wrap_local_pos_x") = 0.0f
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("pop_text_wrap_pos", &ImGui::PopTextWrapPos
+    _aimgui.def("pop_text_wrap_pos", &ImGui::PopTextWrapPos
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_font", &ImGui::GetFont
+    _aimgui.def("get_font", &ImGui::GetFont
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_font_size", &ImGui::GetFontSize
+    _aimgui.def("get_font_size", &ImGui::GetFontSize
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_font_tex_uv_white_pixel", &ImGui::GetFontTexUvWhitePixel
+    _aimgui.def("get_font_tex_uv_white_pixel", &ImGui::GetFontTexUvWhitePixel
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_color_u32", py::overload_cast<ImGuiCol, float>(&ImGui::GetColorU32)
+    _aimgui.def("get_color_u32", py::overload_cast<ImGuiCol, float>(&ImGui::GetColorU32)
     , py::arg("idx")
     , py::arg("alpha_mul") = 1.0f
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_color_u32", py::overload_cast<const ImVec4 &>(&ImGui::GetColorU32)
+    _aimgui.def("get_color_u32", py::overload_cast<const ImVec4 &>(&ImGui::GetColorU32)
     , py::arg("col")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_color_u32", py::overload_cast<ImU32>(&ImGui::GetColorU32)
+    _aimgui.def("get_color_u32", py::overload_cast<ImU32>(&ImGui::GetColorU32)
     , py::arg("col")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_style_color_vec4", &ImGui::GetStyleColorVec4
+    _aimgui.def("get_style_color_vec4", &ImGui::GetStyleColorVec4
     , py::arg("idx")
     , py::return_value_policy::reference);
-    libaimgui.def("separator", &ImGui::Separator
+    _aimgui.def("separator", &ImGui::Separator
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("same_line", &ImGui::SameLine
+    _aimgui.def("same_line", &ImGui::SameLine
     , py::arg("offset_from_start_x") = 0.0f
     , py::arg("spacing") = -1.0f
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("new_line", &ImGui::NewLine
+    _aimgui.def("new_line", &ImGui::NewLine
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("spacing", &ImGui::Spacing
+    _aimgui.def("spacing", &ImGui::Spacing
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("dummy", &ImGui::Dummy
+    _aimgui.def("dummy", &ImGui::Dummy
     , py::arg("size")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("indent", &ImGui::Indent
+    _aimgui.def("indent", &ImGui::Indent
     , py::arg("indent_w") = 0.0f
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("unindent", &ImGui::Unindent
+    _aimgui.def("unindent", &ImGui::Unindent
     , py::arg("indent_w") = 0.0f
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("begin_group", &ImGui::BeginGroup
+    _aimgui.def("begin_group", &ImGui::BeginGroup
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("end_group", &ImGui::EndGroup
+    _aimgui.def("end_group", &ImGui::EndGroup
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_cursor_pos", &ImGui::GetCursorPos
+    _aimgui.def("get_cursor_pos", &ImGui::GetCursorPos
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_cursor_pos_x", &ImGui::GetCursorPosX
+    _aimgui.def("get_cursor_pos_x", &ImGui::GetCursorPosX
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_cursor_pos_y", &ImGui::GetCursorPosY
+    _aimgui.def("get_cursor_pos_y", &ImGui::GetCursorPosY
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_cursor_pos", &ImGui::SetCursorPos
+    _aimgui.def("set_cursor_pos", &ImGui::SetCursorPos
     , py::arg("local_pos")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_cursor_pos_x", &ImGui::SetCursorPosX
+    _aimgui.def("set_cursor_pos_x", &ImGui::SetCursorPosX
     , py::arg("local_x")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_cursor_pos_y", &ImGui::SetCursorPosY
+    _aimgui.def("set_cursor_pos_y", &ImGui::SetCursorPosY
     , py::arg("local_y")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_cursor_start_pos", &ImGui::GetCursorStartPos
+    _aimgui.def("get_cursor_start_pos", &ImGui::GetCursorStartPos
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_cursor_screen_pos", &ImGui::GetCursorScreenPos
+    _aimgui.def("get_cursor_screen_pos", &ImGui::GetCursorScreenPos
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_cursor_screen_pos", &ImGui::SetCursorScreenPos
+    _aimgui.def("set_cursor_screen_pos", &ImGui::SetCursorScreenPos
     , py::arg("pos")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("align_text_to_frame_padding", &ImGui::AlignTextToFramePadding
+    _aimgui.def("align_text_to_frame_padding", &ImGui::AlignTextToFramePadding
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_text_line_height", &ImGui::GetTextLineHeight
+    _aimgui.def("get_text_line_height", &ImGui::GetTextLineHeight
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_text_line_height_with_spacing", &ImGui::GetTextLineHeightWithSpacing
+    _aimgui.def("get_text_line_height_with_spacing", &ImGui::GetTextLineHeightWithSpacing
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_frame_height", &ImGui::GetFrameHeight
+    _aimgui.def("get_frame_height", &ImGui::GetFrameHeight
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_frame_height_with_spacing", &ImGui::GetFrameHeightWithSpacing
+    _aimgui.def("get_frame_height_with_spacing", &ImGui::GetFrameHeightWithSpacing
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("push_id", py::overload_cast<const char *>(&ImGui::PushID)
+    _aimgui.def("push_id", py::overload_cast<const char *>(&ImGui::PushID)
     , py::arg("str_id")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("push_id", py::overload_cast<const char *, const char *>(&ImGui::PushID)
+    _aimgui.def("push_id", py::overload_cast<const char *, const char *>(&ImGui::PushID)
     , py::arg("str_id_begin")
     , py::arg("str_id_end")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("push_id", py::overload_cast<const void *>(&ImGui::PushID)
+    _aimgui.def("push_id", py::overload_cast<const void *>(&ImGui::PushID)
     , py::arg("ptr_id")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("push_id", py::overload_cast<int>(&ImGui::PushID)
+    _aimgui.def("push_id", py::overload_cast<int>(&ImGui::PushID)
     , py::arg("int_id")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("pop_id", &ImGui::PopID
+    _aimgui.def("pop_id", &ImGui::PopID
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_id", py::overload_cast<const char *>(&ImGui::GetID)
+    _aimgui.def("get_id", py::overload_cast<const char *>(&ImGui::GetID)
     , py::arg("str_id")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_id", py::overload_cast<const char *, const char *>(&ImGui::GetID)
+    _aimgui.def("get_id", py::overload_cast<const char *, const char *>(&ImGui::GetID)
     , py::arg("str_id_begin")
     , py::arg("str_id_end")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_id", py::overload_cast<const void *>(&ImGui::GetID)
+    _aimgui.def("get_id", py::overload_cast<const void *>(&ImGui::GetID)
     , py::arg("ptr_id")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("text_unformatted", &ImGui::TextUnformatted
+    _aimgui.def("text_unformatted", &ImGui::TextUnformatted
     , py::arg("text")
     , py::arg("text_end") = nullptr
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("text", [](const char * fmt)
+    _aimgui.def("text", [](const char * fmt)
     {
         ImGui::Text(fmt);
         return ;
     }
     , py::arg("fmt")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("text_colored", [](const ImVec4 & col, const char * fmt)
+    _aimgui.def("text_colored", [](const ImVec4 & col, const char * fmt)
     {
         ImGui::TextColored(col, fmt);
         return ;
@@ -422,21 +422,21 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("col")
     , py::arg("fmt")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("text_disabled", [](const char * fmt)
+    _aimgui.def("text_disabled", [](const char * fmt)
     {
         ImGui::TextDisabled(fmt);
         return ;
     }
     , py::arg("fmt")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("text_wrapped", [](const char * fmt)
+    _aimgui.def("text_wrapped", [](const char * fmt)
     {
         ImGui::TextWrapped(fmt);
         return ;
     }
     , py::arg("fmt")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("label_text", [](const char * label, const char * fmt)
+    _aimgui.def("label_text", [](const char * label, const char * fmt)
     {
         ImGui::LabelText(label, fmt);
         return ;
@@ -444,30 +444,30 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("label")
     , py::arg("fmt")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("bullet_text", [](const char * fmt)
+    _aimgui.def("bullet_text", [](const char * fmt)
     {
         ImGui::BulletText(fmt);
         return ;
     }
     , py::arg("fmt")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("button", &ImGui::Button
+    _aimgui.def("button", &ImGui::Button
     , py::arg("label")
     , py::arg("size") = ImVec2(0,0)
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("small_button", &ImGui::SmallButton
+    _aimgui.def("small_button", &ImGui::SmallButton
     , py::arg("label")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("invisible_button", &ImGui::InvisibleButton
+    _aimgui.def("invisible_button", &ImGui::InvisibleButton
     , py::arg("str_id")
     , py::arg("size")
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("arrow_button", &ImGui::ArrowButton
+    _aimgui.def("arrow_button", &ImGui::ArrowButton
     , py::arg("str_id")
     , py::arg("dir")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("checkbox", [](const char * label, bool * v)
+    _aimgui.def("checkbox", [](const char * label, bool * v)
     {
         auto ret = ImGui::Checkbox(label, v);
         return std::make_tuple(ret, v);
@@ -475,7 +475,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("label")
     , py::arg("v")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("checkbox_flags", [](const char * label, int * flags, int flags_value)
+    _aimgui.def("checkbox_flags", [](const char * label, int * flags, int flags_value)
     {
         auto ret = ImGui::CheckboxFlags(label, flags, flags_value);
         return std::make_tuple(ret, flags);
@@ -484,7 +484,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("flags")
     , py::arg("flags_value")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("checkbox_flags", [](const char * label, unsigned int * flags, unsigned int flags_value)
+    _aimgui.def("checkbox_flags", [](const char * label, unsigned int * flags, unsigned int flags_value)
     {
         auto ret = ImGui::CheckboxFlags(label, flags, flags_value);
         return std::make_tuple(ret, flags);
@@ -493,11 +493,11 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("flags")
     , py::arg("flags_value")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("radio_button", py::overload_cast<const char *, bool>(&ImGui::RadioButton)
+    _aimgui.def("radio_button", py::overload_cast<const char *, bool>(&ImGui::RadioButton)
     , py::arg("label")
     , py::arg("active")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("radio_button", [](const char * label, int * v, int v_button)
+    _aimgui.def("radio_button", [](const char * label, int * v, int v_button)
     {
         auto ret = ImGui::RadioButton(label, v, v_button);
         return std::make_tuple(ret, v);
@@ -506,14 +506,14 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("v")
     , py::arg("v_button")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("progress_bar", &ImGui::ProgressBar
+    _aimgui.def("progress_bar", &ImGui::ProgressBar
     , py::arg("fraction")
     , py::arg("size_arg") = ImVec2(-FLT_MIN,0)
     , py::arg("overlay") = nullptr
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("bullet", &ImGui::Bullet
+    _aimgui.def("bullet", &ImGui::Bullet
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("image", &ImGui::Image
+    _aimgui.def("image", &ImGui::Image
     , py::arg("user_texture_id")
     , py::arg("size")
     , py::arg("uv0") = ImVec2(0,0)
@@ -521,7 +521,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("tint_col") = ImVec4(1,1,1,1)
     , py::arg("border_col") = ImVec4(0,0,0,0)
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("image_button", &ImGui::ImageButton
+    _aimgui.def("image_button", &ImGui::ImageButton
     , py::arg("str_id")
     , py::arg("user_texture_id")
     , py::arg("size")
@@ -530,14 +530,14 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("bg_col") = ImVec4(0,0,0,0)
     , py::arg("tint_col") = ImVec4(1,1,1,1)
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("begin_combo", &ImGui::BeginCombo
+    _aimgui.def("begin_combo", &ImGui::BeginCombo
     , py::arg("label")
     , py::arg("preview_value")
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("end_combo", &ImGui::EndCombo
+    _aimgui.def("end_combo", &ImGui::EndCombo
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("drag_float", [](const char * label, float * v, float v_speed, float v_min, float v_max, const char * format, ImGuiSliderFlags flags)
+    _aimgui.def("drag_float", [](const char * label, float * v, float v_speed, float v_min, float v_max, const char * format, ImGuiSliderFlags flags)
     {
         auto ret = ImGui::DragFloat(label, v, v_speed, v_min, v_max, format, flags);
         return std::make_tuple(ret, v);
@@ -550,7 +550,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("format") = nullptr
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("drag_float2", [](const char * label, std::array<float, 2>& v, float v_speed, float v_min, float v_max, const char * format, ImGuiSliderFlags flags)
+    _aimgui.def("drag_float2", [](const char * label, std::array<float, 2>& v, float v_speed, float v_min, float v_max, const char * format, ImGuiSliderFlags flags)
     {
         auto ret = ImGui::DragFloat2(label, &v[0], v_speed, v_min, v_max, format, flags);
         return std::make_tuple(ret, v);
@@ -563,7 +563,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("format") = nullptr
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("drag_float3", [](const char * label, std::array<float, 3>& v, float v_speed, float v_min, float v_max, const char * format, ImGuiSliderFlags flags)
+    _aimgui.def("drag_float3", [](const char * label, std::array<float, 3>& v, float v_speed, float v_min, float v_max, const char * format, ImGuiSliderFlags flags)
     {
         auto ret = ImGui::DragFloat3(label, &v[0], v_speed, v_min, v_max, format, flags);
         return std::make_tuple(ret, v);
@@ -576,7 +576,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("format") = nullptr
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("drag_float4", [](const char * label, std::array<float, 4>& v, float v_speed, float v_min, float v_max, const char * format, ImGuiSliderFlags flags)
+    _aimgui.def("drag_float4", [](const char * label, std::array<float, 4>& v, float v_speed, float v_min, float v_max, const char * format, ImGuiSliderFlags flags)
     {
         auto ret = ImGui::DragFloat4(label, &v[0], v_speed, v_min, v_max, format, flags);
         return std::make_tuple(ret, v);
@@ -589,7 +589,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("format") = nullptr
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("drag_float_range2", [](const char * label, float * v_current_min, float * v_current_max, float v_speed, float v_min, float v_max, const char * format, const char * format_max, ImGuiSliderFlags flags)
+    _aimgui.def("drag_float_range2", [](const char * label, float * v_current_min, float * v_current_max, float v_speed, float v_min, float v_max, const char * format, const char * format_max, ImGuiSliderFlags flags)
     {
         auto ret = ImGui::DragFloatRange2(label, v_current_min, v_current_max, v_speed, v_min, v_max, format, format_max, flags);
         return std::make_tuple(ret, v_current_min, v_current_max);
@@ -604,7 +604,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("format_max") = nullptr
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("drag_int", [](const char * label, int * v, float v_speed, int v_min, int v_max, const char * format, ImGuiSliderFlags flags)
+    _aimgui.def("drag_int", [](const char * label, int * v, float v_speed, int v_min, int v_max, const char * format, ImGuiSliderFlags flags)
     {
         auto ret = ImGui::DragInt(label, v, v_speed, v_min, v_max, format, flags);
         return std::make_tuple(ret, v);
@@ -617,7 +617,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("format") = nullptr
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("drag_int2", [](const char * label, std::array<int, 2>& v, float v_speed, int v_min, int v_max, const char * format, ImGuiSliderFlags flags)
+    _aimgui.def("drag_int2", [](const char * label, std::array<int, 2>& v, float v_speed, int v_min, int v_max, const char * format, ImGuiSliderFlags flags)
     {
         auto ret = ImGui::DragInt2(label, &v[0], v_speed, v_min, v_max, format, flags);
         return std::make_tuple(ret, v);
@@ -630,7 +630,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("format") = nullptr
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("drag_int3", [](const char * label, std::array<int, 3>& v, float v_speed, int v_min, int v_max, const char * format, ImGuiSliderFlags flags)
+    _aimgui.def("drag_int3", [](const char * label, std::array<int, 3>& v, float v_speed, int v_min, int v_max, const char * format, ImGuiSliderFlags flags)
     {
         auto ret = ImGui::DragInt3(label, &v[0], v_speed, v_min, v_max, format, flags);
         return std::make_tuple(ret, v);
@@ -643,7 +643,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("format") = nullptr
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("drag_int4", [](const char * label, std::array<int, 4>& v, float v_speed, int v_min, int v_max, const char * format, ImGuiSliderFlags flags)
+    _aimgui.def("drag_int4", [](const char * label, std::array<int, 4>& v, float v_speed, int v_min, int v_max, const char * format, ImGuiSliderFlags flags)
     {
         auto ret = ImGui::DragInt4(label, &v[0], v_speed, v_min, v_max, format, flags);
         return std::make_tuple(ret, v);
@@ -656,7 +656,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("format") = nullptr
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("drag_int_range2", [](const char * label, int * v_current_min, int * v_current_max, float v_speed, int v_min, int v_max, const char * format, const char * format_max, ImGuiSliderFlags flags)
+    _aimgui.def("drag_int_range2", [](const char * label, int * v_current_min, int * v_current_max, float v_speed, int v_min, int v_max, const char * format, const char * format_max, ImGuiSliderFlags flags)
     {
         auto ret = ImGui::DragIntRange2(label, v_current_min, v_current_max, v_speed, v_min, v_max, format, format_max, flags);
         return std::make_tuple(ret, v_current_min, v_current_max);
@@ -671,7 +671,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("format_max") = nullptr
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("drag_scalar", &ImGui::DragScalar
+    _aimgui.def("drag_scalar", &ImGui::DragScalar
     , py::arg("label")
     , py::arg("data_type")
     , py::arg("p_data")
@@ -681,7 +681,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("format") = nullptr
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("drag_scalar_n", &ImGui::DragScalarN
+    _aimgui.def("drag_scalar_n", &ImGui::DragScalarN
     , py::arg("label")
     , py::arg("data_type")
     , py::arg("p_data")
@@ -692,7 +692,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("format") = nullptr
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("slider_float", [](const char * label, float * v, float v_min, float v_max, const char * format, ImGuiSliderFlags flags)
+    _aimgui.def("slider_float", [](const char * label, float * v, float v_min, float v_max, const char * format, ImGuiSliderFlags flags)
     {
         auto ret = ImGui::SliderFloat(label, v, v_min, v_max, format, flags);
         return std::make_tuple(ret, v);
@@ -704,7 +704,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("format") = nullptr
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("slider_float2", [](const char * label, std::array<float, 2>& v, float v_min, float v_max, const char * format, ImGuiSliderFlags flags)
+    _aimgui.def("slider_float2", [](const char * label, std::array<float, 2>& v, float v_min, float v_max, const char * format, ImGuiSliderFlags flags)
     {
         auto ret = ImGui::SliderFloat2(label, &v[0], v_min, v_max, format, flags);
         return std::make_tuple(ret, v);
@@ -716,7 +716,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("format") = nullptr
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("slider_float3", [](const char * label, std::array<float, 3>& v, float v_min, float v_max, const char * format, ImGuiSliderFlags flags)
+    _aimgui.def("slider_float3", [](const char * label, std::array<float, 3>& v, float v_min, float v_max, const char * format, ImGuiSliderFlags flags)
     {
         auto ret = ImGui::SliderFloat3(label, &v[0], v_min, v_max, format, flags);
         return std::make_tuple(ret, v);
@@ -728,7 +728,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("format") = nullptr
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("slider_float4", [](const char * label, std::array<float, 4>& v, float v_min, float v_max, const char * format, ImGuiSliderFlags flags)
+    _aimgui.def("slider_float4", [](const char * label, std::array<float, 4>& v, float v_min, float v_max, const char * format, ImGuiSliderFlags flags)
     {
         auto ret = ImGui::SliderFloat4(label, &v[0], v_min, v_max, format, flags);
         return std::make_tuple(ret, v);
@@ -740,7 +740,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("format") = nullptr
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("slider_angle", [](const char * label, float * v_rad, float v_degrees_min, float v_degrees_max, const char * format, ImGuiSliderFlags flags)
+    _aimgui.def("slider_angle", [](const char * label, float * v_rad, float v_degrees_min, float v_degrees_max, const char * format, ImGuiSliderFlags flags)
     {
         auto ret = ImGui::SliderAngle(label, v_rad, v_degrees_min, v_degrees_max, format, flags);
         return std::make_tuple(ret, v_rad);
@@ -752,7 +752,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("format") = nullptr
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("slider_int", [](const char * label, int * v, int v_min, int v_max, const char * format, ImGuiSliderFlags flags)
+    _aimgui.def("slider_int", [](const char * label, int * v, int v_min, int v_max, const char * format, ImGuiSliderFlags flags)
     {
         auto ret = ImGui::SliderInt(label, v, v_min, v_max, format, flags);
         return std::make_tuple(ret, v);
@@ -764,7 +764,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("format") = nullptr
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("slider_int2", [](const char * label, std::array<int, 2>& v, int v_min, int v_max, const char * format, ImGuiSliderFlags flags)
+    _aimgui.def("slider_int2", [](const char * label, std::array<int, 2>& v, int v_min, int v_max, const char * format, ImGuiSliderFlags flags)
     {
         auto ret = ImGui::SliderInt2(label, &v[0], v_min, v_max, format, flags);
         return std::make_tuple(ret, v);
@@ -776,7 +776,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("format") = nullptr
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("slider_int3", [](const char * label, std::array<int, 3>& v, int v_min, int v_max, const char * format, ImGuiSliderFlags flags)
+    _aimgui.def("slider_int3", [](const char * label, std::array<int, 3>& v, int v_min, int v_max, const char * format, ImGuiSliderFlags flags)
     {
         auto ret = ImGui::SliderInt3(label, &v[0], v_min, v_max, format, flags);
         return std::make_tuple(ret, v);
@@ -788,7 +788,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("format") = nullptr
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("slider_int4", [](const char * label, std::array<int, 4>& v, int v_min, int v_max, const char * format, ImGuiSliderFlags flags)
+    _aimgui.def("slider_int4", [](const char * label, std::array<int, 4>& v, int v_min, int v_max, const char * format, ImGuiSliderFlags flags)
     {
         auto ret = ImGui::SliderInt4(label, &v[0], v_min, v_max, format, flags);
         return std::make_tuple(ret, v);
@@ -800,7 +800,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("format") = nullptr
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("slider_scalar", &ImGui::SliderScalar
+    _aimgui.def("slider_scalar", &ImGui::SliderScalar
     , py::arg("label")
     , py::arg("data_type")
     , py::arg("p_data")
@@ -809,7 +809,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("format") = nullptr
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("slider_scalar_n", &ImGui::SliderScalarN
+    _aimgui.def("slider_scalar_n", &ImGui::SliderScalarN
     , py::arg("label")
     , py::arg("data_type")
     , py::arg("p_data")
@@ -819,7 +819,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("format") = nullptr
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("v_slider_float", [](const char * label, const ImVec2 & size, float * v, float v_min, float v_max, const char * format, ImGuiSliderFlags flags)
+    _aimgui.def("v_slider_float", [](const char * label, const ImVec2 & size, float * v, float v_min, float v_max, const char * format, ImGuiSliderFlags flags)
     {
         auto ret = ImGui::VSliderFloat(label, size, v, v_min, v_max, format, flags);
         return std::make_tuple(ret, v);
@@ -832,7 +832,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("format") = nullptr
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("v_slider_int", [](const char * label, const ImVec2 & size, int * v, int v_min, int v_max, const char * format, ImGuiSliderFlags flags)
+    _aimgui.def("v_slider_int", [](const char * label, const ImVec2 & size, int * v, int v_min, int v_max, const char * format, ImGuiSliderFlags flags)
     {
         auto ret = ImGui::VSliderInt(label, size, v, v_min, v_max, format, flags);
         return std::make_tuple(ret, v);
@@ -845,7 +845,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("format") = nullptr
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("v_slider_scalar", &ImGui::VSliderScalar
+    _aimgui.def("v_slider_scalar", &ImGui::VSliderScalar
     , py::arg("label")
     , py::arg("size")
     , py::arg("data_type")
@@ -855,7 +855,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("format") = nullptr
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("input_float", [](const char * label, float * v, float step, float step_fast, const char * format, ImGuiInputTextFlags flags)
+    _aimgui.def("input_float", [](const char * label, float * v, float step, float step_fast, const char * format, ImGuiInputTextFlags flags)
     {
         auto ret = ImGui::InputFloat(label, v, step, step_fast, format, flags);
         return std::make_tuple(ret, v);
@@ -867,7 +867,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("format") = nullptr
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("input_float2", [](const char * label, std::array<float, 2>& v, const char * format, ImGuiInputTextFlags flags)
+    _aimgui.def("input_float2", [](const char * label, std::array<float, 2>& v, const char * format, ImGuiInputTextFlags flags)
     {
         auto ret = ImGui::InputFloat2(label, &v[0], format, flags);
         return std::make_tuple(ret, v);
@@ -877,7 +877,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("format") = nullptr
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("input_float3", [](const char * label, std::array<float, 3>& v, const char * format, ImGuiInputTextFlags flags)
+    _aimgui.def("input_float3", [](const char * label, std::array<float, 3>& v, const char * format, ImGuiInputTextFlags flags)
     {
         auto ret = ImGui::InputFloat3(label, &v[0], format, flags);
         return std::make_tuple(ret, v);
@@ -887,7 +887,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("format") = nullptr
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("input_float4", [](const char * label, std::array<float, 4>& v, const char * format, ImGuiInputTextFlags flags)
+    _aimgui.def("input_float4", [](const char * label, std::array<float, 4>& v, const char * format, ImGuiInputTextFlags flags)
     {
         auto ret = ImGui::InputFloat4(label, &v[0], format, flags);
         return std::make_tuple(ret, v);
@@ -897,7 +897,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("format") = nullptr
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("input_int", [](const char * label, int * v, int step, int step_fast, ImGuiInputTextFlags flags)
+    _aimgui.def("input_int", [](const char * label, int * v, int step, int step_fast, ImGuiInputTextFlags flags)
     {
         auto ret = ImGui::InputInt(label, v, step, step_fast, flags);
         return std::make_tuple(ret, v);
@@ -908,7 +908,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("step_fast") = 100
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("input_int2", [](const char * label, std::array<int, 2>& v, ImGuiInputTextFlags flags)
+    _aimgui.def("input_int2", [](const char * label, std::array<int, 2>& v, ImGuiInputTextFlags flags)
     {
         auto ret = ImGui::InputInt2(label, &v[0], flags);
         return std::make_tuple(ret, v);
@@ -917,7 +917,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("v")
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("input_int3", [](const char * label, std::array<int, 3>& v, ImGuiInputTextFlags flags)
+    _aimgui.def("input_int3", [](const char * label, std::array<int, 3>& v, ImGuiInputTextFlags flags)
     {
         auto ret = ImGui::InputInt3(label, &v[0], flags);
         return std::make_tuple(ret, v);
@@ -926,7 +926,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("v")
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("input_int4", [](const char * label, std::array<int, 4>& v, ImGuiInputTextFlags flags)
+    _aimgui.def("input_int4", [](const char * label, std::array<int, 4>& v, ImGuiInputTextFlags flags)
     {
         auto ret = ImGui::InputInt4(label, &v[0], flags);
         return std::make_tuple(ret, v);
@@ -935,7 +935,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("v")
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("input_double", [](const char * label, double * v, double step, double step_fast, const char * format, ImGuiInputTextFlags flags)
+    _aimgui.def("input_double", [](const char * label, double * v, double step, double step_fast, const char * format, ImGuiInputTextFlags flags)
     {
         auto ret = ImGui::InputDouble(label, v, step, step_fast, format, flags);
         return std::make_tuple(ret, v);
@@ -947,7 +947,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("format") = nullptr
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("input_scalar", &ImGui::InputScalar
+    _aimgui.def("input_scalar", &ImGui::InputScalar
     , py::arg("label")
     , py::arg("data_type")
     , py::arg("p_data")
@@ -956,7 +956,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("format") = nullptr
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("input_scalar_n", &ImGui::InputScalarN
+    _aimgui.def("input_scalar_n", &ImGui::InputScalarN
     , py::arg("label")
     , py::arg("data_type")
     , py::arg("p_data")
@@ -966,7 +966,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("format") = nullptr
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("color_edit3", [](const char * label, std::array<float, 3>& col, ImGuiColorEditFlags flags)
+    _aimgui.def("color_edit3", [](const char * label, std::array<float, 3>& col, ImGuiColorEditFlags flags)
     {
         auto ret = ImGui::ColorEdit3(label, &col[0], flags);
         return std::make_tuple(ret, col);
@@ -975,7 +975,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("col")
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("color_edit4", [](const char * label, std::array<float, 4>& col, ImGuiColorEditFlags flags)
+    _aimgui.def("color_edit4", [](const char * label, std::array<float, 4>& col, ImGuiColorEditFlags flags)
     {
         auto ret = ImGui::ColorEdit4(label, &col[0], flags);
         return std::make_tuple(ret, col);
@@ -984,7 +984,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("col")
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("color_picker3", [](const char * label, std::array<float, 3>& col, ImGuiColorEditFlags flags)
+    _aimgui.def("color_picker3", [](const char * label, std::array<float, 3>& col, ImGuiColorEditFlags flags)
     {
         auto ret = ImGui::ColorPicker3(label, &col[0], flags);
         return std::make_tuple(ret, col);
@@ -993,7 +993,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("col")
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("color_picker4", [](const char * label, std::array<float, 4>& col, ImGuiColorEditFlags flags, const float * ref_col)
+    _aimgui.def("color_picker4", [](const char * label, std::array<float, 4>& col, ImGuiColorEditFlags flags, const float * ref_col)
     {
         auto ret = ImGui::ColorPicker4(label, &col[0], flags, ref_col);
         return std::make_tuple(ret, col);
@@ -1003,19 +1003,19 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("flags") = 0
     , py::arg("ref_col") = nullptr
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("color_button", &ImGui::ColorButton
+    _aimgui.def("color_button", &ImGui::ColorButton
     , py::arg("desc_id")
     , py::arg("col")
     , py::arg("flags") = 0
     , py::arg("size") = ImVec2(0,0)
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_color_edit_options", &ImGui::SetColorEditOptions
+    _aimgui.def("set_color_edit_options", &ImGui::SetColorEditOptions
     , py::arg("flags")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("tree_node", py::overload_cast<const char *>(&ImGui::TreeNode)
+    _aimgui.def("tree_node", py::overload_cast<const char *>(&ImGui::TreeNode)
     , py::arg("label")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("tree_node", [](const char * str_id, const char * fmt)
+    _aimgui.def("tree_node", [](const char * str_id, const char * fmt)
     {
         auto ret = ImGui::TreeNode(str_id, fmt);
         return ret;
@@ -1023,7 +1023,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("str_id")
     , py::arg("fmt")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("tree_node", [](const void * ptr_id, const char * fmt)
+    _aimgui.def("tree_node", [](const void * ptr_id, const char * fmt)
     {
         auto ret = ImGui::TreeNode(ptr_id, fmt);
         return ret;
@@ -1031,11 +1031,11 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("ptr_id")
     , py::arg("fmt")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("tree_node_ex", py::overload_cast<const char *, ImGuiTreeNodeFlags>(&ImGui::TreeNodeEx)
+    _aimgui.def("tree_node_ex", py::overload_cast<const char *, ImGuiTreeNodeFlags>(&ImGui::TreeNodeEx)
     , py::arg("label")
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("tree_node_ex", [](const char * str_id, ImGuiTreeNodeFlags flags, const char * fmt)
+    _aimgui.def("tree_node_ex", [](const char * str_id, ImGuiTreeNodeFlags flags, const char * fmt)
     {
         auto ret = ImGui::TreeNodeEx(str_id, flags, fmt);
         return ret;
@@ -1044,7 +1044,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("flags")
     , py::arg("fmt")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("tree_node_ex", [](const void * ptr_id, ImGuiTreeNodeFlags flags, const char * fmt)
+    _aimgui.def("tree_node_ex", [](const void * ptr_id, ImGuiTreeNodeFlags flags, const char * fmt)
     {
         auto ret = ImGui::TreeNodeEx(ptr_id, flags, fmt);
         return ret;
@@ -1053,73 +1053,73 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("flags")
     , py::arg("fmt")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("tree_push", py::overload_cast<const char *>(&ImGui::TreePush)
+    _aimgui.def("tree_push", py::overload_cast<const char *>(&ImGui::TreePush)
     , py::arg("str_id")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("tree_push", py::overload_cast<const void *>(&ImGui::TreePush)
+    _aimgui.def("tree_push", py::overload_cast<const void *>(&ImGui::TreePush)
     , py::arg("ptr_id")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("tree_pop", &ImGui::TreePop
+    _aimgui.def("tree_pop", &ImGui::TreePop
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_tree_node_to_label_spacing", &ImGui::GetTreeNodeToLabelSpacing
+    _aimgui.def("get_tree_node_to_label_spacing", &ImGui::GetTreeNodeToLabelSpacing
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_next_item_open", &ImGui::SetNextItemOpen
+    _aimgui.def("set_next_item_open", &ImGui::SetNextItemOpen
     , py::arg("is_open")
     , py::arg("cond") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("begin_list_box", &ImGui::BeginListBox
+    _aimgui.def("begin_list_box", &ImGui::BeginListBox
     , py::arg("label")
     , py::arg("size") = ImVec2(0,0)
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("end_list_box", &ImGui::EndListBox
+    _aimgui.def("end_list_box", &ImGui::EndListBox
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("value", py::overload_cast<const char *, bool>(&ImGui::Value)
+    _aimgui.def("value", py::overload_cast<const char *, bool>(&ImGui::Value)
     , py::arg("prefix")
     , py::arg("b")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("value", py::overload_cast<const char *, int>(&ImGui::Value)
+    _aimgui.def("value", py::overload_cast<const char *, int>(&ImGui::Value)
     , py::arg("prefix")
     , py::arg("v")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("value", py::overload_cast<const char *, unsigned int>(&ImGui::Value)
+    _aimgui.def("value", py::overload_cast<const char *, unsigned int>(&ImGui::Value)
     , py::arg("prefix")
     , py::arg("v")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("value", py::overload_cast<const char *, float, const char *>(&ImGui::Value)
+    _aimgui.def("value", py::overload_cast<const char *, float, const char *>(&ImGui::Value)
     , py::arg("prefix")
     , py::arg("v")
     , py::arg("float_format") = nullptr
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("begin_menu_bar", &ImGui::BeginMenuBar
+    _aimgui.def("begin_menu_bar", &ImGui::BeginMenuBar
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("end_menu_bar", &ImGui::EndMenuBar
+    _aimgui.def("end_menu_bar", &ImGui::EndMenuBar
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("begin_main_menu_bar", &ImGui::BeginMainMenuBar
+    _aimgui.def("begin_main_menu_bar", &ImGui::BeginMainMenuBar
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("end_main_menu_bar", &ImGui::EndMainMenuBar
+    _aimgui.def("end_main_menu_bar", &ImGui::EndMainMenuBar
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("begin_menu", &ImGui::BeginMenu
+    _aimgui.def("begin_menu", &ImGui::BeginMenu
     , py::arg("label")
     , py::arg("enabled") = true
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("end_menu", &ImGui::EndMenu
+    _aimgui.def("end_menu", &ImGui::EndMenu
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("begin_tooltip", &ImGui::BeginTooltip
+    _aimgui.def("begin_tooltip", &ImGui::BeginTooltip
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("end_tooltip", &ImGui::EndTooltip
+    _aimgui.def("end_tooltip", &ImGui::EndTooltip
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_tooltip", [](const char * fmt)
+    _aimgui.def("set_tooltip", [](const char * fmt)
     {
         ImGui::SetTooltip(fmt);
         return ;
     }
     , py::arg("fmt")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("begin_popup", &ImGui::BeginPopup
+    _aimgui.def("begin_popup", &ImGui::BeginPopup
     , py::arg("str_id")
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("begin_popup_modal", [](const char * name, bool * p_open, ImGuiWindowFlags flags)
+    _aimgui.def("begin_popup_modal", [](const char * name, bool * p_open, ImGuiWindowFlags flags)
     {
         auto ret = ImGui::BeginPopupModal(name, p_open, flags);
         return std::make_tuple(ret, p_open);
@@ -1128,123 +1128,123 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("p_open") = nullptr
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("end_popup", &ImGui::EndPopup
+    _aimgui.def("end_popup", &ImGui::EndPopup
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("open_popup", py::overload_cast<const char *, ImGuiPopupFlags>(&ImGui::OpenPopup)
+    _aimgui.def("open_popup", py::overload_cast<const char *, ImGuiPopupFlags>(&ImGui::OpenPopup)
     , py::arg("str_id")
     , py::arg("popup_flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("open_popup", py::overload_cast<ImGuiID, ImGuiPopupFlags>(&ImGui::OpenPopup)
+    _aimgui.def("open_popup", py::overload_cast<ImGuiID, ImGuiPopupFlags>(&ImGui::OpenPopup)
     , py::arg("id")
     , py::arg("popup_flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("open_popup_on_item_click", &ImGui::OpenPopupOnItemClick
+    _aimgui.def("open_popup_on_item_click", &ImGui::OpenPopupOnItemClick
     , py::arg("str_id") = nullptr
     , py::arg("popup_flags") = 1
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("close_current_popup", &ImGui::CloseCurrentPopup
+    _aimgui.def("close_current_popup", &ImGui::CloseCurrentPopup
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("begin_popup_context_item", &ImGui::BeginPopupContextItem
+    _aimgui.def("begin_popup_context_item", &ImGui::BeginPopupContextItem
     , py::arg("str_id") = nullptr
     , py::arg("popup_flags") = 1
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("begin_popup_context_window", &ImGui::BeginPopupContextWindow
+    _aimgui.def("begin_popup_context_window", &ImGui::BeginPopupContextWindow
     , py::arg("str_id") = nullptr
     , py::arg("popup_flags") = 1
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("begin_popup_context_void", &ImGui::BeginPopupContextVoid
+    _aimgui.def("begin_popup_context_void", &ImGui::BeginPopupContextVoid
     , py::arg("str_id") = nullptr
     , py::arg("popup_flags") = 1
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("is_popup_open", py::overload_cast<const char *, ImGuiPopupFlags>(&ImGui::IsPopupOpen)
+    _aimgui.def("is_popup_open", py::overload_cast<const char *, ImGuiPopupFlags>(&ImGui::IsPopupOpen)
     , py::arg("str_id")
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("begin_table", &ImGui::BeginTable
+    _aimgui.def("begin_table", &ImGui::BeginTable
     , py::arg("str_id")
     , py::arg("column")
     , py::arg("flags") = 0
     , py::arg("outer_size") = ImVec2(0.0f,0.0f)
     , py::arg("inner_width") = 0.0f
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("end_table", &ImGui::EndTable
+    _aimgui.def("end_table", &ImGui::EndTable
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("table_next_row", &ImGui::TableNextRow
+    _aimgui.def("table_next_row", &ImGui::TableNextRow
     , py::arg("row_flags") = 0
     , py::arg("min_row_height") = 0.0f
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("table_next_column", &ImGui::TableNextColumn
+    _aimgui.def("table_next_column", &ImGui::TableNextColumn
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("table_set_column_index", &ImGui::TableSetColumnIndex
+    _aimgui.def("table_set_column_index", &ImGui::TableSetColumnIndex
     , py::arg("column_n")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("table_setup_column", &ImGui::TableSetupColumn
+    _aimgui.def("table_setup_column", &ImGui::TableSetupColumn
     , py::arg("label")
     , py::arg("flags") = 0
     , py::arg("init_width_or_weight") = 0.0f
     , py::arg("user_id") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("table_setup_scroll_freeze", &ImGui::TableSetupScrollFreeze
+    _aimgui.def("table_setup_scroll_freeze", &ImGui::TableSetupScrollFreeze
     , py::arg("cols")
     , py::arg("rows")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("table_headers_row", &ImGui::TableHeadersRow
+    _aimgui.def("table_headers_row", &ImGui::TableHeadersRow
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("table_header", &ImGui::TableHeader
+    _aimgui.def("table_header", &ImGui::TableHeader
     , py::arg("label")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("table_get_sort_specs", &ImGui::TableGetSortSpecs
+    _aimgui.def("table_get_sort_specs", &ImGui::TableGetSortSpecs
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("table_get_column_count", &ImGui::TableGetColumnCount
+    _aimgui.def("table_get_column_count", &ImGui::TableGetColumnCount
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("table_get_column_index", &ImGui::TableGetColumnIndex
+    _aimgui.def("table_get_column_index", &ImGui::TableGetColumnIndex
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("table_get_row_index", &ImGui::TableGetRowIndex
+    _aimgui.def("table_get_row_index", &ImGui::TableGetRowIndex
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("table_get_column_flags", &ImGui::TableGetColumnFlags
+    _aimgui.def("table_get_column_flags", &ImGui::TableGetColumnFlags
     , py::arg("column_n") = -1
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("table_set_column_enabled", &ImGui::TableSetColumnEnabled
+    _aimgui.def("table_set_column_enabled", &ImGui::TableSetColumnEnabled
     , py::arg("column_n")
     , py::arg("v")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("table_set_bg_color", &ImGui::TableSetBgColor
+    _aimgui.def("table_set_bg_color", &ImGui::TableSetBgColor
     , py::arg("target")
     , py::arg("color")
     , py::arg("column_n") = -1
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("columns", &ImGui::Columns
+    _aimgui.def("columns", &ImGui::Columns
     , py::arg("count") = 1
     , py::arg("id") = nullptr
     , py::arg("border") = true
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("next_column", &ImGui::NextColumn
+    _aimgui.def("next_column", &ImGui::NextColumn
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_column_index", &ImGui::GetColumnIndex
+    _aimgui.def("get_column_index", &ImGui::GetColumnIndex
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_column_width", &ImGui::GetColumnWidth
+    _aimgui.def("get_column_width", &ImGui::GetColumnWidth
     , py::arg("column_index") = -1
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_column_width", &ImGui::SetColumnWidth
+    _aimgui.def("set_column_width", &ImGui::SetColumnWidth
     , py::arg("column_index")
     , py::arg("width")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_column_offset", &ImGui::GetColumnOffset
+    _aimgui.def("get_column_offset", &ImGui::GetColumnOffset
     , py::arg("column_index") = -1
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_column_offset", &ImGui::SetColumnOffset
+    _aimgui.def("set_column_offset", &ImGui::SetColumnOffset
     , py::arg("column_index")
     , py::arg("offset_x")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_columns_count", &ImGui::GetColumnsCount
+    _aimgui.def("get_columns_count", &ImGui::GetColumnsCount
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("begin_tab_bar", &ImGui::BeginTabBar
+    _aimgui.def("begin_tab_bar", &ImGui::BeginTabBar
     , py::arg("str_id")
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("end_tab_bar", &ImGui::EndTabBar
+    _aimgui.def("end_tab_bar", &ImGui::EndTabBar
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("begin_tab_item", [](const char * label, bool * p_open, ImGuiTabItemFlags flags)
+    _aimgui.def("begin_tab_item", [](const char * label, bool * p_open, ImGuiTabItemFlags flags)
     {
         auto ret = ImGui::BeginTabItem(label, p_open, flags);
         return std::make_tuple(ret, p_open);
@@ -1253,179 +1253,179 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("p_open") = nullptr
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("end_tab_item", &ImGui::EndTabItem
+    _aimgui.def("end_tab_item", &ImGui::EndTabItem
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("tab_item_button", &ImGui::TabItemButton
+    _aimgui.def("tab_item_button", &ImGui::TabItemButton
     , py::arg("label")
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_tab_item_closed", &ImGui::SetTabItemClosed
+    _aimgui.def("set_tab_item_closed", &ImGui::SetTabItemClosed
     , py::arg("tab_or_docked_window_label")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("dock_space", &ImGui::DockSpace
+    _aimgui.def("dock_space", &ImGui::DockSpace
     , py::arg("id")
     , py::arg("size") = ImVec2(0,0)
     , py::arg("flags") = 0
     , py::arg("window_class") = nullptr
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("dock_space_over_viewport", &ImGui::DockSpaceOverViewport
+    _aimgui.def("dock_space_over_viewport", &ImGui::DockSpaceOverViewport
     , py::arg("viewport") = nullptr
     , py::arg("flags") = 0
     , py::arg("window_class") = nullptr
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_next_window_dock_id", &ImGui::SetNextWindowDockID
+    _aimgui.def("set_next_window_dock_id", &ImGui::SetNextWindowDockID
     , py::arg("dock_id")
     , py::arg("cond") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_next_window_class", &ImGui::SetNextWindowClass
+    _aimgui.def("set_next_window_class", &ImGui::SetNextWindowClass
     , py::arg("window_class")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_window_dock_id", &ImGui::GetWindowDockID
+    _aimgui.def("get_window_dock_id", &ImGui::GetWindowDockID
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("is_window_docked", &ImGui::IsWindowDocked
+    _aimgui.def("is_window_docked", &ImGui::IsWindowDocked
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("log_to_tty", &ImGui::LogToTTY
+    _aimgui.def("log_to_tty", &ImGui::LogToTTY
     , py::arg("auto_open_depth") = -1
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("log_to_file", &ImGui::LogToFile
+    _aimgui.def("log_to_file", &ImGui::LogToFile
     , py::arg("auto_open_depth") = -1
     , py::arg("filename") = nullptr
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("log_to_clipboard", &ImGui::LogToClipboard
+    _aimgui.def("log_to_clipboard", &ImGui::LogToClipboard
     , py::arg("auto_open_depth") = -1
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("log_finish", &ImGui::LogFinish
+    _aimgui.def("log_finish", &ImGui::LogFinish
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("log_buttons", &ImGui::LogButtons
+    _aimgui.def("log_buttons", &ImGui::LogButtons
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("log_text", [](const char * fmt)
+    _aimgui.def("log_text", [](const char * fmt)
     {
         ImGui::LogText(fmt);
         return ;
     }
     , py::arg("fmt")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("begin_drag_drop_source", &ImGui::BeginDragDropSource
+    _aimgui.def("begin_drag_drop_source", &ImGui::BeginDragDropSource
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("end_drag_drop_source", &ImGui::EndDragDropSource
+    _aimgui.def("end_drag_drop_source", &ImGui::EndDragDropSource
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("begin_drag_drop_target", &ImGui::BeginDragDropTarget
+    _aimgui.def("begin_drag_drop_target", &ImGui::BeginDragDropTarget
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("accept_drag_drop_payload", &ImGui::AcceptDragDropPayload
+    _aimgui.def("accept_drag_drop_payload", &ImGui::AcceptDragDropPayload
     , py::arg("type")
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("end_drag_drop_target", &ImGui::EndDragDropTarget
+    _aimgui.def("end_drag_drop_target", &ImGui::EndDragDropTarget
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_drag_drop_payload", &ImGui::GetDragDropPayload
+    _aimgui.def("get_drag_drop_payload", &ImGui::GetDragDropPayload
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("begin_disabled", &ImGui::BeginDisabled
+    _aimgui.def("begin_disabled", &ImGui::BeginDisabled
     , py::arg("disabled") = true
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("end_disabled", &ImGui::EndDisabled
+    _aimgui.def("end_disabled", &ImGui::EndDisabled
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("push_clip_rect", &ImGui::PushClipRect
+    _aimgui.def("push_clip_rect", &ImGui::PushClipRect
     , py::arg("clip_rect_min")
     , py::arg("clip_rect_max")
     , py::arg("intersect_with_current_clip_rect")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("pop_clip_rect", &ImGui::PopClipRect
+    _aimgui.def("pop_clip_rect", &ImGui::PopClipRect
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_item_default_focus", &ImGui::SetItemDefaultFocus
+    _aimgui.def("set_item_default_focus", &ImGui::SetItemDefaultFocus
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_keyboard_focus_here", &ImGui::SetKeyboardFocusHere
+    _aimgui.def("set_keyboard_focus_here", &ImGui::SetKeyboardFocusHere
     , py::arg("offset") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("is_item_hovered", &ImGui::IsItemHovered
+    _aimgui.def("is_item_hovered", &ImGui::IsItemHovered
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("is_item_active", &ImGui::IsItemActive
+    _aimgui.def("is_item_active", &ImGui::IsItemActive
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("is_item_focused", &ImGui::IsItemFocused
+    _aimgui.def("is_item_focused", &ImGui::IsItemFocused
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("is_item_clicked", &ImGui::IsItemClicked
+    _aimgui.def("is_item_clicked", &ImGui::IsItemClicked
     , py::arg("mouse_button") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("is_item_visible", &ImGui::IsItemVisible
+    _aimgui.def("is_item_visible", &ImGui::IsItemVisible
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("is_item_edited", &ImGui::IsItemEdited
+    _aimgui.def("is_item_edited", &ImGui::IsItemEdited
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("is_item_activated", &ImGui::IsItemActivated
+    _aimgui.def("is_item_activated", &ImGui::IsItemActivated
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("is_item_deactivated", &ImGui::IsItemDeactivated
+    _aimgui.def("is_item_deactivated", &ImGui::IsItemDeactivated
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("is_item_deactivated_after_edit", &ImGui::IsItemDeactivatedAfterEdit
+    _aimgui.def("is_item_deactivated_after_edit", &ImGui::IsItemDeactivatedAfterEdit
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("is_item_toggled_open", &ImGui::IsItemToggledOpen
+    _aimgui.def("is_item_toggled_open", &ImGui::IsItemToggledOpen
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("is_any_item_hovered", &ImGui::IsAnyItemHovered
+    _aimgui.def("is_any_item_hovered", &ImGui::IsAnyItemHovered
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("is_any_item_active", &ImGui::IsAnyItemActive
+    _aimgui.def("is_any_item_active", &ImGui::IsAnyItemActive
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("is_any_item_focused", &ImGui::IsAnyItemFocused
+    _aimgui.def("is_any_item_focused", &ImGui::IsAnyItemFocused
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_item_rect_min", &ImGui::GetItemRectMin
+    _aimgui.def("get_item_rect_min", &ImGui::GetItemRectMin
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_item_rect_max", &ImGui::GetItemRectMax
+    _aimgui.def("get_item_rect_max", &ImGui::GetItemRectMax
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_item_rect_size", &ImGui::GetItemRectSize
+    _aimgui.def("get_item_rect_size", &ImGui::GetItemRectSize
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_item_allow_overlap", &ImGui::SetItemAllowOverlap
+    _aimgui.def("set_item_allow_overlap", &ImGui::SetItemAllowOverlap
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_main_viewport", &ImGui::GetMainViewport
+    _aimgui.def("get_main_viewport", &ImGui::GetMainViewport
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_background_draw_list", py::overload_cast<>(&ImGui::GetBackgroundDrawList)
+    _aimgui.def("get_background_draw_list", py::overload_cast<>(&ImGui::GetBackgroundDrawList)
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_foreground_draw_list", py::overload_cast<>(&ImGui::GetForegroundDrawList)
+    _aimgui.def("get_foreground_draw_list", py::overload_cast<>(&ImGui::GetForegroundDrawList)
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_background_draw_list", py::overload_cast<ImGuiViewport *>(&ImGui::GetBackgroundDrawList)
+    _aimgui.def("get_background_draw_list", py::overload_cast<ImGuiViewport *>(&ImGui::GetBackgroundDrawList)
     , py::arg("viewport")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_foreground_draw_list", py::overload_cast<ImGuiViewport *>(&ImGui::GetForegroundDrawList)
+    _aimgui.def("get_foreground_draw_list", py::overload_cast<ImGuiViewport *>(&ImGui::GetForegroundDrawList)
     , py::arg("viewport")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("is_rect_visible", py::overload_cast<const ImVec2 &>(&ImGui::IsRectVisible)
+    _aimgui.def("is_rect_visible", py::overload_cast<const ImVec2 &>(&ImGui::IsRectVisible)
     , py::arg("size")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("is_rect_visible", py::overload_cast<const ImVec2 &, const ImVec2 &>(&ImGui::IsRectVisible)
+    _aimgui.def("is_rect_visible", py::overload_cast<const ImVec2 &, const ImVec2 &>(&ImGui::IsRectVisible)
     , py::arg("rect_min")
     , py::arg("rect_max")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_time", &ImGui::GetTime
+    _aimgui.def("get_time", &ImGui::GetTime
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_frame_count", &ImGui::GetFrameCount
+    _aimgui.def("get_frame_count", &ImGui::GetFrameCount
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_draw_list_shared_data", &ImGui::GetDrawListSharedData
+    _aimgui.def("get_draw_list_shared_data", &ImGui::GetDrawListSharedData
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_style_color_name", &ImGui::GetStyleColorName
+    _aimgui.def("get_style_color_name", &ImGui::GetStyleColorName
     , py::arg("idx")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_state_storage", &ImGui::SetStateStorage
+    _aimgui.def("set_state_storage", &ImGui::SetStateStorage
     , py::arg("storage")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_state_storage", &ImGui::GetStateStorage
+    _aimgui.def("get_state_storage", &ImGui::GetStateStorage
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("begin_child_frame", &ImGui::BeginChildFrame
+    _aimgui.def("begin_child_frame", &ImGui::BeginChildFrame
     , py::arg("id")
     , py::arg("size")
     , py::arg("flags") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("end_child_frame", &ImGui::EndChildFrame
+    _aimgui.def("end_child_frame", &ImGui::EndChildFrame
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("calc_text_size", &ImGui::CalcTextSize
+    _aimgui.def("calc_text_size", &ImGui::CalcTextSize
     , py::arg("text")
     , py::arg("text_end") = nullptr
     , py::arg("hide_text_after_double_hash") = false
     , py::arg("wrap_width") = -1.0f
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("color_convert_u32_to_float4", &ImGui::ColorConvertU32ToFloat4
+    _aimgui.def("color_convert_u32_to_float4", &ImGui::ColorConvertU32ToFloat4
     , py::arg("in")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("color_convert_float4_to_u32", &ImGui::ColorConvertFloat4ToU32
+    _aimgui.def("color_convert_float4_to_u32", &ImGui::ColorConvertFloat4ToU32
     , py::arg("in")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("color_convert_rg_bto_hsv", [](float r, float g, float b, float & out_h, float & out_s, float & out_v)
+    _aimgui.def("color_convert_rg_bto_hsv", [](float r, float g, float b, float & out_h, float & out_s, float & out_v)
     {
         ImGui::ColorConvertRGBtoHSV(r, g, b, out_h, out_s, out_v);
         return std::make_tuple(out_h, out_s, out_v);
@@ -1437,7 +1437,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("out_s") = 0
     , py::arg("out_v") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("color_convert_hs_vto_rgb", [](float h, float s, float v, float & out_r, float & out_g, float & out_b)
+    _aimgui.def("color_convert_hs_vto_rgb", [](float h, float s, float v, float & out_r, float & out_g, float & out_b)
     {
         ImGui::ColorConvertHSVtoRGB(h, s, v, out_r, out_g, out_b);
         return std::make_tuple(out_r, out_g, out_b);
@@ -1449,102 +1449,102 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("out_g") = 0
     , py::arg("out_b") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("is_key_down", py::overload_cast<ImGuiKey>(&ImGui::IsKeyDown)
+    _aimgui.def("is_key_down", py::overload_cast<ImGuiKey>(&ImGui::IsKeyDown)
     , py::arg("key")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("is_key_pressed", py::overload_cast<ImGuiKey, bool>(&ImGui::IsKeyPressed)
+    _aimgui.def("is_key_pressed", py::overload_cast<ImGuiKey, bool>(&ImGui::IsKeyPressed)
     , py::arg("key")
     , py::arg("repeat") = true
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("is_key_released", py::overload_cast<ImGuiKey>(&ImGui::IsKeyReleased)
+    _aimgui.def("is_key_released", py::overload_cast<ImGuiKey>(&ImGui::IsKeyReleased)
     , py::arg("key")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_key_pressed_amount", &ImGui::GetKeyPressedAmount
+    _aimgui.def("get_key_pressed_amount", &ImGui::GetKeyPressedAmount
     , py::arg("key")
     , py::arg("repeat_delay")
     , py::arg("rate")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_key_name", &ImGui::GetKeyName
+    _aimgui.def("get_key_name", &ImGui::GetKeyName
     , py::arg("key")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_next_frame_want_capture_keyboard", &ImGui::SetNextFrameWantCaptureKeyboard
+    _aimgui.def("set_next_frame_want_capture_keyboard", &ImGui::SetNextFrameWantCaptureKeyboard
     , py::arg("want_capture_keyboard")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("is_mouse_down", py::overload_cast<ImGuiMouseButton>(&ImGui::IsMouseDown)
+    _aimgui.def("is_mouse_down", py::overload_cast<ImGuiMouseButton>(&ImGui::IsMouseDown)
     , py::arg("button")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("is_mouse_clicked", py::overload_cast<ImGuiMouseButton, bool>(&ImGui::IsMouseClicked)
+    _aimgui.def("is_mouse_clicked", py::overload_cast<ImGuiMouseButton, bool>(&ImGui::IsMouseClicked)
     , py::arg("button")
     , py::arg("repeat") = false
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("is_mouse_released", py::overload_cast<ImGuiMouseButton>(&ImGui::IsMouseReleased)
+    _aimgui.def("is_mouse_released", py::overload_cast<ImGuiMouseButton>(&ImGui::IsMouseReleased)
     , py::arg("button")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("is_mouse_double_clicked", &ImGui::IsMouseDoubleClicked
+    _aimgui.def("is_mouse_double_clicked", &ImGui::IsMouseDoubleClicked
     , py::arg("button")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_mouse_clicked_count", &ImGui::GetMouseClickedCount
+    _aimgui.def("get_mouse_clicked_count", &ImGui::GetMouseClickedCount
     , py::arg("button")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("is_mouse_hovering_rect", &ImGui::IsMouseHoveringRect
+    _aimgui.def("is_mouse_hovering_rect", &ImGui::IsMouseHoveringRect
     , py::arg("r_min")
     , py::arg("r_max")
     , py::arg("clip") = true
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("is_mouse_pos_valid", &ImGui::IsMousePosValid
+    _aimgui.def("is_mouse_pos_valid", &ImGui::IsMousePosValid
     , py::arg("mouse_pos") = nullptr
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("is_any_mouse_down", &ImGui::IsAnyMouseDown
+    _aimgui.def("is_any_mouse_down", &ImGui::IsAnyMouseDown
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_mouse_pos", &ImGui::GetMousePos
+    _aimgui.def("get_mouse_pos", &ImGui::GetMousePos
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_mouse_pos_on_opening_current_popup", &ImGui::GetMousePosOnOpeningCurrentPopup
+    _aimgui.def("get_mouse_pos_on_opening_current_popup", &ImGui::GetMousePosOnOpeningCurrentPopup
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("is_mouse_dragging", &ImGui::IsMouseDragging
+    _aimgui.def("is_mouse_dragging", &ImGui::IsMouseDragging
     , py::arg("button")
     , py::arg("lock_threshold") = -1.0f
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_mouse_drag_delta", &ImGui::GetMouseDragDelta
+    _aimgui.def("get_mouse_drag_delta", &ImGui::GetMouseDragDelta
     , py::arg("button") = 0
     , py::arg("lock_threshold") = -1.0f
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("reset_mouse_drag_delta", &ImGui::ResetMouseDragDelta
+    _aimgui.def("reset_mouse_drag_delta", &ImGui::ResetMouseDragDelta
     , py::arg("button") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_mouse_cursor", &ImGui::GetMouseCursor
+    _aimgui.def("get_mouse_cursor", &ImGui::GetMouseCursor
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_mouse_cursor", &ImGui::SetMouseCursor
+    _aimgui.def("set_mouse_cursor", &ImGui::SetMouseCursor
     , py::arg("cursor_type")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_next_frame_want_capture_mouse", &ImGui::SetNextFrameWantCaptureMouse
+    _aimgui.def("set_next_frame_want_capture_mouse", &ImGui::SetNextFrameWantCaptureMouse
     , py::arg("want_capture_mouse")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_clipboard_text", &ImGui::GetClipboardText
+    _aimgui.def("get_clipboard_text", &ImGui::GetClipboardText
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("set_clipboard_text", &ImGui::SetClipboardText
+    _aimgui.def("set_clipboard_text", &ImGui::SetClipboardText
     , py::arg("text")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("load_ini_settings_from_disk", &ImGui::LoadIniSettingsFromDisk
+    _aimgui.def("load_ini_settings_from_disk", &ImGui::LoadIniSettingsFromDisk
     , py::arg("ini_filename")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("load_ini_settings_from_memory", &ImGui::LoadIniSettingsFromMemory
+    _aimgui.def("load_ini_settings_from_memory", &ImGui::LoadIniSettingsFromMemory
     , py::arg("ini_data")
     , py::arg("ini_size") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("save_ini_settings_to_disk", &ImGui::SaveIniSettingsToDisk
+    _aimgui.def("save_ini_settings_to_disk", &ImGui::SaveIniSettingsToDisk
     , py::arg("ini_filename")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("save_ini_settings_to_memory", [](size_t * out_ini_size)
+    _aimgui.def("save_ini_settings_to_memory", [](size_t * out_ini_size)
     {
         auto ret = ImGui::SaveIniSettingsToMemory(out_ini_size);
         return std::make_tuple(ret, out_ini_size);
     }
     , py::arg("out_ini_size") = 0
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("debug_text_encoding", &ImGui::DebugTextEncoding
+    _aimgui.def("debug_text_encoding", &ImGui::DebugTextEncoding
     , py::arg("text")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("debug_check_version_and_data_layout", &ImGui::DebugCheckVersionAndDataLayout
+    _aimgui.def("debug_check_version_and_data_layout", &ImGui::DebugCheckVersionAndDataLayout
     , py::arg("version_str")
     , py::arg("sz_io")
     , py::arg("sz_style")
@@ -1553,23 +1553,23 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("sz_drawvert")
     , py::arg("sz_drawidx")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("get_platform_io", &ImGui::GetPlatformIO
+    _aimgui.def("get_platform_io", &ImGui::GetPlatformIO
     , py::return_value_policy::reference);
-    libaimgui.def("update_platform_windows", &ImGui::UpdatePlatformWindows
+    _aimgui.def("update_platform_windows", &ImGui::UpdatePlatformWindows
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("render_platform_windows_default", &ImGui::RenderPlatformWindowsDefault
+    _aimgui.def("render_platform_windows_default", &ImGui::RenderPlatformWindowsDefault
     , py::arg("platform_render_arg") = nullptr
     , py::arg("renderer_render_arg") = nullptr
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("destroy_platform_windows", &ImGui::DestroyPlatformWindows
+    _aimgui.def("destroy_platform_windows", &ImGui::DestroyPlatformWindows
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("find_viewport_by_id", &ImGui::FindViewportByID
+    _aimgui.def("find_viewport_by_id", &ImGui::FindViewportByID
     , py::arg("id")
     , py::return_value_policy::automatic_reference);
-    libaimgui.def("find_viewport_by_platform_handle", &ImGui::FindViewportByPlatformHandle
+    _aimgui.def("find_viewport_by_platform_handle", &ImGui::FindViewportByPlatformHandle
     , py::arg("platform_handle")
     , py::return_value_policy::automatic_reference);
-    py::enum_<ImGuiWindowFlags_>(libaimgui, "WindowFlags", py::arithmetic())
+    py::enum_<ImGuiWindowFlags_>(_aimgui, "WindowFlags", py::arithmetic())
         .value("WINDOW_FLAGS_NONE", ImGuiWindowFlags_None)
         .value("WINDOW_FLAGS_NO_TITLE_BAR", ImGuiWindowFlags_NoTitleBar)
         .value("WINDOW_FLAGS_NO_RESIZE", ImGuiWindowFlags_NoResize)
@@ -1604,7 +1604,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
         .value("WINDOW_FLAGS_DOCK_NODE_HOST", ImGuiWindowFlags_DockNodeHost)
         .export_values();
 
-    py::enum_<ImGuiInputTextFlags_>(libaimgui, "InputTextFlags", py::arithmetic())
+    py::enum_<ImGuiInputTextFlags_>(_aimgui, "InputTextFlags", py::arithmetic())
         .value("INPUT_TEXT_FLAGS_NONE", ImGuiInputTextFlags_None)
         .value("INPUT_TEXT_FLAGS_CHARS_DECIMAL", ImGuiInputTextFlags_CharsDecimal)
         .value("INPUT_TEXT_FLAGS_CHARS_HEXADECIMAL", ImGuiInputTextFlags_CharsHexadecimal)
@@ -1629,7 +1629,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
         .value("INPUT_TEXT_FLAGS_ESCAPE_CLEARS_ALL", ImGuiInputTextFlags_EscapeClearsAll)
         .export_values();
 
-    py::enum_<ImGuiTreeNodeFlags_>(libaimgui, "TreeNodeFlags", py::arithmetic())
+    py::enum_<ImGuiTreeNodeFlags_>(_aimgui, "TreeNodeFlags", py::arithmetic())
         .value("TREE_NODE_FLAGS_NONE", ImGuiTreeNodeFlags_None)
         .value("TREE_NODE_FLAGS_SELECTED", ImGuiTreeNodeFlags_Selected)
         .value("TREE_NODE_FLAGS_FRAMED", ImGuiTreeNodeFlags_Framed)
@@ -1648,7 +1648,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
         .value("TREE_NODE_FLAGS_COLLAPSING_HEADER", ImGuiTreeNodeFlags_CollapsingHeader)
         .export_values();
 
-    py::enum_<ImGuiPopupFlags_>(libaimgui, "PopupFlags", py::arithmetic())
+    py::enum_<ImGuiPopupFlags_>(_aimgui, "PopupFlags", py::arithmetic())
         .value("POPUP_FLAGS_NONE", ImGuiPopupFlags_None)
         .value("POPUP_FLAGS_MOUSE_BUTTON_LEFT", ImGuiPopupFlags_MouseButtonLeft)
         .value("POPUP_FLAGS_MOUSE_BUTTON_RIGHT", ImGuiPopupFlags_MouseButtonRight)
@@ -1662,7 +1662,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
         .value("POPUP_FLAGS_ANY_POPUP", ImGuiPopupFlags_AnyPopup)
         .export_values();
 
-    py::enum_<ImGuiSelectableFlags_>(libaimgui, "SelectableFlags", py::arithmetic())
+    py::enum_<ImGuiSelectableFlags_>(_aimgui, "SelectableFlags", py::arithmetic())
         .value("SELECTABLE_FLAGS_NONE", ImGuiSelectableFlags_None)
         .value("SELECTABLE_FLAGS_DONT_CLOSE_POPUPS", ImGuiSelectableFlags_DontClosePopups)
         .value("SELECTABLE_FLAGS_SPAN_ALL_COLUMNS", ImGuiSelectableFlags_SpanAllColumns)
@@ -1671,7 +1671,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
         .value("SELECTABLE_FLAGS_ALLOW_ITEM_OVERLAP", ImGuiSelectableFlags_AllowItemOverlap)
         .export_values();
 
-    py::enum_<ImGuiComboFlags_>(libaimgui, "ComboFlags", py::arithmetic())
+    py::enum_<ImGuiComboFlags_>(_aimgui, "ComboFlags", py::arithmetic())
         .value("COMBO_FLAGS_NONE", ImGuiComboFlags_None)
         .value("COMBO_FLAGS_POPUP_ALIGN_LEFT", ImGuiComboFlags_PopupAlignLeft)
         .value("COMBO_FLAGS_HEIGHT_SMALL", ImGuiComboFlags_HeightSmall)
@@ -1683,7 +1683,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
         .value("COMBO_FLAGS_HEIGHT_MASK", ImGuiComboFlags_HeightMask_)
         .export_values();
 
-    py::enum_<ImGuiTabBarFlags_>(libaimgui, "TabBarFlags", py::arithmetic())
+    py::enum_<ImGuiTabBarFlags_>(_aimgui, "TabBarFlags", py::arithmetic())
         .value("TAB_BAR_FLAGS_NONE", ImGuiTabBarFlags_None)
         .value("TAB_BAR_FLAGS_REORDERABLE", ImGuiTabBarFlags_Reorderable)
         .value("TAB_BAR_FLAGS_AUTO_SELECT_NEW_TABS", ImGuiTabBarFlags_AutoSelectNewTabs)
@@ -1697,7 +1697,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
         .value("TAB_BAR_FLAGS_FITTING_POLICY_DEFAULT", ImGuiTabBarFlags_FittingPolicyDefault_)
         .export_values();
 
-    py::enum_<ImGuiTabItemFlags_>(libaimgui, "TabItemFlags", py::arithmetic())
+    py::enum_<ImGuiTabItemFlags_>(_aimgui, "TabItemFlags", py::arithmetic())
         .value("TAB_ITEM_FLAGS_NONE", ImGuiTabItemFlags_None)
         .value("TAB_ITEM_FLAGS_UNSAVED_DOCUMENT", ImGuiTabItemFlags_UnsavedDocument)
         .value("TAB_ITEM_FLAGS_SET_SELECTED", ImGuiTabItemFlags_SetSelected)
@@ -1709,7 +1709,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
         .value("TAB_ITEM_FLAGS_TRAILING", ImGuiTabItemFlags_Trailing)
         .export_values();
 
-    py::enum_<ImGuiTableFlags_>(libaimgui, "TableFlags", py::arithmetic())
+    py::enum_<ImGuiTableFlags_>(_aimgui, "TableFlags", py::arithmetic())
         .value("TABLE_FLAGS_NONE", ImGuiTableFlags_None)
         .value("TABLE_FLAGS_RESIZABLE", ImGuiTableFlags_Resizable)
         .value("TABLE_FLAGS_REORDERABLE", ImGuiTableFlags_Reorderable)
@@ -1748,7 +1748,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
         .value("TABLE_FLAGS_SIZING_MASK", ImGuiTableFlags_SizingMask_)
         .export_values();
 
-    py::enum_<ImGuiTableColumnFlags_>(libaimgui, "TableColumnFlags", py::arithmetic())
+    py::enum_<ImGuiTableColumnFlags_>(_aimgui, "TableColumnFlags", py::arithmetic())
         .value("TABLE_COLUMN_FLAGS_NONE", ImGuiTableColumnFlags_None)
         .value("TABLE_COLUMN_FLAGS_DISABLED", ImGuiTableColumnFlags_Disabled)
         .value("TABLE_COLUMN_FLAGS_DEFAULT_HIDE", ImGuiTableColumnFlags_DefaultHide)
@@ -1778,19 +1778,19 @@ void init_generated(py::module &libaimgui, Registry &registry) {
         .value("TABLE_COLUMN_FLAGS_NO_DIRECT_RESIZE", ImGuiTableColumnFlags_NoDirectResize_)
         .export_values();
 
-    py::enum_<ImGuiTableRowFlags_>(libaimgui, "TableRowFlags", py::arithmetic())
+    py::enum_<ImGuiTableRowFlags_>(_aimgui, "TableRowFlags", py::arithmetic())
         .value("TABLE_ROW_FLAGS_NONE", ImGuiTableRowFlags_None)
         .value("TABLE_ROW_FLAGS_HEADERS", ImGuiTableRowFlags_Headers)
         .export_values();
 
-    py::enum_<ImGuiTableBgTarget_>(libaimgui, "TableBgTarget", py::arithmetic())
+    py::enum_<ImGuiTableBgTarget_>(_aimgui, "TableBgTarget", py::arithmetic())
         .value("TABLE_BG_TARGET_NONE", ImGuiTableBgTarget_None)
         .value("TABLE_BG_TARGET_ROW_BG0", ImGuiTableBgTarget_RowBg0)
         .value("TABLE_BG_TARGET_ROW_BG1", ImGuiTableBgTarget_RowBg1)
         .value("TABLE_BG_TARGET_CELL_BG", ImGuiTableBgTarget_CellBg)
         .export_values();
 
-    py::enum_<ImGuiFocusedFlags_>(libaimgui, "FocusedFlags", py::arithmetic())
+    py::enum_<ImGuiFocusedFlags_>(_aimgui, "FocusedFlags", py::arithmetic())
         .value("FOCUSED_FLAGS_NONE", ImGuiFocusedFlags_None)
         .value("FOCUSED_FLAGS_CHILD_WINDOWS", ImGuiFocusedFlags_ChildWindows)
         .value("FOCUSED_FLAGS_ROOT_WINDOW", ImGuiFocusedFlags_RootWindow)
@@ -1800,7 +1800,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
         .value("FOCUSED_FLAGS_ROOT_AND_CHILD_WINDOWS", ImGuiFocusedFlags_RootAndChildWindows)
         .export_values();
 
-    py::enum_<ImGuiHoveredFlags_>(libaimgui, "HoveredFlags", py::arithmetic())
+    py::enum_<ImGuiHoveredFlags_>(_aimgui, "HoveredFlags", py::arithmetic())
         .value("HOVERED_FLAGS_NONE", ImGuiHoveredFlags_None)
         .value("HOVERED_FLAGS_CHILD_WINDOWS", ImGuiHoveredFlags_ChildWindows)
         .value("HOVERED_FLAGS_ROOT_WINDOW", ImGuiHoveredFlags_RootWindow)
@@ -1819,7 +1819,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
         .value("HOVERED_FLAGS_NO_SHARED_DELAY", ImGuiHoveredFlags_NoSharedDelay)
         .export_values();
 
-    py::enum_<ImGuiDockNodeFlags_>(libaimgui, "DockNodeFlags", py::arithmetic())
+    py::enum_<ImGuiDockNodeFlags_>(_aimgui, "DockNodeFlags", py::arithmetic())
         .value("DOCK_NODE_FLAGS_NONE", ImGuiDockNodeFlags_None)
         .value("DOCK_NODE_FLAGS_KEEP_ALIVE_ONLY", ImGuiDockNodeFlags_KeepAliveOnly)
         .value("DOCK_NODE_FLAGS_NO_DOCKING_IN_CENTRAL_NODE", ImGuiDockNodeFlags_NoDockingInCentralNode)
@@ -1829,7 +1829,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
         .value("DOCK_NODE_FLAGS_AUTO_HIDE_TAB_BAR", ImGuiDockNodeFlags_AutoHideTabBar)
         .export_values();
 
-    py::enum_<ImGuiDragDropFlags_>(libaimgui, "DragDropFlags", py::arithmetic())
+    py::enum_<ImGuiDragDropFlags_>(_aimgui, "DragDropFlags", py::arithmetic())
         .value("DRAG_DROP_FLAGS_NONE", ImGuiDragDropFlags_None)
         .value("DRAG_DROP_FLAGS_SOURCE_NO_PREVIEW_TOOLTIP", ImGuiDragDropFlags_SourceNoPreviewTooltip)
         .value("DRAG_DROP_FLAGS_SOURCE_NO_DISABLE_HOVER", ImGuiDragDropFlags_SourceNoDisableHover)
@@ -1843,7 +1843,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
         .value("DRAG_DROP_FLAGS_ACCEPT_PEEK_ONLY", ImGuiDragDropFlags_AcceptPeekOnly)
         .export_values();
 
-    py::enum_<ImGuiDataType_>(libaimgui, "DataType", py::arithmetic())
+    py::enum_<ImGuiDataType_>(_aimgui, "DataType", py::arithmetic())
         .value("DATA_TYPE_S8", ImGuiDataType_S8)
         .value("DATA_TYPE_U8", ImGuiDataType_U8)
         .value("DATA_TYPE_S16", ImGuiDataType_S16)
@@ -1857,7 +1857,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
         .value("DATA_TYPE_COUNT", ImGuiDataType_COUNT)
         .export_values();
 
-    py::enum_<ImGuiDir_>(libaimgui, "Dir", py::arithmetic())
+    py::enum_<ImGuiDir_>(_aimgui, "Dir", py::arithmetic())
         .value("DIR_NONE", ImGuiDir_None)
         .value("DIR_LEFT", ImGuiDir_Left)
         .value("DIR_RIGHT", ImGuiDir_Right)
@@ -1866,13 +1866,13 @@ void init_generated(py::module &libaimgui, Registry &registry) {
         .value("DIR_COUNT", ImGuiDir_COUNT)
         .export_values();
 
-    py::enum_<ImGuiSortDirection_>(libaimgui, "SortDirection", py::arithmetic())
+    py::enum_<ImGuiSortDirection_>(_aimgui, "SortDirection", py::arithmetic())
         .value("SORT_DIRECTION_NONE", ImGuiSortDirection_None)
         .value("SORT_DIRECTION_ASCENDING", ImGuiSortDirection_Ascending)
         .value("SORT_DIRECTION_DESCENDING", ImGuiSortDirection_Descending)
         .export_values();
 
-    py::enum_<ImGuiKey>(libaimgui, "Key", py::arithmetic())
+    py::enum_<ImGuiKey>(_aimgui, "Key", py::arithmetic())
         .value("KEY_NONE", ImGuiKey_None)
         .value("KEY_TAB", ImGuiKey_Tab)
         .value("KEY_LEFT_ARROW", ImGuiKey_LeftArrow)
@@ -2029,27 +2029,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
         .value("KEY_KEYS_DATA_OFFSET", ImGuiKey_KeysData_OFFSET)
         .export_values();
 
-    py::enum_<ImGuiNavInput>(libaimgui, "NavInput", py::arithmetic())
-        .value("NAV_INPUT_ACTIVATE", ImGuiNavInput_Activate)
-        .value("NAV_INPUT_CANCEL", ImGuiNavInput_Cancel)
-        .value("NAV_INPUT_INPUT", ImGuiNavInput_Input)
-        .value("NAV_INPUT_MENU", ImGuiNavInput_Menu)
-        .value("NAV_INPUT_DPAD_LEFT", ImGuiNavInput_DpadLeft)
-        .value("NAV_INPUT_DPAD_RIGHT", ImGuiNavInput_DpadRight)
-        .value("NAV_INPUT_DPAD_UP", ImGuiNavInput_DpadUp)
-        .value("NAV_INPUT_DPAD_DOWN", ImGuiNavInput_DpadDown)
-        .value("NAV_INPUT_L_STICK_LEFT", ImGuiNavInput_LStickLeft)
-        .value("NAV_INPUT_L_STICK_RIGHT", ImGuiNavInput_LStickRight)
-        .value("NAV_INPUT_L_STICK_UP", ImGuiNavInput_LStickUp)
-        .value("NAV_INPUT_L_STICK_DOWN", ImGuiNavInput_LStickDown)
-        .value("NAV_INPUT_FOCUS_PREV", ImGuiNavInput_FocusPrev)
-        .value("NAV_INPUT_FOCUS_NEXT", ImGuiNavInput_FocusNext)
-        .value("NAV_INPUT_TWEAK_SLOW", ImGuiNavInput_TweakSlow)
-        .value("NAV_INPUT_TWEAK_FAST", ImGuiNavInput_TweakFast)
-        .value("NAV_INPUT_COUNT", ImGuiNavInput_COUNT)
-        .export_values();
-
-    py::enum_<ImGuiConfigFlags_>(libaimgui, "ConfigFlags", py::arithmetic())
+    py::enum_<ImGuiConfigFlags_>(_aimgui, "ConfigFlags", py::arithmetic())
         .value("CONFIG_FLAGS_NONE", ImGuiConfigFlags_None)
         .value("CONFIG_FLAGS_NAV_ENABLE_KEYBOARD", ImGuiConfigFlags_NavEnableKeyboard)
         .value("CONFIG_FLAGS_NAV_ENABLE_GAMEPAD", ImGuiConfigFlags_NavEnableGamepad)
@@ -2065,7 +2045,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
         .value("CONFIG_FLAGS_IS_TOUCH_SCREEN", ImGuiConfigFlags_IsTouchScreen)
         .export_values();
 
-    py::enum_<ImGuiBackendFlags_>(libaimgui, "BackendFlags", py::arithmetic())
+    py::enum_<ImGuiBackendFlags_>(_aimgui, "BackendFlags", py::arithmetic())
         .value("BACKEND_FLAGS_NONE", ImGuiBackendFlags_None)
         .value("BACKEND_FLAGS_HAS_GAMEPAD", ImGuiBackendFlags_HasGamepad)
         .value("BACKEND_FLAGS_HAS_MOUSE_CURSORS", ImGuiBackendFlags_HasMouseCursors)
@@ -2076,7 +2056,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
         .value("BACKEND_FLAGS_RENDERER_HAS_VIEWPORTS", ImGuiBackendFlags_RendererHasViewports)
         .export_values();
 
-    py::enum_<ImGuiCol_>(libaimgui, "Col", py::arithmetic())
+    py::enum_<ImGuiCol_>(_aimgui, "Col", py::arithmetic())
         .value("COL_TEXT", ImGuiCol_Text)
         .value("COL_TEXT_DISABLED", ImGuiCol_TextDisabled)
         .value("COL_WINDOW_BG", ImGuiCol_WindowBg)
@@ -2135,7 +2115,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
         .value("COL_COUNT", ImGuiCol_COUNT)
         .export_values();
 
-    py::enum_<ImGuiStyleVar_>(libaimgui, "StyleVar", py::arithmetic())
+    py::enum_<ImGuiStyleVar_>(_aimgui, "StyleVar", py::arithmetic())
         .value("STYLE_VAR_ALPHA", ImGuiStyleVar_Alpha)
         .value("STYLE_VAR_DISABLED_ALPHA", ImGuiStyleVar_DisabledAlpha)
         .value("STYLE_VAR_WINDOW_PADDING", ImGuiStyleVar_WindowPadding)
@@ -2164,7 +2144,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
         .value("STYLE_VAR_COUNT", ImGuiStyleVar_COUNT)
         .export_values();
 
-    py::enum_<ImGuiButtonFlags_>(libaimgui, "ButtonFlags", py::arithmetic())
+    py::enum_<ImGuiButtonFlags_>(_aimgui, "ButtonFlags", py::arithmetic())
         .value("BUTTON_FLAGS_NONE", ImGuiButtonFlags_None)
         .value("BUTTON_FLAGS_MOUSE_BUTTON_LEFT", ImGuiButtonFlags_MouseButtonLeft)
         .value("BUTTON_FLAGS_MOUSE_BUTTON_RIGHT", ImGuiButtonFlags_MouseButtonRight)
@@ -2173,7 +2153,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
         .value("BUTTON_FLAGS_MOUSE_BUTTON_DEFAULT", ImGuiButtonFlags_MouseButtonDefault_)
         .export_values();
 
-    py::enum_<ImGuiColorEditFlags_>(libaimgui, "ColorEditFlags", py::arithmetic())
+    py::enum_<ImGuiColorEditFlags_>(_aimgui, "ColorEditFlags", py::arithmetic())
         .value("COLOR_EDIT_FLAGS_NONE", ImGuiColorEditFlags_None)
         .value("COLOR_EDIT_FLAGS_NO_ALPHA", ImGuiColorEditFlags_NoAlpha)
         .value("COLOR_EDIT_FLAGS_NO_PICKER", ImGuiColorEditFlags_NoPicker)
@@ -2205,7 +2185,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
         .value("COLOR_EDIT_FLAGS_INPUT_MASK", ImGuiColorEditFlags_InputMask_)
         .export_values();
 
-    py::enum_<ImGuiSliderFlags_>(libaimgui, "SliderFlags", py::arithmetic())
+    py::enum_<ImGuiSliderFlags_>(_aimgui, "SliderFlags", py::arithmetic())
         .value("SLIDER_FLAGS_NONE", ImGuiSliderFlags_None)
         .value("SLIDER_FLAGS_ALWAYS_CLAMP", ImGuiSliderFlags_AlwaysClamp)
         .value("SLIDER_FLAGS_LOGARITHMIC", ImGuiSliderFlags_Logarithmic)
@@ -2214,14 +2194,14 @@ void init_generated(py::module &libaimgui, Registry &registry) {
         .value("SLIDER_FLAGS_INVALID_MASK", ImGuiSliderFlags_InvalidMask_)
         .export_values();
 
-    py::enum_<ImGuiMouseButton_>(libaimgui, "MouseButton", py::arithmetic())
+    py::enum_<ImGuiMouseButton_>(_aimgui, "MouseButton", py::arithmetic())
         .value("MOUSE_BUTTON_LEFT", ImGuiMouseButton_Left)
         .value("MOUSE_BUTTON_RIGHT", ImGuiMouseButton_Right)
         .value("MOUSE_BUTTON_MIDDLE", ImGuiMouseButton_Middle)
         .value("MOUSE_BUTTON_COUNT", ImGuiMouseButton_COUNT)
         .export_values();
 
-    py::enum_<ImGuiMouseCursor_>(libaimgui, "MouseCursor", py::arithmetic())
+    py::enum_<ImGuiMouseCursor_>(_aimgui, "MouseCursor", py::arithmetic())
         .value("MOUSE_CURSOR_NONE", ImGuiMouseCursor_None)
         .value("MOUSE_CURSOR_ARROW", ImGuiMouseCursor_Arrow)
         .value("MOUSE_CURSOR_TEXT_INPUT", ImGuiMouseCursor_TextInput)
@@ -2235,7 +2215,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
         .value("MOUSE_CURSOR_COUNT", ImGuiMouseCursor_COUNT)
         .export_values();
 
-    py::enum_<ImGuiCond_>(libaimgui, "Cond", py::arithmetic())
+    py::enum_<ImGuiCond_>(_aimgui, "Cond", py::arithmetic())
         .value("COND_NONE", ImGuiCond_None)
         .value("COND_ALWAYS", ImGuiCond_Always)
         .value("COND_ONCE", ImGuiCond_Once)
@@ -2243,10 +2223,10 @@ void init_generated(py::module &libaimgui, Registry &registry) {
         .value("COND_APPEARING", ImGuiCond_Appearing)
         .export_values();
 
-    PYCLASS_BEGIN(libaimgui, ImNewWrapper, NewWrapper)
-    PYCLASS_END(libaimgui, ImNewWrapper, NewWrapper)
+    PYCLASS_BEGIN(_aimgui, ImNewWrapper, NewWrapper)
+    PYCLASS_END(_aimgui, ImNewWrapper, NewWrapper)
 
-    PYCLASS_BEGIN(libaimgui, ImGuiStyle, Style)
+    PYCLASS_BEGIN(_aimgui, ImGuiStyle, Style)
     Style.def_readwrite("alpha", &ImGuiStyle::Alpha);
     Style.def_readwrite("disabled_alpha", &ImGuiStyle::DisabledAlpha);
     Style.def_readwrite("window_padding", &ImGuiStyle::WindowPadding);
@@ -2291,16 +2271,16 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     Style.def("scale_all_sizes", &ImGuiStyle::ScaleAllSizes
     , py::arg("scale_factor")
     , py::return_value_policy::automatic_reference);
-    PYCLASS_END(libaimgui, ImGuiStyle, Style)
+    PYCLASS_END(_aimgui, ImGuiStyle, Style)
 
-    PYCLASS_BEGIN(libaimgui, ImGuiKeyData, KeyData)
+    PYCLASS_BEGIN(_aimgui, ImGuiKeyData, KeyData)
     KeyData.def_readwrite("down", &ImGuiKeyData::Down);
     KeyData.def_readwrite("down_duration", &ImGuiKeyData::DownDuration);
     KeyData.def_readwrite("down_duration_prev", &ImGuiKeyData::DownDurationPrev);
     KeyData.def_readwrite("analog_value", &ImGuiKeyData::AnalogValue);
-    PYCLASS_END(libaimgui, ImGuiKeyData, KeyData)
+    PYCLASS_END(_aimgui, ImGuiKeyData, KeyData)
 
-    PYCLASS_BEGIN(libaimgui, ImGuiIO, IO)
+    PYCLASS_BEGIN(_aimgui, ImGuiIO, IO)
     IO.def_readwrite("config_flags", &ImGuiIO::ConfigFlags);
     IO.def_readwrite("backend_flags", &ImGuiIO::BackendFlags);
     IO.def_readwrite("display_size", &ImGuiIO::DisplaySize);
@@ -2441,9 +2421,9 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     IO.def_readwrite("input_queue_surrogate", &ImGuiIO::InputQueueSurrogate);
     IO.def_readwrite("input_queue_characters", &ImGuiIO::InputQueueCharacters);
     IO.def(py::init<>());
-    PYCLASS_END(libaimgui, ImGuiIO, IO)
+    PYCLASS_END(_aimgui, ImGuiIO, IO)
 
-    PYCLASS_BEGIN(libaimgui, ImGuiInputTextCallbackData, InputTextCallbackData)
+    PYCLASS_BEGIN(_aimgui, ImGuiInputTextCallbackData, InputTextCallbackData)
     InputTextCallbackData.def_readwrite("event_flag", &ImGuiInputTextCallbackData::EventFlag);
     InputTextCallbackData.def_readwrite("flags", &ImGuiInputTextCallbackData::Flags);
     InputTextCallbackData.def_readwrite("user_data", &ImGuiInputTextCallbackData::UserData);
@@ -2472,16 +2452,16 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::return_value_policy::automatic_reference);
     InputTextCallbackData.def("has_selection", &ImGuiInputTextCallbackData::HasSelection
     , py::return_value_policy::automatic_reference);
-    PYCLASS_END(libaimgui, ImGuiInputTextCallbackData, InputTextCallbackData)
+    PYCLASS_END(_aimgui, ImGuiInputTextCallbackData, InputTextCallbackData)
 
-    PYCLASS_BEGIN(libaimgui, ImGuiSizeCallbackData, SizeCallbackData)
+    PYCLASS_BEGIN(_aimgui, ImGuiSizeCallbackData, SizeCallbackData)
     SizeCallbackData.def_readwrite("user_data", &ImGuiSizeCallbackData::UserData);
     SizeCallbackData.def_readwrite("pos", &ImGuiSizeCallbackData::Pos);
     SizeCallbackData.def_readwrite("current_size", &ImGuiSizeCallbackData::CurrentSize);
     SizeCallbackData.def_readwrite("desired_size", &ImGuiSizeCallbackData::DesiredSize);
-    PYCLASS_END(libaimgui, ImGuiSizeCallbackData, SizeCallbackData)
+    PYCLASS_END(_aimgui, ImGuiSizeCallbackData, SizeCallbackData)
 
-    PYCLASS_BEGIN(libaimgui, ImGuiWindowClass, WindowClass)
+    PYCLASS_BEGIN(_aimgui, ImGuiWindowClass, WindowClass)
     WindowClass.def_readwrite("class_id", &ImGuiWindowClass::ClassId);
     WindowClass.def_readwrite("parent_viewport_id", &ImGuiWindowClass::ParentViewportId);
     WindowClass.def_readwrite("viewport_flags_override_set", &ImGuiWindowClass::ViewportFlagsOverrideSet);
@@ -2491,9 +2471,9 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     WindowClass.def_readwrite("docking_always_tab_bar", &ImGuiWindowClass::DockingAlwaysTabBar);
     WindowClass.def_readwrite("docking_allow_unclassed", &ImGuiWindowClass::DockingAllowUnclassed);
     WindowClass.def(py::init<>());
-    PYCLASS_END(libaimgui, ImGuiWindowClass, WindowClass)
+    PYCLASS_END(_aimgui, ImGuiWindowClass, WindowClass)
 
-    PYCLASS_BEGIN(libaimgui, ImGuiPayload, Payload)
+    PYCLASS_BEGIN(_aimgui, ImGuiPayload, Payload)
     Payload.def_readwrite("data", &ImGuiPayload::Data);
     Payload.def_readwrite("data_size", &ImGuiPayload::DataSize);
     Payload.def_readwrite("source_id", &ImGuiPayload::SourceId);
@@ -2512,28 +2492,28 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::return_value_policy::automatic_reference);
     Payload.def("is_delivery", &ImGuiPayload::IsDelivery
     , py::return_value_policy::automatic_reference);
-    PYCLASS_END(libaimgui, ImGuiPayload, Payload)
+    PYCLASS_END(_aimgui, ImGuiPayload, Payload)
 
-    PYCLASS_BEGIN(libaimgui, ImGuiTableColumnSortSpecs, TableColumnSortSpecs)
+    PYCLASS_BEGIN(_aimgui, ImGuiTableColumnSortSpecs, TableColumnSortSpecs)
     TableColumnSortSpecs.def_readwrite("column_user_id", &ImGuiTableColumnSortSpecs::ColumnUserID);
     TableColumnSortSpecs.def_readwrite("column_index", &ImGuiTableColumnSortSpecs::ColumnIndex);
     TableColumnSortSpecs.def_readwrite("sort_order", &ImGuiTableColumnSortSpecs::SortOrder);
     TableColumnSortSpecs.def(py::init<>());
-    PYCLASS_END(libaimgui, ImGuiTableColumnSortSpecs, TableColumnSortSpecs)
+    PYCLASS_END(_aimgui, ImGuiTableColumnSortSpecs, TableColumnSortSpecs)
 
-    PYCLASS_BEGIN(libaimgui, ImGuiTableSortSpecs, TableSortSpecs)
+    PYCLASS_BEGIN(_aimgui, ImGuiTableSortSpecs, TableSortSpecs)
     TableSortSpecs.def_readwrite("specs", &ImGuiTableSortSpecs::Specs);
     TableSortSpecs.def_readwrite("specs_count", &ImGuiTableSortSpecs::SpecsCount);
     TableSortSpecs.def_readwrite("specs_dirty", &ImGuiTableSortSpecs::SpecsDirty);
     TableSortSpecs.def(py::init<>());
-    PYCLASS_END(libaimgui, ImGuiTableSortSpecs, TableSortSpecs)
+    PYCLASS_END(_aimgui, ImGuiTableSortSpecs, TableSortSpecs)
 
-    PYCLASS_BEGIN(libaimgui, ImGuiOnceUponAFrame, OnceUponAFrame)
+    PYCLASS_BEGIN(_aimgui, ImGuiOnceUponAFrame, OnceUponAFrame)
     OnceUponAFrame.def(py::init<>());
     OnceUponAFrame.def_readwrite("ref_frame", &ImGuiOnceUponAFrame::RefFrame);
-    PYCLASS_END(libaimgui, ImGuiOnceUponAFrame, OnceUponAFrame)
+    PYCLASS_END(_aimgui, ImGuiOnceUponAFrame, OnceUponAFrame)
 
-    PYCLASS_BEGIN(libaimgui, ImGuiTextFilter, TextFilter)
+    PYCLASS_BEGIN(_aimgui, ImGuiTextFilter, TextFilter)
     TextFilter.def(py::init<const char *>()
     , py::arg("default_filter") = nullptr
     );
@@ -2553,9 +2533,9 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::return_value_policy::automatic_reference);
     TextFilter.def_readonly("input_buf", &ImGuiTextFilter::InputBuf);
     TextFilter.def_readwrite("count_grep", &ImGuiTextFilter::CountGrep);
-    PYCLASS_END(libaimgui, ImGuiTextFilter, TextFilter)
+    PYCLASS_END(_aimgui, ImGuiTextFilter, TextFilter)
 
-    PYCLASS_BEGIN(libaimgui, ImGuiStorage, Storage)
+    PYCLASS_BEGIN(_aimgui, ImGuiStorage, Storage)
     Storage.def("clear", &ImGuiStorage::Clear
     , py::return_value_policy::automatic_reference);
     Storage.def("get_int", &ImGuiStorage::GetInt
@@ -2610,9 +2590,9 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::return_value_policy::automatic_reference);
     Storage.def("build_sort_by_key", &ImGuiStorage::BuildSortByKey
     , py::return_value_policy::automatic_reference);
-    PYCLASS_END(libaimgui, ImGuiStorage, Storage)
+    PYCLASS_END(_aimgui, ImGuiStorage, Storage)
 
-    PYCLASS_BEGIN(libaimgui, ImColor, Color)
+    PYCLASS_BEGIN(_aimgui, ImColor, Color)
     Color.def_readwrite("value", &ImColor::Value);
     Color.def(py::init<>());
     Color.def(py::init<float, float, float, float>()
@@ -2639,9 +2619,9 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("v")
     , py::arg("a") = 1.0f
     , py::return_value_policy::automatic_reference);
-    PYCLASS_END(libaimgui, ImColor, Color)
+    PYCLASS_END(_aimgui, ImColor, Color)
 
-    PYCLASS_BEGIN(libaimgui, ImDrawCmd, DrawCmd)
+    PYCLASS_BEGIN(_aimgui, ImDrawCmd, DrawCmd)
     DrawCmd.def_readwrite("clip_rect", &ImDrawCmd::ClipRect);
     DrawCmd.def_readwrite("texture_id", &ImDrawCmd::TextureId);
     DrawCmd.def_readwrite("vtx_offset", &ImDrawCmd::VtxOffset);
@@ -2651,24 +2631,24 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     DrawCmd.def(py::init<>());
     DrawCmd.def("get_tex_id", &ImDrawCmd::GetTexID
     , py::return_value_policy::automatic_reference);
-    PYCLASS_END(libaimgui, ImDrawCmd, DrawCmd)
+    PYCLASS_END(_aimgui, ImDrawCmd, DrawCmd)
 
-    PYCLASS_BEGIN(libaimgui, ImDrawVert, DrawVert)
+    PYCLASS_BEGIN(_aimgui, ImDrawVert, DrawVert)
     DrawVert.def_readwrite("pos", &ImDrawVert::pos);
     DrawVert.def_readwrite("uv", &ImDrawVert::uv);
     DrawVert.def_readwrite("col", &ImDrawVert::col);
-    PYCLASS_END(libaimgui, ImDrawVert, DrawVert)
+    PYCLASS_END(_aimgui, ImDrawVert, DrawVert)
 
-    PYCLASS_BEGIN(libaimgui, ImDrawCmdHeader, DrawCmdHeader)
+    PYCLASS_BEGIN(_aimgui, ImDrawCmdHeader, DrawCmdHeader)
     DrawCmdHeader.def_readwrite("clip_rect", &ImDrawCmdHeader::ClipRect);
     DrawCmdHeader.def_readwrite("texture_id", &ImDrawCmdHeader::TextureId);
     DrawCmdHeader.def_readwrite("vtx_offset", &ImDrawCmdHeader::VtxOffset);
-    PYCLASS_END(libaimgui, ImDrawCmdHeader, DrawCmdHeader)
+    PYCLASS_END(_aimgui, ImDrawCmdHeader, DrawCmdHeader)
 
-    PYCLASS_BEGIN(libaimgui, ImDrawChannel, DrawChannel)
-    PYCLASS_END(libaimgui, ImDrawChannel, DrawChannel)
+    PYCLASS_BEGIN(_aimgui, ImDrawChannel, DrawChannel)
+    PYCLASS_END(_aimgui, ImDrawChannel, DrawChannel)
 
-    PYCLASS_BEGIN(libaimgui, ImDrawListSplitter, DrawListSplitter)
+    PYCLASS_BEGIN(_aimgui, ImDrawListSplitter, DrawListSplitter)
     DrawListSplitter.def(py::init<>());
     DrawListSplitter.def("clear", &ImDrawListSplitter::Clear
     , py::return_value_policy::automatic_reference);
@@ -2685,9 +2665,9 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("draw_list")
     , py::arg("channel_idx")
     , py::return_value_policy::automatic_reference);
-    PYCLASS_END(libaimgui, ImDrawListSplitter, DrawListSplitter)
+    PYCLASS_END(_aimgui, ImDrawListSplitter, DrawListSplitter)
 
-    py::enum_<ImDrawFlags_>(libaimgui, "DrawFlags", py::arithmetic())
+    py::enum_<ImDrawFlags_>(_aimgui, "DrawFlags", py::arithmetic())
         .value("DRAW_FLAGS_NONE", ImDrawFlags_None)
         .value("DRAW_FLAGS_CLOSED", ImDrawFlags_Closed)
         .value("DRAW_FLAGS_ROUND_CORNERS_TOP_LEFT", ImDrawFlags_RoundCornersTopLeft)
@@ -2704,7 +2684,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
         .value("DRAW_FLAGS_ROUND_CORNERS_MASK", ImDrawFlags_RoundCornersMask_)
         .export_values();
 
-    py::enum_<ImDrawListFlags_>(libaimgui, "DrawListFlags", py::arithmetic())
+    py::enum_<ImDrawListFlags_>(_aimgui, "DrawListFlags", py::arithmetic())
         .value("DRAW_LIST_FLAGS_NONE", ImDrawListFlags_None)
         .value("DRAW_LIST_FLAGS_ANTI_ALIASED_LINES", ImDrawListFlags_AntiAliasedLines)
         .value("DRAW_LIST_FLAGS_ANTI_ALIASED_LINES_USE_TEX", ImDrawListFlags_AntiAliasedLinesUseTex)
@@ -2712,7 +2692,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
         .value("DRAW_LIST_FLAGS_ALLOW_VTX_OFFSET", ImDrawListFlags_AllowVtxOffset)
         .export_values();
 
-    PYCLASS_BEGIN(libaimgui, ImDrawList, DrawList)
+    PYCLASS_BEGIN(_aimgui, ImDrawList, DrawList)
     DrawList.def_readwrite("cmd_buffer", &ImDrawList::CmdBuffer);
     DrawList.def_readwrite("idx_buffer", &ImDrawList::IdxBuffer);
     DrawList.def_readwrite("vtx_buffer", &ImDrawList::VtxBuffer);
@@ -2991,9 +2971,9 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("uv")
     , py::arg("col")
     , py::return_value_policy::automatic_reference);
-    PYCLASS_END(libaimgui, ImDrawList, DrawList)
+    PYCLASS_END(_aimgui, ImDrawList, DrawList)
 
-    PYCLASS_BEGIN(libaimgui, ImDrawData, DrawData)
+    PYCLASS_BEGIN(_aimgui, ImDrawData, DrawData)
     DrawData.def_readwrite("valid", &ImDrawData::Valid);
     DrawData.def_readwrite("cmd_lists_count", &ImDrawData::CmdListsCount);
     DrawData.def_readwrite("total_idx_count", &ImDrawData::TotalIdxCount);
@@ -3010,9 +2990,9 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     DrawData.def("scale_clip_rects", &ImDrawData::ScaleClipRects
     , py::arg("fb_scale")
     , py::return_value_policy::automatic_reference);
-    PYCLASS_END(libaimgui, ImDrawData, DrawData)
+    PYCLASS_END(_aimgui, ImDrawData, DrawData)
 
-    PYCLASS_BEGIN(libaimgui, ImFontConfig, FontConfig)
+    PYCLASS_BEGIN(_aimgui, ImFontConfig, FontConfig)
     FontConfig.def_readwrite("font_data", &ImFontConfig::FontData);
     FontConfig.def_readwrite("font_data_size", &ImFontConfig::FontDataSize);
     FontConfig.def_readwrite("font_data_owned_by_atlas", &ImFontConfig::FontDataOwnedByAtlas);
@@ -3033,9 +3013,9 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     FontConfig.def_readonly("name", &ImFontConfig::Name);
     FontConfig.def_readwrite("dst_font", &ImFontConfig::DstFont);
     FontConfig.def(py::init<>());
-    PYCLASS_END(libaimgui, ImFontConfig, FontConfig)
+    PYCLASS_END(_aimgui, ImFontConfig, FontConfig)
 
-    PYCLASS_BEGIN(libaimgui, ImFontGlyph, FontGlyph)
+    PYCLASS_BEGIN(_aimgui, ImFontGlyph, FontGlyph)
     FontGlyph.def_readwrite("advance_x", &ImFontGlyph::AdvanceX);
     FontGlyph.def_readwrite("x0", &ImFontGlyph::X0);
     FontGlyph.def_readwrite("y0", &ImFontGlyph::Y0);
@@ -3045,9 +3025,9 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     FontGlyph.def_readwrite("v0", &ImFontGlyph::V0);
     FontGlyph.def_readwrite("u1", &ImFontGlyph::U1);
     FontGlyph.def_readwrite("v1", &ImFontGlyph::V1);
-    PYCLASS_END(libaimgui, ImFontGlyph, FontGlyph)
+    PYCLASS_END(_aimgui, ImFontGlyph, FontGlyph)
 
-    PYCLASS_BEGIN(libaimgui, ImFontGlyphRangesBuilder, FontGlyphRangesBuilder)
+    PYCLASS_BEGIN(_aimgui, ImFontGlyphRangesBuilder, FontGlyphRangesBuilder)
     FontGlyphRangesBuilder.def_readwrite("used_chars", &ImFontGlyphRangesBuilder::UsedChars);
     FontGlyphRangesBuilder.def(py::init<>());
     FontGlyphRangesBuilder.def("clear", &ImFontGlyphRangesBuilder::Clear
@@ -3071,9 +3051,9 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     FontGlyphRangesBuilder.def("build_ranges", &ImFontGlyphRangesBuilder::BuildRanges
     , py::arg("out_ranges")
     , py::return_value_policy::automatic_reference);
-    PYCLASS_END(libaimgui, ImFontGlyphRangesBuilder, FontGlyphRangesBuilder)
+    PYCLASS_END(_aimgui, ImFontGlyphRangesBuilder, FontGlyphRangesBuilder)
 
-    PYCLASS_BEGIN(libaimgui, ImFontAtlasCustomRect, FontAtlasCustomRect)
+    PYCLASS_BEGIN(_aimgui, ImFontAtlasCustomRect, FontAtlasCustomRect)
     FontAtlasCustomRect.def_readwrite("width", &ImFontAtlasCustomRect::Width);
     FontAtlasCustomRect.def_readwrite("height", &ImFontAtlasCustomRect::Height);
     FontAtlasCustomRect.def_readwrite("x", &ImFontAtlasCustomRect::X);
@@ -3085,16 +3065,16 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     FontAtlasCustomRect.def(py::init<>());
     FontAtlasCustomRect.def("is_packed", &ImFontAtlasCustomRect::IsPacked
     , py::return_value_policy::automatic_reference);
-    PYCLASS_END(libaimgui, ImFontAtlasCustomRect, FontAtlasCustomRect)
+    PYCLASS_END(_aimgui, ImFontAtlasCustomRect, FontAtlasCustomRect)
 
-    py::enum_<ImFontAtlasFlags_>(libaimgui, "FontAtlasFlags", py::arithmetic())
+    py::enum_<ImFontAtlasFlags_>(_aimgui, "FontAtlasFlags", py::arithmetic())
         .value("FONT_ATLAS_FLAGS_NONE", ImFontAtlasFlags_None)
         .value("FONT_ATLAS_FLAGS_NO_POWER_OF_TWO_HEIGHT", ImFontAtlasFlags_NoPowerOfTwoHeight)
         .value("FONT_ATLAS_FLAGS_NO_MOUSE_CURSORS", ImFontAtlasFlags_NoMouseCursors)
         .value("FONT_ATLAS_FLAGS_NO_BAKED_LINES", ImFontAtlasFlags_NoBakedLines)
         .export_values();
 
-    PYCLASS_BEGIN(libaimgui, ImFontAtlas, FontAtlas)
+    PYCLASS_BEGIN(_aimgui, ImFontAtlas, FontAtlas)
     FontAtlas.def(py::init<>());
     FontAtlas.def("add_font", &ImFontAtlas::AddFont
     , py::arg("font_cfg")
@@ -3167,9 +3147,9 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     FontAtlas.def_readwrite("font_builder_flags", &ImFontAtlas::FontBuilderFlags);
     FontAtlas.def_readwrite("pack_id_mouse_cursors", &ImFontAtlas::PackIdMouseCursors);
     FontAtlas.def_readwrite("pack_id_lines", &ImFontAtlas::PackIdLines);
-    PYCLASS_END(libaimgui, ImFontAtlas, FontAtlas)
+    PYCLASS_END(_aimgui, ImFontAtlas, FontAtlas)
 
-    PYCLASS_BEGIN(libaimgui, ImFont, Font)
+    PYCLASS_BEGIN(_aimgui, ImFont, Font)
     Font.def_readwrite("index_advance_x", &ImFont::IndexAdvanceX);
     Font.def_readwrite("fallback_advance_x", &ImFont::FallbackAdvanceX);
     Font.def_readwrite("font_size", &ImFont::FontSize);
@@ -3259,9 +3239,9 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::arg("c_begin")
     , py::arg("c_last")
     , py::return_value_policy::automatic_reference);
-    PYCLASS_END(libaimgui, ImFont, Font)
+    PYCLASS_END(_aimgui, ImFont, Font)
 
-    py::enum_<ImGuiViewportFlags_>(libaimgui, "ViewportFlags", py::arithmetic())
+    py::enum_<ImGuiViewportFlags_>(_aimgui, "ViewportFlags", py::arithmetic())
         .value("VIEWPORT_FLAGS_NONE", ImGuiViewportFlags_None)
         .value("VIEWPORT_FLAGS_IS_PLATFORM_WINDOW", ImGuiViewportFlags_IsPlatformWindow)
         .value("VIEWPORT_FLAGS_IS_PLATFORM_MONITOR", ImGuiViewportFlags_IsPlatformMonitor)
@@ -3278,7 +3258,7 @@ void init_generated(py::module &libaimgui, Registry &registry) {
         .value("VIEWPORT_FLAGS_CAN_HOST_OTHER_WINDOWS", ImGuiViewportFlags_CanHostOtherWindows)
         .export_values();
 
-    PYCLASS_BEGIN(libaimgui, ImGuiViewport, Viewport)
+    PYCLASS_BEGIN(_aimgui, ImGuiViewport, Viewport)
     Viewport.def_readwrite("id", &ImGuiViewport::ID);
     Viewport.def_readwrite("flags", &ImGuiViewport::Flags);
     Viewport.def_readwrite("pos", &ImGuiViewport::Pos);
@@ -3300,16 +3280,16 @@ void init_generated(py::module &libaimgui, Registry &registry) {
     , py::return_value_policy::automatic_reference);
     Viewport.def("get_work_center", &ImGuiViewport::GetWorkCenter
     , py::return_value_policy::automatic_reference);
-    PYCLASS_END(libaimgui, ImGuiViewport, Viewport)
+    PYCLASS_END(_aimgui, ImGuiViewport, Viewport)
 
-    PYCLASS_BEGIN(libaimgui, ImGuiPlatformImeData, PlatformeData)
+    PYCLASS_BEGIN(_aimgui, ImGuiPlatformImeData, PlatformeData)
     PlatformeData.def_readwrite("want_visible", &ImGuiPlatformImeData::WantVisible);
     PlatformeData.def_readwrite("input_pos", &ImGuiPlatformImeData::InputPos);
     PlatformeData.def_readwrite("input_line_height", &ImGuiPlatformImeData::InputLineHeight);
     PlatformeData.def(py::init<>());
-    PYCLASS_END(libaimgui, ImGuiPlatformImeData, PlatformeData)
+    PYCLASS_END(_aimgui, ImGuiPlatformImeData, PlatformeData)
 
-    libaimgui.def("get_key_index", &ImGui::GetKeyIndex
+    _aimgui.def("get_key_index", &ImGui::GetKeyIndex
     , py::arg("key")
     , py::return_value_policy::automatic_reference);
 
