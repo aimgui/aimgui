@@ -6,7 +6,8 @@ authors = ["Kurtis Fields <kurtisfields@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = ">=3.8,<3.12"
-pyo = "^1.0.4"
+#pyo = "^1.0.4"
+#pyo = {git = "https://github.com/belangeo/pyo.git"}
 arcade = "^2.6.16"
 numpy = "^1.23.4"
 aimgui = {path = "../aimgui",  develop = true}

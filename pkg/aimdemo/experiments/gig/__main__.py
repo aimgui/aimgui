@@ -43,7 +43,6 @@ class InnerGui(ArcadePortalGui):
         aimgui.end()
 
         aimgui.end_frame()
-        #print(self.position)
         super().draw()
 
 class App(arcade.Window):

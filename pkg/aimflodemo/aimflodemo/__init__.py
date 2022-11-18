@@ -14,9 +14,6 @@ class App(arcade.Window):
         self.gui = ArcadeGui(self)
         self.pages = {}
         self.show_metrics = False
-        print(dir(aimnodes))
-        print(aimnodes.create_context)
-        print(aimnodes.push_attribute_flag)
         aimnodes.create_context()
         aimnodes.push_attribute_flag(aimnodes.ATTRIBUTE_FLAGS_ENABLE_LINK_DETACH_WITH_DRAG_CLICK)
         io = aimnodes.get_io()
@@ -39,7 +36,6 @@ class App(arcade.Window):
         install(self)
 
     def add_page(self, klass, name, title):
-        # print(page.__dict__)
         self.pages[name] = { 'klass': klass, 'name': name, 'title': title }
 
     def show(self, name):

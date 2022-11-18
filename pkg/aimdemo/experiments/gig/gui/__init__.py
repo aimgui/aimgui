@@ -236,7 +236,6 @@ class ArcadeGuiBase:
 
         hovered = self.hovered
 
-        #print(hovered)
         px = px + self.pan[0]
         py = py + self.pan[1]
 

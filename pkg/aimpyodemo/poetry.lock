@@ -77,7 +77,7 @@ python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*,>=2.7
 
 [[package]]
 name = "exceptiongroup"
-version = "1.0.2"
+version = "1.0.4"
 description = "Backport of PEP 654 (exception groups)"
 category = "dev"
 optional = false
@@ -181,11 +181,18 @@ dev = ["pyglet", "pygame", "sphinx", "aafigure", "wheel", "matplotlib"]
 
 [[package]]
 name = "pyo"
-version = "1.0.4"
+version = "1.0.4.post5"
 description = "Python module to build digital signal processing program."
 category = "main"
 optional = false
 python-versions = ">=3.6, <4"
+develop = false
+
+[package.source]
+type = "git"
+url = "https://github.com/belangeo/pyo.git"
+reference = "master"
+resolved_reference = "d8a357dce5a556fef5f9883d57190e85401ce2c7"
 
 [[package]]
 name = "pyparsing"
@@ -255,7 +262,7 @@ python-versions = ">=3.7"
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.8,<3.12"
-content-hash = "b09683949a5075a514d6a239b4881a754bb351751370fb0ba1baca84abd5ddbf"
+content-hash = "2b62e1da2811bb339a2d0db7ff844fc10871e35588b7d5b34edc51369bf0ea38"
 
 [metadata.files]
 aimgui = []
@@ -372,25 +379,7 @@ pymunk = [
     {file = "pymunk-6.2.1-pp37-pypy37_pp73-win_amd64.whl", hash = "sha256:4153571e7daa7cdfd27ad86ab9e7b74cf6b708d163622880dbce369c7d6fabd4"},
     {file = "pymunk-6.2.1.zip", hash = "sha256:18ae0f83ec2dc20892b98c84127ce9149ab40fa3c3120097377e1506884b27b8"},
 ]
-pyo = [
-    {file = "pyo-1.0.4-cp36-cp36m-macosx_10_12_x86_64.whl", hash = "sha256:80bb4fdffb09bb549879fbf77b01472426f3ae3be22b4e5e2a9422c5dea91f64"},
-    {file = "pyo-1.0.4-cp36-cp36m-manylinux_2_5_i686.manylinux1_i686.whl", hash = "sha256:082cc3e55635a65eab65a732c1228c7f04447ee6c175c3cde4a80558dea81563"},
-    {file = "pyo-1.0.4-cp36-cp36m-manylinux_2_5_x86_64.manylinux1_x86_64.whl", hash = "sha256:01822232fd5c3d6b4abb3933bdde57ecf1863e85292571a34dc32eab282d7a91"},
-    {file = "pyo-1.0.4-cp36-cp36m-win_amd64.whl", hash = "sha256:c8a15d9348f087bf09d81836a11c1d2d194abcf8133b11af184c494ccf41c5d8"},
-    {file = "pyo-1.0.4-cp37-cp37m-macosx_10_12_x86_64.whl", hash = "sha256:0c8b41e52764abe82a56fa5bf09124a24f61e6c801b783082013b954ec037986"},
-    {file = "pyo-1.0.4-cp37-cp37m-manylinux_2_5_i686.manylinux1_i686.whl", hash = "sha256:74a99d21c1769ce9dbf451f889e0eaba4c9cef9748a3d26d4a77232b876d1103"},
-    {file = "pyo-1.0.4-cp37-cp37m-manylinux_2_5_x86_64.manylinux1_x86_64.whl", hash = "sha256:1e28997a83872f50a2918aaf6926b82ac38e3d9a828f52729e8c2d14dc3aedae"},
-    {file = "pyo-1.0.4-cp37-cp37m-win_amd64.whl", hash = "sha256:5ea407a7677b8540519be053aad38d346cdfd1be1c2b1b4c1bc6abc9a7f816d0"},
-    {file = "pyo-1.0.4-cp38-cp38-macosx_10_12_x86_64.whl", hash = "sha256:1cdcebab5e6228ff4d66a000e84fe7b7ecf42c67b9bcd1a147f76d310a9f9bd2"},
-    {file = "pyo-1.0.4-cp38-cp38-manylinux_2_5_i686.manylinux1_i686.whl", hash = "sha256:6b46abed0c2bc0cd9c6a9cd555594e26003409465f563bcb09930f640300e13b"},
-    {file = "pyo-1.0.4-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.whl", hash = "sha256:0af3e887d91eff167edc09d268a1dc57ad5a93a7e46dd08e317780125481e6e2"},
-    {file = "pyo-1.0.4-cp38-cp38-win_amd64.whl", hash = "sha256:562b86aaace423f1e60f7e3cf72b8d9b8877f34848dbb91fc711dbf33e5a0188"},
-    {file = "pyo-1.0.4-cp39-cp39-macosx_10_12_x86_64.whl", hash = "sha256:2e0911de9b7a40c8ade36f08f91be8aaf2e83a3c44ce0df71301afee3837dde2"},
-    {file = "pyo-1.0.4-cp39-cp39-manylinux_2_5_i686.manylinux1_i686.whl", hash = "sha256:8d7098c59e7d1b3d7677804038bf476ff5c035ab3ec7d0840716a84b437ba220"},
-    {file = "pyo-1.0.4-cp39-cp39-manylinux_2_5_x86_64.manylinux1_x86_64.whl", hash = "sha256:88eaa405c9158daf6c5bd75d7fc90ab7efa686e7f145f307611333cbcd1ee7de"},
-    {file = "pyo-1.0.4-cp39-cp39-win_amd64.whl", hash = "sha256:d9eb8c0b4b6a6ef6acfecf360303eb7e33f56f186b1f34a2ce12d33009024489"},
-    {file = "pyo-1.0.4.tar.gz", hash = "sha256:34937eba641ed6b1c8ede1c35f30ad5e08493ec1f09352398790910bfd19d445"},
-]
+pyo = []
 pyparsing = [
     {file = "pyparsing-3.0.9-py3-none-any.whl", hash = "sha256:5026bae9a10eeaefb61dab2f09052b9f4307d44aee4eda64b309723d8d206bbc"},
     {file = "pyparsing-3.0.9.tar.gz", hash = "sha256:2b020ecf7d21b687f219b71ecad3631f644a47f01403fa1d1036b0c6416d70fb"},

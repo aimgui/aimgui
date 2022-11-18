@@ -18,7 +18,6 @@ class App(arcade.Window):
         self.show_style_editor = False
         self.resource_path = Path(__file__).parent.parent / 'resources'
         file_path = os.path.dirname(os.path.abspath(__file__))
-        # print(file_path)
         os.chdir(file_path)
 
 
@@ -38,7 +37,6 @@ class App(arcade.Window):
         install(self)
 
     def add_page(self, klass, name, title):
-        # print(page.__dict__)
         self.pages[name] = { 'klass': klass, 'name': name, 'title': title }
 
     def show(self, name):

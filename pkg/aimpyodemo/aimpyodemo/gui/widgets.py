@@ -28,7 +28,6 @@ class PyoScope(Drawable):
         aimplot.set_next_plot_limits(0,500,0,500)
         if aimplot.begin_plot("Scope Plot"):
             for data in self.data:
-                #print(data)
                 _, data = zip(*data)
                 aimplot.plot_line(letters.pop(), data, len(data))
             aimplot.end_plot()
@@ -48,7 +47,6 @@ class PyoSpectrum(Drawable):
         aimplot.set_next_plot_limits(0,500,0,500)
         if aimplot.begin_plot("Spectrum Plot"):
             for data in self.data:
-                #print(data)
                 _, data = zip(*data)
                 aimplot.plot_line(letters.pop(), data, len(data))
             aimplot.end_plot()

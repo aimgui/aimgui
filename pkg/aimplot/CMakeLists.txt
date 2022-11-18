@@ -7,28 +7,28 @@ set(THIS ${PROJECT_NAME})
 include(../../cmake/ImGui.cmake)
 
 set(IMPLOT_HEADERS
-    ${IMPLOT_ROOT}/implot.h
-    ${IMPLOT_ROOT}/implot_internal.h
+  ${IMPLOT_ROOT}/implot.h
+  ${IMPLOT_ROOT}/implot_internal.h
 )
 
 set(IMPLOT_SRC
-    src/aimplot/bindings/generated.cpp
-    src/aimplot/bindings/main.cpp
-    ${IMPLOT_ROOT}/implot_demo.cpp
-    ${IMPLOT_ROOT}/implot_items.cpp
-    ${IMPLOT_ROOT}/implot.cpp
+  src/aimplot/bindings/generated.cpp
+  src/aimplot/bindings/main.cpp
+  ${IMPLOT_ROOT}/implot_demo.cpp
+  ${IMPLOT_ROOT}/implot_items.cpp
+  ${IMPLOT_ROOT}/implot.cpp
 )
 
 pybind11_add_module(${THIS} MODULE
-    src/aimplot/bindings/init.cpp
+  src/aimplot/bindings/init.cpp
 )
 USES_IMGUI(${THIS})
 configure_project(${PROJECT_NAME})
 target_compile_definitions(${THIS} PRIVATE IMPLOT_DISABLE_OBSOLETE_FUNCTIONS)
 
 install(TARGETS aimplot EXPORT AimPlotTargets
-	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-	ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
 
 target_sources(aimplot PRIVATE ${IMPLOT_SRC} ${IMPLOT_HEADERS})
@@ -36,41 +36,39 @@ target_sources(aimplot PRIVATE ${IMPLOT_SRC} ${IMPLOT_HEADERS})
 # add include files
 target_sources(aimplot PRIVATE ${AIMPLOT_INCLUDE}) # for intellisense
 target_include_directories(aimplot
-	PUBLIC
-		$<INSTALL_INTERFACE:include>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-        $<BUILD_INTERFACE:${AIMGUI_ROOT}/include>
-        $<BUILD_INTERFACE:${IMGUI_ROOT}>
-        $<BUILD_INTERFACE:${IMPLOT_ROOT}>
-	PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/src
+  PUBLIC
+  $<INSTALL_INTERFACE:include>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<BUILD_INTERFACE:${AIMGUI_ROOT}/include>
+  $<BUILD_INTERFACE:${IMGUI_ROOT}>
+  $<BUILD_INTERFACE:${IMPLOT_ROOT}>
+  PRIVATE
+  ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
-#target_link_libraries(aimplot PRIVATE Upstream::aimgui)
+# target_link_libraries(aimplot PRIVATE Upstream::aimgui)
 
 #
 # INSTALL
 #
 # install headers
-#install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+# install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(FILES ${IMPLOT_HEADERS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
-
-#install(TARGETS aimplot DESTINATION .)
+# install(TARGETS aimplot DESTINATION .)
 # Quiet a warning, since this project is only valid with SKBUILD
 set(ignoreMe "${SKBUILD}")
 
-#ADD_CUSTOM_COMMAND(TARGET aimplot
-#          POST_BUILD
-#          #COMMAND ${CMAKE_COMMAND} -E make_directory ${PROJECT_BINARY_DIR}
-#          COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_INSTALL_LIBDIR}/_aimplot.so ./
-#)
-
+# ADD_CUSTOM_COMMAND(TARGET aimplot
+# POST_BUILD
+# #COMMAND ${CMAKE_COMMAND} -E make_directory ${PROJECT_BINARY_DIR}
+# COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_INSTALL_LIBDIR}/_aimplot.so ./
+# )
 get_target_property(_RUNTIME_OUTPUT_DIRECTORY ${THIS} RUNTIME_OUTPUT_DIRECTORY)
 
 add_custom_command(
-        TARGET ${THIS} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy
-                ${_RUNTIME_OUTPUT_DIRECTORY}/Debug/_aimplot.pyd
-                ${CMAKE_CURRENT_SOURCE_DIR}/aimplot/_aimplot.pyd
-                )
+  TARGET ${THIS} POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy
+  ${_RUNTIME_OUTPUT_DIRECTORY}/Debug/_aimplot.pyd
+  ${CMAKE_CURRENT_SOURCE_DIR}/aimplot/_aimplot.pyd
+)

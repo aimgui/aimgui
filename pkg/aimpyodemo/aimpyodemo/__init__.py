@@ -22,7 +22,6 @@ class App(arcade.Window):
         self.show_style_editor = False
         self.resource_path = Path(__file__).parent.parent / 'resources'
         file_path = os.path.dirname(os.path.abspath(__file__))
-        # print(file_path)
         os.chdir(file_path)
 
 
@@ -44,7 +43,6 @@ class App(arcade.Window):
         install(self)
 
     def add_section(self, title):
-        # print(page.__dict__)
         if not title in self.sections.keys():
             section = { 'title': title, 'pages':{}}
             self.sections[title] = section
@@ -53,7 +51,6 @@ class App(arcade.Window):
         return section
 
     def add_page(self, klass, section_title, title=None):
-        # print(page.__dict__)
         name = klass.__name__.lower()
         if not title:
             title = klass.__name__
