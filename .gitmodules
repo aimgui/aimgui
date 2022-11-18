@@ -12,6 +12,3 @@
 [submodule "lib/pybind11"]
 	path = lib/pybind11
 	url = https://github.com/pybind/pybind11
-[submodule "lib/pyo"]
-	path = lib/pyo
-	url = https://github.com/belangeo/pyo
