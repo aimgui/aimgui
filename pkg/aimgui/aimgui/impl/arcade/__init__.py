@@ -1,12 +1,10 @@
 from pyglet import gl, clock
 from pyglet.window import key, mouse
 from arcade.gl import BufferDescription, Context
-import arcade
 
 import aimgui
-from aimgui.renderer import compute_framebuffer_scale
 from aimgui.renderer.gl_base import OpenGLRendererBase
-
+from aimgui.renderer.util import compute_framebuffer_scale
 
 class ArcadeRenderer(OpenGLRendererBase):
     """
@@ -41,6 +39,7 @@ class ArcadeRenderer(OpenGLRendererBase):
     """
 
     def __init__(self, window, *args, **kwargs):
+        super().__init__()
         self._window = window
         self._ctx: Context = window.ctx
         self._program = None
@@ -48,7 +47,24 @@ class ArcadeRenderer(OpenGLRendererBase):
         self._vbo = None
         self._ibo = None
         self._font_texture = None
-        super().__init__()
+
+    @classmethod
+    def produce(cls, window):
+        renderer = cls(window)
+        renderer.create()
+        return renderer
+
+    def create(self):
+        super().create()
+        self._set_pixel_ratio(self._window)
+
+    def _set_pixel_ratio(self, window):
+        window_size = window.get_size()
+        self.io.display_size = window_size
+
+        framebuffer_size = window.get_framebuffer_size()
+        pixel_ratio = compute_framebuffer_scale(window_size, framebuffer_size)
+        self.io.display_framebuffer_scale = pixel_ratio
 
     def render(self, draw_data):
         io = self.io    
@@ -85,7 +101,8 @@ class ArcadeRenderer(OpenGLRendererBase):
                 gl.glBindTexture(gl.GL_TEXTURE_2D, command.texture_id)
                 # Set scissor box
                 x, y, z, w = command.clip_rect
-                gl.glScissor(int(x), int(fb_height - w), int(z - x), int(w - y))
+                #gl.glScissor(int(x), int(fb_height - w), int(z - x), int(w - y))
+                self._ctx.scissor = int(x), int(fb_height - w), int(z - x), int(w - y)
 
                 if command.user_callback:
                     command.user_callback(self, draw_data, commands, command, command.user_callback_data)
@@ -94,7 +111,8 @@ class ArcadeRenderer(OpenGLRendererBase):
                 idx_pos += command.elem_count
 
         # Just reset scissor back to default/viewport
-        gl.glScissor(*self._ctx.viewport)
+        #gl.glScissor(*self._ctx.viewport)
+        self._ctx.scissor = None
 
     def refresh_font_texture(self):
         width, height, pixels = self.io.fonts.get_tex_data_as_rgba32()
@@ -136,9 +154,6 @@ class ArcadeRenderer(OpenGLRendererBase):
         self._program = None
         self.io.fonts.texture_id = 0
 
-    def shutdown(self):
-        self._invalidate_device_objects()
-
 
 class ArcadeGuiBase:
     REVERSE_KEY_MAP = {
@@ -163,22 +178,6 @@ class ArcadeGuiBase:
         key.Y: aimgui.KEY_Y,
         key.Z: aimgui.KEY_Z,
     }
-
-    def _set_pixel_ratio(self, window):
-        window_size = window.get_size()
-        self.io.display_size = window_size
-        # It is conceivable that the pyglet version will not be solely
-        # determinant of whether we use the fixed or programmable, so do some
-        # minor introspection here to check.
-        if hasattr(window, 'get_viewport_size'):
-            viewport_size = window.get_viewport_size()
-            self.io.display_framebuffer_scale = compute_framebuffer_scale(window_size, viewport_size)
-        elif hasattr(window, 'get_pixel_ratio'):
-            self.io.display_framebuffer_scale = (window.get_pixel_ratio(),
-                                        window.get_pixel_ratio())
-        else:
-            # Default to 1.0 in this unlikely circumstance
-            self.io.display_framebuffer_scale = (1.0, 1.0)
 
     def _attach_callbacks(self, window):
         window.push_handlers(
@@ -272,28 +271,17 @@ class ArcadeGui(ArcadeGuiBase):
 
         self.io = aimgui.get_io()
 
-        self.renderer = ArcadeRenderer(window)
+        self.renderer = ArcadeRenderer.produce(window)
 
-        window_size = window.get_size()
-        viewport = window.get_viewport()
-        viewport_size = viewport[1] - viewport[0], viewport[3] - viewport[2]
-        
-
-        self.io.display_size = window_size
-        self.io.display_framebuffer_scale = compute_framebuffer_scale(window_size, viewport_size)
+        #window_size = window.get_size()
+        #viewport = window.get_viewport()
+        #viewport_size = viewport[1] - viewport[0], viewport[3] - viewport[2]
+        #self.io.display_size = window_size
+        #self.io.display_framebuffer_scale = compute_framebuffer_scale(window_size, viewport_size)
+        #self._set_pixel_ratio(window)
 
         if attach_callbacks:
-            window.push_handlers(
-                self.on_mouse_motion,
-                self.on_key_press,
-                self.on_key_release,
-                self.on_text,
-                self.on_mouse_drag,
-                self.on_mouse_press,
-                self.on_mouse_release,
-                self.on_mouse_scroll,
-                self.on_resize,
-            )
+            self._attach_callbacks(self.window)
 
     def render(self):
         aimgui.render()
