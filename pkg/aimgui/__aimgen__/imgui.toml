@@ -7,6 +7,8 @@ short_prefix = 'Im'
 module = '_aimgui'
 
 flags = [
+    '-x',
+    'c++',
     '-std=c++17',
     '-DIMGUI_DISABLE_OBSOLETE_FUNCTIONS=1',
     '-DIMGUI_DISABLE_OBSOLETE_KEYIO=1'
